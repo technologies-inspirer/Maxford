@@ -1,0 +1,21 @@
+{
+  "colours": {
+    "red": "#e63946",
+    "green": "#43aa8b",
+    "dark green": "#2d6a4f",
+    "yellow": "#f9c74f",
+    "orange": "#f4a261",
+    "blue": "#4aa3df",
+    "light blue": "#90e0ef",
+    "pink": "#ff8fab",
+    "magenta": "#ce79b5",
+    "purple": "#7b5ea7",
+    "brown": "#8d5524",
+    "light brown": "#d4a373",
+    "grey": "#9aa5b1",
+    "black": "#222222",
+    "teal": "#00aaa0",
+    "leaf green": "#4caf50"
+  },
+  "books": {}
+}

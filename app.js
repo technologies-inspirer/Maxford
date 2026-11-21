@@ -1,0 +1,2553 @@
+import { books } from './src/data/books.js';
+import { series, seriesOf } from './src/data/series.js';
+import { createLoadingScope } from './src/loading/loadingState.js';
+import { setDrawingCursor } from './src/drawingCursors.js';
+import { evenly, inkShape, inkDistance, cover, finished, nearlyFinished, printedTraceStart, orderedInkStrokes } from './src/traceCheck.js';
+import { regionFrom, spread, partColour, colourRegionAt, componentColourRegion, restrictColourRegion, closestColour, requiredSwatch, colourName, hexOf, pageColours } from './src/colourFill.js';
+import bookColourRegions from './books/colour-regions.json';
+import reviewedPagePalettes from './books/colour-palettes.json';
+import { englishLessons } from './src/englishLessons.js';
+import { bookRhymes, rhymeSpread } from './src/data/bookRhymes.js';
+import { createLessonHistory } from './src/readerLessonHistory.js';
+import './src/englishLearning.css';
+
+const drawings = {};
+const traced = {};                           // page -> the letters traced on it (their stars stay when it reopens)
+const brush = { color: '#e63946', size: 60, erase: false };
+const PALETTE = ['#e63946', '#f4a261', '#4aa3df'];   // the usual colours, when a page names none of its own
+const SIZES = [[12, 10, 'Small'], [60, 24, 'Large']]; // page width, button dot, accessible label
+
+export function mountBookActivityApp(app, { intro = false, onPositionChange, libraryHref, activityPreview, onPreviewClose, readerBook, readerOptions = {} } = {}) {
+  const loading = createLoadingScope();
+  const previewOwner = activityPreview ? `activity-preview-${crypto.randomUUID()}` : null;
+  const previewBrush = activityPreview ? { ...brush } : null;
+  let previewObserver;
+  let selectedReaderPage = Math.max(1, readerOptions.initialPage || 1);
+  const selectReaderPage = number => { selectedReaderPage = number; onPositionChange?.(readerBook.id, number); };
+  // Every reader mount owns its delayed work. React can unmount it mid-animation.
+  const timers = new Set();
+  const schedule = (callback, delay) => {
+    const timer = window.setTimeout(() => {
+      timers.delete(timer);
+      callback();
+    }, delay);
+    timers.add(timer);
+    return timer;
+  };
+  const players = new Map();
+  const videoLoading = new Map();
+  const clearPlayer = box => {
+    videoLoading.get(box)?.();
+    videoLoading.delete(box);
+    players.get(box)?.destroy();
+    players.delete(box);
+    box.replaceChildren();
+  };
+  const PDFJS = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';
+  let R = null;                              // the open reader, if any
+  let editMode = false;
+  let menu = null;                           // open section menu
+  let modalEl = null;
+  let focusEl = null;                        // the zoomed-in page, if one is open
+  let focusResizeCleanup = null;
+  let introNext = intro;                     // play the cover opening when the reader appears
+  const lessonHistory = createLessonHistory({
+    history,
+    onReturn: entry => {
+      if (R?.book.id !== entry.bookId) return;
+      R.closeLesson(true);
+      const page = Number(entry.readerHash.split('/read/')[1]);
+      if (Number.isInteger(page) && page > 0) R.show(Math.floor((page - 1) / 2));
+    },
+    onRestore: entry => R?.book.id === entry.bookId && R.restoreLesson?.(entry.lessonKey)
+  });
+  const onLessonPopState = () => lessonHistory.pop();
+
+  const I = {
+    speaker: '<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    play: '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',
+    pause: '<svg viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>',
+    stop: '<svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>',
+    x: '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>',
+    left: '<svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    right: '<svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    pen: '<svg viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19z"/></svg>',
+    upload: '<svg viewBox="0 0 24 24"><path d="M12 16V5M7 10l5-5 5 5M5 19h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  };
+
+  /* ---------- helpers ---------- */
+  function el(tag, attrs, ...kids) {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs || {})) {
+      if (v == null || v === false) continue;
+      if (k === 'html') n.innerHTML = v;
+      else if (k.startsWith('on')) n.addEventListener(k.slice(2), v);
+      else n.setAttribute(k, v === true ? '' : v);
+    }
+    n.append(...kids.flat().filter(k => k != null && k !== false));
+    if (previewOwner && /^(game|story|fx|modal|narr)(\s|$)/.test(attrs?.class || '')) n.dataset.activityPreview = previewOwner;
+    if (tag === 'video') loading.media(n);
+    return n;
+  }
+  function setPageImage(img, book, page) {
+    if (page.img) {
+      img.src = page.img;
+      loading.image(img);
+    } else {
+      const finish = loading.begin('Preparing your page...');
+      pageImage(book, page.pdf).then(url => {
+        img.src = url;
+        loading.image(img);
+      }).catch(() => toast('This page could not be loaded. Please try again.')).finally(finish);
+    }
+  }
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const pageOf = (book, i) => book.pages[i];
+
+  let toastTimer;
+  function toast(msg, ms = 2600) {
+    document.querySelector('.toast')?.remove();
+    document.body.append(el('div', { class: 'toast', role: 'status' }, msg));
+    clearTimeout(toastTimer);
+    toastTimer = schedule(() => document.querySelector('.toast')?.remove(), ms);
+  }
+
+  function ytId(v) {
+    if (!v) return null;
+    v = v.trim();
+    if (/^[\w-]{11}$/.test(v)) return v;
+    const m = v.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([\w-]{11})/);
+    return m ? m[1] : null;
+  }
+
+  /* ---------- zones saved by the publisher (this browser only, for now) ---------- */
+  const zkey = b => 'mg.zones.' + b.id;
+  function saveZones(b) {
+    try { localStorage.setItem(zkey(b), JSON.stringify(b.pages.map(p => p.zones || []))); } catch (e) { /* storage unavailable */ }
+  }
+
+  /* ---------- routing: #/book/<id>/read/<page>/video/<zoneId> ---------- */
+  const link = (b, page, zid) =>
+    `#/book/${encodeURIComponent(b.id)}` + (page ? `/read/${page}` : '') + (zid ? `/video/${encodeURIComponent(zid)}` : '');
+
+  function parseHash() {
+    const p = location.hash.replace(/^#\/?/, '').split('/').map(part => {
+      try { return decodeURIComponent(part); } catch { return part; }
+    });
+    return {
+      series: p[0] === 'series' ? series.find(x => x.id === p[1]) : null,
+      book: p[0] === 'book' ? books.find(b => b.id === p[1]) : null,
+      read: p[2] === 'read',
+      page: Math.max(1, parseInt(p[3], 10) || 1),
+      video: p[4] === 'video' ? p[5] : null
+    };
+  }
+
+  function route() {
+    const r = parseHash();
+    if (!r.book || !r.read) { leaveReader(); app.replaceChildren(); return; }
+    const s = Math.floor((r.page - 1) / 2);
+    if (!R || R.book !== r.book) showReader(r.book, s, introNext);
+    else if (R.spread !== s && !R.busy) R.show(s);
+    introNext = false;
+    syncVideo(r);
+  }
+
+  function leaveReader() {
+    stopSpeak();
+    demoToken++;
+    closeMenu();
+    closeModal();
+    closeFocus(false);
+    closeGame();
+    closeStory();
+    R = null;
+    editMode = false;
+  }
+
+  /* ---------- 3D book ---------- */
+  function coverFace(b) {
+    if (b.cover) return el('img', { class: 'cover-img', src: b.cover, alt: '' });
+    return el('div', { class: 'cover-art' },
+      el('span', { class: 'cv-tag' }, b.tag || 'Book'),
+      el('div', { class: 'cv-icon' }, b.icon || '📖'),
+      el('b', { class: 'cv-title' }, b.title),
+      el('span', { class: 'cv-author' }, b.author));
+  }
+
+  /* ---------- pages ---------- */
+  function renderZone(book, idx, z, live) {
+    const box = el('div', { class: 'zone ' + z.type, style: `left:${z.x}%;top:${z.y}%;width:${z.w}%;height:${z.h}%` });
+    const content = z.content ? el('div', { class: 'zone-content', html: z.content }) : null;
+    if (content) box.append(content);
+    box.append(el('span', { class: 'zone-name' }, z.title || (z.type === 'fill' ? 'Fill area' : 'Section')));
+
+    if (z.type === 'fill') {
+      const key = `${book.id}:${idx}:${z.id}`;
+      if (live) box.append(inkCanvas(book, z, key));
+      else if (drawings[key]) box.append(el('img', { class: 'ink', src: drawings[key], alt: '' }));
+    } else {
+      box.append(el('span', { class: 'zone-badge', html: I.speaker }));
+    }
+    if (live) box.addEventListener('click', () => {
+      if (editMode) editZone(book, idx, z, false);
+      else if (z.type === 'section') openMenu(book, idx, z, box);
+    });
+    return box;
+  }
+
+  function renderPage(book, idx, live) {
+    const pg = pageOf(book, idx);
+    const node = el('div', { class: 'page ' + ((idx % 2) ^ (book.rtl ? 1 : 0) ? 'right' : 'left') });
+    if (!pg) { node.classList.add('blank'); return node; }
+    if (pg.img || pg.pdf) {
+      const img = el('img', { class: 'page-bg', alt: `Page ${idx + 1}`, draggable: 'false' });
+      setPageImage(img, book, pg);
+      node.append(img);
+    }
+    if (pg.html) node.append(el('div', { class: 'page-html', html: pg.html }));
+    if (readerBook && live) {
+      node.addEventListener('pointerdown', () => selectReaderPage(idx + 1), true);
+      const actions = el('div', { class: 'draft-reader-page-tools' });
+      if (pg.text?.trim()) actions.append(el('button', { class: 'draft-reader-tool', onclick: e => { e.stopPropagation(); selectReaderPage(idx + 1); speak(`Page ${idx + 1}`, pg.text); } }, 'Listen'));
+      actions.append(el('button', { class: 'draft-reader-tool', onclick: e => { e.stopPropagation(); selectReaderPage(idx + 1); brush.erase = false; openFocus(book, idx, node, true); } }, 'Write / Colour'));
+      (pg.linkedActivities || []).forEach(activity => actions.append(el('button', { class: 'draft-reader-tool', onclick: e => { e.stopPropagation(); selectReaderPage(idx + 1); readerOptions.onActivity?.(activity, idx + 1); } }, activity.title)));
+      node.append(actions);
+    }
+    (pg.zones || []).forEach(z => node.append(renderZone(book, idx, z, live)));
+    if (pg.html) node.append(el('div', { class: 'page-no' }, String(idx + 1)));
+    if (!pg.html) {
+      // Book pages: what the child wrote in the zoomed view stays on the page, and a click zooms in.
+      const ink = drawings[`${book.id}:${idx}:page`], traced = drawings[`${book.id}:${idx}:page:letters`];
+      if (ink) node.append(el('img', { class: 'ink', src: ink, alt: '' }));
+      if (traced) node.append(el('img', { class: 'ink-letters', src: traced, alt: '' }));
+      if (pg.qr) node.append(videoButton(book, idx, live));
+      (pg.acts || []).forEach(a => {
+        if (a.type === 'game') node.append(gameButton(book, idx, a, live));
+        if (a.type === 'story' || a.type === 'videos') node.append(storyButton(book, idx, a, live));
+        if (a.type === 'question') node.append(questionButton(book, idx, a, live));
+      });
+      if (live) {
+        node.classList.add('zoomable');
+        node.addEventListener('click', e => { if (!editMode && !e.target.closest('.zone, .vid-hot, .watch-btn, .game-btn, .story-btn, .draft-reader-page-tools')) openFocus(book, idx, node); });
+      }
+    }
+    if (live) bindZoneDrawing(node, book, idx);
+    return node;
+  }
+
+  // Sits on the QR code printed in the book: clicking it plays that QR's video here.
+  // A "Watch this" button sits to the right of the QR, or under it when the page edge is too close.
+  function videoButton(book, idx, live) {
+    const [x, y, w, h] = pageOf(book, idx).qr.box;
+    const hot = el('button', { class: 'vid-hot', style: `left:${x}%;top:${y}%;width:${w}%;height:${h}%`, title: 'Watch the video' });
+    const pos = x + w + 20 < 100 ? `left:${x + w + 1.2}%;top:${y + h / 2}%` : `left:${x + w / 2}%;top:${y + h + 2.4}%`;
+    const btn = el('button', { class: 'watch-btn' + (x + w + 20 < 100 ? '' : ' under'), style: pos, html: I.play + '<span>Watch this</span>' });
+    const frag = document.createDocumentFragment();
+    frag.append(hot, btn);
+    if (live) [hot, btn].forEach(b => b.addEventListener('click', e => { e.stopPropagation(); if (!editMode) playVideo(book, idx, { id: 'page' }); }));
+    return frag;
+  }
+
+  function storyButton(book, idx, a, live) {
+    const btn = el('button', { class: 'story-btn', style: `left:${a.button.x}%;top:${a.button.y}%`, html: `<b>${a.icon || '📖'}</b><span>${a.label || 'Story time'}</span>` });
+    if (live) btn.addEventListener('click', e => { e.stopPropagation(); if (!editMode) a.type === 'videos' ? openVideos(a.title, a.videos) : openStory(book, idx, a); });
+    return btn;
+  }
+
+  /* ---------- exercise questions: each question of a practice page opens on its own ----------
+     { type: 'question', kind: 'colour' | 'write' | 'match' | 'choose', title, say?, button: {x, y}, crop: {x, y, w, h},
+       dots?: [{ id, x, y }], lines?: [{ x, y, w, h }], options?: [{ x, y, w, h, correct }], hint?: {x, y},
+       sample?: { page, x, y, w, h } }  (positions in % of the page). A choose question rings each right answer tapped. A colour or write question opens its part of
+     the page with the pencil and colours; a match question puts a dot by each thing, and the child draws a line
+     from a dot to the dot of its pair (the same id). */
+  const QUESTION_ICON = { colour: '🖍️', write: '✏️', match: '🔗', choose: '⭕' };
+  const QUESTION_LABEL = { colour: 'Colour', write: 'Write', match: 'Match', choose: 'Circle' };
+  const QUESTION_LABEL_UR = { colour: 'رنگ بھریں', write: 'لکھیں', match: 'ملائیں', choose: 'دائرہ' };
+  // what the question window tells the child, in the book's language
+  const QSAY = {
+    en: { again: 'Try again!', lines: 'Write on the lines!', inside: 'Colour inside a picture!', matched: 'Well done! You matched them all.',
+      found: 'Well done! You found them all.', use: (names, name) => [`Use ${names} for the ${name}!`, `Use ${names} for the ${name}. Look at the small picture.`], or: ' or ', like: 'Like this' },
+    ur: { again: 'دوبارہ کوشش کریں!', lines: 'لکیروں کے اندر لکھیں!', inside: 'تصویر کے اندر رنگ بھریں!', matched: 'شاباش! آپ نے سب ملا لیا۔',
+      found: 'شاباش! آپ نے سب ڈھونڈ لیا۔', use: names => [`${names} رنگ لگائیں!`, `یہاں ${names} رنگ لگائیں۔ چھوٹی تصویر دیکھیں۔`], or: ' یا ', like: 'ایسے' }
+  };
+  function questionButton(book, idx, q, live) {
+    const btn = el('button', { class: 'story-btn question-btn', style: `left:${q.button.x}%;top:${q.button.y}%`, 'aria-label': q.title,
+      html: `<b>${QUESTION_ICON[q.kind] || '✏️'}</b><span>${q.label || (book.rtl ? QUESTION_LABEL_UR : QUESTION_LABEL)[q.kind] || 'Do it'}</span>` });
+    if (live) btn.addEventListener('click', e => { e.stopPropagation(); if (!editMode) openQuestion(book, idx, q); });
+    return btn;
+  }
+
+  // A Play game's target of this name: its picture (the word printed under it left out) as a sample crop.
+  function sampleOf(book, word) {
+    for (let i = 0; i < book.pages.length; i++) for (const a of book.pages[i].acts || []) {
+      const t = a.type === 'game' && a.targets.find(t => t.name.toLowerCase() === word.toLowerCase());
+      if (t) return { page: i + 1, x: t.x + 1, y: t.y + t.h * .15, w: Math.max(4, t.w - 2), h: t.h * .63 };   // no heading strip above, no word below
+    }
+    return null;
+  }
+
+  function openQuestion(book, idx, q) {
+    stopSpeak(); closeMenu();
+    const pg = pageOf(book, idx), ratio = book.ratio || 0.75, c = q.crop, ur = !!book.rtl, T = QSAY[ur ? 'ur' : 'en'];
+    const praise = () => (ur ? PRAISE.ur : PRAISE.en)[Math.floor(Math.random() * (ur ? PRAISE.ur : PRAISE.en).length)];
+    const at = (x, y) => `left:${(x - c.x) / c.w * 100}%;top:${(y - c.y) / c.h * 100}%`;
+    const pic = el('img', { src: pg.img, alt: '', draggable: 'false',
+      style: `width:${100 / c.w * 100}%;left:${-c.x / c.w * 100}%;top:${-c.y / c.h * 100}%` });
+    const scene = el('div', { class: 'game-scene question-scene', style: `--game-aspect:${(c.w * ratio) / c.h};aspect-ratio:${(c.w * ratio) / c.h}` }, pic);
+    // printed parts that only half fit (a checklist corner) are covered with paper white
+    (q.hide || []).forEach(h => scene.append(el('div', { class: 'game-hide', 'aria-hidden': 'true',
+      style: `position:absolute;background:#fff;${at(h.x, h.y)};width:${h.w / c.w * 100}%;height:${h.h / c.h * 100}%` })));
+    const said = el('div', { class: 'game-said', dir: ur ? 'rtl' : null, role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true' });
+    const feedback = (message, warning = false) => {
+      said.classList.toggle('question-alert', warning);
+      said.setAttribute('role', warning ? 'alert' : 'status');
+      said.setAttribute('aria-live', warning ? 'assertive' : 'polite');
+      said.textContent = message;
+    };
+    let warnedAt = 0;
+    const warn = (message, spoken = message) => {
+      feedback(message, true);
+      chime('tick');
+      if (Date.now() - warnedAt < 2500) return;
+      warnedAt = Date.now();
+      speak('', spoken, null, el('div'));
+    };
+    const parts = [el('h3', { dir: ur ? 'rtl' : null }, q.title), scene];
+    const previousBrush = { ...brush };
+    if (q.kind === 'match') {
+      // the lines are drawn in the scene's own 0-100 space, so they keep their place at any size
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('class', 'match-lines'); svg.setAttribute('viewBox', '0 0 100 100'); svg.setAttribute('preserveAspectRatio', 'none');
+      scene.append(svg);
+      const line = (a, b, cls) => {
+        const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        [['x1', a[0]], ['y1', a[1]], ['x2', b[0]], ['y2', b[1]]].forEach(([k, v]) => l.setAttribute(k, v));
+        l.setAttribute('class', cls); l.setAttribute('vector-effect', 'non-scaling-stroke');
+        svg.append(l); return l;
+      };
+      const local = d => [(d.x - c.x) / c.w * 100, (d.y - c.y) / c.h * 100];
+      const pairs = new Set(q.dots.map(d => d.id)).size, joined = new Set();
+      const dots = q.dots.map(d => {
+        const b = el('button', { class: 'match-dot', style: at(d.x, d.y), 'aria-label': `Dot ${d.id}` });
+        b.dot = d; scene.append(b); return b;
+      });
+      let from = null, live = null;
+      const point = e => { const r = scene.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * 100, (e.clientY - r.top) / r.height * 100]; };
+      scene.addEventListener('pointerdown', e => {
+        const b = e.target.closest('.match-dot');
+        if (!b || b.classList.contains('done')) return;
+        e.preventDefault();
+        scene.setPointerCapture(e.pointerId);
+        from = b; b.classList.add('on');
+        live = line(local(b.dot), local(b.dot), 'drawing');
+      });
+      scene.addEventListener('pointermove', e => {
+        if (!live) return;
+        const p = point(e);
+        live.setAttribute('x2', p[0]); live.setAttribute('y2', p[1]);
+      });
+      const finish = e => {
+        if (!from) return;
+        const p = point(e), start = from;
+        from.classList.remove('on'); from = null;
+        // the nearest dot under the finger, within reach
+        const near = dots.map(b => { const q2 = local(b.dot); return { b, d: Math.hypot((q2[0] - p[0]) / 100 * c.w * ratio, (q2[1] - p[1]) / 100 * c.h) }; })
+          .filter(o => o.b !== start).sort((a, b) => a.d - b.d)[0];
+        live.remove(); live = null;
+        if (!near || near.d > 4) return;
+        const end = near.b;
+        if (end.dot.id === start.dot.id && !end.classList.contains('done')) {
+          line(local(start.dot), local(end.dot), 'joined');
+          // every dot of that pair is done (a letter may have a dot on each side)
+          dots.forEach(b => { if (b.dot.id === start.dot.id) b.classList.add('done'); }); joined.add(start.dot.id);
+          if (joined.size === pairs) { chime('done'); feedback(ur ? ALL_DONE.ur : ALL_DONE.en); speak('', T.matched, null, el('div')); }
+          else { chime('good'); feedback(praise()); }
+        } else {
+          warn(T.again);
+          const wrong = line(local(start.dot), local(end.dot), 'wrong');
+          schedule(() => wrong.remove(), 700);
+        }
+      };
+      scene.addEventListener('pointerup', finish);
+      scene.addEventListener('pointercancel', () => { live?.remove(); live = null; from?.classList.remove('on'); from = null; });
+      parts.push(said);
+    } else if (q.kind === 'choose') {
+      // circle the right one: a tap on a right answer rings it; all of them rung finishes the question
+      const right = q.options.filter(o => o.correct).length;
+      let found = 0;
+      q.options.forEach(o => {
+        const b = el('button', { class: 'choose-hit', 'aria-label': o.label || 'answer',
+          style: `${at(o.x, o.y)};width:${o.w / c.w * 100}%;height:${o.h / c.h * 100}%` });
+        b.addEventListener('click', () => {
+          if (b.classList.contains('ringed')) return;
+          if (o.correct) {
+            b.classList.add('ringed'); found++;
+            if (found === right) { chime('done'); feedback(ur ? ALL_DONE.ur : ALL_DONE.en); speak('', T.found, null, el('div')); }
+            else { chime('good'); feedback(praise()); }
+          } else {
+            warn(T.again);
+            b.classList.add('wrong'); schedule(() => b.classList.remove('wrong'), 600);
+          }
+        });
+        scene.append(b);
+      });
+      parts.push(said);
+    } else {
+      // colour and write: the pencil works on this question's part of the page, kept apart from the rest.
+      // Colour stays inside the part of the picture where the stroke began (as on the page); writing stays on the
+      // question's lines (q.lines), and going outside them is told to the child.
+      const key = `${book.id}:${idx}:question:${c.x},${c.y}`;
+      const write = q.kind === 'write';
+      const tell = (text, spoken = text) => {
+        scene.classList.add('q-warn');
+        schedule(() => scene.classList.remove('q-warn'), 700);
+        warn(text, spoken);
+      };
+      // Writing lines: the mask the pencil stays inside. A line box drawn over the printed picture beside it is
+      // narrowed to the ruled part (columns that are mostly picture are left out), once the page picture is read.
+      const limit = write && q.lines?.length ? document.createElement('canvas') : null;
+      if (limit) {
+        limit.width = Math.round(c.w * 12); limit.height = Math.round(c.h * 12 / ratio);
+        const draw = () => {
+          const lx = limit.getContext('2d', { willReadFrequently: true }), px = pixelsOf(pic);
+          lx.clearRect(0, 0, limit.width, limit.height); lx.fillStyle = '#000';
+          scene.querySelectorAll('.q-line').forEach(n => n.remove());
+          q.lines.forEach(r0 => {
+            let r = { ...r0 };
+            if (px) {
+              const col = x => {   // share of a column of the box that is printed picture, not paper or a ruled line
+                const cx = Math.round(x / 100 * px.w), y0 = Math.round(r0.y / 100 * px.h), y1 = Math.round((r0.y + r0.h) / 100 * px.h);
+                let n = 0;
+                for (let y = y0; y < y1; y++) { const i = (y * px.w + cx) * 4; if (Math.min(px.data[i], px.data[i + 1], px.data[i + 2]) < 225) n++; }
+                return n / Math.max(1, y1 - y0);
+              };
+              let x0 = r0.x, x1 = r0.x + r0.w;
+              while (x0 < x1 - 3 && col(x0) > .3) x0 += .25;
+              while (x1 > x0 + 3 && col(x1) > .3) x1 -= .25;
+              // and widened along the ruled lines where the measured box stopped short of their ends
+              const ruled = x => { const v = col(x); return v > .015 && v <= .3; };
+              while (x1 < Math.min(99, r0.x + r0.w + 15) && ruled(x1 + .25)) x1 += .25;
+              while (x0 > Math.max(1, r0.x - 6) && ruled(x0 - .25)) x0 -= .25;
+              r = { ...r0, x: x0 + .3, w: x1 - x0 - .6 };
+            }
+            lx.fillRect((r.x - c.x) / c.w * limit.width, (r.y - c.y) / c.h * limit.height, r.w / c.w * limit.width, r.h / c.h * limit.height);
+            scene.append(el('div', { class: 'q-line', style: `${at(r.x, r.y)};width:${r.w / c.w * 100}%;height:${r.h / c.h * 100}%` }));
+          });
+        };
+        draw();
+        if (!pic.complete) pic.addEventListener('load', draw, { once: true });
+      }
+      // Colouring: q.parts are the pictures (or parts of one) to colour, each with the colours it may have; the
+      // small coloured pictures (samples) show them, and a wrong colour is told, not drawn. A stroke colours the
+      // whole part it starts in, up to its outline, so the lines inside it (a leaf's veins) do not stop it; a part
+      // of pieces (a ball's stripes) is coloured a piece at a time. Shapes are read from the page picture at its
+      // full size, so the colour meets the outline cleanly.
+      const partsOf = (q.parts || []).map(p => ({ ...p, colours: p.colours || (p.colour ? [p.colour] : []) }));
+      const WALL = 2;   // the outline is thickened by this many pixels while searching, so a hairline gap does not leak
+      const boxOf = (p, hp) => {
+        const x0 = Math.max(0, Math.floor(p.box.x / 100 * hp.w)), y0 = Math.max(0, Math.floor(p.box.y / 100 * hp.h));
+        const x1 = Math.min(hp.w - 1, Math.ceil((p.box.x + p.box.w) / 100 * hp.w)), y1 = Math.min(hp.h - 1, Math.ceil((p.box.y + p.box.h) / 100 * hp.h));
+        const bw = x1 - x0 + 1, bh = y1 - y0 + 1, wall = new Uint8Array(bw * bh);
+        for (let y = 0; y < bh; y++) for (let x = 0; x < bw; x++) {
+          const i = ((y0 + y) * hp.w + x0 + x) * 4;
+          if (Math.min(hp.data[i], hp.data[i + 1], hp.data[i + 2]) > 200) continue;
+          for (let dy = -WALL; dy <= WALL; dy++) for (let dx = -WALL; dx <= WALL; dx++) {
+            const xx = x + dx, yy = y + dy;
+            if (xx >= 0 && yy >= 0 && xx < bw && yy < bh) wall[yy * bw + xx] = 1;
+          }
+        }
+        return { x0, y0, bw, bh, wall };
+      };
+      // fill the open (not wall) pixels reached from the seeds; then widen the result by WALL, back to the line
+      const flood = (b, seeds, widen) => {
+        const got = new Uint8Array(b.bw * b.bh), stack = [];
+        const add = k => { if (!got[k] && !b.wall[k]) { got[k] = 1; stack.push(k); } };
+        seeds.forEach(add);
+        while (stack.length) {
+          const k = stack.pop(), x = k % b.bw;
+          if (x > 0) add(k - 1); if (x < b.bw - 1) add(k + 1); if (k >= b.bw) add(k - b.bw); if (k < b.bw * (b.bh - 1)) add(k + b.bw);
+        }
+        for (let pass = 0; pass < widen; pass++) {
+          const grow = got.slice();
+          for (let k = 0; k < got.length; k++) if (got[k]) { const x = k % b.bw; if (x > 0) grow[k - 1] = 1; if (x < b.bw - 1) grow[k + 1] = 1; if (k >= b.bw) grow[k - b.bw] = 1; if (k < b.bw * (b.bh - 1)) grow[k + b.bw] = 1; }
+          got.set(grow);
+        }
+        return got;
+      };
+      const maskOf = (hp, b, on) => {
+        const out = document.createElement('canvas');
+        out.width = hp.w; out.height = hp.h;
+        const ox = out.getContext('2d'), img = ox.createImageData(b.bw, b.bh);
+        for (let k = 0; k < on.length; k++) if (on[k]) img.data[k * 4 + 3] = 255;
+        ox.putImageData(img, b.x0, b.y0);
+        return out;
+      };
+      const shapes = new Map();
+      const shapeOf = p => {
+        if (shapes.has(p)) return shapes.get(p);
+        const hp = fullPixelsOf(pic);
+        if (!hp) return null;
+        const b = boxOf(p, hp), edge = [];
+        for (let x = 0; x < b.bw; x++) edge.push(x, (b.bh - 1) * b.bw + x);
+        for (let y = 0; y < b.bh; y++) edge.push(y * b.bw, y * b.bw + b.bw - 1);
+        const outside = flood(b, edge, WALL + 1), inside0 = outside.map(v => 1 - v);   // the part: all the box but the paper round it (and the line's soft outer edge)
+        // a letter (p.letter) is only its band between the outlines: the paper inside it (the hole of a, b, d, e, o)
+        // is not reached from the paper round it, but is never next to it either, so it is left out
+        let inside = inside0;
+        if (p.letter) {
+          const near = outside.slice();
+          for (let pass = 0; pass < WALL * 2 + 4; pass++) {
+            const grow = near.slice();
+            for (let k = 0; k < near.length; k++) if (near[k]) { const x = k % b.bw; if (x > 0) grow[k - 1] = 1; if (x < b.bw - 1) grow[k + 1] = 1; if (k >= b.bw) grow[k - b.bw] = 1; if (k < b.bw * (b.bh - 1)) grow[k + b.bw] = 1; }
+            near.set(grow);
+          }
+          const band = new Uint8Array(inside0.length), stack = [];
+          const add = k => { if (inside0[k] && !band[k] && !b.wall[k]) { band[k] = 1; stack.push(k); } };
+          for (let k = 0; k < inside0.length; k++) if (near[k]) add(k);
+          while (stack.length) {
+            const k = stack.pop(), x = k % b.bw;
+            if (x > 0) add(k - 1); if (x < b.bw - 1) add(k + 1); if (k >= b.bw) add(k - b.bw); if (k < b.bw * (b.bh - 1)) add(k + b.bw);
+          }
+          // back up to the outline round the band, as for any part
+          for (let pass = 0; pass < WALL + 1; pass++) {
+            const grow = band.slice();
+            for (let k = 0; k < band.length; k++) if (band[k]) { const x = k % b.bw; if (x > 0 && inside0[k - 1]) grow[k - 1] = 1; if (x < b.bw - 1 && inside0[k + 1]) grow[k + 1] = 1; if (k >= b.bw && inside0[k - b.bw]) grow[k - b.bw] = 1; if (k < b.bw * (b.bh - 1) && inside0[k + b.bw]) grow[k + b.bw] = 1; }
+            band.set(grow);
+          }
+          inside = band;
+        }
+        // Explicit guides for dotted shapes: the gaps in a dashed outline cannot hold a flood fill.
+        // Their measured box follows the printed guide; inset the mask to keep ink inside its edge.
+        if (['ellipse', 'rectangle', 'triangle'].includes(p.outline)) {
+          const inset = WALL + 1, width = b.bw - 1 - 2 * inset, height = b.bh - 1 - 2 * inset;
+          for (let y = 0; y < b.bh; y++) for (let x = 0; x < b.bw; x++) {
+            const nx = (x - inset) / width, ny = (y - inset) / height;
+            const inBox = nx >= 0 && nx <= 1 && ny >= 0 && ny <= 1;
+            inside[y * b.bw + x] = inBox && (p.outline === 'ellipse'
+              ? (2 * nx - 1) ** 2 + (2 * ny - 1) ** 2 <= 1
+              : p.outline === 'triangle' ? Math.abs(2 * nx - 1) <= ny : true) ? 1 : 0;
+          }
+        }
+        const at2 = (fx, fy) => { const x = Math.round(fx / 100 * hp.w) - b.x0, y = Math.round(fy / 100 * hp.h) - b.y0; return x >= 0 && y >= 0 && x < b.bw && y < b.bh ? y * b.bw + x : -1; };
+        const shape = { hp, b, inside, canvas: maskOf(hp, b, inside), has: (fx, fy) => { const k = at2(fx, fy); return k >= 0 && !!inside[k]; }, at: at2 };
+        shapes.set(p, shape);
+        return shape;
+      };
+      // the part under the touch: the first one whose own shape (not just its box) is there
+      const pick = (x, y) => {
+        // q.skip: printed answer boxes inside a picture's area are for writing, not colouring
+        if ((q.skip || []).some(r => x >= r.x && y >= r.y && x <= r.x + r.w && y <= r.y + r.h)) return null;
+        for (const p of partsOf) {
+          if (x < p.box.x || y < p.box.y || x > p.box.x + p.box.w || y > p.box.y + p.box.h) continue;
+          const shape = shapeOf(p);
+          if (!shape?.has(x, y)) continue;
+          if (p.pieces) {
+            // the piece under the touch, up to its lines; p.seeds give each piece the colour the sample shows there
+            const k = shape.at(x, y), piece = flood(shape.b, [k], WALL);
+            if (!piece.some(v => v)) return null;
+            const seed = (p.seeds || []).find(sd => { const j = shape.at(sd.x, sd.y); return j >= 0 && piece[j]; });
+            return { mask: maskOf(shape.hp, shape.b, piece), allowed: seed ? [seed.colour] : p.colours, name: seed ? `${p.part} stripe` : p.part };
+          }
+          return { mask: shape.canvas, allowed: p.colours, name: p.part };
+        }
+        return null;
+      };
+      const names = list => list.map(colour => colourName(colour)[ur ? 'ur' : 'en']).join(T.or);
+      const surface = write ? { crop: c, limit, outside: () => tell(T.lines) }
+        : partsOf.length ? { img: pic, crop: c, pick, miss: () => tell(T.inside),
+          wrongAll: (allowed, name) => tell(...T.use(names(allowed), name)) }
+        : { img: pic, crop: c };
+      const canvasFor = () => inkCanvas(book, { w: c.w, h: c.h }, key, null, surface);
+      let canvas = canvasFor();
+      scene.append(canvas);
+      // where to start: a pencil bobs there until the child starts
+      if (q.hint) {
+        const hint = el('div', { class: 'q-hint', style: at(q.hint.x, q.hint.y), 'aria-hidden': 'true' }, write ? '✏️' : '🖍️');
+        scene.append(hint);
+        scene.addEventListener('pointerdown', () => hint.remove(), { once: true });
+      }
+      // only the colours this question needs: black to write with, or the colours of its pictures
+      const needed = write ? ['#222222'] : [...new Set(partsOf.flatMap(p => [...p.colours, ...(p.seeds || []).map(sd => sd.colour)]))];
+      const tools = drawTools(() => { delete drawings[key]; const fresh = canvasFor(); canvas.replaceWith(fresh); canvas = fresh; },
+        needed.length ? needed : ['#222222', '#e63946', '#f4a261', '#f9c74f', '#43aa8b', '#4aa3df', '#7b5ea7', '#ff8fab', '#8d5524']);
+      tools.hidden = false;
+      if (ur) { tools.dir = 'rtl'; tools.querySelector('.tools-lbl').textContent = write ? 'پنسل' : 'رنگ'; tools.querySelectorAll('.txt').forEach((b, i) => { b.textContent = i ? 'مٹائیں سب' : 'ربڑ'; }); }
+      // writing is the thin black pencil, colouring a broad colour
+      if (write) { brush.color = '#222222'; brush.size = 7; } else { brush.color = needed[0] || '#e63946'; brush.size = SIZES.at(-1)[0]; }
+      brush.erase = false; tools.sync();
+      // small coloured pictures from the book show how each should look: q.samples (words of the book's own Play
+      // games or explicit { page, x, y, w, h } crops) or q.sample (one crop or { word }).
+      const samples = [...(q.samples || []).map(sample => typeof sample === 'string' ? { word: sample } : sample), ...(q.sample ? [q.sample] : [])]
+        .map(sm => sm.word ? (s2 => s2 && { ...s2, word: sm.word })(sampleOf(book, sm.word)) : sm).filter(Boolean);
+      if (samples.length) {
+        parts[0] = el('div', { class: 'q-head' }, parts[0], el('div', { class: 'q-samples' }, ...samples.map(sc => {
+          const sp = pageOf(book, sc.page - 1);
+          return el('figure', { class: 'q-sample' },
+            el('div', { class: 'q-sample-pic', style: `aspect-ratio:${(sc.w * ratio) / sc.h}` },
+              el('img', { src: sp.img, alt: '', style: `width:${100 / sc.w * 100}%;left:${-sc.x / sc.w * 100}%;top:${-sc.y / sc.h * 100}%` })),
+            el('figcaption', { dir: ur ? 'rtl' : null }, sc.word || T.like));
+        })));
+      }
+      parts.push(said, tools);
+    }
+    modal(el('div', { class: 'modal-card question-card' }, ...parts), () => Object.assign(brush, previousBrush));
+    speak('', q.say || q.title, null, el('div'));
+  }
+
+  // The publisher's own video files, with a choice between them when there are several.
+  function openVideos(title, vids, start = 0) {
+    stopSpeak(); closeMenu();
+    if (!vids?.length) {
+      modal(el('div', { class: 'modal-card' }, el('h3', {}, title),
+        el('p', {}, 'This video will be available soon.')));
+      return;
+    }
+    const player = el('video', { controls: true, autoplay: true, playsinline: true, class: 'own-video' });
+    // the publisher's videos on YouTube play in YouTube's player; '#t=a,b' keeps to that part of the video
+    const yt = el('div', { class: 'yt-box', hidden: true });
+    const picks = el('div', { class: 'video-picks' });
+    const play = k => {
+      const [url, part] = vids[k].src.split('#t='), id = /youtu/.test(url) && ytId(url);
+      player.hidden = !!id; yt.hidden = !id;
+      if (id) {
+        player.pause();
+        const [a, b] = (part || '').split(',');
+        youTube(yt, id, +a || 0, +b || 0);
+        picks.querySelectorAll('button').forEach((b, i) => b.classList.toggle('on', i === k));
+        return;
+      }
+      clearPlayer(yt);
+      player.src = encodeURI(vids[k].src);
+      player.play().catch(() => {});
+      picks.querySelectorAll('button').forEach((b, i) => b.classList.toggle('on', i === k));
+    };
+    if (vids.length > 1) vids.forEach((v, k) => picks.append(el('button', { onclick: () => play(k) }, v.title)));
+    play(start);
+    modal(el('div', { class: 'modal-card video-card' }, player, yt,
+      el('div', { class: 'video-cap' }, title, picks, el('small', {}, 'Press ✕ to go back to the page'))));
+  }
+
+  /* ---------- story animation: the book's own pictures move while the story is read ---------- */
+  let storyEl = null, storyToken = 0, storyResizeObserver = null;
+  function closeStory() {
+    storyResizeObserver?.disconnect(); storyResizeObserver = null;
+    storyToken++;
+    stopSpeak();
+    storyEl?.remove();
+    storyEl = null;
+  }
+
+  function openStory(book, idx, st) {
+    closeStory(); closeMenu();
+    const ratio = book.ratio || 0.75, ASPECT = 16 / 9;
+    let at = 0, paused = false;
+    const pic = el('img', { alt: '', draggable: 'false' });
+    const stage = el('div', { class: 'story-stage' }, pic);
+    const caption = el('div', { class: 'story-text' });
+    const dots = el('div', { class: 'story-dots' }, st.scenes.map((_, k) => el('button', { 'aria-label': `Part ${k + 1}`, onclick: () => show(k) })));
+    const pauseBtn = el('button', { class: 'story-ctl', title: 'Pause', html: I.pause });
+    const end = el('div', { class: 'story-end', hidden: true },
+      el('b', {}, 'The End ⭐'),
+      el('button', { class: 'fx-btn listen', onclick: () => show(0), html: '<b>↻</b><span>Watch again</span>' }));
+    stage.append(end);
+    storyEl = el('div', { class: 'story' },
+      el('div', { class: 'story-card' },
+        el('button', { class: 'modal-x', title: 'Close', onclick: closeStory, html: I.x }),
+        el('h3', { dir: st.ur || book.rtl ? 'rtl' : null }, st.title), stage, caption,
+        el('div', { class: 'story-bar' },
+          el('button', { class: 'story-ctl', title: 'Back', onclick: () => show(at - 1), html: I.left }),
+          pauseBtn,
+          el('button', { class: 'story-ctl', title: 'Next', onclick: () => show(at + 1), html: I.right }),
+          dots)));
+    storyEl.addEventListener('pointerdown', e => { if (e.target === storyEl) closeStory(); });
+    document.body.append(storyEl);
+
+    // Place the page picture so the view rect {cx, cy, w} (in % of the page) fills the stage.
+    const frame = v => {
+      const W = stage.clientWidth, H = W / ASPECT, imgW = W * 100 / v.w, imgH = imgW / ratio;
+      return `translate(${W / 2 - v.cx / 100 * imgW}px, ${H / 2 - v.cy / 100 * imgH}px) scale(${100 / v.w})`;
+    };
+    storyResizeObserver = new ResizeObserver(() => {
+      const width = stage.clientWidth;
+      if (!width || pic.style.width === width + 'px') return;
+      pic.style.width = width + 'px';
+      pic.style.transition = 'none';
+      pic.style.transform = frame(st.scenes[at].to);
+    });
+    storyResizeObserver.observe(stage);
+    pauseBtn.addEventListener('click', () => {
+      paused = !paused;
+      paused ? synth?.pause() : synth?.resume();
+      stage.classList.toggle('paused', paused);
+      pauseBtn.innerHTML = paused ? I.play : I.pause;
+    });
+
+    function show(k) {
+      if (k < 0 || k >= st.scenes.length) return;
+      const token = ++storyToken;
+      at = k; paused = false;
+      pauseBtn.innerHTML = I.pause;
+      stage.classList.remove('paused');
+      end.hidden = true;
+      dots.querySelectorAll('button').forEach((d, i) => d.classList.toggle('on', i === k));
+      const sc = st.scenes[k];
+      const secs = Math.max(5, sc.text.split(' ').length * 0.42 + 1);
+      pic.src = (book.storyPages || book.pages)[sc.page - 1].img;
+      pic.style.width = stage.clientWidth + 'px';
+      pic.style.transition = 'none';
+      pic.style.transform = frame(sc.from);
+      pic.getBoundingClientRect();
+      pic.style.transition = `transform ${secs}s ease-in-out`;
+      pic.style.transform = frame(sc.to);
+      let moved = false;
+      const next = () => {
+        if (moved || token !== storyToken) return;
+        moved = true;
+        schedule(() => {
+          if (token !== storyToken) return;
+          if (k + 1 < st.scenes.length) show(k + 1);
+          else { end.hidden = false; speak(st.title, /[؀-ۿ]/.test(st.title) ? 'ختم شد۔' : 'The end.', null, caption); }
+        }, 900);
+      };
+      speak(st.title, sc.text, next, caption);
+      // Without a working voice the story still moves on; with one, speech normally ends well before this.
+      schedule(next, (synth ? secs * 2 : secs) * 1000);
+    }
+    show(0);
+  }
+
+  function gameButton(book, idx, a, live) {
+    const btn = el('button', { class: 'game-btn', style: `left:${a.button.x}%;top:${a.button.y}%`, html: `<b>🎮</b><span>${a.label || 'Play'}</span>` });
+    if (live) btn.addEventListener('click', e => { e.stopPropagation(); if (!editMode) openGame(book, idx, a); });
+    return btn;
+  }
+
+  /* ---------- find-the-thing game ---------- */
+  let gameEl = null;
+  function closeGame() {
+    stopSpeak();
+    gameEl?.remove();
+    gameEl = null;
+  }
+
+  function openGame(book, idx, g) {
+    closeGame(); closeMenu();
+    const pg = pageOf(book, idx), ratio = book.ratio || 0.75;
+    const order = g.targets.slice().sort(() => Math.random() - 0.5);
+    let c = order[0].view || g.crop;
+    let round = 0, stars = 0, busy = false;
+
+    const prompt = el('div', { class: 'game-prompt', dir: g.ur ? 'rtl' : null });
+    // what is being said shows inside the card, so nothing covers the stars and score
+    const said = el('div', { class: 'game-said', dir: g.ur ? 'rtl' : null, role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true' });
+    const starsEl = el('div', { class: 'game-stars' });
+    const scoreEl = el('div', { class: 'game-score' });
+    const showScore = () => {
+      starsEl.replaceChildren(...(order.length > 10
+        ? [el('span', { class: 'on', dir: 'ltr' }, `⭐ ${stars} / ${order.length}`)]
+        : order.map((_, k) => el('span', { class: k < stars ? 'on' : '' }, k < stars ? '⭐' : '☆'))));
+      scoreEl.dir = g.ur ? 'rtl' : 'ltr';
+      scoreEl.replaceChildren(g.ur ? 'درست جواب: ' : 'Score: ', el('bdi', { dir: 'ltr' }, `${stars} / ${order.length}`));
+    };
+    // Show only the cropped part of the page; targets are placed relative to that crop.
+    const pic = el('img', { src: pg.img, alt: '', draggable: 'false',
+      style: `width:${100 / c.w * 100}%;left:${-c.x / c.w * 100}%;top:${-c.y / c.h * 100}%` });
+    const scene = el('div', { class: 'game-scene', style: `--game-aspect:${(c.w * ratio) / c.h};aspect-ratio:${(c.w * ratio) / c.h}` }, pic);
+    // printed parts that only half fit in the crop (a heading strip) are covered with paper white
+    (g.hide || []).forEach(h => scene.append(el('div', { class: 'game-hide', 'aria-hidden': 'true',
+      style: `position:absolute;background:#fff;left:${(h.x - c.x) / c.w * 100}%;top:${(h.y - c.y) / c.h * 100}%;width:${h.w / c.w * 100}%;height:${h.h / c.h * 100}%` })));
+    const hitButtons = [];
+    g.targets.forEach(t => {
+      const b = el('button', { class: 'game-hit', 'aria-label': t.name,
+        style: `left:${(t.x - c.x) / c.w * 100}%;top:${(t.y - c.y) / c.h * 100}%;width:${t.w / c.w * 100}%;height:${t.h / c.h * 100}%` });
+      b.addEventListener('click', () => pick(t, b));
+      hitButtons.push([t, b]);
+      scene.append(b);
+    });
+    const again = el('button', { class: 'fx-btn listen', hidden: true, html: '<b>↻</b><span>Play again</span>', onclick: () => openGame(book, idx, g) });
+    gameEl = el('div', { class: 'game' },
+      el('div', { class: 'game-card' },
+        el('button', { class: 'modal-x', title: 'Close', onclick: closeGame, html: I.x }),
+        el('h3', { dir: g.ur ? 'rtl' : null }, g.title || 'Game'), prompt, scene, said, el('div', { class: 'game-result' }, starsEl, scoreEl), again));
+    gameEl.addEventListener('pointerdown', e => { if (e.target === gameEl) closeGame(); });
+    document.body.append(gameEl);
+    const me = gameEl;
+    showScore();
+
+    const ask = () => {
+      const t = order[round];
+      c = t.view || g.crop;
+      const aspect = (c.w * ratio) / c.h;
+      scene.style.setProperty('--game-aspect', aspect);
+      scene.style.aspectRatio = aspect;
+      pic.style.cssText = `width:${100 / c.w * 100}%;left:${-c.x / c.w * 100}%;top:${-c.y / c.h * 100}%`;
+      for (const [item, button] of hitButtons) {
+        button.hidden = item.x < c.x || item.y < c.y || item.x + item.w > c.x + c.w + .01 || item.y + item.h > c.y + c.h + .01;
+        button.style.cssText = `left:${(item.x-c.x)/c.w*100}%;top:${(item.y-c.y)/c.h*100}%;width:${item.w/c.w*100}%;height:${item.h/c.h*100}%`;
+      }
+      prompt.innerHTML = g.ur ? `سوال <bdi dir="ltr">${round + 1} / ${order.length}</bdi>: <b>${t.name}</b> کہاں ہے؟ اس پر ٹیپ کریں!` : `Question ${round + 1} of ${order.length}: Can you find the <b>${t.name}</b>? Tap it!`;
+      speak(g.title, g.ur ? `${t.name} کہاں ہے؟ اس پر ٹیپ کریں!` : `Can you find the ${t.name}? Tap it!`, null, said);
+    };
+    const pick = (t, b) => {
+      if (busy || round >= order.length) return;
+      if (t !== order[round]) {
+        b.classList.remove('no'); b.offsetWidth; b.classList.add('no');
+        said.classList.add('question-alert'); said.setAttribute('role', 'alert'); said.setAttribute('aria-live', 'assertive');
+        speak(g.title, g.ur ? `یہ ${t.name} ہے۔ دوبارہ کوشش کریں!` : `That is the ${t.name}. Try again!`, null, said);
+        return;
+      }
+      busy = true;
+      said.classList.remove('question-alert'); said.setAttribute('role', 'status'); said.setAttribute('aria-live', 'polite');
+      b.classList.add('yes');
+      stars++;
+      round++;
+      showScore();
+      const done = round >= order.length;
+      // Go on when the voice finishes, or after a few seconds if the voice stops or is missing.
+      let moved = false;
+      const next = () => {
+        if (moved || gameEl !== me) return;
+        moved = true;
+        busy = false;
+        if (!done) ask();
+      };
+      speak(g.title, g.ur ? `شاباش! ${t.say}` + (done ? ` آپ نے ${order.length} میں سے ${stars} ستارے جیتے۔ بہت خوب!` : '')
+        : `Yes! ${t.say}` + (done ? ` You got ${stars} out of ${order.length} stars. Well done!` : ''), next, said);
+      if (!done) schedule(next, 3500);
+      if (done) { prompt.innerHTML = g.ur ? `<b>سب مل گئے! 🎉 <bdi dir="ltr">${stars} / ${order.length}</bdi> ستارے</b>` : `<b>You found them all! 🎉 ${stars} / ${order.length} stars</b>`; again.hidden = false; }
+    };
+    ask();
+  }
+
+  /* ---------- zoomed page: listen, watch, write ---------- */
+  // The worked answers: a pencil moves to each answer and writes it while the step is read aloud.
+  let demoToken = 0;
+  function stopDemo(layer) {
+    demoToken++;
+    stopSpeak();
+    layer.replaceChildren();
+  }
+
+  function playDemo(act, layer) {
+    stopDemo(layer);
+    const token = demoToken;
+    const pencil = el('div', { class: 'pencil' }, '✏️');
+    layer.append(pencil);
+    const step = i => {
+      if (token !== demoToken) return;
+      if (i >= act.steps.length) { pencil.remove(); return; }
+      const s = act.steps[i];
+      // The next step waits until the voice has finished and every mark has been drawn.
+      let spoke = false, drew = false, next = false;
+      const go = () => { if (spoke && drew && !next) { next = true; schedule(() => step(i + 1), 500); } };
+      const gap = k => s.marks.slice(0, k).reduce((t, m) => t + (m.scribble ? 2600 : m.letter || m.glyph ? 1700 : 1400), 0);
+      s.marks.forEach((m, k) => schedule(() => {
+        if (token !== demoToken) return;
+        const mark = makeMark(m, layer);
+        pencil.style.left = (m.px ?? m.x) + '%';
+        pencil.style.top = (m.py ?? m.y) + '%';
+        schedule(() => token === demoToken && layer.append(mark), 450);
+      }, gap(k)));
+      schedule(() => { drew = true; go(); }, gap(s.marks.length) + 600);
+      speak('Show me how', s.say, () => { spoke = true; go(); });
+      schedule(() => { spoke = true; go(); }, Math.max(4000, s.say.split(' ').length * 450));   // keep going even without a voice
+    };
+    step(0);
+  }
+
+  // Stroke shapes in a 1 x 1 box, written in the order a child is taught.
+  const LETTERS = {
+    a: 'M.74 .3C.62 .08 .2 .1 .14 .5C.1 .86 .52 .98 .72 .62M.75 .14V.8C.77 .96 .9 .98 1 .88'
+  };
+
+  // Each letter as pen strokes, in order, inside the box the dotted letter fills on the page (0..1 both ways).
+  const GLYPHS = {
+    a: 'M.72 .3C.6 .08 .18 .1 .12 .5C.08 .9 .55 1 .7 .62M.74 .12V.82C.76 .97 .9 .98 1 .88',
+    b: 'M.22 0V.97M.22 .62C.38 .38 .9 .4 .9 .7C.9 1 .4 1.02 .22 .9',
+    c: 'M.88 .28C.72 .02 .12 .05 .1 .5C.08 .95 .7 1 .95 .8',
+    d: 'M.68 .52C.55 .36 .12 .36 .1 .7C.08 1 .55 1.02 .68 .78M.7 0V.88C.72 .98 .86 1 .98 .92',
+    e: 'M.1 .52H.88C.88 .15 .22 .08 .1 .5C.05 .95 .7 1 .95 .82',
+    f: 'M.92 .1C.78 -.02 .45 .02 .45 .22V1M.12 .42H.82',
+    g: 'M.78 .14C.62 -.02 .15 .02 .12 .3C.1 .58 .62 .6 .78 .36M.8 .06V.8C.8 1 .3 1.02 .12 .86',
+    h: 'M.18 0V1M.18 .64C.32 .4 .74 .4 .74 .66V.88C.76 1 .9 1 .98 .92',
+    i: 'M.5 .16V.86C.52 .98 .72 1 .9 .92M.5 -.08V-.06',
+    j: 'M.62 .14V.82C.62 1 .2 1.02 .05 .86M.62 -.06V-.04',
+    k: 'M.2 0V1M.85 .45L.24 .72L.9 1',
+    l: 'M.45 0V.86C.47 .98 .65 1 .85 .9',
+    m: 'M.06 .06V1M.06 .32C.14 0 .46 0 .48 .32V1M.48 .32C.54 0 .88 0 .9 .32V.92C.92 .98 .96 1 1 .96',
+    n: 'M.12 .06V1M.12 .32C.22 0 .76 0 .78 .36V.88C.8 .98 .9 1 .98 .94',
+    o: 'M.5 .04C.08 .04 .06 .96 .5 .96C.94 .96 .92 .04 .5 .04Z',
+    p: 'M.2 .04V1M.2 .2C.36 .02 .88 .03 .88 .3C.88 .58 .36 .6 .2 .44',
+    q: 'M.76 .2C.6 .02 .14 .03 .12 .3C.1 .58 .6 .6 .76 .4M.78 .04V1',
+    r: 'M.18 .06V1M.18 .44C.28 .08 .66 0 .92 .16',
+    s: 'M.88 .16C.72 0 .14 .02 .18 .3C.22 .5 .88 .44 .88 .72C.88 1 .24 1 .08 .84',
+    t: 'M.42 0V.86C.44 .98 .64 1 .88 .9M.1 .32H.82',
+    u: 'M.12 .06V.62C.12 1 .74 1 .78 .6M.8 .06V.88C.82 .98 .9 1 .98 .94',
+    v: 'M.04 .04L.5 .96L.96 .04',
+    w: 'M.02 .04L.26 .96L.5 .3L.74 .96L.98 .04',
+    x: 'M.08 .04L.92 .96M.92 .04L.08 .96',
+    y: 'M.14 .04V.32C.14 .6 .74 .6 .78 .32M.8 .04V.8C.8 1 .3 1.02 .12 .86',
+    z: 'M.1 .06H.9L.08 .94H.94',
+    // Capital letters, in the stroke order printed in Stemford English 4+ (the numbered model letters)
+    A: 'M.5 0L.02 1M.5 0L.98 1M.22 .6H.78',
+    B: 'M.06 0V1M.06 0H.55C.92 0 .92 .48 .55 .48H.06M.55 .48C1 .48 1 1 .55 1H.06',
+    C: 'M.94 .16C.8 -.04 .04 -.06 .02 .5C0 1.06 .8 1.04 .96 .82',
+    D: 'M.06 0V1M.06 0H.4C1.15 0 1.15 1 .4 1H.06',
+    E: 'M.06 0V1M.06 0H.95M.06 .5H.8M.06 1H.95',
+    F: 'M.08 0V1M.08 0H.95M.08 .48H.8',
+    G: 'M.92 .14C.76 -.04 .04 -.06 .02 .5C0 1.04 .8 1.06 .9 .6M.52 .47H.92V1',
+    H: 'M.06 0V1M.94 0V1M.06 .48H.94',
+    I: 'M.5 0V1',
+    J: 'M.9 0V.62C.9 1.04 .12 1.04 .02 .72',
+    K: 'M.06 0V1M.94 0L.08 .55M.3 .41L.96 1',
+    L: 'M.06 0V1H.96',
+    M: 'M.04 0V1M.04 0L.5 .88L.96 0V1',
+    N: 'M.06 0V1M.06 0L.94 1M.94 0V1',
+    O: 'M.5 0C-.16 0 -.16 1 .5 1C1.16 1 1.16 0 .5 0',
+    P: 'M.06 0V1M.06 0H.5C1.1 0 1.1 .56 .5 .56H.06',
+    Q: 'M.48 0C-.14 0 -.14 .96 .48 .96C1.06 .96 1.06 0 .48 0M.62 .76L.98 1',
+    R: 'M.06 0V1M.06 0H.5C1.04 0 1.04 .52 .5 .52H.06M.5 .52L.96 1',
+    S: 'M.92 .14C.78 -.04 .1 -.04 .1 .25C.1 .5 .9 .46 .92 .74C.94 1.04 .2 1.06 .04 .84',
+    T: 'M.5 0V1M.02 0H.98',
+    U: 'M.06 0V.6C.06 1.12 .94 1.12 .94 .6V0',
+    V: 'M.02 0L.5 1L.98 0',
+    W: 'M.02 0L.25 1L.5 0L.75 1L.98 0',
+    X: 'M.04 0L.96 1M.96 0L.04 1',
+    Y: 'M.04 0L.54 .5M.96 0L.12 1',
+    Z: 'M.04 0H.96L.04 1H.96',
+    // Urdu letters: the pen sweeps the letter's own ink from right to left, line by line
+    ur: 'M1 0H0V.3H1V.6H0V.9H1',
+    // numbers, written the way the maths books teach them
+    0: 'M.5 .02C.06 .02 .04 .98 .5 .98C.96 .98 .94 .02 .5 .02',
+    1: 'M.5 0V1',
+    2: 'M.08 .26C.12 .02 .86 -.04 .9 .28C.94 .52 .46 .72 .04 .98H.98',
+    3: 'M.08 .14C.4 -.06 .94 .02 .9 .26C.86 .44 .58 .48 .4 .48C.7 .48 .98 .58 .94 .78C.9 1 .32 1.04 .06 .86',
+    4: 'M.62 .02L.04 .68H.98M.74 .3V.98',
+    5: 'M.9 .02H.16L.1 .44C.4 .3 .94 .38 .94 .68C.94 1 .34 1.04 .06 .86',
+    6: 'M.82 .06C.32 -.06 .02 .4 .06 .7C.1 1 .9 1.04 .92 .68C.94 .36 .4 .34 .08 .6',
+    7: 'M.04 .02H.96L.36 .98',
+    8: 'M.5 .48C.12 .42 .12 .02 .5 .02C.88 .02 .88 .42 .5 .48C.06 .54 .06 .98 .5 .98C.94 .98 .94 .54 .5 .48',
+    9: 'M.92 .3C.9 .02 .1 .02 .1 .3C.1 .56 .8 .6 .92 .3V.98'
+  };
+
+  // A mark's pen path: its own (where a book prints the letter differently, e.g. the dot of i inside the box), else GLYPHS.
+  const penOf = m => m.pen || GLYPHS[m.glyph];
+
+  // A GLYPHS path as its pen strokes, in order: lists of points (0..1 of the letter box), close together.
+  const glyphCache = new Map();
+  function glyphStrokes(d) {
+    if (glyphCache.has(d)) return glyphCache.get(d);
+    const NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('style', 'position:absolute;width:0;height:0;overflow:hidden');
+    document.body.append(svg);
+    const out = d.split(/(?=M)/).map(part => {
+      const p = document.createElementNS(NS, 'path');
+      p.setAttribute('d', part);
+      svg.append(p);
+      const L = p.getTotalLength(), n = Math.max(2, Math.ceil(L / .02)), pts = [];
+      for (let k = 0; k <= n; k++) { const q = p.getPointAtLength(L * k / n); pts.push([q.x, q.y]); }
+      return pts;
+    });
+    svg.remove();
+    glyphCache.set(d, out);
+    return out;
+  }
+
+  function makeMark(m, layer) {
+    if (m.ring || m.line) {
+      // drawn on a page-sized sheet so circles and lines keep their shape
+      const H = 100 * layer.clientHeight / layer.clientWidth, Y = v => (v * H / 100).toFixed(2);
+      let d;
+      if (m.ring) {
+        const ry = m.ry * H / 100, cy = m.cy * H / 100;
+        d = `M${m.cx + m.rx} ${cy.toFixed(2)}A${m.rx} ${ry.toFixed(2)} 0 1 1 ${m.cx + m.rx - .01} ${(cy - .3).toFixed(2)}`;
+        m.px = m.cx + m.rx; m.py = m.cy;
+      } else {
+        const [x1, y1, x2, y2] = m.line;
+        d = `M${x1} ${Y(y1)}L${x2} ${Y(y2)}`;
+        m.px = x2; m.py = y2;
+      }
+      return el('div', { class: 'mk draw', html: `<svg viewBox="0 0 100 ${H.toFixed(1)}"><path pathLength="1" d="${d}"/></svg>` });
+    }
+    if (m.glyph) {
+      // box = [x, y, w, h] in % of the page, measured from the dotted letter (tools/find_glyphs.py)
+      const [x, y, w, h] = m.box, d = penOf(m);
+      const [sx, sy] = d.match(/^M([-\d.]+) ([-\d.]+)/).slice(1).map(Number);
+      m.px = x + sx * w; m.py = y + sy * h;
+      if (m.ink) {
+        // The letter's own shape, cut from the page (tools/ink.py), is uncovered along the pen strokes,
+        // so the colour lands exactly on the book's letter. ink.box is the box plus a 25% margin.
+        const [ix, iy, iw, ih] = m.ink.box, id = 'mk' + Math.random().toString(36).slice(2);
+        const mk = el('div', { class: 'mk glyph', style: `left:${ix}%;top:${iy}%;width:${iw}%;height:${ih}%`,
+          html: `<svg viewBox="0 0 1 1" preserveAspectRatio="none"><defs><mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="1" height="1">`
+            + `<path class="brush" pathLength="1" d="${d}" transform="translate(.1667 .1667) scale(.6667)"/></mask></defs>`
+            + `<image href="${m.ink.src}" x="0" y="0" width="1" height="1" preserveAspectRatio="none" mask="url(#${id})"/></svg>` });
+        // once the pen has finished, show the whole letter in case the brush missed a corner
+        schedule(() => mk.querySelector('image')?.removeAttribute('mask'), 1900);
+        return mk;
+      }
+      const px = (layer.clientWidth * (w > 7 ? .011 : .007)).toFixed(1);
+      return el('div', { class: 'mk glyph', style: `left:${x}%;top:${y}%;width:${w}%;height:${h}%`,
+        html: `<svg viewBox="0 0 1 1" preserveAspectRatio="none"><path pathLength="1" d="${d}" vector-effect="non-scaling-stroke" style="stroke-width:${px}px"/></svg>` });
+    }
+    if (m.letter) {
+      // x, y = top-left of the letter, s = its width; all in % of the page width
+      m.px = m.x + m.s * .74; m.py = m.y + m.s * .3 * layer.clientWidth / layer.clientHeight;
+      const mk = el('div', { class: 'mk path', style: `left:${m.x}%;top:${m.y}%;width:${m.s}%`,
+        html: `<svg viewBox="0 0 1 1"><path pathLength="1" d="${LETTERS[m.letter]}" style="stroke-width:${m.weight || .09}"/></svg>` });
+      return mk;
+    }
+    if (m.scribble) {
+      // Zig-zag back and forth inside an ellipse: cx, cy in % of the page, rx in % of width, ry in % of height.
+      const H = 100 * layer.clientHeight / layer.clientWidth, cy = m.cy * H / 100, ry = m.ry * H / 100;
+      let d = '', dir = 1;
+      for (let y = cy - ry * .92; y <= cy + ry * .92; y += 1.3) {
+        const half = m.rx * Math.sqrt(Math.max(0, 1 - ((y - cy) / ry) ** 2)) * .92;
+        d += (d ? 'L' : 'M') + (m.cx - dir * half).toFixed(1) + ' ' + y.toFixed(1) + 'L' + (m.cx + dir * half).toFixed(1) + ' ' + (y + .65).toFixed(1);
+        dir = -dir;
+      }
+      m.px = m.cx; m.py = m.cy;
+      return el('div', { class: 'mk scrib', html: `<svg viewBox="0 0 100 ${H.toFixed(1)}"><path pathLength="1" d="${d}" style="stroke:${m.scribble}"/></svg>` });
+    }
+    const mark = m.tick ? el('div', { class: 'mk tick', html: '<svg viewBox="0 0 24 24"><path d="M4 13l5 5L20 6"/></svg>' })
+      : m.circle ? el('div', { class: 'mk circ' }, m.circle)
+      : el('div', { class: 'mk write' }, m.write);
+    mark.style.left = m.x + '%';
+    mark.style.top = m.y + '%';
+    return mark;
+  }
+
+  function closeFocus(redraw = true) {
+    focusResizeCleanup?.(); focusResizeCleanup = null;
+    if (!focusEl) return;
+    demoToken++;
+    stopSpeak();
+    focusEl.remove();
+    focusEl = null;
+    if (redraw && R && !R.busy) R.show(R.spread);      // redraw the spread so new writing shows on the page
+  }
+
+  function openFocus(book, idx, fromEl, writeNow = false) {
+    if (focusEl || R?.busy) return;
+    stopSpeak(); closeMenu();
+    const pg = pageOf(book, idx), ratio = book.ratio || 0.75, key = `${book.id}:${idx}:page`;
+    const img = el('img', { class: 'page-bg', alt: `Page ${idx + 1}`, draggable: 'false' });
+    setPageImage(img, book, pg);
+    const fillAct = (pg.acts || []).find(a => a.type === 'fill'), fill = !!fillAct;
+    const sheet = el('div', { class: 'fx-page' }, img);
+    // On trace pages each dotted letter is traced from its start dot, with a star when it is done.
+    const score = el('div', { class: 'trace-score', hidden: true });
+    const checker = fill ? traceChecker(book, fillAct, sheet, score, key) : null;
+    // Colouring the picture: the colours on offer, and what to show when the child picks the wrong one for a part
+    // (a red strawberry coloured blue): a note by their finger, the right colour's button glows, and a voice.
+    // Bundled pages use the reviewed task palette, never colours sampled from decoration.
+    // Imported/custom pages retain their authored palette and image fallback.
+    const pageReview = reviewedPagePalettes.books[book.id]?.[idx + 1];
+    const named = pageReview
+      ? pageReview.colours.map(name => reviewedPagePalettes.colours[name])
+      : fillAct?.colours || [];
+    const shown = [...new Set((fillAct?.steps || []).flatMap(s => s.marks).filter(m => m.scribble).map(m => m.scribble))];
+    const palette = [...(named.length ? named : shown.length ? shown : PALETTE)];
+    if (book.rtl) warmUp(palette.map(c => `${colourName(c).ur} رنگ لگائیں۔`));
+    let tipTimer = null;
+    const wrongColour = (right, [fx, fy]) => {
+      const name = colourName(right), ur = !!book.rtl;
+      sheet.querySelector('.colour-tip')?.remove();
+      const tip = el('div', { class: 'colour-tip', dir: ur ? 'rtl' : null, style: `left:${fx * 100}%;top:${fy * 100}%` },
+        el('i', { style: `background:${right}` }), ur ? `${name.ur} رنگ` : `Use ${name.en}!`);
+      sheet.append(tip);
+      const swatch = sheet.parentElement?.querySelector(`.fx-panel .sw[data-c="${right}"]`);
+      swatch?.classList.add('want');
+      clearTimeout(tipTimer);
+      tipTimer = schedule(() => { tip.remove(); swatch?.classList.remove('want'); }, 2400);
+      chime('tick');
+      speak('', ur ? `${name.ur} رنگ لگائیں۔` : `Use the ${name.en} colour.`, null, el('div'));
+    };
+    const addColour = hex => {
+      // Reviewed palettes are complete. Backgrounds and printed decorations must not add extra swatches.
+      if (named.length) return null;
+      tools.addColour(hex);
+      return hex;
+    };
+    const regions = fillAct?.colourRegions || bookColourRegions[book.id]?.[idx + 1] || [];
+    const canvasFor = () => inkCanvas(book, { w: 100, h: 100 }, key, checker, { img, palette, regions, wrong: wrongColour, add: addColour, reviewedOnly: fillAct?.drawingMode === 'regions' });
+    sheet.prepend(img, canvasFor());
+    if (pg.qr) sheet.append(videoButton(book, idx, true));
+
+    const listen = el('button', { class: 'fx-btn listen', hidden: true, html: I.speaker + '<span>Listen</span>' });
+    pageText(book).then(pages => {
+      const text = (pages[idx] || []).map(b => b[4]).filter(t => /\p{L}/u.test(t)).join('. ');
+      if (!text || !focusEl) return;
+      listen.hidden = false;
+      listen.addEventListener('click', () => speak(`Page ${idx + 1}`, text));
+    });
+    // Fill pages: "Show me how" plays the worked answers; "I'll do it myself" hands over the pen.
+    // A page that names its colours (an apple: red and green) offers only those.
+    const tools = drawTools(() => { delete drawings[key]; checker?.reset(); sheet.querySelector('canvas').replaceWith(canvasFor()); }, palette);
+    const pageColoursRead = () => {
+      const px = pixelsOf(img);
+      if (!px || named.length) return;           // the activity's own list is the page's colours
+      // the letters to trace are not pictures to colour
+      const skip = (fillAct?.steps || []).flatMap(s => s.marks).map(m => (m.dots || m.ink)?.box).filter(Boolean)
+        .map(([x, y, w, h]) => [x / 100 * px.w, y / 100 * px.h, (x + w) / 100 * px.w, (y + h) / 100 * px.h]);
+      const list = [...shown];
+      const sameKind = rgb => closestColour(rgb, list, 60) || list.some(c => colourName(c).en === colourName(hexOf(rgb)).en);
+      for (const rgb of pageColours(px.data, px.w, px.h, { skip })) if (!sameKind(rgb)) list.push(hexOf(rgb));
+      tools.setColours(list.length ? list : PALETTE);
+    };
+    if (pixelsOf(img)) pageColoursRead(); else img.addEventListener('load', pageColoursRead, { once: true });
+    const demo = el('div', { class: 'demo' });
+    sheet.append(demo);
+    const showHow = fill && el('button', { class: 'fx-btn how', html: I.play + '<span>Show me how</span>',
+      onclick: () => { sheet.classList.remove('pen'); tools.hidden = true; playDemo(fillAct, demo); } });
+    const myself = fill && el('button', { class: 'fx-btn self', html: I.pen + "<span>I'll do it myself</span>",
+      onclick: () => { stopDemo(demo); brush.erase = false; sheet.classList.add('pen'); tools.hidden = false; tools.sync(); } });
+    if (!fill || writeNow) { sheet.classList.add('pen'); tools.hidden = false; }
+    const panel = el('div', { class: 'fx-panel' },
+      el('button', { class: 'fx-btn close', onclick: closeFocus, html: I.x + '<span>Close</span>' }),
+      showHow, myself, checker && score,
+      fillAct?.video && el('button', { class: 'fx-btn video', onclick: () => openVideos(fillAct.video.title, [fillAct.video]), html: I.play + `<span>${fillAct.video.title}</span>` }),
+      listen,
+      pg.qr && el('button', { class: 'fx-btn video', onclick: () => playVideo(book, idx, { id: 'page' }), html: I.play + '<span>Watch video</span>' }),
+      tools);
+    focusEl = el('div', { class: 'fx' }, sheet, panel);
+    focusEl.addEventListener('pointerdown', e => { if (e.target === focusEl) closeFocus(); });
+    document.body.append(focusEl);
+    tools.sync();                      // the pencil cursor (in the chosen colour) now that the page is on screen
+
+    // Fit the whole page on screen, then grow it out of the page that was clicked.
+    const fit = () => {
+      const side = innerWidth > 760, pr = panel.getBoundingClientRect();
+      const h = Math.max(60, Math.min(innerHeight - (side ? 24 : pr.height + 36), (innerWidth - (side ? pr.width + 52 : 16)) / ratio));
+      sheet.style.height = h + 'px'; sheet.style.width = h * ratio + 'px';
+    };
+    fit();
+    window.addEventListener('resize', fit);
+    window.visualViewport?.addEventListener('resize', fit);
+    focusResizeCleanup = () => { window.removeEventListener('resize', fit); window.visualViewport?.removeEventListener('resize', fit); };
+    const to = sheet.getBoundingClientRect(), from = fromEl.getBoundingClientRect();
+    sheet.style.transform = `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width})`;
+    sheet.getBoundingClientRect();
+    sheet.classList.add('grow');
+    sheet.style.transform = '';
+  }
+
+  // The part of the page picture around a touch (fx, fy: 0..1 of the page): { mask, want, paper }. mask is a small
+  // canvas, opaque inside the part; want is the colour the book shows for it ([r, g, b]), or null if it does not
+  // say; paper is true when the touch is on the open page round the pictures.
+  // The picture is read once, at 600 pixels wide (plenty for colouring, and quick to search).
+  const pagePixels = new Map();
+  function pixelsOf(img) {
+    if (!img.complete || !img.naturalWidth) return null;
+    let px = pagePixels.get(img.src);
+    if (!px) {
+      const w = 600, h = Math.round(600 * img.naturalHeight / img.naturalWidth), cv = document.createElement('canvas');
+      cv.width = w; cv.height = h;
+      const cx = cv.getContext('2d', { willReadFrequently: true });
+      cx.drawImage(img, 0, 0, w, h);
+      try { px = { w, h, data: cx.getImageData(0, 0, w, h).data }; } catch { return null; }   // a picture we may not read
+      pagePixels.set(img.src, px);
+    }
+    return px;
+  }
+  // The page picture at its own full size, for the exercise questions' clean colouring edges.
+  const fullPixels = new Map();
+  function fullPixelsOf(img) {
+    if (!img.complete || !img.naturalWidth) return null;
+    let px = fullPixels.get(img.src);
+    if (!px) {
+      const w = img.naturalWidth, h = img.naturalHeight, cv = document.createElement('canvas');
+      cv.width = w; cv.height = h;
+      const cx = cv.getContext('2d', { willReadFrequently: true });
+      cx.drawImage(img, 0, 0);
+      try { px = { w, h, data: cx.getImageData(0, 0, w, h).data }; } catch { return null; }
+      fullPixels.set(img.src, px);
+    }
+    return px;
+  }
+  function colourArea(img, fx, fy, regions, reviewedOnly = false) {
+    const px = pixelsOf(img);
+    if (!px) return null;
+    // Dotted pre-writing outlines are open to a flood fill. Their reviewed object
+    // boundaries supply the clip instead; one stroke stays in its starting object.
+    if (reviewedOnly) {
+      const selected = colourRegionAt(regions, fx * 100, fy * 100);
+      if (!selected) return { mask: null, want: null, paper: true };
+      let object = null;
+      if (selected.surface === 'object') {
+        object = regionFrom(px.data, px.w, px.h, fx * px.w, fy * px.h, { grow: 0 });
+        if (!object) return { mask: null, want: null, paper: true };
+        // The white page around a closed picture is not part of that picture.
+        // Reject a flood which reaches outside its reviewed object boundary.
+        for (let i = 0; i < object.length; i++) if (object[i] &&
+          colourRegionAt([selected], (i % px.w) / px.w * 100, Math.floor(i / px.w) / px.h * 100) !== selected)
+          return { mask: null, want: null, paper: true };
+        object = spread(object, px.w, px.h, 1);
+      }
+      const out = document.createElement('canvas');
+      out.width = px.w; out.height = px.h;
+      const ox = out.getContext('2d'), mask = ox.createImageData(px.w, px.h);
+      for (let i = 0; i < px.w * px.h; i++) {
+        if (colourRegionAt(regions, (i % px.w) / px.w * 100, Math.floor(i / px.w) / px.h * 100) !== selected) continue;
+        if (object && !object[i]) continue;
+        // Preserve the coloured scenery outside the white exercise silhouettes.
+        if (selected.surface === 'all' || Math.min(px.data[i * 4], px.data[i * 4 + 1], px.data[i * 4 + 2]) > 215) mask.data[i * 4 + 3] = 255;
+      }
+      ox.putImageData(mask, 0, 0);
+      return { mask: out, required: selected.colour, want: null };
+    }
+    const cuts = (regions || []).map(region => region.cut).filter(Boolean);
+    const core = regionFrom(px.data, px.w, px.h, fx * px.w, fy * px.h, { grow: 0, cuts });
+    if (!core) return null;
+    // A part this big is the page itself (the paper round the pictures), not something to colour.
+    let size = 0;
+    for (let i = 0; i < core.length; i++) size += core[i];
+    if (size > core.length * .25) return { mask: null, want: null, paper: true };
+    const selected = colourRegionAt(regions, fx * 100, fy * 100);
+    const part = restrictColourRegion(spread(core, px.w, px.h, cuts.length ? 1 : 2), px.w, px.h, regions, selected);
+    const out = document.createElement('canvas');
+    out.width = px.w; out.height = px.h;
+    const ox = out.getContext('2d'), mask = ox.createImageData(px.w, px.h);
+    for (let i = 0; i < part.length; i++) if (part[i]) mask.data[i * 4 + 3] = 255;
+    ox.putImageData(mask, 0, 0);
+    const want = partColour(px.data, px.w, px.h, core);
+    // Reviewed parts take priority over a neighbouring outline's colour: a vase's red
+    // outer border must not make its blue neck or teal body accept red paint.
+    return { mask: out, required: selected?.colour || componentColourRegion(core, px.w, px.h, regions)?.colour, want };
+  }
+
+  // The canvas keeps a fixed resolution tied to the zone, so drawings survive resizes and page turns.
+  // watch (optional): the tracing letters on this page. Each touch asks it first: the letter being traced
+  // takes the touch ('own'), a touch on a letter not picked yet draws nothing ('block'), anything else draws.
+  // page (optional): { img, palette, regions, wrong, add }. img is the page picture under the canvas: colouring stays
+  // inside the lines, each stroke only landing in the part of the picture where it began (src/colourFill.js),
+  // and the open paper round the pictures is not coloured at all.
+  // Where the book shows the part's colour (a red strawberry) and that colour is on offer (palette), only it
+  // colours there: another colour draws nothing and wrong(rightColour) is told, to show the child.
+  // Reviewed picture parts also require their assigned colour; only unreviewed palettes may add a swatch.
+  function inkCanvas(book, z, key, watch, page) {
+    const c = el('canvas', { class: 'ink' });
+    setDrawingCursor(c, brush.erase, brush.color);
+    c.width = Math.round(z.w * 12);
+    c.height = Math.round(z.h * 12 / (book.ratio || 0.75));
+    const ctx = c.getContext('2d');
+    if (drawings[key]) {
+      const im = new Image();
+      im.onload = () => ctx.drawImage(im, 0, 0);
+      im.src = drawings[key];
+    }
+    let last = null, inside = null;           // inside: the part of the picture this stroke may colour
+    // page.crop: this canvas covers only that part of the page (% of the page), as in an exercise question.
+    // page.limit: a mask of this canvas's own size; writing stays inside it, and page.outside() is told when the
+    // pencil starts or goes outside (the lines a question is written on).
+    const crop = page?.crop, cx0 = crop ? crop.x / 100 : 0, cy0 = crop ? crop.y / 100 : 0, cw = crop ? crop.w / 100 : 1, ch = crop ? crop.h / 100 : 1;
+    const limitAt = p => { const l = page?.limit; if (!l) return true; const d = l.getContext('2d').getImageData(Math.floor(p[0]), Math.floor(p[1]), 1, 1).data; return d[3] > 0; };
+    const pos = e => {
+      const r = c.getBoundingClientRect();
+      return [(e.clientX - r.left) / r.width * c.width, (e.clientY - r.top) / r.height * c.height];
+    };
+    const line = (x, a, b) => {
+      x.strokeStyle = brush.color;
+      x.lineWidth = brush.size * (brush.erase ? 2.5 : 1);
+      x.lineCap = x.lineJoin = 'round';
+      x.beginPath(); x.moveTo(a[0], a[1]); x.lineTo(b[0], b[1]); x.stroke();
+    };
+    const scratch = document.createElement('canvas'), sx = scratch.getContext('2d');
+    const seg = (a, b) => {
+      ctx.globalCompositeOperation = brush.erase ? 'destination-out' : 'source-over';
+      if (!inside) { line(ctx, a, b); return; }
+      // Draw the piece of line on its own, keep only what falls inside the part, and put that on the page.
+      const pad = brush.size + 2, x0 = Math.floor(Math.min(a[0], b[0]) - pad), y0 = Math.floor(Math.min(a[1], b[1]) - pad);
+      const w = Math.ceil(Math.abs(a[0] - b[0]) + pad * 2), h = Math.ceil(Math.abs(a[1] - b[1]) + pad * 2);
+      scratch.width = w; scratch.height = h;          // also clears it
+      line(sx, [a[0] - x0, a[1] - y0], [b[0] - x0, b[1] - y0]);
+      sx.globalCompositeOperation = 'destination-in';
+      // a picture part's mask covers the whole page while this canvas may be only a part of it (page.crop);
+      // the limit mask is this canvas's own size
+      const isLimit = inside === page?.limit, kx = inside.width * (isLimit ? 1 : cw) / c.width, ky = inside.height * (isLimit ? 1 : ch) / c.height;
+      const ox = isLimit ? 0 : inside.width * cx0, oy = isLimit ? 0 : inside.height * cy0;
+      sx.drawImage(inside, ox + x0 * kx, oy + y0 * ky, w * kx, h * ky, 0, 0, w, h);
+      ctx.drawImage(scratch, x0, y0);
+    };
+    let own = false;
+    const end = () => {
+      if (!last) return;
+      last = null;
+      inside = null;
+      if (own) { own = false; watch.up(c); }
+      drawings[key] = c.toDataURL();
+    };
+    c.addEventListener('pointerdown', e => {
+      if (editMode) return;
+      e.preventDefault();
+      const p = pos(e), mode = watch ? watch.down(p, c, brush.erase) : 'free';
+      if (mode === 'block') return;
+      if (page?.limit && !brush.erase && !limitAt(p)) { page.outside?.(p); return; }
+      let area;
+      if (page?.pick && !brush.erase) {
+        // an exercise question's parts: the whole part, in one of its own colours
+        const hit = page.pick((cx0 + p[0] / c.width * cw) * 100, (cy0 + p[1] / c.height * ch) * 100);
+        if (!hit) { page.miss?.(); return; }
+        if (hit.allowed?.length && !hit.allowed.some(colour => colour.toLowerCase() === brush.color.toLowerCase())) { page.wrongAll?.(hit.allowed, hit.name); return; }
+        area = { mask: hit.mask };
+      } else area = mode === 'free' && !brush.erase && page?.img ? colourArea(page.img, cx0 + p[0] / c.width * cw, cy0 + p[1] / c.height * ch, page.regions, page.reviewedOnly) : null;
+      // the paper round the pictures is not coloured (nor anything while the page picture is still loading)
+      if (mode === 'free' && !brush.erase && page?.img && !page.pick && (!area || area.paper)) return;
+      // the colour the book shows for this part: one on offer, or else it is offered now
+      const right = area?.required || (area?.want && page.palette ? requiredSwatch(area.want, page.palette) || page.add?.(hexOf(area.want)) || null : null);
+      if (right && right.toLowerCase() !== brush.color.toLowerCase()) { page.wrong?.(right, [p[0] / c.width, p[1] / c.height]); return; }
+      c.setPointerCapture(e.pointerId);
+      last = p;
+      own = mode === 'own';
+      inside = area?.mask || (brush.erase ? null : page?.limit) || null;
+      if (!own) seg(last, [last[0] + 0.1, last[1] + 0.1]);
+    });
+    c.addEventListener('pointermove', e => {
+      if (!last) return;
+      const p = pos(e);
+      if (page?.limit && !brush.erase && !limitAt(p)) page.outside?.(p);
+      if (own) watch.move(p, c); else seg(last, p);
+      last = p;
+    });
+    c.addEventListener('pointerup', end);
+    c.addEventListener('pointercancel', end);
+    return c;
+  }
+
+  /* ---------- tracing: touch a letter's start circle, then trace it; the colour goes only onto the letter ---------- */
+  // Each dotted letter has a small circle where it starts. Touching it picks that letter: only it can be
+  // written on until it is finished. As the finger moves, the letter is coloured in around it (its own shape,
+  // cut from the page, so the writing always comes out neat), and when all of it is coloured a star appears.
+  // While the child waits, the next letter's circle glows and a hand points at it, like a game's hint.
+  // The Urdu lines are recorded by tools/make_urdu_audio.py (TRACING there): change both together.
+  const PRAISE = { en: ['Good job!', 'Well done!', 'Great!', 'Super!', 'Excellent!', 'Very good!'], ur: ['شاباش!', 'بہت خوب!', 'زبردست!', 'بہت اچھے!'] };
+  const SAY = {
+    en: { tap: 'Touch the circle to start.', done: 'Excellent! You traced them all. You are a star!' },
+    ur: { tap: 'شروع کرنے کے لیے دائرے کو چھوئیں۔', done: 'بہت خوب! آپ نے سب لکھ لیا۔ آپ ستارہ ہیں!' }
+  };
+  const ALL_DONE = { en: 'You did it! 🎉', ur: 'شاباش! 🎉' };
+
+  // Short sounds made on the spot, so nothing extra has to download.
+  let audioCtx = null;
+  function chime(kind) {
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      const notes = kind === 'good' ? [[659, 0], [988, .12]] : kind === 'done' ? [[523, 0], [659, .12], [784, .24], [1047, .36]] : [[523, 0]];
+      notes.forEach(([f, at]) => {
+        const o = audioCtx.createOscillator(), g = audioCtx.createGain(), t = audioCtx.currentTime + at;
+        o.type = 'sine';
+        o.frequency.value = f;
+        g.gain.setValueAtTime(.0001, t);
+        g.gain.exponentialRampToValueAtTime(kind === 'tick' ? .08 : .25, t + .02);
+        g.gain.exponentialRampToValueAtTime(.0001, t + .35);
+        o.connect(g).connect(audioCtx.destination);
+        o.start(t); o.stop(t + .4);
+      });
+    } catch (e) { /* no sound on this browser; the star still shows */ }
+  }
+
+  function traceChecker(book, act, sheet, score, key) {
+    // dots: the book's own dotted letter. Usually that is the ink "Show me how" uses; where "Show me how" draws a
+    // nicer shape than the dots (the Urdu rows), the mark carries the dots separately.
+    const targets = act.steps.flatMap(s => s.marks).filter(m => m.glyph && (m.dots || m.ink))
+      .map((m, i) => ({ i, m, dots: m.dots || m.ink, shape: null, img: null, covered: null, done: false, circle: null, badge: null, tint: null }));
+    if (!targets.length) return null;
+    const lang = book.rtl ? 'ur' : 'en';
+    warmUp([...PRAISE[lang], ...Object.values(SAY[lang])]);
+    // The traced letters get their own sheet over the page, drawn plainly (the child's other drawing is blended
+    // into the page like crayon, which lets the book's dots show through; a traced letter should look solid).
+    // It is the same size as the drawing canvas, so the two share their measurements.
+    const lettersKey = key + ':letters';
+    const letters = el('canvas', { class: 'ink-letters' });
+    letters.width = 1200;
+    letters.height = Math.round(1200 / (book.ratio || 0.75));
+    const lx = letters.getContext('2d');
+    if (drawings[lettersKey]) { const im = new Image(); im.onload = () => lx.drawImage(im, 0, 0); im.src = drawings[lettersKey]; }
+    const saveLetters = () => { drawings[lettersKey] = letters.toDataURL(); };
+    const layer = el('div', { class: 'trace-fb' });
+    sheet.append(letters, layer);
+    const said = el('div');                 // the voice speaks without the caption bar covering the page
+    const finishedHere = traced[key] || (traced[key] = new Set());   // letters already done on this page
+    let active = null, painting = null, hintTimer = null, hand = null, cheered = false;
+    const canvas = () => sheet.querySelector('canvas.ink');
+
+    // the ink box (the letter box plus 25% each side) in canvas pixels, and the letter inside it
+    const inkRect = (t, c) => { const [x, y, w, h] = t.dots.box; return [x / 100 * c.width, y / 100 * c.height, w / 100 * c.width, h / 100 * c.height]; };
+    const letterRect = (t, c) => { const [x, y, w, h] = inkRect(t, c); return [x + w / 6, y + h / 6, w * 2 / 3, h * 2 / 3]; };
+    const inRect = ([x, y], [x0, y0, w, h]) => x >= x0 && x <= x0 + w && y >= y0 && y <= y0 + h;
+    const rectGap = ([px, py], [x, y, w, h]) => Math.hypot(Math.max(x - px, 0, px - x - w), Math.max(y - py, 0, py - y - h));
+    // The letter a point is on: inside a letter's ink box, the nearest letter (the Urdu rows' boxes overlap).
+    const letterAt = (p, c) => {
+      let best = null, gap = Infinity;
+      for (const t of targets) if (inRect(p, inkRect(t, c))) { const g = rectGap(p, letterRect(t, c)); if (g < gap) { gap = g; best = t; } }
+      return best;
+    };
+    // a point of the ink picture as a place on the page, in %
+    const onPage = (t, [x, y]) => { const [bx, by, bw, bh] = t.dots.box; return [bx + x / t.shape.w * bw, by + y / t.shape.h * bh]; };
+    const toCanvas = (e, c) => { const r = c.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * c.width, (e.clientY - r.top) / r.height * c.height]; };
+
+    // The letter's dots as a picture in one colour, the size of its ink box.
+    const tinted = (t, colour) => {
+      const o = document.createElement('canvas');
+      o.width = t.img.naturalWidth; o.height = t.img.naturalHeight;
+      const x = o.getContext('2d');
+      x.drawImage(t.img, 0, 0);
+      x.globalCompositeOperation = 'source-in';
+      x.fillStyle = colour;
+      x.fillRect(0, 0, o.width, o.height);
+      return o;
+    };
+
+    // Urdu uses the book's printed start-dot. Latin letters retain their known pen-stroke start.
+    function startOf(t) {
+      if (t.startInk) return t.startInk;
+      const s = t.shape, g = t.m.glyph !== 'ur' && penOf(t.m);
+      let far;
+      if (g) {
+        const [u, v] = g.match(/^M([-\d.]+) ([-\d.]+)/).slice(1).map(Number);
+        const want = [(u * 2 / 3 + 1 / 6) * s.w, (v * 2 / 3 + 1 / 6) * s.h];   // letter box -> ink box
+        far = p => Math.hypot(p[0] - want[0], p[1] - want[1]);
+      } else {
+        far = p => p[1] / s.h - (book.rtl ? p[0] : -p[0]) / s.w * .6;
+      }
+      return s.middle.reduce((a, b) => (far(b) < far(a) ? b : a));
+    }
+
+    function addCircle(t) {
+      const [x, y] = onPage(t, startOf(t));
+      const circle = el('button', { class: 'trace-start', style: `left:${x}%;top:${y}%`, 'aria-label': 'Start this letter' });
+      // touch the circle and carry on drawing from it
+      circle.addEventListener('pointerdown', e => {
+        e.preventDefault(); e.stopPropagation();
+        const c = canvas();
+        if (!c) return;
+        // Small letters sit close together, so a circle can cover the edge of the letter being written
+        // (the top of H's right stem lies under h's circle). There, keep writing that letter.
+        const p = toCanvas(e, c), keep = active && !active.done && active !== t && letterAt(p, c) === active;
+        // Circles can overlap too (the top of the 1 in "17" lies under the 7's circle): start the letter
+        // whose start point is nearest the finger, not whichever circle happens to be on top.
+        const near = keep ? active : targets.filter(o => o.circle && !o.done).reduce((best, o) => {
+          const r = o.circle.getBoundingClientRect(), d = Math.hypot(r.left + r.width / 2 - e.clientX, r.top + r.height / 2 - e.clientY);
+          return !best || d < best.d ? { o, d } : best;
+        }, null)?.o || t;
+        if (near.done) return;
+        if (!keep) pick(near);
+        circle.setPointerCapture?.(e.pointerId);
+        begin(near, p, c);
+      });
+      circle.addEventListener('pointermove', e => { const c = canvas(); if (painting && c) paintTo(toCanvas(e, c), c); });
+      circle.addEventListener('pointerup', () => { const c = canvas(); if (c) up(c); });
+      circle.addEventListener('pointercancel', () => { const c = canvas(); if (c) up(c); });
+      t.circle = circle;
+      layer.append(circle);
+    }
+
+    function pick(t) {
+      if (active === t) return;
+      active?.circle?.classList.remove('on');
+      active = t;
+      t.circle?.classList.add('on');
+      layer.classList.add('busy');
+      clearHint();
+      markNext();
+      chime('tick');
+    }
+
+    // Gently point the child back to the circle they should touch.
+    function nudge(t, talk) {
+      const c = t?.circle;
+      if (!c) return;
+      c.classList.remove('nudge'); void c.offsetWidth; c.classList.add('nudge');
+      if (talk) speak('', SAY[lang].tap, null, said);
+    }
+
+    function begin(t, p, c) {
+      if (!t.tint || t.tint.colour !== brush.color) { t.tint = tinted(t, brush.color); t.tint.colour = brush.color; }
+      painting = { t, last: p };
+      paintAt(t, p, c);
+    }
+
+    // Colour the letter around the finger: only the letter's own ink, never anything beside it.
+    function paintAt(t, p, c) {
+      const s = t.shape, [x0, y0, w, h] = inkRect(t, c), sx = w / s.w, sy = h / s.h;
+      const q = [(p[0] - x0) / sx, (p[1] - y0) / sy];
+      if (inkDistance(s, q) > Math.max(s.half * 4, s.h * .14)) return;     // too far from the letter to count
+      const r = Math.max(s.half * 3, s.h * .1);                          // a wide brush, so small hands get it all
+      lx.save();
+      lx.beginPath();
+      lx.ellipse(p[0], p[1], r * sx, r * sy, 0, 0, Math.PI * 2);
+      lx.clip();
+      lx.drawImage(t.tint, x0, y0, w, h);
+      lx.restore();
+      cover(s, t.covered, q, r);
+    }
+
+    function paintTo(p, c) {
+      const { t, last } = painting, [, , w] = inkRect(t, c);
+      // A slow finger moves less than a step per event: keep the last painted point, so the small moves add up
+      // (moving it on every event lost them, and a slowly traced line stayed uncoloured).
+      const steps = evenly([last, p], Math.max(2, w / t.shape.w * t.shape.half)).slice(1);
+      steps.forEach(q => paintAt(t, q, c));
+      if (steps.length) painting.last = steps[steps.length - 1];
+      if (finished(t.shape, t.covered)) complete(t, c);
+    }
+
+    function up(c) {
+      if (!painting) return;
+      const { t } = painting;
+      painting = null;
+      // on lifting the finger the test is easier: a letter mostly written is finished and its gaps filled in
+      if (!t.done && nearlyFinished(t.shape, t.covered)) complete(t, c);
+      saveLetters();
+      scheduleHint();
+    }
+
+    function showScore() {
+      const n = targets.filter(t => t.done).length;
+      score.hidden = n === 0;
+      score.textContent = `⭐ ${n} / ${targets.length}`;
+    }
+
+    function star(t) {
+      const [x, y, w] = t.m.box;
+      t.badge = el('div', { class: 'trace-badge good', style: `left:${x + w / 2}%;top:${y}%` }, '⭐');
+      layer.append(t.badge);
+    }
+
+    function complete(t, c, quiet = false) {
+      if (t.done) return;
+      t.done = true;
+      painting = null;
+      finishedHere.add(t.i);
+      if (c && t.tint) { lx.drawImage(t.tint, ...inkRect(t, c)); saveLetters(); }   // fill in any corner the finger missed
+      t.circle?.remove(); t.circle = null;
+      if (active === t) { active = null; layer.classList.remove('busy'); }
+      star(t);
+      showScore();
+      if (quiet) return;
+      if (targets.every(o => o.done) && !cheered) {
+        cheered = true;
+        chime('done');
+        layer.append(el('div', { class: 'trace-badge done' }, ALL_DONE[lang]));
+        layer.append(el('div', { class: 'trace-party' }, ...'⭐🎉🌟✨⭐🎈🌟🎉'.match(/\p{Extended_Pictographic}/gu).map((s, k) => el('span', { style: `--k:${k}` }, s))));
+        speak('', SAY[lang].done, null, said);
+      } else {
+        chime('good');
+        const list = PRAISE[lang];
+        speak('', list[Math.floor(Math.random() * list.length)], null, said);
+      }
+    }
+
+    // The letter to do next (the picked one, or the first not done yet) has a ring round its dot.
+    const nextLetter = () => (active && !active.done ? active : targets.find(t => !t.done && t.circle));
+    function markNext() {
+      const next = nextLetter();
+      targets.forEach(t => t.circle?.classList.toggle('next', t === next));
+    }
+
+    // How the letter is written, as pen strokes in order (each a list of places on the page, in %). The hint
+    // pencil follows them, lifting between strokes.
+    //   Letters and numbers: the strokes "Show me how" draws (GLYPHS: 'a' goes round from the top right, then
+    //   down the stick), each point moved onto the middle of the book's dots so the pencil stays on them.
+    //   Urdu: from the printed start-dot, following connected ink, then lifting for separate letter dots.
+    function pathOf(t) {
+      if (t.path) return t.path;
+      const s = t.shape, g = t.m.glyph !== 'ur' && penOf(t.m);
+      const nearest = q => { let b = s.middle[0], d = Infinity; s.middle.forEach(m => { const e = (m[0] - q[0]) ** 2 + (m[1] - q[1]) ** 2; if (e < d) { d = e; b = m; } }); return [b, Math.sqrt(d)]; };
+      let strokes;
+      if (g) {
+        strokes = glyphStrokes(g).map(line => line.map(([u, v]) => {
+          const q = [(u * 2 / 3 + 1 / 6) * s.w, (v * 2 / 3 + 1 / 6) * s.h];      // letter box -> ink box
+          const [m, d] = nearest(q);
+          return d < s.h * .12 ? m : q;
+        }));
+      } else {
+        strokes = orderedInkStrokes(s, startOf(t));
+      }
+      return (t.path = strokes.filter(l => l.length).map(l => l.map(p => onPage(t, p))));
+    }
+
+    // The hint: after a few quiet seconds the next letter's ring pulses and a pencil shows how to write it,
+    // starting at the start dot.
+    function clearHint() {
+      if (hintTimer) { clearTimeout(hintTimer); hintTimer = null; }
+      hand?.remove(); hand = null;
+      layer.querySelectorAll('.trace-start.hint').forEach(b => b.classList.remove('hint'));
+    }
+    function scheduleHint(wait = 3000) {
+      clearHint();
+      markNext();
+      hintTimer = schedule(() => {
+        hintTimer = null;
+        const next = nextLetter();
+        if (!next?.circle || painting) return;
+        next.circle.classList.add('hint');
+        const strokes = pathOf(next), first = strokes[0][0];
+        hand = el('div', { class: 'trace-hint' });
+        const pencil = el('div', { class: 'trace-pencil', style: `left:${first[0]}%;top:${first[1]}%` }, '✏️');
+        hand.append(pencil);
+        layer.append(hand);
+        // Move at an even speed along each stroke (the page's height is width / ratio). Between strokes the
+        // pencil lifts: it fades out, moves to the next stroke's start, and fades in. Then it rests a moment.
+        const ratio = book.ratio || 0.75, LIFT = 4;      // a lift takes as long as drawing 4% of the page
+        const pts = [];                                   // [x, y, distance so far, shown]
+        let run = 0;
+        strokes.forEach((line, n) => {
+          if (n) { const [px, py] = pts[pts.length - 1]; pts.push([px, py, run += .01, 0]); pts.push([line[0][0], line[0][1], run += LIFT, 0]); }
+          line.forEach((p, k) => {
+            if (k) run += Math.hypot(p[0] - line[k - 1][0], (p[1] - line[k - 1][1]) / ratio);
+            pts.push([p[0], p[1], n && !k ? run += .01 : run, 1]);
+          });
+          if (line.length === 1) pts.push([line[0][0], line[0][1], run += 1.5, 1]);
+        });
+        const total = run || 1;
+        const frames = pts.map(([x, y, d, shown]) => ({ left: x + '%', top: y + '%', opacity: shown, offset: d / total * .8 }));
+        frames.push({ ...frames[frames.length - 1], offset: 1 });
+        pencil.animate?.(frames, { duration: Math.max(2600, total * 120), iterations: Infinity, easing: 'linear' });
+      }, wait);
+    }
+
+    // Load each letter's dots; letters already done on this page keep their star.
+    let loaded = 0;
+    let startsReady = false;
+    function prepareStarts() {
+      if (startsReady || loaded !== targets.length) return;
+      const pageImage = sheet.querySelector('img.page-bg');
+      if (book.rtl && pageImage && !pageImage.complete) {
+        pageImage.addEventListener('load', prepareStarts, { once: true });
+        pageImage.addEventListener('error', prepareStarts, { once: true });
+        return;
+      }
+      startsReady = true;
+      if (book.rtl) {
+        const pixels = pageImage && pixelsOf(pageImage);
+        if (pixels) for (const t of targets.filter(target => target.m.dots)) {
+          const [x, y, w, h] = t.dots.box;
+          const start = printedTraceStart(pixels.data, pixels.w, pixels.h, [x / 100 * pixels.w, y / 100 * pixels.h, w / 100 * pixels.w, h / 100 * pixels.h]);
+          if (start) t.startInk = [(start[0] / pixels.w * 100 - x) / w * t.shape.w, (start[1] / pixels.h * 100 - y) / h * t.shape.h];
+        }
+        const reference = targets.find(t => t.m.dots && t.startInk);
+        if (reference) {
+          const bounds = t => {
+            const xs = t.shape.middle.map(point => point[0]), ys = t.shape.middle.map(point => point[1]);
+            return [Math.min(...xs), Math.min(...ys), Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys)];
+          };
+          const [x, y, w, h] = bounds(reference), u = (reference.startInk[0] - x) / (w || 1), v = (reference.startInk[1] - y) / (h || 1);
+          for (const t of targets.filter(target => !target.m.dots)) {
+            const [a, b, width, height] = bounds(t), want = [a + u * width, b + v * height];
+            t.startInk = t.shape.middle.reduce((best, point) => Math.hypot(point[0] - want[0], point[1] - want[1]) < Math.hypot(best[0] - want[0], best[1] - want[1]) ? point : best);
+          }
+        }
+      }
+      targets.forEach(t => { if (finishedHere.has(t.i)) complete(t, null, true); else addCircle(t); });
+      scheduleHint(1500);
+    }
+    targets.forEach(t => {
+      const im = new Image();
+      im.onload = () => {
+        const w = im.naturalWidth, h = im.naturalHeight, cv = document.createElement('canvas');
+        cv.width = w; cv.height = h;
+        const cx = cv.getContext('2d');
+        cx.drawImage(im, 0, 0);
+        const px = cx.getImageData(0, 0, w, h).data, alpha = new Uint8Array(w * h);
+        for (let i = 0; i < alpha.length; i++) alpha[i] = px[i * 4 + 3];
+        t.shape = inkShape(alpha, w, h);
+        t.img = im;
+        t.covered = new Uint8Array(t.shape.middle.length);
+        loaded++;
+        prepareStarts();
+      };
+      im.src = t.dots.src;
+    });
+
+    return {
+      // The canvas asks what to do with a touch: 'own' (the letter being traced takes it), 'block' (nothing
+      // is drawn) or 'free' (ordinary drawing, like colouring the picture).
+      down(p, c, erasing) {
+        clearHint();
+        const t = letterAt(p, c);
+        if (erasing) return t ? 'block' : 'free';
+        if (active) {
+          // on the letter, or just beside it (the colour still only lands on the letter)
+          if (t === active || rectGap(p, letterRect(active, c)) < inkRect(active, c)[3] * .25) { begin(active, p, c); return 'own'; }
+          nudge(active, false);
+          scheduleHint();
+          return 'block';
+        }
+        if (t) { if (!t.done) nudge(t, true); scheduleHint(); return 'block'; }
+        return 'free';
+      },
+      move(p, c) { if (painting) paintTo(p, c); },
+      up,
+      reset() {
+        clearHint();
+        painting = null; active = null; cheered = false;
+        finishedHere.clear();
+        lx.clearRect(0, 0, letters.width, letters.height);
+        delete drawings[lettersKey];
+        layer.replaceChildren();
+        layer.classList.remove('busy');
+        targets.forEach(t => {
+          t.done = false; t.badge = null; t.circle = null;
+          if (t.shape) { t.covered.fill(0); addCircle(t); }
+        });
+        showScore();
+        scheduleHint();
+      }
+    };
+  }
+
+  /* ---------- reader ---------- */
+  function showReader(book, startSpread, intro) {
+    document.title = book.title + ' — Maxford Global';
+    editMode = false;
+    const spreads = Math.ceil(book.pages.length / 2);
+    const ratio = book.ratio || 0.75;
+    const lessons = !readerBook ? englishLessons(book) : [];
+    const rhymes = !readerBook ? bookRhymes(book) : [];
+    const urduDock = !!book.rtl;   // an Urdu book: its rhyme list is in Urdu
+    let currentLesson = lessons[0];
+    const lessonView = el('section', { class: 'english-lesson', hidden: true, 'aria-label': 'Letter learning' });
+    const letterButtons = [];
+    const stopLessonVideo = () => lessonView.querySelectorAll('iframe').forEach(frame => frame.remove());
+    function openRhymes(event) {
+      if (R?.book !== book || R.busy) return;
+      const trigger = event.currentTarget;
+      const headingId = `rhymes-${book.id}`;
+      const pageNumber = number => urduDock ? String(number).replace(/\d/g, digit => '۰۱۲۳۴۵۶۷۸۹'[Number(digit)]) : String(number);
+      const list = el('div', { class: 'rhyme-list' }, rhymes.map(rhyme => {
+        const current = rhymeSpread(rhyme.page) === R.spread;
+        return el('button', { type: 'button', class: 'rhyme-choice', 'aria-current': current ? 'page' : null, onclick: () => {
+          if (R?.book !== book || R.busy) return;
+          modalEl?.close();
+          stopLessonVideo(); lessonView.hidden = true; root.classList.remove('english-lesson-open');
+          leafTo(rhymeSpread(rhyme.page));
+        } }, el('span', { class: 'rhyme-note', 'aria-hidden': 'true' }, el('img', { src: book.pages[rhyme.page - 1].img, alt: '', loading: 'lazy' })),
+        el('span', { class: 'rhyme-copy' }, el('b', {}, rhyme.title),
+          el('small', {}, `${urduDock ? 'صفحہ' : 'Page'} ${pageNumber(rhyme.printedPage)}`)),
+        current && el('span', { class: 'rhyme-current' }, urduDock ? 'کھلا ہے' : 'Open'));
+      }));
+      const card = el('div', { class: 'modal-card rhyme-popup', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': headingId, dir: urduDock ? 'rtl' : 'ltr', lang: urduDock ? 'ur' : 'en', tabindex: '-1' },
+        el('h3', { id: headingId }, urduDock ? 'نظمیں' : 'Rhymes'),
+        el('p', { class: 'rhyme-intro' }, urduDock ? 'نظم منتخب کریں، کتاب اسی صفحے پر کھل جائے گی۔' : 'Choose a rhyme to open its page in the book.'), list);
+      card.addEventListener('keydown', event => {
+        if (event.key !== 'Tab') return;
+        const controls = [...card.querySelectorAll('button')];
+        const first = controls[0], last = controls.at(-1);
+        if (event.shiftKey && (document.activeElement === first || document.activeElement === card)) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      });
+      modal(card, () => trigger.isConnected && trigger.focus({ preventScroll: true }));
+      const close = card.querySelector('.modal-x');
+      close.setAttribute('aria-label', urduDock ? 'بند کریں' : 'Close rhymes');
+      close.title = urduDock ? 'بند کریں' : 'Close rhymes';
+      list.querySelector('button')?.focus({ preventScroll: true });
+    }
+    const closeLesson = (fromHistory = false) => {
+      stopLessonVideo();
+      lessonView.hidden = true;
+      root.classList.remove('english-lesson-open');
+      letterButtons.find(button => button.dataset.letter === currentLesson?.key)?.focus();
+      if (fromHistory !== true) lessonHistory.close();
+    };
+    // "Letter" or "Number", and whether the words in a lesson begin with it
+    const kindOf = lesson => lesson.kind || 'Letter', isLetter = lesson => kindOf(lesson) === 'Letter';
+    const lessonCount = lessons.length;
+    const rail = (items, label) => el('nav', { class: 'english-letter-rail', 'aria-label': label },
+      el('small', {}, label), items.map(lesson => {
+        // a letter opens its page in the book; the Activity button on that page opens the letter lesson
+        const button = el('button', { class: 'english-letter' + (lesson.big.length > 2 ? ' long' : ''), 'data-letter': lesson.key, 'aria-label': `Open ${kindOf(lesson).toLowerCase()} ${lesson.name} page`, onclick: () => { if (!R?.busy) leafTo(Math.floor((lesson.page - 1) / 2)); } },
+          el('b', {}, lesson.big), lesson.small && el('span', {}, lesson.small));
+        letterButtons.push(button);
+        return button;
+      }));
+    const action = (title, description, icon, colour, work) => el('button', { class: 'english-activity', onclick: work },
+      el('span', { class: 'english-activity-icon', style: `--tile:${colour[0]};--tile-ink:${colour[1]}`, html: icon }),
+      el('span', { class: 'english-activity-copy' }, el('b', {}, title), el('small', {}, description)), el('span', { html: I.right }));
+    const videoFor = (lesson, label) => lesson.videos.find(activity => (activity.label || '').toLowerCase() === label);
+    function watchLesson(lesson, label = 'story') {
+      const video = videoFor(lesson, label);
+      if (video?.videos?.length) openVideos(video.title, video.videos);
+      else if (lesson.story) openStory(book, lesson.page - 1, lesson.story);
+      else speak(`${kindOf(lesson)} ${lesson.name}`, `${lesson.name}. ${lesson.words.map(word => isLetter(lesson) ? `${word} begins with ${lesson.small || lesson.name}.` : `${word}.`).join(' ')}`);
+    }
+    function openDrawing(lesson) {
+      const key = `${book.id}:letter:${lesson.key}:drawing`, previousBrush = { ...brush };
+      const board = el('div', { class: 'english-drawing-board' });
+      const createCanvas = () => inkCanvas({ ...book, ratio: 1 }, { w: 100, h: 70 }, key);
+      const drawingTools = drawTools(() => { delete drawings[key]; board.replaceChildren(createCanvas()); }, ['#e63946', '#f9c74f', '#43aa8b', '#4aa3df', '#7b5ea7', '#222222']);
+      drawingTools.hidden = false;
+      board.append(createCanvas());
+      modal(el('div', { class: 'modal-card english-drawing-card' }, el('h3', {}, `Draw with ${lesson.name}`),
+        el('p', {}, `Can you draw ${lesson.words[0] ? `a picture of ${lesson.words[0]}` : isLetter(lesson) ? `something beginning with ${lesson.name}` : `${lesson.name} things`}? Pick a colour and make it yours.`), board, drawingTools),
+      () => Object.assign(brush, previousBrush));
+    }
+    function selectLesson(lesson, fromHistory = false) {
+      if (R?.busy) return;
+      if (editMode) { editMode = false; root.classList.remove('edit'); editBtn.classList.remove('on'); }
+      show(Math.floor((lesson.page - 1) / 2));
+      currentLesson = lesson;
+      root.classList.add('english-lesson-open');
+      lessonView.hidden = false;
+      if (!fromHistory && !readerBook) lessonHistory.open(book.id, lesson.key, link(book, Math.floor((lesson.page - 1) / 2) * 2 + 1));
+      letterButtons.forEach(button => button.setAttribute('aria-current', String(button.dataset.letter === lesson.key)));
+      const trace = () => openFocus(book, lesson.tracePage - 1, right.querySelector('.page'), true);
+      const kind = kindOf(lesson), letter = isLetter(lesson);
+      const activities = el('div', { class: 'english-lesson-actions' },
+        videoFor(lesson, 'story') && action('Story', `Watch the story of ${lesson.name}.`, I.play, ['#ffe3ec', '#c2456f'], () => watchLesson(lesson, 'story')),
+        action('Listen & learn', letter ? `Hear the sound and discover ${lesson.name} words.` : `Hear and learn the number ${lesson.name}.`, I.speaker, ['#e6edcf', '#658334'], () => watchLesson(lesson, 'vocabulary')),
+        videoFor(lesson, 'formation') && action(`How to write ${lesson.name}`, 'Watch how it is written, step by step.', I.pen, ['#e4e9fb', '#4b5fb0'], () => watchLesson(lesson, 'formation')),
+        lesson.game && action('Find the pictures', lesson.words.length ? `Look for ${lesson.words.slice(0, 2).join(', ')} and more.` : 'Find the right pictures on the page.', '&#10022;', ['#fff0c4', '#b78322'], () => openGame(book, ((book.pages[lesson.page - 1]?.acts || []).includes(lesson.game) ? lesson.page : lesson.tracePage) - 1, lesson.game)),
+        lesson.trace && action(`Trace ${lesson.name}`, 'Follow the dots, then colour the picture.', I.pen, ['#deedf3', '#427f94'], trace),
+        action('Drawing time', 'A fresh canvas for your own ideas.', I.pen, ['#f7e3dc', '#b76b4b'], () => openDrawing(lesson)),
+        videoFor(lesson, 'phonic poem') && action('Phonic poem', 'Listen, repeat and sing along.', I.play, ['#ece3f3', '#8a63a0'], () => watchLesson(lesson, 'phonic poem')));
+      lessonView.replaceChildren(
+        el('div', { class: 'english-lesson-top' }, el('button', { class: 'english-back', onclick: closeLesson, html: I.left + '<span>Back to book</span>' }), el('span', {}, `${(lesson.subject || 'English').toUpperCase()} / ${kind.toUpperCase()} EXPLORER`)),
+        el('div', { class: 'english-lesson-heading' }, el('small', {}, `${kind.toUpperCase()} ${lesson.name} / ${lessons.indexOf(lesson) + 1} OF ${lessonCount}`),
+          el('h1', { tabindex: '-1' }, `A little adventure with ${lesson.name}`), el('p', {}, 'Watch a story. Find a picture. Make your mark.')),
+        el('div', { class: 'english-lesson-grid' }, el('div', {},
+          lesson.lessonVideo
+            ? el('div', { class: 'english-lesson-video' },
+              el('iframe', { src: `https://www.youtube.com/embed/${lesson.lessonVideo.id}?rel=0&playsinline=1`, title: lesson.lessonVideo.title || `${kind} ${lesson.name} lesson video`, allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share', allowfullscreen: true, referrerpolicy: 'strict-origin-when-cross-origin' }),
+              el('p', {}, `${kind} ${lesson.name} · Watch the full lesson`))
+            : el('div', { class: 'english-video-unavailable' }, el('b', {}, `${kind} ${lesson.name}`), el('p', {}, `The lesson video is not available for this ${kind.toLowerCase()} yet.`)),
+          el('div', { class: 'english-word-list', 'aria-label': 'Listen to a word' }, lesson.words.map(word => el('button', { onclick: () => speak(word, letter ? `${word}. ${word} begins with ${lesson.small || lesson.name}.` : `${word}.`) }, word)))),
+        el('div', {}, activities, el('p', { class: 'english-lesson-note' }, 'Explore at your own pace. A little practice, every day.'))));
+      lessonView.scrollTop = 0;
+      lessonView.querySelector('h1')?.focus({ preventScroll: true });
+    }
+
+    const left = el('div', { class: 'slot left' }), right = el('div', { class: 'slot right' });
+    // Urdu books open from the right: the earlier page of a spread is on the right, and pages turn the other way.
+    const rtl = !!book.rtl, L = s => s * 2 + (rtl ? 1 : 0), Rt = s => s * 2 + (rtl ? 0 : 1);
+    const bookEl = el('div', { class: 'book' + (rtl ? ' rtl' : ''), style: `--ratio:${ratio};aspect-ratio:${ratio * 2};--c1:${book.c2 || '#1f2d3d'}` }, left, right);
+    // English 3+: a big Activity button at the foot of a letter's pages opens that letter's lesson
+    const activityBtn = lessons.length && el('button', { class: 'book-activity', hidden: true, onclick: () => { if (!R?.busy) selectLesson(currentLesson); }, html: I.play + '<span>Activity</span>' });
+    if (activityBtn) bookEl.append(activityBtn);
+    const label = el('span', { class: 'r-pages' });
+    const mobileActions = el('div', { class: 'reader-mobile-actions', role: 'toolbar', 'aria-label': 'Page activities' });
+    const slider = el('input', { type: 'range', min: 0, max: spreads - 1, step: 1, 'aria-label': 'Go to pages', oninput: e => show(+e.target.value) });
+    // the button on the left goes back in a left-to-right book and forward in a right-to-left one
+    const prev = el('button', { class: 'nav prev', title: rtl ? 'Next pages' : 'Previous pages', html: I.left, onclick: () => flip(rtl ? 1 : -1) });
+    const next = el('button', { class: 'nav next', title: rtl ? 'Previous pages' : 'Next pages', html: I.right, onclick: () => flip(rtl ? -1 : 1) });
+    const tools = drawTools(() => {
+      [0, 1].forEach(k => (pageOf(book, R.spread * 2 + k)?.zones || []).forEach(z => delete drawings[`${book.id}:${R.spread * 2 + k}:${z.id}`]));
+      show(R.spread);
+    });
+    const editBtn = el('button', { class: 'btn ghost', title: 'Mark stories, videos and fill areas on the pages', html: I.pen + '<span class="hide-sm">Publisher mode</span>' });
+    editBtn.addEventListener('click', () => {
+      editMode = !editMode;
+      root.classList.toggle('edit', editMode);
+      editBtn.classList.toggle('on', editMode);
+      stopSpeak(); closeMenu();
+      show(R.spread);
+      if (editMode) toast('Publisher mode: drag a box on a page to add a section. Click a box to edit it.', 5000);
+    });
+
+    const stage = el('div', { class: 'rstage' }, prev, el('div', { class: 'book-wrap' }, bookEl), next);
+    // Two side rails split the lessons in half, each titled with its first and last (A – M, N – Z, 1 – 10 ...).
+    // An Urdu book reads from the right, so its first half is on the right.
+    const half = Math.ceil(lessons.length / 2), railOf = list => list.length && rail(list, `${list[0].big} – ${list[list.length - 1].big}`);
+    const [firstRail, secondRail] = rtl ? [railOf(lessons.slice(half)), railOf(lessons.slice(0, half))] : [railOf(lessons.slice(0, half)), railOf(lessons.slice(half))];
+    const englishLayout = lessons.length && el('div', { class: 'english-reader-layout' }, firstRail,
+      el('div', { class: 'english-reader-center' }, stage, lessonView,
+        el('div', { class: 'english-reader-dock', role: 'toolbar', 'aria-label': urduDock ? 'حروف کی سرگرمیاں' : 'Letter activities', dir: urduDock ? 'rtl' : null, lang: urduDock ? 'ur' : null },
+          el('button', { onclick: () => selectLesson(currentLesson), html: I.speaker + `<span>${urduDock ? 'حرف کا سبق' : `${kindOf(lessons[0] || {})} lesson`}</span>` }),
+          el('button', { onclick: () => watchLesson(currentLesson), html: I.play + `<span>${urduDock ? 'کہانی' : 'Story'}</span>` }),
+          el('button', { onclick: () => { selectLesson(currentLesson); openFocus(book, currentLesson.tracePage - 1, right.querySelector('.page'), true); }, html: I.pen + `<span>${urduDock ? 'لکھائی اور رنگ' : 'Trace & colour'}</span>` }),
+          el('button', { onclick: () => openDrawing(currentLesson), html: I.pen + `<span>${urduDock ? 'تصویر بنائیں' : 'Drawing pad'}</span>` }),
+          rhymes.length > 0 && el('button', { type: 'button', class: 'reader-rhymes-button', lang: 'en', dir: 'ltr', 'aria-haspopup': 'dialog', onclick: openRhymes }, el('span', { 'aria-hidden': 'true' }, '♫'), el('span', {}, 'Rhymes')))),
+      secondRail);
+    const root = el('div', { class: 'reader' + (lessons.length ? ' english-learning' : '') },
+      el('div', { class: 'rbar' },
+        readerBook ? el('button', { class: 'btn ghost', onclick: () => readerOptions.onClose?.(), html: I.left + '<span>Back to upload</span>' }) : el('a', { class: 'btn ghost', href: libraryHref || `#/series/${seriesOf(book).id}`, html: I.left + '<span>Library</span>' }),
+        el('button', { class: 'btn ghost hide-sm', onclick: () => R.close() }, 'Close book'),
+        el('b', {}, book.title),
+        el('span', { class: 'grow' }),
+        label, !readerBook && editBtn,
+        el('button', { class: 'btn ghost hide-sm', onclick: () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.() }, 'Full screen')),
+      englishLayout || stage,
+      mobileActions,
+      el('div', { class: 'rfoot' }, slider, tools));
+    app.replaceChildren(root);
+
+    function after() {
+      const s = R.spread, a = s * 2 + 1, b = Math.min(a + 1, book.pages.length);
+      label.textContent = (a === b ? `Page ${a}` : `Pages ${a}–${b}`) + ` of ${book.pages.length}`;
+      slider.value = s;
+      if (lessons.length) {
+        const spreadOf = page => Math.floor((page - 1) / 2);
+        const here = lessons.find(lesson => spreadOf(lesson.page) === s) || lessons.find(lesson => spreadOf(lesson.tracePage) === s);
+        currentLesson = here || currentLesson;
+        activityBtn.hidden = !here || editMode;
+        if (here) activityBtn.setAttribute('aria-label', `Activity for letter ${here.letter.toUpperCase()}${here.letter}`);
+        letterButtons.forEach(button => button.setAttribute('aria-current', String(button.dataset.letter === currentLesson.key)));
+      }
+      (rtl ? next : prev).disabled = s === 0;
+      (rtl ? prev : next).disabled = s >= spreads - 1;
+      const hasFill = [0, 1].some(k => (pageOf(book, s * 2 + k)?.zones || []).some(z => z.type === 'fill'));
+      tools.hidden = !hasFill || editMode;
+      mobileActions.replaceChildren();
+      [s * 2, s * 2 + 1].forEach(idx => {
+        const page = pageOf(book, idx);
+        if (!page) return;
+        const group = el('div', { class: 'reader-mobile-group' }, el('small', {}, `Page ${idx + 1}`));
+        const button = (name, work) => group.append(el('button', { class: 'reader-mobile-action', disabled: editMode, 'aria-label': `Page ${idx + 1}: ${name}`, onclick: () => { if (R?.book !== book || R.busy) return; if (readerBook) selectReaderPage(idx + 1); work(); } }, name));
+        const zoom = () => openFocus(book, idx, (idx === L(s) ? left : right).querySelector('.page'), true);
+        button('Write / Colour', zoom);
+        if (page.text || book.dir || book.text) button('Listen', () => pageText(book).then(pages => {
+          if (R?.book !== book || R.spread !== s || !root.isConnected) return;
+          const text = (pages[idx] || []).map(block => block[4]).filter(text => /\p{L}/u.test(text)).join('. ');
+          if (text) speak(`Page ${idx + 1}`, text); else toast('This page has no readable text.');
+        }));
+        if (page.qr) button('Watch video', () => playVideo(book, idx, { id: 'page' }));
+        (page.acts || []).forEach(activity => {
+          if (activity.type === 'game') button(activity.label || 'Play', () => openGame(book, idx, activity));
+          else if (activity.type === 'story') button(activity.label || 'Story', () => openStory(book, idx, activity));
+          else if (activity.type === 'videos') button(activity.label || 'Videos', () => openVideos(activity.title, activity.videos));
+        });
+        (page.linkedActivities || []).forEach(activity => button(activity.title, () => readerOptions.onActivity?.(activity, idx + 1)));
+        mobileActions.append(group);
+      });
+      // Keep the address in step with the pages, but leave a video deep link alone.
+      if (readerBook) {
+        if (selectedReaderPage < a || selectedReaderPage > b) selectedReaderPage = a;
+        onPositionChange?.(book.id, selectedReaderPage);
+      } else {
+        const h = parseHash();
+        if (!(h.video && Math.floor((h.page - 1) / 2) === s)) history.replaceState(history.state, '', link(book, a));
+        onPositionChange?.(book.id, a);
+      }
+      // Fetch the neighbouring spreads now so the next page turn has its pictures ready.
+      [-2, -1, 2, 3].forEach(k => { const p = pageOf(book, s * 2 + k); if (p?.img) new Image().src = p.img; });
+    }
+
+    function show(s) {
+      if (R.busy) return;
+      stopLessonVideo();
+      lessonView.hidden = true;
+      root.classList.remove('english-lesson-open');
+      closeFocus(false); closeGame(); closeStory(); closeModal();
+      stopSpeak(); closeMenu();
+      R.spread = clamp(s, 0, spreads - 1);
+      left.replaceChildren(renderPage(book, L(R.spread), true));
+      right.replaceChildren(renderPage(book, Rt(R.spread), true));
+      after();
+    }
+
+    // A finger swiped across the book turns the page, like a real one. On an upright phone the book lies on
+    // its side, so the swipe runs along the phone's length.
+    let touch = null, swipedAt = 0;
+    bookEl.addEventListener('touchstart', e => {
+      touch = e.touches.length === 1 ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null;
+    }, { passive: true });
+    bookEl.addEventListener('touchend', e => {
+      if (!touch || editMode) return;
+      const t = e.changedTouches[0], dx = t.clientX - touch.x, dy = t.clientY - touch.y;
+      touch = null;
+      const sideways = matchMedia('(orientation: portrait) and (max-width: 820px)').matches;
+      const along = sideways ? dy : dx, across = sideways ? dx : dy;
+      if (Math.abs(along) < 40 || Math.abs(along) < Math.abs(across) * 1.2) return;
+      swipedAt = Date.now();
+      // the finger moving towards the book's left goes on in an English book, back in an Urdu one
+      flip((along < 0) !== rtl ? 1 : -1);
+    });
+    // a swipe is not a tap: it must not also open the page it started on
+    bookEl.addEventListener('click', e => { if (Date.now() - swipedAt < 500) { e.stopPropagation(); e.preventDefault(); } }, true);
+
+    // One sheet turns over the spine: its front is the page leaving, its back the page arriving.
+    function flip(dir) {
+      const s = R.spread, t = s + dir;
+      if (R.busy || t < 0 || t >= spreads) return;
+      R.busy = true;
+      stopSpeak(); closeMenu();
+      pageSound();
+      // the Activity button is not shown while a page turns over it; it comes back on the new pages (after)
+      if (activityBtn) activityBtn.hidden = true;
+      // fwd: the right-hand sheet turns over to the left (going on in an English book, back in an Urdu one)
+      const fwd = (dir > 0) !== rtl;
+      const sheet = el('div', { class: 'flipper ' + (fwd ? 'fwd' : 'back') },
+        el('div', { class: 'ff' }, renderPage(book, fwd ? Rt(s) : L(s), false)),
+        el('div', { class: 'ff rev' }, renderPage(book, fwd ? L(t) : Rt(t), false)));
+      bookEl.append(sheet);
+      (fwd ? right : left).replaceChildren(renderPage(book, fwd ? Rt(t) : L(t), true));
+      sheet.getBoundingClientRect();
+      sheet.classList.add('go');
+      const reader = R;
+      schedule(() => {
+        if (R !== reader) { sheet.remove(); return; }
+        (fwd ? left : right).replaceChildren(renderPage(book, fwd ? L(t) : Rt(t), true));
+        sheet.remove();
+        R.spread = t;
+        R.busy = false;
+        after();
+      }, 830);
+    }
+
+    // Go to spread t with one page turn, like opening the book at a chapter.
+    function leafTo(t) {
+      t = clamp(t, 0, spreads - 1);
+      if (R.busy || t === R.spread) return;
+      if (Math.abs(t - R.spread) === 1) return flip(t - R.spread);
+      stopLessonVideo(); lessonView.hidden = true; root.classList.remove('english-lesson-open');
+      closeFocus(false); closeGame(); closeStory(); closeModal();
+      if (activityBtn) activityBtn.hidden = true;  // back when the letter's page is reached (after)
+      // Only one sheet is seen turning: the pages before it are skipped, and it lands on the letter's page.
+      const dir = Math.sign(t - R.spread);
+      R.spread = t - dir;
+      left.replaceChildren(renderPage(book, L(R.spread), false));
+      right.replaceChildren(renderPage(book, Rt(R.spread), false));
+      flip(dir);
+    }
+
+    // The front cover as a sheet hinged on the spine: cover outside, the current left page inside.
+    function coverSheet() {
+      const src = (book.frontCover && book.cover) || book.pages[0]?.img || book.cover;
+      const cover = el('div', { class: 'page cover-pg ' + (rtl ? 'left' : 'right'), style: `--c1:${book.c1 || '#34495e'};--c2:${book.c2 || '#1f2d3d'}` },
+        src ? el('img', { class: 'page-bg', src, alt: '' }) : coverFace(book));
+      return el('div', { class: 'flipper cover-sheet no-anim ' + (rtl ? 'back' : 'fwd') },
+        el('div', { class: 'ff' }, cover),
+        el('div', { class: 'ff rev' }, renderPage(book, rtl ? Rt(R.spread) : L(R.spread), false)));
+    }
+
+    function openBook() {
+      R.busy = true;
+      const reader = R;
+      const sheet = coverSheet();
+      bookEl.classList.add('closed', 'no-anim');
+      (rtl ? right : left).style.visibility = 'hidden';
+      bookEl.append(sheet);
+      sheet.getBoundingClientRect();
+      bookEl.classList.remove('no-anim');
+      sheet.classList.remove('no-anim');
+      schedule(() => {
+        if (R !== reader) { sheet.remove(); return; }
+        bookEl.classList.remove('closed'); sheet.classList.add('go'); pageSound('book-open');
+      }, 350);
+      schedule(() => {
+        if (R !== reader) { sheet.remove(); return; }
+        (rtl ? right : left).style.visibility = ''; sheet.remove(); R.busy = false;
+      }, 1500);
+    }
+
+    function closeBook() {
+      if (R.busy) return;
+      if (!lessonView.hidden) { closeLesson(); return; }
+      R.busy = true;
+      stopSpeak(); closeMenu();
+      pageSound('book-open');
+      const sheet = coverSheet();
+      const reader = R;
+      sheet.classList.add('go');
+      bookEl.append(sheet);
+      (rtl ? right : left).style.visibility = 'hidden';
+      sheet.getBoundingClientRect();
+      sheet.classList.remove('no-anim', 'go');
+      bookEl.classList.add('closed');
+      schedule(() => {
+        if (R === reader) { if (readerBook) readerOptions.onClose?.(); else location.hash = link(book); }
+      }, 1250);
+    }
+
+    if (rtl) slider.style.direction = 'rtl';
+    R = { book, root, spread: 0, busy: false, rtl, show, flip, close: closeBook, closeLesson,
+      restoreLesson: key => { const lesson = lessons.find(item => item.key === key); if (!lesson || R.busy) return false; selectLesson(lesson, true); return true; },
+      stepLesson: direction => selectLesson(lessons[clamp(lessons.indexOf(currentLesson) + direction, 0, lessons.length - 1)]) };
+    show(startSpread);
+    if (intro) openBook();
+  }
+
+  // Recordings of a real book (CC0, "Book Flip Sounds" by Voltiment555 on OpenGameArt).
+  const sounds = {};
+  function pageSound(name = 'page-flip') {
+    try {
+      const a = sounds[name] = sounds[name] || new Audio(`sounds/${name}.wav`);
+      a.volume = 0.6;
+      a.currentTime = 0;
+      a.play().catch(() => {});        // the browser may hold sound back until the first click
+    } catch (e) { /* no sound on this browser; the page still turns */ }
+  }
+  ['page-flip', 'book-open'].forEach(n => { sounds[n] = new Audio(`sounds/${n}.wav`); sounds[n].preload = 'auto'; });
+
+  function drawTools(onClear, only) {
+    const colors = only?.length ? only : [...PALETTE];
+    if (!SIZES.some(([s]) => s === brush.size)) brush.size = SIZES.at(-1)[0];
+    if (!colors.includes(brush.color)) brush.color = colors[0];
+    const wrap = el('div', { class: 'tools', hidden: true }, el('span', { class: 'tools-lbl' }, 'Colour & write'));
+    const sync = () => {
+      app.querySelectorAll('canvas.ink').forEach(canvas => setDrawingCursor(canvas, brush.erase, brush.color));
+      focusEl?.querySelectorAll('canvas.ink').forEach(canvas => setDrawingCursor(canvas, brush.erase, brush.color));
+      wrap.querySelectorAll('button').forEach(b => {
+        b.classList.toggle('on', !!(
+          (b.dataset.c && !brush.erase && b.dataset.c === brush.color) ||
+          (b.dataset.s && +b.dataset.s === brush.size) ||
+          (b.dataset.e && brush.erase)));
+        if (b.dataset.s) b.setAttribute('aria-pressed', String(+b.dataset.s === brush.size));
+      });
+    };
+    const swatch = c => el('button', { class: 'sw', style: `--c:${c}`, 'data-c': c, title: 'Colour', onclick: () => { brush.color = c; brush.erase = false; sync(); } });
+    colors.forEach(c => wrap.append(swatch(c)));
+    const sep = el('i', { class: 'sep' });
+    wrap.append(sep);
+    SIZES.forEach(([s, px, label]) => wrap.append(el('button', { class: 'sz', 'data-s': s, title: `${label} brush`, 'aria-label': `${label} brush`, onclick: () => { brush.size = s; sync(); } }, el('i', { style: `--s:${px}px` }))));
+    wrap.append(el('i', { class: 'sep' }),
+      el('button', { class: 'txt', 'data-e': 1, onclick: () => { brush.erase = !brush.erase; sync(); } }, 'Eraser'),
+      el('button', { class: 'txt', onclick: onClear }, 'Clear'));
+    sync();
+    wrap.sync = sync;
+    // Offer one more colour (one a picture on the page needs). `colors` is the caller's list, so it grows too.
+    wrap.addColour = c => {
+      if (colors.includes(c)) return;
+      colors.push(c);
+      sep.before(swatch(c));
+      sync();
+    };
+    // Offer just these colours (the ones the page needs), in place of the ones shown.
+    wrap.setColours = list => {
+      colors.splice(0, colors.length, ...list);
+      wrap.querySelectorAll('.sw').forEach(b => b.remove());
+      colors.forEach(c => sep.before(swatch(c)));
+      if (!colors.includes(brush.color)) brush.color = colors[0];
+      sync();
+    };
+    return wrap;
+  }
+
+  /* ---------- section menu: Listen / Video / QR ---------- */
+  function closeMenu() {
+    if (!menu) return;
+    menu.m.remove();
+    menu.box.classList.remove('active');
+    menu = null;
+  }
+
+  function openMenu(book, idx, z, box) {
+    closeMenu();
+    box.classList.add('active');
+    const hasVideo = !!ytId(z.video);
+    const m = el('div', { class: 'zmenu' },
+      el('b', {}, z.title || 'Section'),
+      el('button', { disabled: !z.narration, onclick: () => speak(z.title, z.narration), html: I.speaker + '<span>Listen</span>' }),
+      hasVideo && el('button', { onclick: () => playVideo(book, idx, z), html: I.play + '<span>Video</span>' }),
+      el('button', { class: 'x', title: 'Close', onclick: closeMenu, html: I.x }));
+    document.body.append(m);
+    const r = box.getBoundingClientRect(), mr = m.getBoundingClientRect();
+    let top = r.top - mr.height - 10;
+    if (top < 8) top = Math.min(r.top + 10, innerHeight - mr.height - 8);
+    m.style.top = top + 'px';
+    m.style.left = clamp(r.left + r.width / 2 - mr.width / 2, 8, innerWidth - mr.width - 8) + 'px';
+    menu = { m, box };
+  }
+
+  /* ---------- voice ---------- */
+  const synth = window.speechSynthesis;
+  let speakToken = 0, narrEl = null;
+  if (synth) synth.getVoices();              // voices load lazily in Chrome
+
+  function pickVoice(urdu) {
+    if (urdu) {
+      const ur = synth.getVoices().filter(v => /^ur/i.test(v.lang));
+      return ur.find(v => /PK/i.test(v.lang) && /عظمیٰ|Uzma/.test(v.name)) || ur.find(v => /PK/i.test(v.lang)) || ur[0] || null;
+    }
+    const en = synth.getVoices().filter(v => /^en/i.test(v.lang));
+    return ['Google US English', 'Aria', 'Jenny', 'Samantha', 'Zira'].map(n => en.find(v => v.name.includes(n))).find(Boolean) || en[0] || null;
+  }
+
+  function stopSpeak() {
+    speakToken++;
+    if (synth) synth.cancel();
+    if (clip) { clip.onended = clip.onerror = null; clip.pause(); clip = null; }
+    narrEl?.remove();
+    narrEl = null;
+  }
+
+  // Recorded sentences, each loaded once and played again from memory (so short replies come at once).
+  const recordings = new Map();
+  function recording(file) {
+    let a = recordings.get(file);
+    if (!a) { a = new Audio(file); a.preload = 'auto'; recordings.set(file, a); }
+    a.currentTime = 0;
+    return a;
+  }
+  // Load the recordings of these texts now, ready for when they are said.
+  function warmUp(texts) {
+    const rec = window.RECORDED || {};
+    texts.forEach(t => (t.match(/[^.!?۔؟]+[.!?۔؟]*\s*/g) || []).forEach(s => { const f = rec[s.trim()]; if (f) recording(f).load(); }));
+  }
+
+  // Read sentence by sentence (long single utterances get cut off in Chrome) and highlight the spoken word.
+  let clip = null;                           // the recorded sentence playing, if any
+  function speak(title, text, onDone, captionHost) {
+    stopSpeak();
+    const rec = window.RECORDED || {};
+    if (!synth && !(text || '').match(/[^.!?۔؟]+[.!?۔؟]*\s*/g)?.some(s => rec[s.trim()])) return toast('This browser cannot read aloud.');
+    const sentences = (text || '').match(/[^.!?۔؟]+[.!?۔؟]*\s*/g) || [];
+    if (!sentences.length) return;
+    const token = speakToken;
+    let paused = false;
+    const caption = el('div', { class: 'narr-text' });
+    const pauseBtn = el('button', { title: 'Pause', html: I.pause });
+    pauseBtn.addEventListener('click', () => {
+      paused = !paused;
+      if (clip) paused ? clip.pause() : clip.play().catch(() => {});
+      else if (synth) paused ? synth.pause() : synth.resume();
+      pauseBtn.innerHTML = paused ? I.play : I.pause;
+      pauseBtn.title = paused ? 'Play' : 'Pause';
+    });
+    if (captionHost) captionHost.replaceChildren(caption);
+    else {
+      narrEl = el('div', { class: 'narr' },
+        el('div', { class: 'narr-ic', html: I.speaker }),
+        el('div', { class: 'narr-body' }, el('small', {}, title || 'Listening'), caption),
+        pauseBtn,
+        el('button', { title: 'Stop', onclick: stopSpeak, html: I.stop }));
+      document.body.append(narrEl);
+    }
+
+    const say = i => {
+      if (token !== speakToken) return;
+      if (i >= sentences.length) { stopSpeak(); onDone?.(); return; }
+      const s = sentences[i];
+      const words = [];
+      caption.replaceChildren();
+      s.replace(/\S+/g, (w, at) => { const sp = el('span', {}, w); words.push([at, sp]); caption.append(sp, ' '); return w; });
+      const urdu = /[؀-ۿ]/.test(s);
+      const file = rec[s.trim()];
+      if (file) {
+        caption.dir = urdu ? 'rtl' : 'ltr';
+        words.forEach(([, sp]) => sp.classList.add('on'));
+        clip = recording(file);
+        loading.media(clip);
+        clip.onended = () => { clip = null; say(i + 1); };
+        clip.onerror = () => { clip = null; say(i + 1); };
+        clip.play().catch(() => { clip = null; say(i + 1); });
+        return;
+      }
+      if (!synth) return say(i + 1);
+      const u = new SpeechSynthesisUtterance(s);
+      u.lang = urdu ? 'ur-PK' : 'en-US';
+      u.voice = pickVoice(urdu);
+      caption.dir = urdu ? 'rtl' : 'ltr';
+      u.rate = 0.92;
+      u.onboundary = e => {
+        if (e.name && e.name !== 'word') return;
+        words.forEach(([at, sp], k) => sp.classList.toggle('on', at <= e.charIndex && (k === words.length - 1 || words[k + 1][0] > e.charIndex)));
+      };
+      u.onend = () => say(i + 1);
+      u.onerror = () => { if (token === speakToken) { stopSpeak(); onDone?.(); } };
+      synth.speak(u);
+    };
+    say(0);
+  }
+
+  /* ---------- modals: video, QR, zone editor ---------- */
+  function closeModal() {
+    modalEl?.querySelectorAll('video').forEach(video => {
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
+    });
+    for (const box of new Set([...players.keys(), ...videoLoading.keys()])) {
+      if (modalEl?.contains(box)) clearPlayer(box);
+    }
+    modalEl?.remove();
+    modalEl = null;
+  }
+
+  function modal(card, onClose) {
+    closeModal();
+    const close = () => { closeModal(); onClose?.(); };
+    card.prepend(el('button', { class: 'modal-x', title: 'Close', onclick: close, html: I.x }));
+    modalEl = el('div', { class: 'modal' }, card);
+    modalEl.addEventListener('pointerdown', e => { if (e.target === modalEl) close(); });
+    modalEl.close = close;
+    document.body.append(modalEl);
+  }
+
+  function playVideo(book, idx, z) {
+    closeMenu();
+    if (readerBook) { syncVideo({ book, page: idx + 1, video: z.id }); return; }
+    location.hash = link(book, idx + 1, z.id);   // route() opens it, so a scanned QR lands in the same place
+  }
+
+  /* ---------- YouTube player that starts by itself ----------
+     A video in a page may start on its own with sound only where the browser allows it (Chrome, Android). An
+     iPhone does not: there it starts silent, and a big "Tap for sound" button brings the sound in. */
+  let ytApi = null;
+  let youtubeScript = null, youtubeReadyHandler = null, previousYoutubeReady;
+  function loadYouTube() {
+    return ytApi || (ytApi = new Promise((res, reject) => {
+      if (window.YT?.Player) return res();
+      const timeout = schedule(() => { ytApi = null; reject(new Error('Video connection timed out.')); }, 15000);
+      const prev = window.onYouTubeIframeAPIReady;
+      previousYoutubeReady = prev;
+      youtubeReadyHandler = () => { clearTimeout(timeout); prev?.(); res(); };
+      window.onYouTubeIframeAPIReady = youtubeReadyHandler;
+      youtubeScript = el('script', { src: 'https://www.youtube.com/iframe_api', onerror: () => { clearTimeout(timeout); ytApi = null; reject(new Error('Video connection unavailable.')); } });
+      document.head.append(youtubeScript);
+    }));
+  }
+  function youTube(box, id, start, end) {
+    clearPlayer(box);
+    let finish = loading.begin('Loading video...');
+    const stopLoading = () => { clearTimeout(startupTimeout); finish?.(); finish = null; };
+    const startupTimeout = schedule(() => { stopLoading(); if (box.isConnected) toast('The video is taking too long to connect. You can close it and try again.'); }, 15000);
+    videoLoading.set(box, stopLoading);
+    const slot = el('div');
+    const sound = el('button', { class: 'yt-sound', hidden: true, html: '🔊<span>Tap for sound</span>' });
+    box.append(slot, sound);
+    loadYouTube().then(() => {
+      if (!slot.isConnected) { stopLoading(); return; }    // closed before the player was ready
+      const vars = { autoplay: 1, playsinline: 1, rel: 0, origin: location.origin };
+      if (start) vars.start = Math.floor(start);
+      if (end) vars.end = Math.ceil(end);
+      const p = new YT.Player(slot, {
+        videoId: id, width: '100%', height: '100%', playerVars: vars,
+        events: {
+          onReady: e => {
+            stopLoading();
+            if (!box.isConnected) return;
+            e.target.getIframe().setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; fullscreen');
+            e.target.playVideo();
+            // not playing a moment later: the browser stopped sound. Play silent, and offer the sound.
+            schedule(() => {
+              if (!box.isConnected || e.target.getPlayerState?.() === YT.PlayerState.PLAYING) return;
+              e.target.mute(); e.target.playVideo(); sound.hidden = false;
+            }, 1200);
+          },
+          onStateChange: e => {
+            if (!box.isConnected) { stopLoading(); return; }
+            if (e.data === 3) finish ||= loading.begin('Buffering video...');
+            else stopLoading();
+          },
+          onError: () => { stopLoading(); if (box.isConnected) toast('This video could not be loaded. Please try again.'); }
+        }
+      });
+      players.set(box, p);
+      // with the sound on, the captions YouTube shows for a silent video are not needed
+      sound.onclick = () => { p.unMute?.(); p.setVolume?.(100); p.playVideo?.(); p.unloadModule?.('captions'); sound.hidden = true; };
+    }).catch(() => { stopLoading(); if (box.isConnected) toast('This video could not connect. Check your internet connection.'); });
+  }
+
+  function syncVideo(r) {
+    const open = modalEl?.dataset.video;
+    if (!r.video) { if (open) closeModal(); return; }
+    if (open === r.video) return;
+    // 'page' is the video behind the QR code printed on that page; anything else is a zone id.
+    let idx = r.page - 1, title = 'Video', vids = [];
+    if (r.video === 'page') {
+      vids = pageOf(r.book, idx)?.qr?.videos || [];
+      title = pageOf(r.book, idx)?.qr?.title || title;
+    } else {
+      idx = [r.page - 1, r.page - 1 ^ 1].find(i => (pageOf(r.book, i)?.zones || []).some(z => z.id === r.video));
+      const z = idx == null ? null : pageOf(r.book, idx).zones.find(z => z.id === r.video);
+      if (z && ytId(z.video)) { vids = [{ id: ytId(z.video), title: z.title }]; title = z.title || title; }
+    }
+    if (!vids.length) return history.replaceState(null, '', link(r.book, r.page));
+    stopSpeak();
+    // YouTube refuses to play (error 153) unless it is told which site the player sits on.
+    // A page opened as a file has no site to tell, so there the video opens on YouTube itself.
+    const asFile = location.protocol === 'file:';
+    const frame = asFile
+      ? el('a', { class: 'yt-out', target: '_blank', rel: 'noopener' }, el('span', { html: I.play }), 'Watch on YouTube')
+      : el('div', { class: 'yt-box' });
+    const picks = el('div', { class: 'video-picks' });
+    const play = k => {
+      if (asFile) {
+        frame.href = `https://www.youtube.com/watch?v=${vids[k].id}`;
+        frame.style.backgroundImage = `url(https://i.ytimg.com/vi/${vids[k].id}/hqdefault.jpg)`;
+      } else youTube(frame, vids[k].id);
+      picks.querySelectorAll('button').forEach((b, i) => b.classList.toggle('on', i === k));
+    };
+    if (vids.length > 1) vids.forEach((v, k) => {
+      // YouTube titles read "Class | Chapter | Introduction": the last part tells the videos apart.
+      const part = (v.title || '').split('|').pop().trim();
+      picks.append(el('button', { onclick: () => play(k) }, part && part.length <= 30 ? part : `Video ${k + 1}`));
+    });
+    play(0);
+    const card = el('div', { class: 'modal-card video-card' },
+      frame,
+      el('div', { class: 'video-cap' }, title, picks,
+        el('small', {}, asFile
+          ? 'Opened as a file, so the video plays on YouTube. Open the site with start.bat to watch it here.'
+          : `Press ✕ to go back to page ${idx + 1}`)));
+    // Closing puts the address back on the page, so the reader is exactly where they left.
+    modal(card, () => { if (!readerBook) history.replaceState(null, '', link(r.book, R ? R.spread * 2 + 1 : r.page)); });
+    modalEl.dataset.video = r.video;
+  }
+
+  function editZone(book, idx, z, isNew) {
+    const pg = pageOf(book, idx);
+    const radio = (val, text) => el('label', {}, el('input', { type: 'radio', name: 'type', value: val, checked: z.type === val }), text);
+    const narration = el('textarea', { name: 'narration', rows: 5, placeholder: 'The English text that will be read aloud for this story or topic.' });
+    narration.value = z.narration || '';
+    const form = el('form', { class: 'zform' + (z.type === 'fill' ? ' is-fill' : '') },
+      el('h3', {}, isNew ? 'New interactive area' : 'Edit area'),
+      el('p', { class: 'muted' }, `${book.title} · page ${idx + 1}`),
+      el('div', { class: 'seg' }, radio('section', 'Story / topic'), radio('fill', 'Fill / draw area')),
+      el('label', {}, 'Title', el('input', { type: 'text', name: 'title', value: z.title || '', placeholder: 'e.g. The Thirsty Crow' })),
+      el('label', { class: 'sec-only' }, 'Voice text (English)', narration),
+      el('label', { class: 'sec-only' }, 'YouTube video link', el('input', { type: 'text', name: 'video', value: z.video || '', placeholder: 'https://www.youtube.com/watch?v=…' })),
+      el('div', { class: 'row' },
+        !isNew && el('button', { type: 'button', class: 'btn danger', onclick: () => { pg.zones = pg.zones.filter(x => x !== z); done(); } }, 'Delete'),
+        el('span', { class: 'grow' }),
+        el('button', { type: 'button', class: 'btn', onclick: () => closeModal() }, 'Cancel'),
+        el('button', { type: 'submit', class: 'btn primary' }, 'Save')));
+    const done = () => { saveZones(book); closeModal(); R?.show(R.spread); };
+    form.addEventListener('change', e => { if (e.target.name === 'type') form.classList.toggle('is-fill', e.target.value === 'fill'); });
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const f = new FormData(form);
+      const type = f.get('type'), video = type === 'fill' ? '' : f.get('video').trim();
+      if (video && !ytId(video)) return toast('That does not look like a YouTube link.');
+      Object.assign(z, { type, title: f.get('title').trim(), video, narration: type === 'fill' ? '' : f.get('narration').trim() });
+      if (isNew) (pg.zones ||= []).push(z);
+      done();
+    });
+    modal(el('div', { class: 'modal-card' }, form));
+    // A new box on a converted PDF page: offer the text printed inside it as the voice text.
+    if (isNew && book.dir) pageText(book).then(pages => {
+      const inside = (pages[idx] || []).filter(([x0, y0, x1, y1]) => {
+        const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+        return cx >= z.x && cx <= z.x + z.w && cy >= z.y && cy <= z.y + z.h;
+      }).map(b => b[4]);
+      if (inside.length && !narration.value) narration.value = inside.join(' ');
+      if (inside.length && !form.elements.title.value) form.elements.title.value = inside[0].slice(0, 40);
+    });
+  }
+
+  function pageText(book) {
+    if (book.text) return Promise.resolve(book.text);
+    if (!book.dir) return Promise.resolve([]);
+    return book.text ||= fetch(`${book.dir}/text.json`).then(r => r.ok ? r.json() : []).catch(() => []);
+  }
+
+  // Publisher mode: drag an empty part of the page to mark a new area.
+  function bindZoneDrawing(node, book, idx) {
+    node.addEventListener('pointerdown', e => {
+      if (!editMode || e.target.closest('.zone')) return;
+      e.preventDefault();
+      const r = node.getBoundingClientRect();
+      const pt = ev => [clamp((ev.clientX - r.left) / r.width * 100, 0, 100), clamp((ev.clientY - r.top) / r.height * 100, 0, 100)];
+      const a = pt(e);
+      let rect = null;
+      const ghost = el('div', { class: 'zone ghost' });
+      node.append(ghost);
+      node.setPointerCapture(e.pointerId);
+      const move = ev => {
+        const b = pt(ev);
+        rect = { x: Math.min(a[0], b[0]), y: Math.min(a[1], b[1]), w: Math.abs(a[0] - b[0]), h: Math.abs(a[1] - b[1]) };
+        Object.assign(ghost.style, { left: rect.x + '%', top: rect.y + '%', width: rect.w + '%', height: rect.h + '%' });
+      };
+      const up = () => {
+        node.removeEventListener('pointermove', move);
+        node.removeEventListener('pointerup', up);
+        node.removeEventListener('pointercancel', up);
+        ghost.remove();
+        if (!rect || rect.w < 4 || rect.h < 3) return;
+        for (const k in rect) rect[k] = Math.round(rect[k] * 10) / 10;
+        editZone(book, idx, { id: 'z' + Date.now().toString(36), type: 'section', ...rect, title: '', narration: '', video: '' }, true);
+      };
+      node.addEventListener('pointermove', move);
+      node.addEventListener('pointerup', up);
+      node.addEventListener('pointercancel', up);
+    });
+  }
+
+  /* ---------- PDF upload ---------- */
+  let pdfReady = null;
+  function loadPdfJs() {
+    return pdfReady ||= new Promise((resolve, reject) => {
+      const s = el('script', { src: PDFJS + 'pdf.min.js' });
+      s.onload = () => { window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS + 'pdf.worker.min.js'; resolve(); };
+      s.onerror = () => { pdfReady = null; reject(new Error('Could not load the PDF reader')); };
+      document.head.append(s);
+    });
+  }
+
+  // Pages are rendered only when they are first shown, then cached.
+  function pageImage(book, n) {
+    return book.imgs[n] ||= (async () => {
+      const page = await book.doc.getPage(n);
+      const base = page.getViewport({ scale: 1 });
+      const vp = page.getViewport({ scale: Math.min(3, 1400 / base.width) });
+      const c = document.createElement('canvas');
+      c.width = vp.width; c.height = vp.height;
+      await page.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
+      return new Promise(res => c.toBlob(b => res(URL.createObjectURL(b)), 'image/jpeg', 0.9));
+    })();
+  }
+
+  /* ---------- global wiring ---------- */
+  const onDocumentPointerDown = e => {
+    if (menu && !menu.m.contains(e.target) && !menu.box.contains(e.target)) closeMenu();
+  };
+  const onDocumentKeyDown = e => {
+    if (readerBook && readerOptions.isBlocked?.()) return;
+    if (e.key === 'Escape') { if (modalEl) modalEl.close(); else if (storyEl) closeStory(); else if (gameEl) closeGame(); else if (focusEl) closeFocus(); else if (menu) closeMenu(); else if (R?.root.classList.contains('english-lesson-open')) R.closeLesson(); else stopSpeak(); return; }
+    if (!R || modalEl || focusEl || storyEl || gameEl || /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+    if (R.root.classList.contains('english-lesson-open')) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); R.stepLesson(e.key === 'ArrowRight' ? 1 : -1); }
+      return;
+    }
+    if (e.key === 'ArrowRight') R.flip(R.rtl ? -1 : 1);
+    if (e.key === 'ArrowLeft') R.flip(R.rtl ? 1 : -1);
+  };
+  document.addEventListener('pointerdown', onDocumentPointerDown);
+  document.addEventListener('keydown', onDocumentKeyDown);
+  // Opened as a file, YouTube will not play: move over to the local server when it is running.
+  if (location.protocol === 'file:') {
+    const SERVER = 'http://127.0.0.1:5173/';
+    fetch(SERVER + 'index.html', { mode: 'no-cors', cache: 'no-store' })
+      .then(() => location.replace(SERVER + location.hash), () => {});
+  }
+
+  if (readerBook) {
+    selectedReaderPage = clamp(selectedReaderPage, 1, readerBook.pages.length);
+    showReader(readerBook, Math.floor((selectedReaderPage - 1) / 2), false);
+    // Fetch YouTube's player in the background while the child reads, so the first video starts sooner.
+    if (location.protocol !== 'file:') schedule(() => loadYouTube().catch(() => {}), 1500);
+    readerOptions.onReady?.({ getSelectedPage: () => selectedReaderPage, goToPage: number => { if (!R?.busy) { selectedReaderPage = clamp(number, 1, readerBook.pages.length); R.show(Math.floor((selectedReaderPage - 1) / 2)); } } });
+  } else if (activityPreview) {
+    const { book: original, pageIndex, activity, videos } = activityPreview;
+    // Preview drawings are isolated from the child's drawings in the original reader.
+    const book = { ...original, id: previewOwner, pages: original.pages.map((page, index) => index === pageIndex && activity?.type === 'fill' ? { ...page, qr: undefined, zones: [], acts: [activity] } : page) };
+    if (videos) openVideos(activityPreview.title || 'Videos', videos);
+    else if (activity.type === 'game') openGame(book, pageIndex, activity);
+    else if (activity.type === 'story') openStory(book, pageIndex, activity);
+    else if (activity.type === 'videos') openVideos(activity.title, activity.videos);
+    else if (activity.type === 'fill') openFocus(book, pageIndex, app);
+    previewObserver = new MutationObserver(() => {
+      if (!document.querySelector(`[data-activity-preview="${previewOwner}"]`)) onPreviewClose?.();
+    });
+    previewObserver.observe(document.body, { childList: true, subtree: true });
+  } else {
+    window.addEventListener('hashchange', route);
+    window.addEventListener('popstate', onLessonPopState);
+    route();
+    lessonHistory.pop();
+  }
+
+  return () => {
+    previewObserver?.disconnect();
+    loading.dispose();
+    window.removeEventListener('hashchange', route);
+    window.removeEventListener('popstate', onLessonPopState);
+    document.removeEventListener('pointerdown', onDocumentPointerDown);
+    document.removeEventListener('keydown', onDocumentKeyDown);
+    clearTimeout(toastTimer);
+    document.querySelector('.toast')?.remove();
+    leaveReader();
+    timers.forEach(timer => window.clearTimeout(timer));
+    timers.clear();
+    for (const box of players.keys()) clearPlayer(box);
+    if (youtubeReadyHandler && window.onYouTubeIframeAPIReady === youtubeReadyHandler) window.onYouTubeIframeAPIReady = previousYoutubeReady;
+    youtubeScript?.remove();
+    if (previewOwner) Object.keys(drawings).filter(key => key.startsWith(`${previewOwner}:`)).forEach(key => { delete drawings[key]; });
+    if (previewBrush) Object.assign(brush, previewBrush);
+    synth?.cancel();
+    Object.values(sounds).forEach(sound => sound.pause());
+    app.replaceChildren();
+  };
+}

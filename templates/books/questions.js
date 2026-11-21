@@ -1,0 +1,11613 @@
+// Exercise questions of the practice pages: each question opens on its own (app.js openQuestion).
+// Positions are % of the page, measured on a grid of the page. Kept apart from the generated activity files,
+// so re-running a book's generator does not remove them.
+// kind: colour (hint: where to start, sample: a coloured picture, { word } finds it in the book's Play games)
+//       | write (lines: where to write) | match (dots: the same id is a pair) | choose (options: tap and ring each correct one)
+(() => {
+  const box = (x, y, w, h) => ({ x, y, w, h });
+  const rects = rows => rows.map(([x, y, w, h]) => box(x, y, w, h));
+  const Q = (kind, title, say, button, crop, more = {}) => ({ type: 'question', kind, title, say, button: { x: button[0], y: button[1] }, crop, ...more });
+  // a letter (or picture) to tap, centred at (x, y)
+  const tap = (x, y, correct, label, w = 5.2, h = 4.8) => ({ x: x - w / 2, y: y - h / 2, w, h, correct, label });
+  // the four letter columns and lines of English 3+ "Colour and write the given letters"
+  const LETTER_LINES = rects([[7, 30.8, 21.3, 8.3], [29, 30.8, 21.3, 8.3], [50.8, 30.8, 21, 8.3], [72.8, 30.8, 21.2, 8.3]]);
+  const MATCH_X = [17, 39.5, 61, 83];
+  const C = { red: '#e63946', orange: '#f4a261', yellow: '#f9c74f', green: '#43aa8b', blue: '#4aa3df', purple: '#7b5ea7', pink: '#ff8fab', brown: '#8d5524', black: '#222222' };
+  // a picture (or a part of one) to colour: a box round its whole outline, and the colours it may have
+  // (swatches show them at dot, or at the box's corner). The part is the box less the paper round the outline.
+  const part = (name, [x, y, w, h], colours, dot) => ({ part: name, box: box(x, y, w, h), colours: [].concat(colours || []), ...(dot ? { dot: { x: dot[0], y: dot[1] } } : {}) });
+  // a picture made of separate pieces, each coloured on its own (a ball's stripes, an umbrella's panels, a bus's windows)
+  const pieces = (...args) => ({ ...part(...args), pieces: true });
+  // an outline letter: only its band is coloured, never the paper inside it (the hole of a, b, d, e, o)
+  const letterPart = (...args) => ({ ...part(...args), letter: true });
+  // the four letters of a reinforcement page are coloured like their outlines: red, blue, orange, green
+  const LETTER_BOXES = [[8.6, 14.2, 18.2, 14.8], [30.4, 14.2, 18.4, 14.8], [52.4, 14.2, 18.2, 14.8], [74.2, 14.2, 18.2, 14.8]];   // inside each frame
+  const OUTLINE = [C.red, C.blue, C.orange, C.green];
+
+  // English 3+ reinforcement page: colour the letters, write them, colour the picture beginning with a letter
+  const colourAndWrite = (letters, button = [66, 8.6]) => [
+    Q('colour', 'Colour the given letters.', `Colour inside each letter with the colour of its box.`, button, box(5, 12.8, 90, 17.7),
+      { hint: { x: 17, y: 22 }, parts: letters.map((l, i) => letterPart(l, l === 'j' ? [...LETTER_BOXES[i].slice(0, 3), 15.4] : LETTER_BOXES[i], OUTLINE[i], [LETTER_BOXES[i][0] + 3, LETTER_BOXES[i][1] + 3])) }),   // j's hook reaches lower
+    Q('write', 'Write the given letters.', `Write ${letters.join(', ')} on the lines.`, [83, button[1]], box(5, 29.8, 90, 9.6),
+      { hint: { x: 9, y: 33 }, lines: LETTER_LINES })
+  ];
+  // colour the right picture, its parts in their colours; the other picture (wrong) cannot be coloured
+  // both pictures can be coloured, each in its own colours, as the small coloured pictures (samples) show
+  const colourPicture = (letter, left, parts, samples, crop = box(5, 44.8, 90, 22.7), button = [2, 49]) =>
+    Q('colour', `Colour the picture that begins with the letter ${letter}.`, `Which picture begins with ${letter}? Colour it with the colours of the small picture.`, button, crop,
+      { hint: { x: left ? 30 : 70, y: 57 }, parts, samples });
+  const MANY = [C.red, C.orange, C.yellow, C.green, C.blue, C.purple, C.pink];
+  // match each letter of the top row to the same letter in the bottom row
+  const sameLetters = (top, bottom, { button = [71, 67.6], crop = box(5, 71.5, 90, 24), yTop = 82.5, yBottom = 87 } = {}) =>
+    Q('match', 'Match each letter to the same letter.', 'Draw a line from each letter to the same letter.', button, crop,
+      { dots: [...top.map((id, i) => ({ id, x: MATCH_X[i], y: yTop })), ...bottom.map((id, i) => ({ id, x: MATCH_X[i], y: yBottom }))] });
+  // match the letters (top) with the pictures beginning with them (bottom): top/bottom are [id, x, y]
+  const lettersToPictures = (top, bottom, button, crop) =>
+    Q('match', 'Match the letters with the pictures.', 'Draw a line from each letter to the picture that begins with it.', button, crop,
+      { dots: [...top, ...bottom].map(([id, x, y]) => ({ id, x, y })) });
+  const initialLetters = (button, crop, lines) =>
+    Q('write', 'Look at the pictures and write the initial letter for each.', 'Say the name of each picture. Write the letter it begins with on its lines.',
+      button, crop, { hint: { x: lines[0][0] + 3, y: lines[0][1] + 3 }, lines: rects(lines) });
+  const circleLetter = (button, crop, options) =>
+    Q('choose', 'Look at the pictures and circle the correct letter for each.', 'What does each picture begin with? Tap the right letter to circle it.',
+      button, crop, { options: options.map(([x, y, correct, label]) => tap(x, y, correct, label)) });
+  const encircle = (letter, button, crop, options) =>
+    Q('choose', `Encircle the pictures that begin with the letter ${letter}.`, `Tap each picture that begins with ${letter}.`, button, crop,
+      { options: options.map(([x, y, correct, label]) => tap(x, y, correct, label, 15, 12)) });
+  const writeAndTrace = (title, button, crop, lines) =>
+    Q('write', title, `${title} Write the letter, then trace the dotted picture and colour it.`, button, crop, { hint: { x: lines[0][0] + 3, y: lines[0][1] + 3 }, lines: rects(lines) });
+
+  // Urdu books: a letter to tap is a little bigger (the letters are written larger)
+  const harf = (x, y, correct, label) => tap(x, y, correct, label, 6.4, 5.8);
+  const U = (kind, title, say, button, crop, more) => Q(kind, title, say, button, crop, more);
+  const urduCircle = (title, button, crop, options) => U('choose', title, 'تصویر کا نام بولیں۔ جس حرف سے نام شروع ہوتا ہے، اُس پر ٹیپ کریں۔', button, crop,
+    { options: options.map(([x, y, correct, label]) => harf(x, y, correct, label)) });
+  const urduWrite = (title, button, crop, lines, say = 'تصویر کا نام بولیں اور خانے میں پہلا حرف لکھیں۔') =>
+    U('write', title, say, button, crop, { hint: { x: lines[0][0] + 2, y: lines[0][1] + 2 }, lines: rects(lines) });
+  const urduColour = (title, button, crop, parts, samples, skip = []) =>
+    U('colour', title, 'تصویر میں چھوٹی تصویر جیسے رنگ بھریں۔', button, crop,
+      { hint: { x: parts[0].box.x + parts[0].box.w / 2, y: parts[0].box.y + parts[0].box.h / 2 }, parts, samples, skip: rects(skip) });
+
+  window.BOOK_QUESTIONS = {
+    'new-stemford-english-3': {
+      13: [...colourAndWrite(['a', 'b', 'c', 'd']),
+        colourPicture('a', true, [part('stem', [24, 47, 4.6, 5], C.brown, [22.5, 46]), part('leaf', [28, 45, 12.5, 5.6], C.green, [39.5, 45.5]),
+          part('apple', [17, 49.8, 25.5, 17.2], C.red, [17.5, 52]), { ...pieces('ball', [60, 47.5, 26.5, 18.5], [C.red, C.blue], [84, 47.5]),
+            // the stripes alternate red and blue, as on the sample ball
+            seeds: [[65.9, 52, C.red], [72.8, 49.8, C.blue], [80.5, 53.1, C.red], [64.4, 59.8, C.blue], [72.8, 60.3, C.red], [81.3, 59.2, C.blue]].map(([x, y, colour]) => ({ x, y, colour })) }], ['apple', 'ball']),
+        sameLetters(['c', 'a', 'b', 'd'], ['a', 'd', 'c', 'b'])],
+      14: [lettersToPictures([['a', 18, 22], ['c', 40, 22], ['b', 62, 22], ['d', 82, 22]], [['c', 18, 29], ['a', 40, 29], ['d', 62, 28.5], ['b', 83, 29]],
+        [70, 4.4], box(5, 8.5, 90, 35.5)),
+        initialLetters([30, 48.2], box(5, 51, 90, 46), [[23.5, 54.2, 21.5, 9.2], [67.8, 54.2, 21.8, 9.2], [23.5, 70.2, 21.5, 9], [69.8, 70.2, 19.8, 9], [22.8, 85, 22.2, 9], [67.8, 85, 21.8, 9]])],
+      15: [circleLetter([22, 8.8], box(5, 11.5, 90, 22), [[15, 30.7, false, 'c'], [23.6, 30.7, true, 'a'], [32.1, 30.7, false, 'b'],
+        [44.6, 30.7, false, 'c'], [53.1, 30.7, false, 'a'], [61.7, 30.7, true, 'b'], [74, 30.7, true, 'c'], [82.6, 30.7, false, 'a'], [91.1, 30.7, false, 'b']]),
+        Q('choose', 'Look at the picture and circle the letter c.', 'Find every letter c in the cat. Tap each one to circle it.', [82, 31.6], box(5, 37.5, 85, 37),
+          { hide: [box(5, 69, 14, 6), box(80, 70.5, 16, 5)],
+            options: [[11.4, 43.6, 'c'], [18.9, 42.8, 'a'], [26, 46.4, 'c'], [29.3, 51.8, 'd'], [35, 54.1, 'a'], [42.4, 51.8, 'c'], [53, 51.8, 'c'],
+              [61, 53.2, 'b'], [66.9, 48, 'a'], [77.7, 51.2, 'b'], [68, 55.2, 'a'], [77.1, 57.4, 'c'], [47.9, 56.5, 'c'], [55.1, 57.8, 'd'],
+              [39.3, 58.8, 'd'], [62.6, 60, 'c'], [71.3, 61.3, 'd'], [45.9, 62.3, 'a'], [35.4, 62.8, 'b'], [31.1, 67.2, 'c'], [40.6, 66.6, 'c'],
+              [52.4, 65.4, 'c'], [62.9, 66.6, 'b'], [73, 67, 'c']].map(([x, y, l]) => tap(x, y, l === 'c', l)) })],
+      25: [...colourAndWrite(['e', 'f', 'g', 'h']), colourPicture('f', true, [part('fish', [12.5, 45.3, 37, 22.4], [C.blue, C.orange], [13, 46]), part('grapes', [55, 45, 31.5, 22], [C.green, C.brown], [86, 46])], ['fish', 'grapes']),
+        writeAndTrace('Write h, trace and colour the hat.', [70, 67.8], box(5, 71, 90, 25.5), [[9, 79.5, 31, 11], [44, 71.5, 44, 23]])],
+      26: [lettersToPictures([['h', 13.4, 21.5], ['e', 35, 21.5], ['f', 56.6, 21.5], ['g', 77.5, 21.5]], [['e', 13.5, 29.5], ['g', 35.5, 29.5], ['h', 57, 29.5], ['f', 77.5, 29.5]],
+        [63, 3.8], box(5, 8, 90, 35)),
+        initialLetters([58, 70.3], box(0, 47.5, 99, 23.5), [[12.5, 49.5, 16, 8.5], [41.5, 49.5, 16.5, 8.5], [71.5, 49.5, 17, 8.5], [13, 61.5, 15.5, 9], [41.5, 61.5, 16.5, 9], [71.5, 61.5, 17, 9]])],
+      35: [...colourAndWrite(['i', 'j', 'k', 'l']), colourPicture('l', false, [part('jug', [14.5, 45, 34, 23], [C.blue], [10, 46]), part('lemon', [52.5, 46.5, 35, 20.5], [C.yellow, C.green], [87, 47])], ['jug', 'lemon']), sameLetters(['i', 'j', 'k', 'l'], ['l', 'k', 'i', 'j'])],
+      36: [circleLetter([21, 9.4], box(5, 13, 90, 38.5), [[42.9, 17.5, false, 'l'], [42.9, 23, true, 'j'], [42.9, 29, false, 'k'],
+        [88.4, 17.5, true, 'k'], [88.4, 23.5, false, 'l'], [88.4, 29, false, 'j'],
+        [38.4, 36.5, false, 'i'], [38.4, 41.5, false, 'j'], [38.4, 47.5, true, 'l'], [84, 36.5, false, 'l'], [84, 42, true, 'i'], [84, 47.5, false, 'k']]),
+        writeAndTrace('Write i, trace and colour the igloo.', [72, 53.3], box(5, 57, 90, 39), [[9, 61, 24, 8.5], [15, 57.5, 78, 38.5]])],
+      37: [lettersToPictures([['j', 13.5, 19], ['k', 35, 19], ['i', 56, 19], ['l', 77.5, 19]], [['k', 13, 26], ['j', 35, 26], ['l', 57, 26], ['i', 77.5, 26]],
+        [63, 3.8], box(5, 8, 90, 29.5)),
+        initialLetters([15, 41.3], box(5, 43.5, 90, 28), [[11, 52, 16, 6.5], [41.5, 52, 17, 6.5], [69, 52, 16.5, 6.5], [11, 65.5, 16, 6], [41.5, 65.5, 17, 6], [69, 65.5, 16.5, 6]])],
+      47: [...colourAndWrite(['m', 'n', 'o', 'p']), colourPicture('o', false, [part('mango', [15.5, 44.3, 28.5, 24.7], [C.yellow, C.orange, C.green], [8, 46]), part('orange', [51.5, 44.3, 39, 24.7], [C.orange, C.green, C.brown], [88, 46])], ['mango', 'orange']),
+        encircle('p', [83, 66.8], box(5, 74, 90, 22), [[17, 81, false, 'orange'], [31, 89, true, 'peacock'], [49, 82, false, 'nest'], [66, 89, false, 'monkey'], [84, 82, true, 'parrot']])],
+      48: [lettersToPictures([['n', 13, 19.5], ['m', 35, 19.5], ['o', 56.5, 19.5], ['p', 77.5, 19.5]], [['m', 13, 27], ['o', 36, 27], ['n', 56, 28.5], ['p', 77.5, 27]],
+        [63, 3.8], box(5, 8, 90, 33)),
+        initialLetters([15, 44.3], box(5, 46, 90, 25), [[19, 49.5, 15.5, 8], [48.5, 49.5, 15.5, 8], [78, 49.5, 16, 8], [19, 60.5, 15.5, 8.5], [48.5, 60.5, 15.5, 8.5], [78, 60.5, 16, 8.5]])],
+      57: [...colourAndWrite(['q', 'r', 's', 't']), colourPicture('t', false, [pieces('rocket', [16, 44.3, 33.5, 21.7], [C.red, C.blue, C.yellow, C.orange], [8, 46]),
+          part('leaves', [61.5, 44.2, 12, 6.5], C.green, [74.5, 44.5]), part('tomato', [56.5, 44.8, 31, 21], C.red, [88, 52])], ['tomato']), sameLetters(['r', 't', 's', 'q'], ['q', 'r', 't', 's'], { yTop: 82, yBottom: 87.5 })],
+      58: [lettersToPictures([['s', 13, 21.5], ['r', 35, 21.5], ['t', 57.5, 21.5], ['q', 78, 21.5]], [['r', 13.5, 31], ['s', 35, 31], ['q', 56, 31], ['t', 77.5, 30.5]],
+        [63, 4.8], box(5, 9, 90, 36)),
+        initialLetters([15, 50.5], box(5, 53, 90, 43), [[23, 55.8, 22, 8.5], [69, 55.8, 21, 8.5], [23, 71.8, 22, 8], [69, 71.8, 21, 8], [23, 88, 22, 8], [69, 88, 21, 8]])],
+      59: [circleLetter([21, 7.8], box(5, 10.5, 90, 22.5), [[16, 30, false, 'q'], [23, 30, true, 's'], [29.5, 30, false, 'r'],
+        [42, 30, true, 'q'], [49, 30, false, 's'], [56, 30, false, 't'], [70.5, 30, true, 't'], [77, 30, false, 'q'], [83, 30, false, 'r']]),
+        writeAndTrace('Write s, trace and colour the snake.', [72, 33.3], box(5, 38, 90, 33), [[17, 53.5, 26, 9], [36, 39, 42, 31]])],
+      69: [...colourAndWrite(['u', 'v', 'w', 'x']), colourPicture('x', false, [pieces('umbrella', [12.5, 46, 36, 22], MANY, [5.5, 46.5]), pieces('xylophone', [57, 46, 30.5, 22], MANY, [72, 64.5])], ['umbrella', 'xylophone']),
+        encircle('u', [83, 70.2], box(5, 74, 90, 22.5), [[15, 81, true, 'umbrella'], [43, 80, false, 'xylophone'], [66, 87, true, 'umpire'], [83, 81, false, 'vest'], [31, 90, false, 'van']])],
+      70: [lettersToPictures([['u', 13, 18.5], ['w', 35, 18.5], ['v', 57, 18.5], ['x', 78, 18.5]], [['x', 13, 27], ['w', 35, 27], ['u', 56, 27], ['v', 78, 27]],
+        [63, 3.8], box(5, 8, 90, 33)),
+        initialLetters([15, 46], box(5, 48.5, 90, 23), [[13, 50.5, 18, 7.5], [46, 50.5, 17.5, 7.5], [77, 50.5, 17, 7.5], [13, 62.8, 18, 8], [46, 62.8, 17.5, 8], [77, 62.8, 17, 8]])],
+      75: [Q('colour', 'Colour the given letters.', 'Colour inside each letter with the colour of its box.', [66, 7.8], box(25, 12, 50, 18),
+          { hint: { x: 38, y: 20 }, parts: [letterPart('y', [29.5, 13.5, 18.5, 14.5], C.red, [31, 15]), letterPart('z', [51.5, 13.5, 18.5, 14.5], C.blue, [53, 15])] }),
+        Q('write', 'Write the given letters.', 'Write y and z on the lines.', [83, 7.8], box(25, 29.5, 50, 9.5), { hint: { x: 30, y: 32 }, lines: rects([[27.5, 30, 21.5, 8.5], [49.5, 30, 22, 8.5]]) }),
+        colourPicture('y', true, [pieces('yacht', [10.5, 45, 33, 23.2], [C.blue, C.red, C.brown, C.yellow], [27, 45.5]), pieces('bus', [53.5, 45, 37, 23.4], [C.blue, C.yellow, C.red], [53, 69.5])], [],
+          box(5, 44, 90, 25.5), [2, 48.5]),
+        lettersToPictures([['y', 25.5, 82], ['y', 30.5, 82], ['z', 70.5, 82], ['z', 75.5, 82]], [['z', 17, 85.5], ['y', 41, 85.5], ['y', 64, 85], ['z', 85, 85.5]],
+          [70, 67.8], box(5, 71.5, 90, 24.5))],
+      76: [circleLetter([15, 6.8], box(5, 9, 90, 16.5), [[39, 12.5, false, 'x'], [39, 17, true, 'y'], [39, 22, false, 'z'], [77.3, 12.5, false, 'x'], [77.3, 17, false, 'y'], [77.3, 22, true, 'z']]),
+        initialLetters([15, 28.8], box(5, 31.5, 90, 15), [[24, 35.5, 20, 7], [68, 35.5, 19.5, 7]]),
+        Q('write', 'Write the missing letters.', 'Write the missing letters of the alphabet in the spaces.', [53, 45.5], box(0, 50, 100, 21),
+          { hint: { x: 18, y: 55 }, lines: rects([[3, 51, 94, 9.5], [3, 62, 94, 8.5]]) })],
+      77: [Q('choose', 'Read and tick the correct picture.', 'Read each word. Tap the picture it names.', [72, 8.3], box(5, 11.5, 90, 28),
+          { options: [[43, 17.5, false, 'grapes'], [63, 17.5, false, 'orange'], [83, 17.5, true, 'apple'], [43, 26, false, 'bus'], [63, 26, true, 'umbrella'], [83, 26, false, 'xylophone'],
+            [43, 34.5, false, 'turtle'], [63, 34.5, false, 'lion'], [83, 34.5, true, 'yak']].map(([x, y, correct, label]) => tap(x, y, correct, label, 14, 7.5)) }),
+        Q('choose', 'Look at each picture and circle the correct letter.', 'What does each picture begin with? Tap the right letter.', [66, 44.5], box(5, 47.5, 90, 48),
+          { options: [[24.5, 52.8, true, 'a'], [24.5, 57.5, false, 'b'], [67.5, 53, true, 'd'], [67.5, 57.5, false, 'e'], [24.5, 69.5, false, 'g'], [24.5, 74.5, true, 'h'],
+            [67.5, 69.5, true, 'm'], [67.5, 74, false, 'n'], [24.5, 86, true, 'q'], [24.5, 91, false, 'r'], [67.5, 86, false, 'y'], [67.5, 91, true, 'z']].map(([x, y, c, l]) => tap(x, y, c, l)) }),
+        Q('write', 'Write the letter in the blank space.', 'Write the letter you circled in the blank space.', [83, 44.5], box(5, 47.5, 90, 48),
+          { hint: { x: 31, y: 54 }, lines: rects([[29.5, 52, 7.5, 6], [72, 52, 7.5, 6], [29.5, 69, 7.5, 6], [72, 69, 7.5, 6], [29.5, 85, 7.5, 6], [72, 85, 7.5, 6]]) })],
+      79: [Q('write', 'Write the missing letters (a-z).', 'Write the missing letters of the alphabet on the lines.', [62, 8.6], box(3, 12, 94, 78),
+        { hint: { x: 30, y: 17 }, lines: rects([[3, 13, 94, 77]]) })],
+      81: [Q('write', 'Help the bee find the flower by following the letters from a to z.', 'Start at a. Draw a line through the letters in order, from a to z, to the flower.',
+        [33, 10.5], box(5, 13, 90, 80), { label: 'Draw', hint: { x: 21, y: 21 }, lines: rects([[5, 14, 90, 78]]) })]
+    },
+    // Maths 3+ practice questions, reviewed against this edition's printed pages.
+    'stemford-maths-3': (() => {
+      const W = (title, button, crop, lines, say = title) => Q('write', title, say, button, crop,
+        { hint: { x: lines[0][0] + lines[0][2] / 2, y: lines[0][1] + lines[0][3] / 2 }, lines: rects(lines) });
+      const pick = (title, say, button, crop, options) => Q('choose', title, say, button, crop,
+        { options: options.map(([x, y, w, h, correct, label]) => ({ x, y, w, h, correct, label })) });
+      const topCounts = (twoHands = false) => [
+        W('Count and write.', [33, 1], box(5, 9.3, 46.5, 17), [[41.5, 17.7, 7, 4.8]], 'Count the coloured dots and write their number.'),
+        W('Count the pointed fingers.', [78, 1], box(53.5, 5.5, 42, 23.7), [[twoHands ? 85.2 : 80.5, 17.2, 6.7, 4.5]], 'Count the pointed fingers and write their number.')
+      ];
+      const groupChoice = (n, button, crop, options) => pick(`Find and circle the groups of '${n}' objects.`,
+        `Count each group. Tap every group with ${n} objects.`, button, crop, options);
+      const cross = (n, what, top, bottom, numberBox) => W(`Trace, count and cross out '${n}' ${what}.`, [0.4, top + 3],
+        box(4, top + 3.1, 91, bottom - top - 3.1), [numberBox, [17, top + 6, 74, bottom - top - 7]],
+        `Trace ${n}. Count and cross out ${n} ${what}.`);
+      const shapes = (page, name, colour, bounds, model, y) => [
+        W(`Trace the ${name}s.`, [57, y], box(8, y + 5.3, 84, 88.5 - y - 5.3), bounds,
+          `Trace each dotted ${name}, starting at the dot.`),
+        Q('colour', `Colour the ${name}s ${colour === C.red ? 'red' : colour === C.blue ? 'blue' : colour === C.yellow ? 'yellow' : 'green'}.`,
+          `Colour inside each ${name} like the sample.`, [77, y], box(8, y + 5.3, 84, 88.5 - y - 5.3),
+          { hint: { x: bounds[0][0] + bounds[0][2] / 2, y: bounds[0][1] + bounds[0][3] / 2 },
+            parts: bounds.map((b, i) => ({ ...part(`${name} ${i + 1}`, b, colour), outline: name === 'circle' ? 'ellipse' : name === 'triangle' ? 'triangle' : 'rectangle' })),
+            samples: bounds.map(() => ({ page, ...model })) })
+      ];
+      const whatComes = (last = false) => {
+        const beforeY = last ? [16.4, 25] : [16.8, 25.7];
+        const afterY = last ? [39, 49.8] : [40.2, 51.1];
+        const betweenY = last ? [66.7, 80.0] : [71, 84.2];
+        const before = beforeY.flatMap(y => [11.5, 42.5, 74].map(x => [x, y, 5.5, 4.4]));
+        const after = afterY.flatMap(y => [17.4, 51, 85.4].map(x => [x, y, 5.6, 4.2]));
+        const between = betweenY.flatMap(y => [15.6, 48.2, 80.2].map(x => [x, y, 5.5, 4.2]));
+        if (last) { between.pop(); between.push([72, 80.2, 5.4, 4.2], [87.7, 80.2, 5.4, 4.2]); }
+        return [W('Write the number that comes before.', [78, 6], box(7, 14, 85, last ? 17 : 17.8), before),
+          W('Write the number that comes after.', [78, last ? 31.5 : 33.5], box(7, last ? 36 : 37, 86, last ? 19.5 : 20), after),
+          W('Write the number that comes in between.', [78, last ? 56 : 59.6], box(4, last ? 62 : 67, 92, last ? 27 : 27), between)];
+      };
+      const mazeRoute = [[3,1],[4,1],[4,2],[4,3],[3,3],[3,4],[2,4],[1,4],[1,5],[1,6],[2,6],[2,5],[3,5],[3,6],[4,6]];
+      return {
+        4: [W('Trace.', [30, 7], box(4, 13, 92, 77), [[23,20.4,52,2.4],[23,30.5,52,5],[23,43,52,5],[23,59,52,6],[23,76,52,6]],
+          'Start at each animal and trace the dotted path to its home.')],
+        5: [W("Write 'b' for the big and 's' for the small one.", [78, 51.2], box(9, 56, 80, 34),
+          [[32.4,79.9,6.4,4.4],[80.1,73.9,6.4,4.5]])],
+        8: [...topCounts(), W('Count and trace.', [76,29.5], box(8,35,79,27), [[13,45.9,9.3,6.1]], 'Count the pineapple and trace one.'),
+          W('Count and write.', [76,63], box(9,67,80,27), [[76.2,78,9,6.1]], 'Count the sun and write one.')],
+        11: [...topCounts(), W('Count and trace.', [76,29.5], box(8,35,79,27), [[13,45.9,9.3,6.1]], 'Count the cars and trace two.'),
+          W('Count and write.', [76,63], box(9,67,80,27), [[76.2,78,9,6.1]], 'Count the trees and write their number.')],
+        14: [...topCounts(), cross(3,'butterflies',32,59,[8,43.3,9,6]),
+          W('Count and write.', [76,65.5], box(9,70,85,23.5), [[81.4,75.8,9.3,6.0]], 'Count the balls and write their number.')],
+        17: [...topCounts(), cross(4,'birds',32,62,[7,46,9,6]),
+          groupChoice(4,[0.4,68],box(5,68,90,25.5), [[20,71,10,11,false,'one chick'],[48,70,42,10,true,'four trees'],
+            [8,82,31,10,true,'four doughnuts'],[56,83,30,9,false,'three balls']])],
+        18: [W('Tick the long vehicle and encircle the short one.', [78,50.5], box(6,54,86,35),
+          [[28,56.7,4.3,4.3],[77.6,54.3,4.3,4.3]], 'Tick the circle above the long bus, then ring the circle above the short car.')],
+        19: [W("Write 't' for the tall animal and 's' for the short one.", [78,51], box(34,51,38,39),
+          [[39.2,62.2,6.1,4.4],[60.5,81.9,6,4.4]])],
+        22: [...topCounts(), cross(5,'balls',32,61.5,[8,47,9,6]),
+          W('Count and write.', [76,64], box(10,69,82,24), [[81.1,79,9.5,6]], 'Count the pears and write their number.')],
+        23: [W('Count and write.', [77,5], box(10,11,84,28), [[40.3,19.7,9.2,4.1],[83.5,19.8,9.5,4.2],[40.3,34.2,9.2,4.2],[83.5,34.4,9.5,4.1]]),
+          Q('match','Count the objects and match them with the correct number.','Join each number to the group with that many objects.',
+            [38,43.5],box(10,43.4,84,30),{dots:[{id:'3',x:31,y:48.5},{id:'4',x:31,y:58.5},{id:'1',x:31,y:68.5},
+              {id:'1',x:69,y:49.5},{id:'3',x:69,y:59.5},{id:'4',x:69,y:69.5}]})],
+        26: [...topCounts(true), groupChoice(6,[37,44],box(6,35,88,26), [[15,36,18,11,true,'six oranges'],[59,37,27,10,false,'four ice creams'],
+          [15,50,18,9,false,'five strawberries'],[59,49,23,11,true,'six cupcakes']]),cross(6,'trees',65,94,[7,80.2,9,6])],
+        27: shapes(27,'circle',C.red,[[13.4,74.7,17.8,12.3],[41.8,74.7,17.8,12.3],[70.3,74.7,17.8,12.3]],box(3,0,93,44),69),
+        30: [...topCounts(true), W('Count and write.',[76,29.5],box(11,34,80,29),[[77.3,45,9.4,5.8]],'Count the seven chicks and write the number.'),
+          groupChoice(7,[77,94],box(6,68,89,25.5),[[8,70,41,9,true,'seven biscuits'],[55,70,34,9,false,'five strawberries'],
+            [8,82,29,11,false,'four oranges'],[54,81,38,12,true,'seven balls']])],
+        33: [...topCounts(true),groupChoice(8,[77,94],box(6,35,88,26.8),[[10,37,36,9,false,'four doughnuts'],[54,36,39,11,true,'eight ice creams'],
+          [8,50,35,10,true,'eight strawberries'],[51,50,41,10,false,'six pineapples']]),cross(8,'objects',65,94,[7,80.2,9,6])],
+        36: [...topCounts(true),W('Count and write.',[76,29.5],box(11,34,80,27),[[77.2,44.8,9.5,6]],'Count the carrots and write nine.'),
+          groupChoice(9,[77,94],box(6,68,89,26),[[8,70,38,10,true,'nine cupcakes'],[56,70,38,8,false,'six biscuits'],
+            [9,85,39,9,false,'five balls'],[58,81,35,12,true,'nine cherries']])],
+        37: [W("Write 'h' for the heavy and 'l' for the light one.",[77,55],box(4,57,89,33),[[13.2,59.7,6.2,4.4],[81.3,82.7,6,4.4]])],
+        38: [pick('Tick the object that is different.','Tap the ball that is different.',[77,50],box(6,54,88,17),
+          [[9,56,15,13,false,'ball one'],[26,56,15,13,true,'different ball'],[41,56,15,13,false,'ball three'],[58,54,15,13,false,'ball four'],[76,56,15,13,false,'ball five']]),
+          pick('Tick the objects that are same.','Tap the two ducks that are the same.',[77,70],box(6,73,88,20),
+            [[9,74,18,16,true,'first duck'],[32,75,17,15,false,'chick'],[48,74,18,16,true,'second duck'],[70,73,22,17,false,'hen']])],
+        39: shapes(39,'square',C.blue,[[13.7,73.2,18.3,13.5],[39.8,73.2,18.3,13.5],[65.9,73.2,18.3,13.5]],box(3,0,93,42),66.3),
+        41: [W('Trace and write.',[77,2],box(5,8,88,57),[[7.5,9.5,84,13.3],[7.5,23,84,9],[7.5,32.2,84,9],[7.5,41.5,84,9],[7.5,51,84,9]],'Trace zero and write more zeros in the empty cells.'),
+          pick("Tick the basket having '0' carrot.",'Tap the empty basket with no carrots.',[77,66.2],box(7,71,85,19),
+            [[9,74,25,15,false,'one carrot'],[37,74,25,15,false,'two carrots'],[65,74,25,15,true,'zero carrots']])],
+        44: [pick('Count the objects and circle the correct numbers.','Count each group and tap its number.',[77,4.5],box(13,13,72,27),
+          [[40.8,14.5,5,5,false,'4 apples'],[40.8,20.5,5,5,true,'6 apples'],[78.4,14.5,5,5,true,'8 pears'],[78.4,20.5,5,5,false,'10 pears'],
+            [40.8,29,5,5,false,'9 stars'],[40.8,34.5,5,5,true,'7 stars'],[78.4,29,5,5,false,'5 flowers'],[78.4,34.5,5,5,true,'10 flowers']]),
+          W('Count the objects in the picture and write their numbers in the boxes.',[55,43.9],box(4,47.5,90,27.3),
+            [[87.3,49.1,4.9,3],[87.3,56.1,4.9,3],[87.3,62.4,4.9,3],[87.3,69.6,4.9,3]])],
+        45: whatComes(),
+        56: [Q('colour','Help the baby fish to reach its mother by colouring the numbers in sequence from 1 to 15.',
+          'Start at one and colour the path through two, three, up to fifteen. Use yellow like the starting square.',[77,3],box(8,22,86,49.5),
+          {hint:{x:19,y:43},parts:mazeRoute.map(([row,col],i)=>part(String(i+1),[13.6+(col-1)*11.76-.3,23.4+(row-1)*7.89-.3,12.36,8.49],C.yellow)),
+            samples:[{page:56,...box(14,40,11,6.8)}]})],
+        57: shapes(57,'rectangle',C.yellow,[[12.8,76.3,29.8,10.4],[52.1,76.3,29.8,10.4]],box(3,0,93,45),69),
+        68: [pick('Count the objects and tick the relevant number.','Count the caps and bananas. Tap the correct number for each.',[77,4.5],box(9,12,81,29),
+          [[15,34.3,5.1,5,false,'19 caps'],[22,34.3,5.1,5,false,'16 caps'],[29,34.3,5.1,5,true,'20 caps'],[36,34.3,5.1,5,false,'13 caps'],
+            [59,34.3,5.1,5,false,'15 bananas'],[66,34.3,5.1,5,false,'17 bananas'],[73,34.3,5.1,5,true,'16 bananas'],[80,34.3,5.1,5,false,'18 bananas']]),
+          W('Write the missing numbers.',[77,42],box(4,47,90,24.5),[[31.6,50.4,9.3,5.6],[61.8,50.4,9.3,5.6],[13.6,63.2,9.3,5.6],[43.6,63.2,9.3,5.6],[58.6,63.2,9.3,5.6]])],
+        69: shapes(69,'triangle',C.green,[[12.8,74.1,19.7,13.8],[39.4,74.1,19.7,13.8],[65.8,74.1,19.7,13.8]],box(3,0,93,46),68.5),
+        70: [Q('match','Match each object with another object of the same colour.','Join each picture to the picture of the same colour.',[77,3.5],box(7,14,88,73),
+          {dots:[{id:'yellow',x:34,y:23},{id:'red',x:34,y:41},{id:'green',x:34,y:60},{id:'orange',x:34,y:79},
+            {id:'red',x:69,y:23},{id:'orange',x:69,y:41},{id:'yellow',x:69,y:60},{id:'green',x:69,y:79}]})],
+        71: [W('Trace and write.',[77,5.6],box(8,12,86,79),Array.from({length:10},(_,i)=>[11,12.8+i*7.92,37,6.3]).concat(Array.from({length:10},(_,i)=>[55.4,12.8+i*7.92,38,6.3])),
+          'Trace the numbers from one to twenty and write each number in the empty boxes beside it.')],
+        72: whatComes(true)
+      };
+    })(),
+    'stemford-urdu-3': {
+      10: [urduCircle('تصاویر کی ابتدائی آواز کے گرد دائرہ لگائیں۔', [30, 11.8], box(8, 15.5, 84, 21.5),
+          [[17, 33.5, false, 'آ'], [28, 33.5, true, 'ا'], [45, 33.5, true, 'آ'], [56, 33.5, false, 'ا'], [73.5, 33.5, false, 'آ'], [84, 33.5, true, 'ا']]),
+        urduColour('رنگ بھریں۔', [35, 37.3], box(4, 41.5, 92, 25),
+          [part('آلو', [11, 41, 31, 19], [C.brown, C.yellow]), part('انار', [47, 41.5, 34, 21], [C.red, C.green])], ['آلو', 'انار'], [[6, 57, 12, 8.5], [82, 57, 12, 8.5]]),
+        urduWrite('ابتدائی حرف لکھیں۔', [17, 37.3], box(4, 41.5, 92, 25), [[6, 57, 12, 8.5], [82, 57, 12, 8.5]])],
+      22: [urduCircle('تصاویر کی ابتدائی آواز کے گرد دائرہ لگائیں۔', [26, 10.8], box(5, 15, 92, 52.5),
+          [[15.3, 37.5, false, 'پ'], [25, 37.5, true, 'ب'], [45, 37.5, true, 'پ'], [54.6, 37.5, false, 'ب'], [74.6, 37.5, true, 'ت'], [84.3, 37.5, false, 'ٹ'],
+            [29.2, 63.5, true, 'ث'], [39.8, 63.5, false, 'ب'], [60, 63.5, false, 'پ'], [68.4, 63.5, true, 'ٹ']])],
+      32: [urduCircle('تصاویر کے پہلے حرف پر دائرہ لگائیں۔', [30, 10.8], box(5, 15, 90, 53),
+          [[13.9, 37, false, 'ح'], [24.5, 37, true, 'چ'], [36.4, 37, false, 'ج'], [65.4, 37, false, 'ح'], [75.5, 37, false, 'چ'], [86.7, 37, true, 'ج'],
+            [13.9, 64, false, 'ج'], [24.5, 64, false, 'چ'], [36.4, 64, true, 'خ'], [65.4, 64, true, 'ح'], [75.5, 64, false, 'خ'], [86.7, 64, false, 'چ']])],
+      // each letter has a dot on both sides; a picture's dot joins the dot of its letter
+      48: [U('match', 'تصاویر کو اُن کے متعلقہ حروف سے ملائیے۔', 'ہر تصویر کو اُس کے حرف سے لکیر کھینچ کر ملائیں۔', [27, 10.8], box(0, 16, 100, 52.5),
+          { dots: [['ڈ', 26, 22], ['د', 74, 22], ['ز1', 26, 35], ['ذ', 74, 35], ['ر', 26, 48.3], ['ڑ', 74, 48.3], ['ژ', 26, 61.4], ['ز2', 74, 61.4],
+            ...[['د', 19.6], ['ڈ', 24.4], ['ذ', 32.7], ['ز1', 37.4], ['ر', 45.9], ['ڑ', 50.7], ['ز2', 59.1], ['ژ', 63.7]].flatMap(([id, y]) => [[id, 41.8, y], [id, 57.9, y]])]
+            .map(([id, x, y]) => ({ id, x, y })) })],
+      58: [urduWrite('تصاویر کے نام کا پہلا حرف لکھیں۔', [35, 11], box(5, 16, 90, 22), [[12, 30.5, 11.5, 7], [33, 30.5, 11.5, 7], [55, 30.5, 11.5, 7], [77, 30.5, 11.5, 7]]),
+        urduColour('تصویر میں رنگ بھریں۔', [30, 39], box(4, 42, 92, 27),
+          [pieces('سائیکل', [5, 46, 22, 13], [C.red, C.blue, C.black]), pieces('صندوق', [27.5, 44.5, 22, 16], [C.brown, C.yellow]),
+            pieces('ضعیف', [52.5, 42.5, 17, 20], MANY), pieces('شہد', [73, 44.5, 22, 15.5], [C.yellow, C.orange, C.brown])], ['سائیکل', 'صندوق', 'ضعیف', 'شہد'], [[6, 59.5, 19, 8.5], [29, 59.5, 19, 8.5], [52, 59.5, 19, 8.5], [75, 59.5, 19, 8.5]]),
+        urduWrite('پہلا حرف لکھیں۔', [10, 39], box(4, 42, 92, 27), [[6, 59.5, 19, 8.5], [29, 59.5, 19, 8.5], [52, 59.5, 19, 8.5], [75, 59.5, 19, 8.5]])],
+      68: [urduCircle('تصاویر کے نام کے درست ابتدائی حرف پر دائرہ لگائیں۔', [15, 10.8], box(5, 15.5, 90, 23.5),
+          [[9.8, 27.5, true, 'ع'], [21.3, 35.5, false, 'ظ'], [31, 27.5, false, 'ج'], [40.1, 27.5, false, 'ز'], [49.2, 35.5, true, 'ط'], [60.7, 27.5, false, 'ج'],
+            [69.2, 27.5, false, 'ز'], [78.2, 35.5, false, 'ظ'], [89.1, 27.5, true, 'غ']]),
+        urduColour('دیے گئے خاکوں میں رنگ بھریں۔', [0.5, 38.6], box(4, 43, 93, 26),
+          [pieces('طیارہ', [5, 42.5, 42, 21], [C.blue, C.red, C.yellow]), pieces('ظروف', [46.5, 45, 49, 17], MANY)], ['طیارہ', 'ظروف'], [[30, 56, 14, 7.5], [61, 61.5, 14, 7.5]]),
+        urduWrite('ان کے نام کا ابتدائی حرف لکھیں۔', [17.5, 38.6], box(4, 43, 93, 26), [[30, 56, 14, 7.5], [61, 61.5, 14, 7.5]])],
+      82: [urduCircle('تصاویر کے نام کے ابتدائی حرف پر دائرہ لگائیں۔', [22, 10.3], box(5, 15, 90, 35.5),
+          [[13.9, 18.5, false, 'ل'], [13.9, 24, false, 'م'], [13.9, 29.5, true, 'گ'], [58.3, 18.5, true, 'ک'], [58.3, 24, false, 'گ'], [58.3, 29.5, false, 'ل'],
+            [13.9, 36.5, false, 'ک'], [13.9, 42, false, 'ل'], [13.9, 47.5, true, 'ف'], [58.3, 36.5, true, 'ق'], [58.3, 42, false, 'ل'], [58.3, 47.5, false, 'ک']]),
+        urduColour('دیے گئے خاکوں میں رنگ بھریں۔', [3, 51.3], box(5, 54, 92, 16.5),
+          [pieces('قینچی', [20, 54.5, 27, 15], [C.red, C.blue, C.yellow]), pieces('لٹو', [48.5, 54.5, 26.5, 16], MANY)], ['لٹو'], [[8, 61, 14, 7.5], [77.5, 61, 14, 7.5]]),
+        urduWrite('ان کے نام کا ابتدائی حرف لکھیں۔', [3, 56.5], box(5, 54, 92, 16.5), [[8, 61, 14, 7.5], [77.5, 61, 14, 7.5]])],
+      94: [urduWrite('تصاویر سے متعلقہ حرف لکھیں۔', [40, 10.3], box(5, 16, 90, 53),
+          [[10.5, 20.5, 9, 8.5], [54.5, 20.5, 9, 8.5], [10.5, 38.5, 9, 9], [54.5, 38.5, 9, 9], [10.5, 56.5, 9, 9], [54.5, 56.5, 9, 9]])],
+      95: [urduWrite('پنسل پھیریں اور یاد کریں۔', [44, 9.5], box(3, 12, 94, 82), [[5, 13, 90, 80]], 'نقطوں پر پنسل پھیر کر حروفِ تہجی لکھیں۔')]
+    },
+
+    // Urdu 5+ (Prep): measured on a % grid of each page; the right answers read from the page at zoom
+    'stemford-urdu-5': (() => {
+      const W = (title, say, button, crop, lines) => U('write', title, say, button, box(...crop), { hint: { x: lines[0][0] + lines[0][2] - 3, y: lines[0][1] + 2 }, lines: rects(lines) });
+      // tap the right words (flowers, leaves, clouds) or answers: [x, y, correct, word]
+      const C5 = (title, say, button, crop, options, w = 11, h = 8) => U('choose', title, say, button, box(...crop),
+        { options: options.map(([x, y, correct, label]) => tap(x, y, !!correct, label, w, h)) });
+      const story = () => W('مثال کے مطابق حروف الگ الگ کر کے لکھیے۔', 'مثال دیکھیں اور ہر لفظ کے حروف الگ الگ خانوں میں لکھیں۔', [3, 52.3], [0.5, 51.5, 99, 37], [[1, 56, 98, 32]]);
+      const table = (vowel, first) => W(`مثال کے مطابق حروفِ تہجی کی ابتدائی اشکال کو مصوتہ "${vowel}" سے ملائیے اور ارکان لکھیے۔`,
+        `ہر حرف کو "${vowel}" سے ملا کر خالی خانے میں رکن لکھیں۔`, [3, 94.6], first ? [1, 14, 98, 77] : [1, 5, 98, 86], [first ? [2, 15, 96, 75] : [2, 6, 96, 84]]);
+      const trace = (title = 'پڑھیے اور پنسل پھیریے۔') => W(title, 'لفظ پڑھیں اور ہلکے لکھے حروف پر پنسل پھیریں۔', [25, 10.5], [1, 13.5, 98, 49], [[2, 15, 96, 47]]);
+      const read = (button, crop, lines) => W('پڑھیے اور لکھیے۔', 'جملے پڑھیں اور ساتھ والی لکیروں پر خوش خط لکھیں۔', button, crop, lines);
+      const names = button => W('تصاویر دیکھ کر نام ڈھونڈیے اور لکھیے۔', 'تصویر دیکھیں، اوپر سے اُس کا نام ڈھونڈیں اور نیچے خانے میں لکھیں۔', button, [5, 8, 90, 38.5], [[6, 38.5, 88, 7]]);
+      const pictureNames = (mark, button, crop, lines) => W(`دی گئی تصاویر کے نام لکھیے اور دُرست جگہ پر ${mark} کی علامت لگائیے۔`,
+        `تصویر کا نام خانے میں لکھیں اور ${mark} کی علامت لگائیں۔`, button, crop, lines);
+      const copyMark = (mark, what, button, crop, lines) => W(`دیے گئے ${what} پڑھیے، خوش خط لکھیے اور ${mark} کی علامت بھی لگائیے۔`,
+        `${what} پڑھیں، نیچے خانے میں خوش خط لکھیں اور ${mark} کی علامت لگائیں۔`, button, crop, lines);
+      const marked = (mark, shape, button, crop, options, w, h) => C5(`علامت ${mark} پر مشتمل الفاظ والے ${shape} میں رنگ بھریے۔`,
+        `جن الفاظ پر ${mark} کی علامت ہے، اُن ${shape} پر ٹیپ کریں۔`, button, crop, options, w, h);
+      const pages = {};
+      for (let p = 8; p <= 24; p++) pages[p] = [story()];
+      Object.assign(pages, {
+        26: [table('الف', true)], 27: [table('الف', false)], 31: [table('و', true)], 32: [table('و', false)],
+        36: [table('ی', true)], 37: [table('ی', false)], 40: [table('ے', true)], 41: [table('ے', false)],
+        28: [trace(), W('مثال کے مطابق ارکان کے ساتھ حروف کو ملا کر الفاظ بنائیے اور لکھیے۔', 'رکن کے ساتھ حرف ملا کر لفظ بنائیں اور لکیروں پر لکھیں۔', [3, 66], [1, 68.5, 98, 24], [[2, 72, 96, 20]])],
+        29: [names([3, 4]), read([3, 48.5], [1, 49, 98, 42], [[2, 52, 26, 37], [51, 52, 20, 37]])],
+        30: [trace('پڑھیے اور لکھیے۔'), read([3, 61.8], [1, 63, 98, 28], [[2, 66, 58, 24]])],
+        33: [trace(), W('مثال کے مطابق ارکان کے ساتھ حروف کو ملا کر الفاظ بنائیے۔', 'رکن کے ساتھ حرف ملا کر لفظ بنائیں اور لکیروں پر لکھیں۔', [3, 63], [1, 66, 98, 26], [[2, 70, 96, 21]])],
+        34: [names([3, 4]), read([3, 46], [1, 47, 98, 44], [[1, 51, 22, 38], [39, 51, 30, 38]])],
+        35: [trace(), read([3, 60.2], [1, 62, 98, 29], [[2, 64, 52, 27]])],
+        38: [trace(), read([3, 66.5], [1, 70, 98, 21], [[2, 73, 26, 14], [46, 73, 24, 14]])],
+        39: [names([3, 4]), W('دیے گئے الفاظ کے حروف الگ لکھیے۔', 'ہر لفظ کے حروف الگ الگ لکیروں پر لکھیں۔', [3, 46], [1, 47, 98, 46], [[2, 50, 74, 43]])],
+        42: [trace(), read([3, 67], [1, 68, 98, 23], [[2, 71, 62, 19]])],
+        43: [trace(), read([3, 69], [1, 70, 98, 21], [[2, 73, 60, 15]])],
+        44: [W('ارکان ملا کر الفاظ مکمل کیجیے اور لکھیے۔', 'بیچ والے رکن کو باہر والے ارکان سے ملا کر الفاظ بنائیں اور لکیروں پر لکھیں۔', [3, 6], [1, 11, 98, 26], [[2, 12, 96, 24]]),
+          W('دیے گئے ارکان کے ساتھ دُرست ارکان لکھ کر تین تین نئے الفاظ بنائیے اور لکھیے۔', 'ہر رکن کے ساتھ دوسرے ارکان ملا کر تین نئے الفاظ لکھیں۔', [3, 34.5], [1, 38, 98, 21], [[2, 41, 66, 17]]),
+          // the dots printed under the pictures and over the names: tea - چائے, cow - گائے, trotters - پائے, quilt - رضائی
+          U('match', 'دی گئی تصاویر کو اُن کے دُرست ناموں سے ملائیے۔', 'ہر تصویر کو اُس کے نام سے لکیر کھینچ کر ملائیں۔', [3, 60], box(1, 65.3, 98, 30.7),
+            { dots: [['چائے', 16.5, 76.8], ['گائے', 37.6, 76.8], ['پائے', 58.6, 76.8], ['رضائی', 79.6, 76.8],
+              ['پائے', 15.8, 89.8], ['رضائی', 37.5, 89.8], ['گائے', 58.5, 89.8], ['چائے', 80.5, 89.8]].map(([id, x, y]) => ({ id, x, y })) })],
+        47: [marked('زبر', 'پھولوں', [3, 9], [1, 14, 98, 20.5], [[87.7, 20, 1, 'جَگ'], [74.7, 20, 1, 'رَس'], [60.7, 20, 1, 'اَب'], [47.1, 20, 0, 'آب'], [33.7, 20, 0, 'آگ'], [19.6, 20, 1, 'خَط'],
+            [80.6, 28.7, 1, 'اَنار'], [67, 28.7, 1, 'حَج'], [53.4, 28.7, 1, 'سَچ'], [39.8, 28.7, 0, 'ساتھ'], [26.2, 28.7, 1, 'پَھل'], [12.7, 28.7, 0, 'آواز']]),
+          pictureNames('زبر', [3, 31], [3, 37, 94, 22], [[5, 52, 90, 6]]), copyMark('زبر', 'الفاظ', [3, 57.5], [1, 65, 98, 27], [[3, 70.5, 94, 7], [3, 84, 94, 7]])],
+        50: [marked('زیر', 'پھولوں', [3, 9], [1, 14, 98, 19.5], [[87.7, 18.9, 0, 'چَھتری'], [74.7, 18.9, 1, 'تِل'], [60.7, 18.9, 0, 'خَط'], [47.1, 18.9, 1, 'طِب'], [33.7, 18.9, 1, 'مِٹ'], [19.7, 18.9, 1, 'مِل'],
+            [80.6, 28.1, 0, 'رَوزہ'], [67, 28.1, 1, 'کِھل'], [53.4, 28.1, 1, 'جِن'], [39.8, 28.1, 1, 'دِل'], [26.2, 28.1, 1, 'دِن'], [12.9, 28.1, 0, 'بَرتن']]),
+          pictureNames('زیر', [3, 30], [3, 37, 94, 23], [[5, 52.5, 90, 6.5]]), copyMark('زیر', 'الفاظ', [3, 56.5], [1, 64, 98, 28], [[3, 70.5, 94, 7], [3, 84, 94, 7]])],
+        53: [marked('پیش', 'خانوں', [3, 8.5], [1, 14, 98, 31], [[86.9, 20.1, 1, 'کُرسی'], [73.4, 20.1, 0, 'مِٹ'], [57.5, 20.1, 0, 'دِل'], [43.1, 20.1, 1, 'دُھن'], [28, 20.1, 0, 'دِن'], [13.3, 20.1, 1, 'مُرغا'],
+            [86.9, 30.1, 0, 'اِس'], [73.4, 30.1, 1, 'جُھک'], [57.5, 30.1, 1, 'مُڑ'], [43.1, 30.1, 1, 'اُڑ'], [28, 30.1, 0, 'دِل'], [13.3, 30.1, 0, 'بارِش'],
+            [86.9, 39.4, 1, 'آڑُو'], [73.4, 39.4, 0, 'تِتلی'], [57.5, 39.4, 1, 'گُڑ'], [43.1, 39.4, 1, 'دُم'], [28, 39.4, 0, 'کِتاب'], [13.3, 39.4, 1, 'گُل']]),
+          pictureNames('پیش', [3, 40.5], [1, 48, 98, 40], [[2, 61.5, 16, 7], [82, 61.5, 16, 7], [2, 80.5, 16, 7], [82, 80.5, 16, 7]])],
+        56: [marked('شد', 'پتوں', [3, 8.5], [1, 14, 98, 23], [[84, 21.3, 1, 'اللہ'], [69.6, 22.2, 1, 'امّی'], [58.2, 20.7, 1, 'ذلّت'], [43, 22.5, 1, 'ابّو'], [28.7, 20.1, 1, 'عزّت'], [14.5, 22.7, 0, 'جِم'],
+            [84, 31.9, 1, 'رسّا'], [70.5, 33.7, 0, 'پِن'], [58.2, 32.5, 1, 'صحّت'], [43, 34.9, 0, 'پِھر'], [28.7, 32.5, 1, 'کوّا'], [13.7, 34.7, 0, 'دِن']], 12, 9),
+          pictureNames('شد', [3, 36.8], [3, 45, 94, 24], [[6, 62.5, 88, 6]]), copyMark('شد', 'جملے', [3, 64.5], [1, 72, 98, 17], [[3, 79.5, 94, 8.5]])],
+        58: [marked('نون غنہ', 'بادلوں', [3, 8.5], [3, 13.5, 94, 24.5], [[85.3, 18.6, 1, 'آنکھ'], [57.1, 18.3, 1, 'اونٹ'], [29.3, 18.3, 1, 'سانپ'], [71, 23, 0, 'سُرخ'], [44, 23, 1, 'دانت'], [15.1, 22.8, 1, 'تنگ'],
+            [85.7, 28.1, 1, 'پانچ'], [57.1, 27.8, 1, 'چاند'], [29.3, 29.5, 1, 'رنگ'], [71, 32.8, 0, 'قُرآن'], [44, 32.5, 1, 'آنچ'], [15.3, 33, 0, 'بارِش']], 12, 8),
+          pictureNames('نون غنہ', [3, 35], [3, 41, 94, 27], [[6, 62, 88, 6]]), copyMark('نون غنہ', 'جملے', [3, 63], [1, 70.5, 98, 17], [[3, 77.5, 94, 8.5]])],
+        60: [W('دیے ہوئے الفاظ کے حروف الگ الگ کیجیے۔', 'ہر لفظ کے حروف الگ الگ خانوں میں لکھیں۔', [3, 37], [0.5, 41.5, 99, 23], [[1, 43, 73, 20]]),
+          W('خوش خط لکھیے۔', 'جملے پڑھیں اور ساتھ والی لکیروں پر خوش خط لکھیں۔', [3, 62], [1, 67.5, 98, 23], [[2, 68.5, 59, 21]])],
+        61: [W('دیے گئے الفاظ کے حروف الگ الگ کیجیے۔', 'ہر لفظ کے حروف الگ الگ خانوں میں لکھیں۔', [3, 54.5], [0.5, 60, 99, 31], [[1, 61.5, 72, 28]])],
+        62: [W('دیے گئے حروف کو جوڑ کر الفاظ بنائیں اور لکھیے۔', 'حروف جوڑ کر لفظ بنائیں اور خانے میں لکھیں۔', [3, 53.5], [0.5, 60, 99, 31], [[1, 61, 37, 30]])],
+        63: [W('دیے گئے الفاظ کے حروف الگ الگ کر کے لکھیے۔', 'ہر لفظ کے حروف الگ الگ خانوں میں لکھیں۔', [3, 53.5], [0.5, 59, 99, 32], [[1, 60, 78, 31]])],
+        67: [W('پڑھیے اور لکھیے۔', 'پھلوں اور سبزیوں کے نام پڑھیں اور خالی خانوں میں لکھیں۔', [3, 10.5], [1, 15, 98, 74], [[22, 17, 14, 30], [22, 57.5, 14, 30]])],
+        69: [W('"یہ" اور "وہ" کا دُرست استعمال کرتے ہوئے جملے مکمل کیجیے۔', 'پاس والی چیز کے لیے "یہ" اور دور والی چیز کے لیے "وہ" لکھیں۔', [3, 9.5], [1, 14, 98, 82],
+          [[13, 27, 35, 6.5], [56, 27, 35, 6.5], [13, 50, 35, 7], [56, 50, 35, 7], [13, 70, 35, 7], [56, 70, 35, 7], [13, 88.5, 35, 7], [56, 88.5, 35, 7]])],
+        // one hat: ہے; two or more things: ہیں
+        71: [C5('تصویر دیکھ کر "ہے" یا "ہیں" پر نشان لگائیں۔', 'ایک چیز کے لیے "ہے" اور زیادہ چیزوں کے لیے "ہیں" پر ٹیپ کریں۔', [3, 9.5], [8, 15, 85, 81],
+            [[20.5, 21.5, 0, 'ہیں'], [31.5, 21.5, 1, 'ہے'], [20.5, 37, 1, 'ہیں'], [31.5, 37, 0, 'ہے'], [20.5, 53, 1, 'ہیں'], [31.5, 53, 0, 'ہے'],
+              [20.5, 68.8, 1, 'ہیں'], [31.5, 68.8, 0, 'ہے'], [20.5, 84.8, 1, 'ہیں'], [31.5, 84.8, 0, 'ہے']], 8, 6),
+          W('جملے بنا کر لکھیں۔', 'تصویر دیکھ کر پورا جملہ لکیر پر لکھیں۔', [3, 15], [8, 15, 85, 81],
+            [[11, 25, 77, 6], [11, 40.5, 77, 6], [11, 56.5, 77, 6], [11, 72.5, 77, 6], [11, 88.5, 77, 6]])],
+        72: [W('مناسب الفاظ لکھتے ہوئے جملے مکمل کیجیے۔', 'خالی جگہ پر اپنے بارے میں لکھ کر جملے مکمل کریں۔', [3, 47], [1, 57, 98, 32], [[24, 58, 70, 30]])],
+        73: [W('جواب دیں۔', 'سوال پڑھیں اور نیچے والے خانے میں جواب لکھیں۔', [3, 46], [1, 52, 98, 37], [[2, 61, 93, 5.5], [2, 71.5, 93, 5.5], [2, 81.5, 93, 5.5]])],
+        74: [W('سوالات کے جوابات لکھیے۔', 'سوال پڑھیں اور نیچے والے خانے میں جواب لکھیں۔', [3, 58.5], [1, 61, 98, 27], [[2, 68.5, 93, 5.5], [2, 79, 93, 6]])],
+        75: [W('تصویر دیکھیں اور سوالات کے جوابات لکھیے۔', 'تصویر دیکھیں، سوال پڑھیں اور ساتھ والے خانے میں جواب لکھیں۔', [3, 56.5], [1, 62, 98, 29], [[2, 65.5, 36, 22]])],
+        76: [C5('دُرست جواب کے گرد دائرہ لگائیں۔', 'جملہ پڑھیں اور دُرست لفظ پر ٹیپ کریں۔', [3, 52], [1, 62, 98, 28],
+          [[15.3, 68, 1, 'باغ'], [25.2, 68, 0, 'سکول'], [15.3, 74.5, 0, 'میدان'], [25.2, 74.5, 1, 'تالاب'], [15.3, 80.8, 0, 'مرغیاں'], [25.2, 80.8, 1, 'بطخیں'],
+            [15.3, 87.2, 0, 'بُرا'], [25.2, 87.2, 1, 'اچھا']], 9.5, 5)],
+        77: [W('کہانی پڑھ کر دُرست اور غلط جملوں کی نشان دہی کریں۔', 'کہانی پڑھیں۔ دُرست جملے کے خانے میں ✓ اور غلط جملے کے خانے میں ✗ لگائیں۔', [3, 56], [1, 66, 98, 26], [[4, 70, 14, 21]])],
+        78: [W('تصویر دیکھیے اور دیے گئے امدادی الفاظ کی مدد سے پانچ جملے لکھیے۔', 'تصویر دیکھیں اور امدادی الفاظ سے پانچ جملے لکیروں پر لکھیں۔', [3, 4.5], [1, 14, 98, 78], [[5, 62.5, 83, 29]])],
+        79: [W('تصویر دیکھیے اور دیے گئے امدادی الفاظ کی مدد سے پانچ جملے لکھیے۔', 'تصویر دیکھیں اور امدادی الفاظ سے پانچ جملے لکیروں پر لکھیں۔', [3, 4.5], [1, 14, 98, 78], [[2, 62, 92, 29]])]
+      });
+      // Each button on blank paper by its question: found by searching the page picture for the nearest spot with no
+      // print under it (tools/question_check.py overlay shows them). The four full table pages (26 31 36 40) have no
+      // blank paper above the table, so their button sits in the blank space under it.
+      const BUTTONS = {"8":{"0":[3.0,50.25]},"9":{"0":[3.0,50.25]},"10":{"0":[3.0,50.25]},"11":{"0":[3.0,50.25]},"12":{"0":[3.0,53.5]},"13":{"0":[3.0,50.25]},"14":{"0":[3.0,50.25]},"15":{"0":[3.0,50.25]},"16":{"0":[3.0,50.25]},"17":{"0":[3.0,50.25]},"18":{"0":[3.0,50.25]},"19":{"0":[3.0,50.25]},"20":{"0":[3.0,50.25]},"21":{"0":[3.0,50.25]},"22":{"0":[3.0,50.25]},"23":{"0":[3.0,50.5]},"24":{"0":[3.0,50.25]},"26":{"0":[22.5,87.25]},"27":{"0":[9.5,0.3]},"28":{"0":[44.0,8.5],"1":[3.0,63.5]},"29":{"0":[9.5,0.55],"1":[28.0,47.25]},"30":{"0":[44.0,8.5],"1":[3.0,61.0]},"31":{"0":[34.5,87.75]},"32":{"0":[9.5,0.3]},"33":{"0":[44.0,8.5],"1":[3.0,62.0]},"34":{"0":[9.5,0.55],"1":[2.0,89.0]},"35":{"0":[44.0,8.5],"1":[54.0,64.5]},"36":{"0":[26.5,87.5]},"37":{"0":[9.5,0.3]},"38":{"0":[44.0,8.5],"1":[3.0,65.0]},"39":{"0":[9.5,0.55],"1":[3.0,46.0]},"40":{"0":[18.5,87.5]},"41":{"0":[9.5,0.3]},"42":{"0":[44.0,8.5],"1":[3.0,63.0]},"43":{"0":[44.0,8.5],"1":[3.0,65.0]},"44":{"0":[9.0,6.5],"1":[0.5,36.0],"2":[3.0,59.25]},"47":{"0":[7.0,9.0],"1":[3.0,33.25],"2":[3.0,60.5]},"50":{"0":[7.0,9.0],"1":[3.0,32.5],"2":[3.0,60.0]},"53":{"0":[7.0,9.0],"1":[1.0,49.5]},"56":{"0":[7.0,9.0],"1":[3.0,40.25],"2":[3.0,68.75]},"58":{"0":[7.5,8.5],"1":[1.5,37.0],"2":[3.0,68.0]},"60":{"0":[3.0,36.5],"1":[3.0,63.0]},"61":{"0":[3.0,55.0]},"62":{"0":[3.0,55.0]},"63":{"0":[3.0,54.0]},"67":{"0":[3.0,10.75]},"69":{"0":[16.0,9.0]},"71":{"0":[5.0,10.0],"1":[35.5,14.25]},"72":{"0":[3.0,48.25]},"73":{"0":[4.5,49.0]},"74":{"0":[3.0,56.0]},"75":{"0":[3.0,57.75]},"76":{"0":[3.0,57.0]},"77":{"0":[3.0,61.0]},"78":{"0":[7.0,9.0]},"79":{"0":[7.0,9.0]}};
+      for (const [page, list] of Object.entries(pages)) list.forEach((q, i) => { const b = BUTTONS[page]?.[i]; if (b) q.button = { x: b[0], y: b[1] }; });
+      // Measured question-only views: exclude neighbouring activities and teacher notes.
+      const VIEWS = {
+        "8": {"0":{"crop":{"x":0.5,"y":50.32,"w":99,"h":35.12},"hide":[{"x":27.3,"y":76.18,"w":14.7,"h":4.2},{"x":0.5,"y":80.18,"w":41.5,"h":5.26}],"lines":[{"x":1,"y":56.04,"w":41.8,"h":19.99},{"x":42.0,"y":56.04,"w":56.0,"h":29.16}],"hint":{"x":74,"y":63.89}}},
+        "9": {"0":{"crop":{"x":0.5,"y":50.32,"w":99,"h":34.9},"hide":[{"x":26.07,"y":77.68,"w":14.7,"h":4.2},{"x":0.5,"y":81.68,"w":40.27,"h":3.54}],"lines":[{"x":1,"y":56.32,"w":40.57,"h":21.21},{"x":40.77,"y":56.32,"w":57.23,"h":28.66}],"hint":{"x":74,"y":64.17}}},
+        "10": {"0":{"crop":{"x":0.5,"y":50.32,"w":99,"h":35.12},"hide":[{"x":29.99,"y":76.57,"w":14.7,"h":4.2},{"x":0.5,"y":80.57,"w":44.19,"h":4.87}],"lines":[{"x":1,"y":56.04,"w":44.49,"h":20.38},{"x":44.69,"y":56.04,"w":53.31,"h":29.16}],"hint":{"x":74,"y":63.89}}},
+        "11": {"0":{"crop":{"x":0.5,"y":50.32,"w":99,"h":35.68},"hide":[{"x":27.38,"y":77.18,"w":14.7,"h":4.2},{"x":0.5,"y":81.18,"w":41.58,"h":4.82}],"lines":[{"x":1,"y":56.59,"w":41.88,"h":20.43},{"x":42.08,"y":56.59,"w":55.92,"h":29.16}],"hint":{"x":74,"y":64.44}}},
+        "12": {"0":{"crop":{"x":0.5,"y":53.6,"w":99,"h":29.57},"hide":[{"x":30.3,"y":77.62,"w":14.7,"h":4.2},{"x":0.5,"y":81.62,"w":44.5,"h":1.55}],"lines":[{"x":1,"y":59.76,"w":44.8,"h":17.71},{"x":45.0,"y":59.76,"w":53.0,"h":23.16}],"hint":{"x":74,"y":67.61}}},
+        "13": {"0":{"crop":{"x":0.5,"y":50.32,"w":99,"h":35.46},"hide":[{"x":26.84,"y":76.79,"w":14.7,"h":4.2},{"x":0.5,"y":80.79,"w":41.04,"h":4.99}],"lines":[{"x":1,"y":56.15,"w":41.34,"h":20.49},{"x":41.54,"y":56.15,"w":56.46,"h":29.38}],"hint":{"x":74,"y":64.0}}},
+        "14": {"0":{"crop":{"x":0.5,"y":50.32,"w":99,"h":36.18},"hide":[{"x":27.15,"y":77.68,"w":14.7,"h":4.2},{"x":0.5,"y":81.68,"w":41.35,"h":4.82}],"lines":[{"x":1,"y":57.26,"w":41.65,"h":20.27},{"x":41.85,"y":57.26,"w":56.15,"h":28.99}],"hint":{"x":74,"y":65.11}}},
+        "15": {"0":{"crop":{"x":0.5,"y":50.32,"w":99,"h":33.96},"hide":[{"x":19.3,"y":73.62,"w":14.7,"h":4.2},{"x":0.5,"y":77.62,"w":33.5,"h":6.66}],"lines":[{"x":1,"y":55.71,"w":33.8,"h":17.77},{"x":34.0,"y":55.71,"w":64.0,"h":28.32}],"hint":{"x":74,"y":63.56}}},
+        "16": {"0":{"crop":{"x":0.5,"y":50.32,"w":99,"h":36.18},"hide":[{"x":27.38,"y":77.68,"w":14.7,"h":4.2},{"x":0.5,"y":81.68,"w":41.58,"h":4.82}],"lines":[{"x":1,"y":57.43,"w":41.88,"h":20.1},{"x":42.08,"y":57.43,"w":55.92,"h":28.82}],"hint":{"x":74,"y":65.28}}},
+        "17": {"0":{"crop":{"x":0.5,"y":50.32,"w":99,"h":36.18},"hide":[{"x":28.07,"y":77.68,"w":14.7,"h":4.2},{"x":0.5,"y":81.68,"w":42.27,"h":4.82}],"lines":[{"x":1,"y":57.48,"w":42.57,"h":20.04},{"x":42.77,"y":57.48,"w":55.23,"h":28.77}],"hint":{"x":74,"y":65.33}}},
+        "18": {"0":{"crop":{"x":0.5,"y":50.32,"w":99,"h":30.9},"hide":[{"x":26.99,"y":77.68,"w":14.7,"h":4.2}],"lines":[{"x":1,"y":57.82,"w":41.49,"h":19.71},{"x":41.69,"y":57.82,"w":56.31,"h":23.16}],"hint":{"x":74,"y":65.67}}},
+        "19": {"0":{"crop":{"x":0.5,"y":50.32,"w":99,"h":36.07},"hide":[{"x":24.92,"y":77.68,"w":14.7,"h":4.2},{"x":0.5,"y":81.68,"w":39.12,"h":4.71}],"lines":[{"x":1,"y":56.65,"w":39.42,"h":20.88},{"x":39.62,"y":56.65,"w":58.38,"h":29.49}],"hint":{"x":74,"y":64.5}}},
+        "20": {"0":{"crop":{"x":0.5,"y":50.32,"w":99,"h":36.18},"hide":[{"x":27.45,"y":77.68,"w":14.7,"h":4.2},{"x":0.5,"y":81.68,"w":41.65,"h":4.82}],"lines":[{"x":1,"y":56.93,"w":41.95,"h":20.6},{"x":42.15,"y":56.93,"w":55.85,"h":29.32}],"hint":{"x":74,"y":64.78}}},
+        "21": {"0":{"crop":{"x":0.5,"y":50.32,"w":99,"h":35.84},"hide":[{"x":20.07,"y":77.4,"w":14.7,"h":4.2},{"x":0.5,"y":81.4,"w":34.27,"h":4.76}],"lines":[{"x":1,"y":56.59,"w":34.57,"h":20.66},{"x":34.77,"y":56.59,"w":63.23,"h":29.32}],"hint":{"x":74,"y":64.44}}},
+        "22": {"0":{"crop":{"x":0.5,"y":50.32,"w":99,"h":36.12},"hide":[{"x":27.99,"y":77.68,"w":14.7,"h":4.2},{"x":0.5,"y":81.68,"w":42.19,"h":4.76}],"lines":[{"x":1,"y":56.82,"w":42.49,"h":20.71},{"x":42.69,"y":56.82,"w":55.31,"h":29.38}],"hint":{"x":74,"y":64.67}}},
+        "23": {"0":{"crop":{"x":0.5,"y":50.27,"w":99,"h":32.01},"hide":[{"x":30.22,"y":76.68,"w":14.7,"h":4.2},{"x":0.5,"y":80.68,"w":44.42,"h":1.6}],"lines":[{"x":1,"y":56.71,"w":44.72,"h":19.82},{"x":44.92,"y":56.71,"w":53.08,"h":25.32}],"hint":{"x":74,"y":64.56}}},
+        "24": {"0":{"crop":{"x":0.5,"y":50.32,"w":99,"h":35.84},"hide":[{"x":27.22,"y":77.68,"w":14.7,"h":4.2},{"x":0.5,"y":81.68,"w":41.42,"h":4.48}],"lines":[{"x":1,"y":56.76,"w":41.72,"h":20.77},{"x":41.92,"y":56.76,"w":56.08,"h":29.16}],"hint":{"x":74,"y":64.61}}},
+        "26": {"0":{"crop":{"x":1,"y":16,"w":98,"h":72.81}}},
+        "27": {"0":{"crop":{"x":1,"y":5,"w":98,"h":84.36},"hide":[{"x":1,"y":5,"w":42,"h":1.5},{"x":1,"y":6.5,"w":6.5,"h":5}]}},
+        "28": {"1":{"crop":{"x":1,"y":68.5,"w":98,"h":20.14}},"0":{"crop":{"x":1,"y":15.3,"w":98,"h":48.5}}},
+        "29": {"1":{"crop":{"x":1,"y":49,"w":98,"h":39.81}},"0":{"crop":{"x":5,"y":10,"w":90,"h":36.5}}},
+        "30": {"0":{"crop":{"x":1,"y":15.3,"w":98,"h":46.94}},"1":{"crop":{"x":1,"y":67,"w":98,"h":21.64}}},
+        "31": {"0":{"crop":{"x":1,"y":16,"w":98,"h":73.92}}},
+        "32": {"0":{"crop":{"x":1,"y":5,"w":98,"h":85.14},"hide":[{"x":1,"y":5,"w":42,"h":1.5},{"x":1,"y":6.5,"w":6.5,"h":5}]}},
+        "33": {"0":{"crop":{"x":1,"y":15.3,"w":98,"h":45.1}},"1":{"crop":{"x":1,"y":66,"w":98,"h":22.81}}},
+        "34": {"1":{"crop":{"x":1,"y":47,"w":98,"h":42.42}},"0":{"crop":{"x":5,"y":10,"w":90,"h":36.5}}},
+        "35": {"0":{"crop":{"x":1,"y":15.3,"w":98,"h":45.28}},"1":{"crop":{"x":1,"y":65.8,"w":98,"h":23.23}}},
+        "36": {"0":{"crop":{"x":1,"y":16,"w":98,"h":73.53}}},
+        "37": {"0":{"crop":{"x":1,"y":5,"w":98,"h":84.36},"hide":[{"x":1,"y":5,"w":42,"h":1.5},{"x":1,"y":6.5,"w":6.5,"h":5}]}},
+        "38": {"1":{"crop":{"x":1,"y":70,"w":98,"h":18.58}},"0":{"crop":{"x":1,"y":15.3,"w":98,"h":49.2}}},
+        "39": {"0":{"crop":{"x":5,"y":10,"w":90,"h":36.5}}},
+        "40": {"0":{"crop":{"x":1,"y":16,"w":98,"h":73.86}}},
+        "41": {"0":{"crop":{"x":1,"y":5,"w":98,"h":84.92},"hide":[{"x":1,"y":5,"w":42,"h":1.5},{"x":1,"y":6.5,"w":6.5,"h":5}]}},
+        "42": {"0":{"crop":{"x":1,"y":15.3,"w":98,"h":46.06}},"1":{"crop":{"x":1,"y":66,"w":98,"h":22.19}}},
+        "43": {"0":{"crop":{"x":1,"y":15.3,"w":98,"h":46.1}},"1":{"crop":{"x":1,"y":72,"w":98,"h":15.75}}},
+        "44": {"2":{"crop":{"x":1,"y":65.3,"w":98,"h":30.0}}},
+        "47": {"2":{"crop":{"x":1,"y":65,"w":98,"h":24.97}},"0":{"crop":{"x":1,"y":10.3,"w":98,"h":23.0}},"1":{"crop":{"x":3,"y":38.2,"w":94,"h":22.5},"lines":[{"x":8,"y":54.2,"w":16.5,"h":5.4},{"x":29.5,"y":54.2,"w":16.5,"h":5.4},{"x":51,"y":54.2,"w":16.5,"h":5.4},{"x":72.5,"y":54.2,"w":16.5,"h":5.4}],"hint":{"x":84,"y":56}}},
+        "50": {"2":{"crop":{"x":1,"y":65.6,"w":98,"h":24.37}},"0":{"crop":{"x":1,"y":10.3,"w":98,"h":22.95}},"1":{"crop":{"x":3,"y":38.2,"w":94,"h":22.2}}},
+        "53": {"0":{"crop":{"x":1,"y":11,"w":98,"h":34}}},
+        "56": {"0":{"crop":{"x":1,"y":10.5,"w":98,"h":29.9}},"2":{"crop":{"x":1,"y":69.5,"w":98,"h":19.5}}},
+        "58": {"0":{"crop":{"x":3,"y":9.5,"w":94,"h":28.5},"hide":[{"x":3,"y":9.5,"w":9,"h":3.5}]},"1":{"crop":{"x":3,"y":43,"w":94,"h":24}},"2":{"crop":{"x":1,"y":67.8,"w":98,"h":19.7}}},
+        "60": {"1":{"crop":{"x":1,"y":69.0,"w":98,"h":19.47}},"0":{"crop":{"x":0.5,"y":43.3,"w":99,"h":21.2}}},
+        "61": {"0":{"crop":{"x":0.5,"y":60,"w":99,"h":28.36}}},
+        "62": {"0":{"crop":{"x":0.5,"y":60,"w":99,"h":28.19}}},
+        "63": {"0":{"crop":{"x":0.5,"y":60.3,"w":99,"h":28.23}}},
+        "67": {"0":{"crop":{"x":1,"y":12,"w":98,"h":77}}},
+        "69": {"0":{"crop":{"x":1,"y":10,"w":98,"h":83.3}}},
+        "71": {"0":{"crop":{"x":8,"y":15,"w":85,"h":79}},"1":{"crop":{"x":8,"y":15,"w":85,"h":79}}},
+        "72": {"0":{"crop":{"x":1,"y":57,"w":98,"h":31.08}}},
+        "74": {"0":{"crop":{"x":1,"y":58.2,"w":98,"h":29.8}}},
+        "76": {"0":{"crop":{"x":1,"y":59.8,"w":98,"h":30.2}}},
+        "78": {"0":{"crop":{"x":1,"y":11.8,"w":98,"h":80.2}}},
+        "79": {"0":{"crop":{"x":1,"y":11.8,"w":98,"h":80.2}}},
+      };
+      for (const [page, list] of Object.entries(pages)) list.forEach((q, i) => {
+        const view = VIEWS[page]?.[i];
+        if (!view) return;
+        Object.assign(q, view);
+        if (q.lines) q.lines = q.lines.map(r => {
+          const x = Math.max(r.x, q.crop.x), y = Math.max(r.y, q.crop.y);
+          return box(x, y, Math.min(r.x + r.w, q.crop.x + q.crop.w) - x, Math.min(r.y + r.h, q.crop.y + q.crop.h) - y);
+        }).filter(r => r.w > 0 && r.h > 0);
+      });
+      return pages;
+    })()
+  };
+})();
+
+// BEGIN GENERATED MATHS 5 QUESTIONS
+window.BOOK_QUESTIONS["stemford-maths-5"] = {
+ "4": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, read and write.",
+   "say": "Count, read and write.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 13.0,
+    "w": 91.0,
+    "h": 76.5
+   },
+   "lines": [
+    {
+     "x": 62.0,
+     "y": 31.389,
+     "w": 14.0,
+     "h": 6.167
+    },
+    {
+     "x": 76.231,
+     "y": 31.389,
+     "w": 18.0,
+     "h": 6.167
+    },
+    {
+     "x": 62.0,
+     "y": 37.722,
+     "w": 14.0,
+     "h": 6.111
+    },
+    {
+     "x": 76.231,
+     "y": 37.722,
+     "w": 18.0,
+     "h": 6.111
+    },
+    {
+     "x": 62.0,
+     "y": 44.0,
+     "w": 14.0,
+     "h": 6.167
+    },
+    {
+     "x": 76.231,
+     "y": 44.0,
+     "w": 17.923,
+     "h": 6.167
+    },
+    {
+     "x": 62.0,
+     "y": 50.333,
+     "w": 14.0,
+     "h": 6.167
+    },
+    {
+     "x": 76.231,
+     "y": 50.333,
+     "w": 18.0,
+     "h": 6.167
+    },
+    {
+     "x": 62.0,
+     "y": 56.667,
+     "w": 14.0,
+     "h": 6.167
+    },
+    {
+     "x": 76.231,
+     "y": 56.667,
+     "w": 18.0,
+     "h": 6.167
+    },
+    {
+     "x": 62.0,
+     "y": 63.0,
+     "w": 14.0,
+     "h": 6.167
+    },
+    {
+     "x": 76.231,
+     "y": 63.0,
+     "w": 18.0,
+     "h": 6.167
+    },
+    {
+     "x": 62.0,
+     "y": 69.333,
+     "w": 14.0,
+     "h": 6.111
+    },
+    {
+     "x": 76.231,
+     "y": 69.333,
+     "w": 17.923,
+     "h": 6.111
+    },
+    {
+     "x": 62.0,
+     "y": 75.611,
+     "w": 14.0,
+     "h": 6.167
+    },
+    {
+     "x": 76.231,
+     "y": 75.611,
+     "w": 17.923,
+     "h": 6.167
+    },
+    {
+     "x": 62.0,
+     "y": 81.944,
+     "w": 14.0,
+     "h": 6.167
+    },
+    {
+     "x": 76.231,
+     "y": 81.944,
+     "w": 18.0,
+     "h": 6.167
+    }
+   ],
+   "hint": {
+    "x": 69.0,
+    "y": 34.4725
+   }
+  }
+ ],
+ "7": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, read and write.",
+   "say": "Count, read and write.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 13.0,
+    "w": 91.0,
+    "h": 76.5
+   },
+   "lines": [
+    {
+     "x": 62.0,
+     "y": 28.222,
+     "w": 14.0,
+     "h": 6.278
+    },
+    {
+     "x": 76.231,
+     "y": 28.222,
+     "w": 17.923,
+     "h": 6.278
+    },
+    {
+     "x": 62.0,
+     "y": 34.667,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 34.667,
+     "w": 18.0,
+     "h": 6.333
+    },
+    {
+     "x": 62.0,
+     "y": 41.167,
+     "w": 14.0,
+     "h": 6.278
+    },
+    {
+     "x": 76.231,
+     "y": 41.167,
+     "w": 17.923,
+     "h": 6.278
+    },
+    {
+     "x": 62.0,
+     "y": 47.611,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 47.611,
+     "w": 18.0,
+     "h": 6.333
+    },
+    {
+     "x": 62.0,
+     "y": 54.111,
+     "w": 14.0,
+     "h": 6.278
+    },
+    {
+     "x": 76.231,
+     "y": 54.111,
+     "w": 17.923,
+     "h": 6.278
+    },
+    {
+     "x": 62.0,
+     "y": 60.556,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 60.611,
+     "w": 18.0,
+     "h": 6.278
+    },
+    {
+     "x": 62.0,
+     "y": 67.056,
+     "w": 14.0,
+     "h": 6.278
+    },
+    {
+     "x": 76.231,
+     "y": 67.056,
+     "w": 17.923,
+     "h": 6.278
+    },
+    {
+     "x": 62.0,
+     "y": 73.556,
+     "w": 14.0,
+     "h": 6.278
+    },
+    {
+     "x": 76.231,
+     "y": 73.556,
+     "w": 18.0,
+     "h": 6.278
+    },
+    {
+     "x": 62.0,
+     "y": 80.0,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 80.0,
+     "w": 17.923,
+     "h": 6.333
+    }
+   ],
+   "hint": {
+    "x": 69.0,
+    "y": 31.361
+   }
+  }
+ ],
+ "9": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, read and write.",
+   "say": "Count, read and write.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 13.0,
+    "w": 91.0,
+    "h": 76.5
+   },
+   "lines": [
+    {
+     "x": 62.0,
+     "y": 27.278,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 27.278,
+     "w": 18.0,
+     "h": 6.333
+    },
+    {
+     "x": 62.0,
+     "y": 33.778,
+     "w": 14.0,
+     "h": 6.389
+    },
+    {
+     "x": 76.231,
+     "y": 33.778,
+     "w": 17.923,
+     "h": 6.389
+    },
+    {
+     "x": 62.0,
+     "y": 40.333,
+     "w": 14.0,
+     "h": 6.389
+    },
+    {
+     "x": 76.231,
+     "y": 40.333,
+     "w": 18.0,
+     "h": 6.389
+    },
+    {
+     "x": 62.0,
+     "y": 46.889,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 46.889,
+     "w": 18.0,
+     "h": 6.333
+    },
+    {
+     "x": 62.0,
+     "y": 53.444,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 53.444,
+     "w": 18.0,
+     "h": 6.333
+    },
+    {
+     "x": 62.0,
+     "y": 59.944,
+     "w": 14.0,
+     "h": 6.389
+    },
+    {
+     "x": 76.231,
+     "y": 59.944,
+     "w": 18.0,
+     "h": 6.389
+    },
+    {
+     "x": 62.0,
+     "y": 66.5,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 66.5,
+     "w": 17.923,
+     "h": 6.333
+    },
+    {
+     "x": 62.0,
+     "y": 73.0,
+     "w": 14.0,
+     "h": 6.389
+    },
+    {
+     "x": 76.231,
+     "y": 73.056,
+     "w": 18.0,
+     "h": 6.333
+    }
+   ],
+   "hint": {
+    "x": 69.0,
+    "y": 30.444499999999998
+   }
+  }
+ ],
+ "10": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, read and write.",
+   "say": "Count, read and write.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 13.0,
+    "w": 91.0,
+    "h": 76.5
+   },
+   "lines": [
+    {
+     "x": 62.0,
+     "y": 27.111,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 27.111,
+     "w": 18.0,
+     "h": 6.333
+    },
+    {
+     "x": 62.0,
+     "y": 33.667,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 33.667,
+     "w": 18.0,
+     "h": 6.333
+    },
+    {
+     "x": 62.0,
+     "y": 40.167,
+     "w": 14.0,
+     "h": 6.389
+    },
+    {
+     "x": 76.231,
+     "y": 40.167,
+     "w": 18.0,
+     "h": 6.389
+    },
+    {
+     "x": 62.0,
+     "y": 46.722,
+     "w": 14.0,
+     "h": 6.389
+    },
+    {
+     "x": 76.231,
+     "y": 46.722,
+     "w": 18.0,
+     "h": 6.333
+    },
+    {
+     "x": 62.0,
+     "y": 53.278,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 53.278,
+     "w": 18.0,
+     "h": 6.333
+    },
+    {
+     "x": 62.0,
+     "y": 59.778,
+     "w": 14.0,
+     "h": 6.389
+    },
+    {
+     "x": 76.231,
+     "y": 59.778,
+     "w": 18.0,
+     "h": 6.389
+    },
+    {
+     "x": 62.0,
+     "y": 66.333,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 66.333,
+     "w": 18.0,
+     "h": 6.333
+    },
+    {
+     "x": 62.0,
+     "y": 72.889,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 72.889,
+     "w": 18.0,
+     "h": 6.333
+    }
+   ],
+   "hint": {
+    "x": 69.0,
+    "y": 30.2775
+   }
+  }
+ ],
+ "16": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, read and write.",
+   "say": "Count, read and write.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 13.0,
+    "w": 91.0,
+    "h": 76.5
+   },
+   "lines": [
+    {
+     "x": 62.0,
+     "y": 26.556,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 26.556,
+     "w": 18.0,
+     "h": 6.333
+    },
+    {
+     "x": 62.0,
+     "y": 33.056,
+     "w": 14.0,
+     "h": 6.389
+    },
+    {
+     "x": 76.231,
+     "y": 33.056,
+     "w": 18.0,
+     "h": 6.389
+    },
+    {
+     "x": 62.0,
+     "y": 39.611,
+     "w": 14.0,
+     "h": 6.389
+    },
+    {
+     "x": 76.231,
+     "y": 39.611,
+     "w": 18.0,
+     "h": 6.389
+    },
+    {
+     "x": 62.0,
+     "y": 46.167,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 46.167,
+     "w": 18.0,
+     "h": 6.333
+    },
+    {
+     "x": 62.0,
+     "y": 52.667,
+     "w": 14.0,
+     "h": 6.389
+    },
+    {
+     "x": 76.231,
+     "y": 52.667,
+     "w": 18.0,
+     "h": 6.389
+    },
+    {
+     "x": 62.0,
+     "y": 59.222,
+     "w": 14.0,
+     "h": 6.389
+    },
+    {
+     "x": 76.231,
+     "y": 59.222,
+     "w": 18.0,
+     "h": 6.389
+    },
+    {
+     "x": 62.0,
+     "y": 65.778,
+     "w": 14.0,
+     "h": 6.333
+    },
+    {
+     "x": 76.231,
+     "y": 65.778,
+     "w": 17.923,
+     "h": 6.333
+    },
+    {
+     "x": 62.0,
+     "y": 72.278,
+     "w": 14.0,
+     "h": 6.389
+    },
+    {
+     "x": 76.231,
+     "y": 72.278,
+     "w": 18.0,
+     "h": 6.389
+    }
+   ],
+   "hint": {
+    "x": 69.0,
+    "y": 29.7225
+   }
+  }
+ ],
+ "25": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, read and write.",
+   "say": "Count, read and write.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 13.0,
+    "w": 91.0,
+    "h": 73.6
+   },
+   "lines": [
+    {
+     "x": 77.077,
+     "y": 17.111,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 17.111,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 24.0,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 24.0,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 30.944,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 30.944,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 37.889,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 37.889,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 44.833,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 44.833,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 51.778,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 51.778,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 58.667,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 58.667,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 65.611,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 65.611,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 72.556,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 72.556,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 79.5,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 79.5,
+     "w": 7.385,
+     "h": 5.833
+    }
+   ],
+   "hint": {
+    "x": 80.7695,
+    "y": 20.0275
+   }
+  }
+ ],
+ "27": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, read and write.",
+   "say": "Count, read and write.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 13.0,
+    "w": 91.0,
+    "h": 73.6
+   },
+   "lines": [
+    {
+     "x": 77.077,
+     "y": 16.889,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 16.889,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 23.833,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 23.833,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 30.722,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 30.722,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 37.667,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 37.667,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 44.611,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 44.611,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 51.556,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 51.556,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 58.5,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 58.5,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 65.389,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 65.389,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 72.333,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 72.333,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 79.278,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 79.278,
+     "w": 7.385,
+     "h": 5.833
+    }
+   ],
+   "hint": {
+    "x": 80.7695,
+    "y": 19.8055
+   }
+  }
+ ],
+ "29": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, read and write.",
+   "say": "Count, read and write.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 13.0,
+    "w": 91.0,
+    "h": 73.6
+   },
+   "lines": [
+    {
+     "x": 77.077,
+     "y": 16.889,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 16.889,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 23.833,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 23.833,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 30.778,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 30.778,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 37.722,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 37.667,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 44.611,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 44.611,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 51.556,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 51.556,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 58.5,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 58.5,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 65.444,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 65.444,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 72.333,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 72.333,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 79.278,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 79.278,
+     "w": 7.385,
+     "h": 5.889
+    }
+   ],
+   "hint": {
+    "x": 80.7695,
+    "y": 19.8335
+   }
+  }
+ ],
+ "31": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, read and write.",
+   "say": "Count, read and write.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 13.0,
+    "w": 91.0,
+    "h": 73.6
+   },
+   "lines": [
+    {
+     "x": 77.077,
+     "y": 16.833,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 16.833,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 23.778,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 23.778,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 30.722,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 30.722,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 37.667,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 37.667,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 44.611,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 44.611,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 51.5,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 51.5,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 58.444,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 58.444,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 65.389,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 65.389,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 72.333,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 72.333,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 79.222,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 79.222,
+     "w": 7.385,
+     "h": 5.889
+    }
+   ],
+   "hint": {
+    "x": 80.7695,
+    "y": 19.7775
+   }
+  }
+ ],
+ "32": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, read and write.",
+   "say": "Count, read and write.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 13.0,
+    "w": 91.0,
+    "h": 73.6
+   },
+   "lines": [
+    {
+     "x": 77.077,
+     "y": 17.111,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 17.111,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 24.056,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 24.056,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 31.0,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 31.0,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 37.944,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 37.944,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 44.833,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 44.833,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 51.778,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 51.778,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 58.722,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 58.722,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 65.667,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 86.0,
+     "y": 65.667,
+     "w": 7.385,
+     "h": 5.833
+    },
+    {
+     "x": 77.077,
+     "y": 72.556,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 72.556,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 77.077,
+     "y": 79.5,
+     "w": 7.385,
+     "h": 5.889
+    },
+    {
+     "x": 86.0,
+     "y": 79.5,
+     "w": 7.385,
+     "h": 5.889
+    }
+   ],
+   "hint": {
+    "x": 80.7695,
+    "y": 20.055500000000002
+   }
+  }
+ ],
+ "5": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count the objects in each group and write the number.",
+   "say": "Count the objects in each group and write the number.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 5.0,
+    "w": 91.0,
+    "h": 42.0
+   },
+   "lines": [
+    {
+     "x": 83.077,
+     "y": 12.667,
+     "w": 10.538,
+     "h": 5.833
+    },
+    {
+     "x": 83.077,
+     "y": 25.889,
+     "w": 10.538,
+     "h": 5.778
+    },
+    {
+     "x": 83.077,
+     "y": 39.111,
+     "w": 10.538,
+     "h": 5.778
+    }
+   ],
+   "hint": {
+    "x": 88.346,
+    "y": 15.5835
+   }
+  },
+  {
+   "type": "question",
+   "kind": "match",
+   "title": "Match the numerals with the number words.",
+   "say": "Match the numerals with the number words.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 1.0,
+    "y": 48.0,
+    "w": 98.0,
+    "h": 47.0
+   },
+   "dots": [
+    {
+     "id": "7",
+     "x": 16,
+     "y": 56
+    },
+    {
+     "id": "6",
+     "x": 16,
+     "y": 67
+    },
+    {
+     "id": "8",
+     "x": 16,
+     "y": 78
+    },
+    {
+     "id": "9",
+     "x": 16,
+     "y": 88
+    },
+    {
+     "id": "5",
+     "x": 83,
+     "y": 56
+    },
+    {
+     "id": "1",
+     "x": 83,
+     "y": 67
+    },
+    {
+     "id": "2",
+     "x": 83,
+     "y": 78
+    },
+    {
+     "id": "3",
+     "x": 83,
+     "y": 88
+    },
+    {
+     "id": "3",
+     "x": 42,
+     "y": 54
+    },
+    {
+     "id": "5",
+     "x": 58,
+     "y": 60
+    },
+    {
+     "id": "8",
+     "x": 42,
+     "y": 65
+    },
+    {
+     "id": "1",
+     "x": 58,
+     "y": 70
+    },
+    {
+     "id": "6",
+     "x": 42,
+     "y": 75
+    },
+    {
+     "id": "9",
+     "x": 58,
+     "y": 80
+    },
+    {
+     "id": "2",
+     "x": 42,
+     "y": 86
+    },
+    {
+     "id": "7",
+     "x": 58,
+     "y": 91
+    }
+   ]
+  }
+ ],
+ "8": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count and write. Mark the greater and smaller number.",
+   "say": "Count and write. Mark the greater and smaller number.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 46.0,
+    "w": 89.0,
+    "h": 43.0
+   },
+   "lines": [
+    {
+     "x": 18.0,
+     "y": 66.6,
+     "w": 6.0,
+     "h": 3.8
+    },
+    {
+     "x": 18.0,
+     "y": 85.0,
+     "w": 6.0,
+     "h": 3.8
+    },
+    {
+     "x": 38.0,
+     "y": 66.6,
+     "w": 6.0,
+     "h": 3.8
+    },
+    {
+     "x": 38.0,
+     "y": 85.0,
+     "w": 6.0,
+     "h": 3.8
+    },
+    {
+     "x": 63.0,
+     "y": 66.6,
+     "w": 6.0,
+     "h": 3.8
+    },
+    {
+     "x": 63.0,
+     "y": 85.0,
+     "w": 6.0,
+     "h": 3.8
+    },
+    {
+     "x": 83.0,
+     "y": 66.6,
+     "w": 6.0,
+     "h": 3.8
+    },
+    {
+     "x": 83.0,
+     "y": 85.0,
+     "w": 6.0,
+     "h": 3.8
+    }
+   ],
+   "hint": {
+    "x": 21.0,
+    "y": 68.5
+   }
+  }
+ ],
+ "11": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count the blocks. Write the numbers and compare using <, > or =.",
+   "say": "Count the blocks. Write the numbers and compare using <, > or =.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 54.8,
+    "w": 90.0,
+    "h": 32.7
+   },
+   "lines": [
+    {
+     "x": 10.0,
+     "y": 63.8,
+     "w": 6.8,
+     "h": 3.8
+    },
+    {
+     "x": 48.0,
+     "y": 63.8,
+     "w": 6.8,
+     "h": 3.8
+    },
+    {
+     "x": 83.0,
+     "y": 63.8,
+     "w": 6.8,
+     "h": 3.8
+    },
+    {
+     "x": 10.0,
+     "y": 72.8,
+     "w": 6.8,
+     "h": 3.8
+    },
+    {
+     "x": 48.0,
+     "y": 72.8,
+     "w": 6.8,
+     "h": 3.8
+    },
+    {
+     "x": 83.0,
+     "y": 72.8,
+     "w": 6.8,
+     "h": 3.8
+    },
+    {
+     "x": 10.0,
+     "y": 81.8,
+     "w": 6.8,
+     "h": 3.8
+    },
+    {
+     "x": 48.0,
+     "y": 81.8,
+     "w": 6.8,
+     "h": 3.8
+    },
+    {
+     "x": 83.0,
+     "y": 81.8,
+     "w": 6.8,
+     "h": 3.8
+    }
+   ],
+   "hint": {
+    "x": 13.4,
+    "y": 65.7
+   }
+  }
+ ],
+ "12": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count the dots and compare the numbers.",
+   "say": "Count the dots and compare the numbers.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 6.0,
+    "w": 89.0,
+    "h": 18.0
+   },
+   "lines": [
+    {
+     "x": 18.385,
+     "y": 14.444,
+     "w": 5.769,
+     "h": 3.667
+    },
+    {
+     "x": 47.0,
+     "y": 14.444,
+     "w": 5.769,
+     "h": 3.667
+    },
+    {
+     "x": 75.615,
+     "y": 14.444,
+     "w": 5.769,
+     "h": 3.667
+    },
+    {
+     "x": 10.308,
+     "y": 19.389,
+     "w": 5.769,
+     "h": 3.667
+    },
+    {
+     "x": 26.462,
+     "y": 19.389,
+     "w": 5.769,
+     "h": 3.667
+    },
+    {
+     "x": 39.077,
+     "y": 19.389,
+     "w": 5.769,
+     "h": 3.667
+    },
+    {
+     "x": 55.231,
+     "y": 19.389,
+     "w": 5.769,
+     "h": 3.667
+    },
+    {
+     "x": 67.769,
+     "y": 19.389,
+     "w": 5.769,
+     "h": 3.667
+    },
+    {
+     "x": 83.923,
+     "y": 19.389,
+     "w": 5.769,
+     "h": 3.667
+    }
+   ],
+   "hint": {
+    "x": 21.2695,
+    "y": 16.2775
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count the objects and compare using <, > or =.",
+   "say": "Count the objects and compare using <, > or =.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 25.0,
+    "w": 88.0,
+    "h": 29.0
+   },
+   "lines": [
+    {
+     "x": 42.923,
+     "y": 28.333,
+     "w": 5.769,
+     "h": 3.667
+    },
+    {
+     "x": 63.846,
+     "y": 34.611,
+     "w": 5.769,
+     "h": 3.667
+    },
+    {
+     "x": 46.462,
+     "y": 41.333,
+     "w": 5.769,
+     "h": 3.667
+    },
+    {
+     "x": 47.769,
+     "y": 48.389,
+     "w": 5.769,
+     "h": 3.667
+    }
+   ],
+   "hint": {
+    "x": 45.807500000000005,
+    "y": 30.1665
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Put <, > or = in each box.",
+   "say": "Put <, > or = in each box.",
+   "button": {
+    "x": 19.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 81.0,
+    "w": 88.0,
+    "h": 14.0
+   },
+   "lines": [
+    {
+     "x": 17.462,
+     "y": 84.611,
+     "w": 5.769,
+     "h": 3.667
+    },
+    {
+     "x": 47.154,
+     "y": 84.611,
+     "w": 5.769,
+     "h": 3.667
+    },
+    {
+     "x": 77.385,
+     "y": 84.611,
+     "w": 5.769,
+     "h": 3.667
+    },
+    {
+     "x": 17.462,
+     "y": 89.944,
+     "w": 5.769,
+     "h": 3.667
+    },
+    {
+     "x": 47.154,
+     "y": 89.944,
+     "w": 5.769,
+     "h": 3.722
+    },
+    {
+     "x": 77.385,
+     "y": 89.944,
+     "w": 5.769,
+     "h": 3.667
+    }
+   ],
+   "hint": {
+    "x": 20.3465,
+    "y": 86.4445
+   }
+  },
+  {
+   "type": "question",
+   "kind": "colour",
+   "title": "Colour the circles and compare the given numbers.",
+   "say": "Colour the circles and compare the given numbers.",
+   "button": {
+    "x": 1,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 54.0,
+    "w": 88.0,
+    "h": 27.0
+   },
+   "parts": [
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 9.62,
+      "y": 74.5,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 9.62,
+      "y": 72.88,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 9.62,
+      "y": 71.26,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 9.62,
+      "y": 69.64,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 26.02,
+      "y": 74.5,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 26.02,
+      "y": 72.88,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 26.02,
+      "y": 71.26,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 26.02,
+      "y": 69.64,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 26.02,
+      "y": 68.02,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 26.02,
+      "y": 66.4,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 26.02,
+      "y": 64.78,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 26.02,
+      "y": 63.16,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 26.02,
+      "y": 61.54,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 40.62,
+      "y": 74.5,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#ce79b5"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 40.62,
+      "y": 72.88,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#ce79b5"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 40.62,
+      "y": 71.26,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#ce79b5"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 40.62,
+      "y": 69.64,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#ce79b5"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 40.62,
+      "y": 68.02,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#ce79b5"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 40.62,
+      "y": 66.4,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#ce79b5"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 40.62,
+      "y": 64.78,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#ce79b5"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 40.62,
+      "y": 63.16,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#ce79b5"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 56.92,
+      "y": 74.5,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#ce79b5"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 56.92,
+      "y": 72.88,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#ce79b5"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 56.92,
+      "y": 71.26,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#ce79b5"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 72.62,
+      "y": 74.5,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 72.62,
+      "y": 72.88,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 72.62,
+      "y": 71.26,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 72.62,
+      "y": 69.64,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 72.62,
+      "y": 68.02,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 72.62,
+      "y": 66.4,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 89.02,
+      "y": 74.5,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 89.02,
+      "y": 72.88,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 89.02,
+      "y": 71.26,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 89.02,
+      "y": 69.64,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 89.02,
+      "y": 68.02,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "counting circle",
+     "box": {
+      "x": 89.02,
+      "y": 66.4,
+      "w": 2.36,
+      "h": 1.62
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "comparison sign",
+     "box": {
+      "x": 16.5,
+      "y": 76.0,
+      "w": 5.0,
+      "h": 3.5
+     },
+     "colours": [
+      "#222222"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "comparison sign",
+     "box": {
+      "x": 47.5,
+      "y": 76.0,
+      "w": 5.0,
+      "h": 3.5
+     },
+     "colours": [
+      "#222222"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "comparison sign",
+     "box": {
+      "x": 79.5,
+      "y": 76.0,
+      "w": 5.0,
+      "h": 3.5
+     },
+     "colours": [
+      "#222222"
+     ],
+     "outline": "rectangle"
+    }
+   ],
+   "samples": [],
+   "hint": {
+    "x": 10.799999999999999,
+    "y": 75.31
+   }
+  }
+ ],
+ "14": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Arrange the numbers in ascending order.",
+   "say": "Arrange the numbers in ascending order.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 6.0,
+    "w": 88.0,
+    "h": 44.0
+   },
+   "lines": [
+    {
+     "x": 12.0,
+     "y": 15.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 28.0,
+     "y": 15.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 44.0,
+     "y": 15.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 60.0,
+     "y": 15.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 76.0,
+     "y": 15.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 12.0,
+     "y": 28.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 28.0,
+     "y": 28.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 44.0,
+     "y": 28.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 60.0,
+     "y": 28.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 76.0,
+     "y": 28.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 12.0,
+     "y": 42.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 28.0,
+     "y": 42.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 44.0,
+     "y": 42.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 60.0,
+     "y": 42.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 76.0,
+     "y": 42.0,
+     "w": 11.0,
+     "h": 4.5
+    }
+   ],
+   "hint": {
+    "x": 17.5,
+    "y": 17.25
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Arrange the numbers in descending order.",
+   "say": "Arrange the numbers in descending order.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 50.0,
+    "w": 88.0,
+    "h": 44.0
+   },
+   "lines": [
+    {
+     "x": 12.0,
+     "y": 60.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 28.0,
+     "y": 60.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 44.0,
+     "y": 60.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 60.0,
+     "y": 60.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 76.0,
+     "y": 60.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 12.0,
+     "y": 73.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 28.0,
+     "y": 73.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 44.0,
+     "y": 73.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 60.0,
+     "y": 73.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 76.0,
+     "y": 73.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 12.0,
+     "y": 87.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 28.0,
+     "y": 87.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 44.0,
+     "y": 87.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 60.0,
+     "y": 87.0,
+     "w": 11.0,
+     "h": 4.5
+    },
+    {
+     "x": 76.0,
+     "y": 87.0,
+     "w": 11.0,
+     "h": 4.5
+    }
+   ],
+   "hint": {
+    "x": 17.5,
+    "y": 62.25
+   }
+  }
+ ],
+ "15": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count and write the even and odd numbers.",
+   "say": "Count and write the even and odd numbers.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 12.0,
+    "w": 90.0,
+    "h": 55.0
+   },
+   "lines": [
+    {
+     "x": 40.538,
+     "y": 24.611,
+     "w": 7.308,
+     "h": 5.278
+    },
+    {
+     "x": 86.077,
+     "y": 24.611,
+     "w": 7.308,
+     "h": 5.278
+    },
+    {
+     "x": 40.538,
+     "y": 35.056,
+     "w": 7.308,
+     "h": 5.278
+    },
+    {
+     "x": 86.077,
+     "y": 35.056,
+     "w": 7.308,
+     "h": 5.278
+    },
+    {
+     "x": 40.538,
+     "y": 46.167,
+     "w": 7.308,
+     "h": 5.278
+    },
+    {
+     "x": 86.077,
+     "y": 46.167,
+     "w": 7.308,
+     "h": 5.278
+    },
+    {
+     "x": 40.538,
+     "y": 57.611,
+     "w": 7.308,
+     "h": 5.278
+    },
+    {
+     "x": 86.077,
+     "y": 57.611,
+     "w": 7.308,
+     "h": 5.278
+    }
+   ],
+   "hint": {
+    "x": 44.19199999999999,
+    "y": 27.25
+   }
+  },
+  {
+   "type": "question",
+   "kind": "choose",
+   "title": "Encircle the even numbers.",
+   "say": "Encircle the even numbers.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 74.0,
+    "w": 88.0,
+    "h": 11.0
+   },
+   "options": [
+    {
+     "x": 13.0,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": false,
+     "label": "1"
+    },
+    {
+     "x": 20.9,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": true,
+     "label": "2"
+    },
+    {
+     "x": 28.8,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": false,
+     "label": "3"
+    },
+    {
+     "x": 36.7,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": true,
+     "label": "4"
+    },
+    {
+     "x": 44.6,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": false,
+     "label": "5"
+    },
+    {
+     "x": 52.5,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": true,
+     "label": "6"
+    },
+    {
+     "x": 60.4,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": false,
+     "label": "7"
+    },
+    {
+     "x": 68.3,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": true,
+     "label": "8"
+    },
+    {
+     "x": 76.2,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": false,
+     "label": "9"
+    },
+    {
+     "x": 84.1,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": true,
+     "label": "10"
+    }
+   ]
+  },
+  {
+   "type": "question",
+   "kind": "choose",
+   "title": "Find the odd numbers.",
+   "say": "Find the odd numbers.",
+   "button": {
+    "x": 19.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 74.0,
+    "w": 88.0,
+    "h": 11.0
+   },
+   "options": [
+    {
+     "x": 13.0,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": true,
+     "label": "1"
+    },
+    {
+     "x": 20.9,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": false,
+     "label": "2"
+    },
+    {
+     "x": 28.8,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": true,
+     "label": "3"
+    },
+    {
+     "x": 36.7,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": false,
+     "label": "4"
+    },
+    {
+     "x": 44.6,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": true,
+     "label": "5"
+    },
+    {
+     "x": 52.5,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": false,
+     "label": "6"
+    },
+    {
+     "x": 60.4,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": true,
+     "label": "7"
+    },
+    {
+     "x": 68.3,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": false,
+     "label": "8"
+    },
+    {
+     "x": 76.2,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": true,
+     "label": "9"
+    },
+    {
+     "x": 84.1,
+     "y": 79.5,
+     "w": 5.5,
+     "h": 4.0,
+     "correct": false,
+     "label": "10"
+    }
+   ]
+  }
+ ],
+ "17": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the missing numbers to help the squirrel find its tree.",
+   "say": "Write the missing numbers to help the squirrel find its tree.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 10.0,
+    "w": 90.0,
+    "h": 50.0
+   },
+   "lines": [
+    {
+     "x": 30.846,
+     "y": 16.944,
+     "w": 7.923,
+     "h": 4.556
+    },
+    {
+     "x": 40.923,
+     "y": 16.944,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 61.0,
+     "y": 16.944,
+     "w": 7.923,
+     "h": 4.556
+    },
+    {
+     "x": 71.077,
+     "y": 16.944,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 11.385,
+     "y": 23.333,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 31.308,
+     "y": 23.333,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 41.231,
+     "y": 23.333,
+     "w": 7.923,
+     "h": 4.556
+    },
+    {
+     "x": 51.231,
+     "y": 23.333,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 71.154,
+     "y": 23.333,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 81.077,
+     "y": 23.333,
+     "w": 7.923,
+     "h": 4.556
+    },
+    {
+     "x": 11.385,
+     "y": 29.778,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 21.308,
+     "y": 29.778,
+     "w": 7.923,
+     "h": 4.556
+    },
+    {
+     "x": 31.308,
+     "y": 29.778,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 51.231,
+     "y": 29.778,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 71.154,
+     "y": 29.778,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 81.077,
+     "y": 29.778,
+     "w": 7.923,
+     "h": 4.556
+    },
+    {
+     "x": 21.308,
+     "y": 36.167,
+     "w": 7.923,
+     "h": 4.556
+    },
+    {
+     "x": 31.308,
+     "y": 36.167,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 41.231,
+     "y": 36.167,
+     "w": 7.923,
+     "h": 4.556
+    },
+    {
+     "x": 51.231,
+     "y": 36.167,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 61.154,
+     "y": 36.167,
+     "w": 7.923,
+     "h": 4.556
+    },
+    {
+     "x": 71.154,
+     "y": 36.167,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 11.385,
+     "y": 42.556,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 21.308,
+     "y": 42.556,
+     "w": 7.923,
+     "h": 4.556
+    },
+    {
+     "x": 31.308,
+     "y": 42.556,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 51.231,
+     "y": 42.556,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 61.154,
+     "y": 42.556,
+     "w": 7.923,
+     "h": 4.556
+    },
+    {
+     "x": 11.385,
+     "y": 48.944,
+     "w": 7.846,
+     "h": 4.611
+    },
+    {
+     "x": 21.308,
+     "y": 48.944,
+     "w": 7.923,
+     "h": 4.611
+    },
+    {
+     "x": 31.308,
+     "y": 48.944,
+     "w": 7.846,
+     "h": 4.611
+    },
+    {
+     "x": 51.231,
+     "y": 48.944,
+     "w": 7.846,
+     "h": 4.611
+    },
+    {
+     "x": 61.154,
+     "y": 48.944,
+     "w": 7.923,
+     "h": 4.611
+    },
+    {
+     "x": 21.308,
+     "y": 55.389,
+     "w": 7.923,
+     "h": 4.556
+    },
+    {
+     "x": 31.308,
+     "y": 55.389,
+     "w": 7.846,
+     "h": 4.556
+    },
+    {
+     "x": 41.231,
+     "y": 55.389,
+     "w": 7.923,
+     "h": 4.556
+    },
+    {
+     "x": 51.231,
+     "y": 55.389,
+     "w": 7.846,
+     "h": 4.556
+    }
+   ],
+   "hint": {
+    "x": 34.8075,
+    "y": 19.221999999999998
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the numerals for the following.",
+   "say": "Write the numerals for the following.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 61.0,
+    "w": 88.0,
+    "h": 17.0
+   },
+   "lines": [
+    {
+     "x": 29.846,
+     "y": 65.889,
+     "w": 6.385,
+     "h": 4.944
+    },
+    {
+     "x": 57.846,
+     "y": 65.889,
+     "w": 6.385,
+     "h": 4.944
+    },
+    {
+     "x": 86.615,
+     "y": 65.889,
+     "w": 7.077,
+     "h": 4.944
+    },
+    {
+     "x": 29.846,
+     "y": 71.833,
+     "w": 6.385,
+     "h": 4.944
+    },
+    {
+     "x": 57.846,
+     "y": 71.833,
+     "w": 6.385,
+     "h": 4.944
+    },
+    {
+     "x": 86.615,
+     "y": 71.833,
+     "w": 7.077,
+     "h": 4.944
+    }
+   ],
+   "hint": {
+    "x": 33.0385,
+    "y": 68.36099999999999
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the numbers in words.",
+   "say": "Write the numbers in words.",
+   "button": {
+    "x": 19.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 79.0,
+    "w": 88.0,
+    "h": 16.0
+   },
+   "lines": [
+    {
+     "x": 17.538,
+     "y": 82.889,
+     "w": 17.385,
+     "h": 3.778
+    },
+    {
+     "x": 48.385,
+     "y": 82.889,
+     "w": 15.308,
+     "h": 3.778
+    },
+    {
+     "x": 77.077,
+     "y": 82.889,
+     "w": 16.615,
+     "h": 3.778
+    },
+    {
+     "x": 17.538,
+     "y": 88.944,
+     "w": 17.385,
+     "h": 3.778
+    },
+    {
+     "x": 48.385,
+     "y": 88.944,
+     "w": 15.308,
+     "h": 3.778
+    },
+    {
+     "x": 77.077,
+     "y": 88.944,
+     "w": 16.615,
+     "h": 3.778
+    }
+   ],
+   "hint": {
+    "x": 26.2305,
+    "y": 84.77799999999999
+   }
+  }
+ ],
+ "18": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the number that comes between the given numbers.",
+   "say": "Write the number that comes between the given numbers.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 7.0,
+    "w": 91.0,
+    "h": 45.0
+   },
+   "lines": [
+    {
+     "x": 19.462,
+     "y": 10.611,
+     "w": 9.923,
+     "h": 7.111
+    },
+    {
+     "x": 70.846,
+     "y": 10.611,
+     "w": 9.923,
+     "h": 7.111
+    },
+    {
+     "x": 45.154,
+     "y": 18.778,
+     "w": 9.923,
+     "h": 7.167
+    },
+    {
+     "x": 19.462,
+     "y": 27.0,
+     "w": 9.923,
+     "h": 7.111
+    },
+    {
+     "x": 70.846,
+     "y": 27.0,
+     "w": 9.923,
+     "h": 7.111
+    },
+    {
+     "x": 45.154,
+     "y": 35.167,
+     "w": 9.923,
+     "h": 7.111
+    },
+    {
+     "x": 19.462,
+     "y": 43.333,
+     "w": 9.923,
+     "h": 7.111
+    },
+    {
+     "x": 70.846,
+     "y": 43.333,
+     "w": 9.923,
+     "h": 7.167
+    }
+   ],
+   "hint": {
+    "x": 24.4235,
+    "y": 14.166500000000001
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the numbers before and after the given numbers.",
+   "say": "Write the numbers before and after the given numbers.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 52.0,
+    "w": 91.0,
+    "h": 42.0
+   },
+   "lines": [
+    {
+     "x": 10.154,
+     "y": 56.556,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 28.462,
+     "y": 56.556,
+     "w": 10.0,
+     "h": 5.611
+    },
+    {
+     "x": 61.538,
+     "y": 56.556,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 79.769,
+     "y": 56.556,
+     "w": 10.077,
+     "h": 5.611
+    },
+    {
+     "x": 35.846,
+     "y": 64.389,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 54.077,
+     "y": 64.389,
+     "w": 10.077,
+     "h": 5.611
+    },
+    {
+     "x": 10.154,
+     "y": 72.222,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 28.462,
+     "y": 72.222,
+     "w": 10.0,
+     "h": 5.611
+    },
+    {
+     "x": 61.538,
+     "y": 72.222,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 79.846,
+     "y": 72.222,
+     "w": 10.0,
+     "h": 5.611
+    },
+    {
+     "x": 35.846,
+     "y": 80.056,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 54.154,
+     "y": 80.056,
+     "w": 10.0,
+     "h": 5.611
+    },
+    {
+     "x": 10.154,
+     "y": 87.944,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 28.462,
+     "y": 87.944,
+     "w": 10.0,
+     "h": 5.611
+    },
+    {
+     "x": 61.538,
+     "y": 87.944,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 79.846,
+     "y": 87.944,
+     "w": 10.0,
+     "h": 5.611
+    }
+   ],
+   "hint": {
+    "x": 15.231,
+    "y": 59.3615
+   }
+  }
+ ],
+ "35": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the number that comes between the given numbers.",
+   "say": "Write the number that comes between the given numbers.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 7.0,
+    "w": 91.0,
+    "h": 45.0
+   },
+   "lines": [
+    {
+     "x": 19.769,
+     "y": 14.333,
+     "w": 9.846,
+     "h": 7.167
+    },
+    {
+     "x": 71.154,
+     "y": 14.333,
+     "w": 9.846,
+     "h": 7.167
+    },
+    {
+     "x": 45.462,
+     "y": 21.889,
+     "w": 9.846,
+     "h": 7.167
+    },
+    {
+     "x": 19.769,
+     "y": 29.444,
+     "w": 9.846,
+     "h": 7.111
+    },
+    {
+     "x": 71.154,
+     "y": 29.444,
+     "w": 9.846,
+     "h": 7.111
+    },
+    {
+     "x": 45.462,
+     "y": 37.0,
+     "w": 9.846,
+     "h": 7.111
+    },
+    {
+     "x": 19.769,
+     "y": 44.556,
+     "w": 9.846,
+     "h": 7.111
+    },
+    {
+     "x": 71.154,
+     "y": 44.556,
+     "w": 9.846,
+     "h": 7.111
+    }
+   ],
+   "hint": {
+    "x": 24.692,
+    "y": 17.9165
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the numbers before and after the given numbers.",
+   "say": "Write the numbers before and after the given numbers.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 52.0,
+    "w": 91.0,
+    "h": 42.0
+   },
+   "lines": [
+    {
+     "x": 10.154,
+     "y": 58.444,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 28.462,
+     "y": 58.444,
+     "w": 10.0,
+     "h": 5.611
+    },
+    {
+     "x": 61.538,
+     "y": 58.444,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 79.769,
+     "y": 58.444,
+     "w": 10.077,
+     "h": 5.611
+    },
+    {
+     "x": 35.846,
+     "y": 65.222,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 54.077,
+     "y": 65.222,
+     "w": 10.077,
+     "h": 5.611
+    },
+    {
+     "x": 10.154,
+     "y": 72.722,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 28.385,
+     "y": 72.722,
+     "w": 10.077,
+     "h": 5.611
+    },
+    {
+     "x": 61.538,
+     "y": 72.722,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 79.769,
+     "y": 72.722,
+     "w": 10.077,
+     "h": 5.611
+    },
+    {
+     "x": 35.846,
+     "y": 79.444,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 54.077,
+     "y": 79.444,
+     "w": 10.077,
+     "h": 5.611
+    },
+    {
+     "x": 10.154,
+     "y": 86.944,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 28.385,
+     "y": 86.944,
+     "w": 10.077,
+     "h": 5.611
+    },
+    {
+     "x": 61.538,
+     "y": 86.944,
+     "w": 10.154,
+     "h": 5.611
+    },
+    {
+     "x": 79.769,
+     "y": 86.944,
+     "w": 10.077,
+     "h": 5.611
+    }
+   ],
+   "hint": {
+    "x": 15.231,
+    "y": 61.249500000000005
+   }
+  }
+ ],
+ "20": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write forward counting from 0 to 49.",
+   "say": "Write forward counting from 0 to 49.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 10.0,
+    "w": 88.0,
+    "h": 80.0
+   },
+   "lines": [
+    {
+     "x": 10.385,
+     "y": 23.611,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 27.308,
+     "y": 23.611,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 44.231,
+     "y": 23.611,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 61.231,
+     "y": 23.611,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 23.611,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 10.385,
+     "y": 31.056,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 31.056,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 31.056,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 31.056,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 31.056,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 38.5,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 38.5,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 38.5,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 38.5,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 38.5,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 45.944,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 45.944,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 45.944,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 45.944,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 45.944,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 53.389,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 53.389,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 53.389,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 53.389,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 53.389,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 60.889,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 27.308,
+     "y": 60.889,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 44.231,
+     "y": 60.889,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 61.231,
+     "y": 60.889,
+     "w": 12.385,
+     "h": 5.722
+    },
+    {
+     "x": 78.154,
+     "y": 60.889,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 10.385,
+     "y": 68.333,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 68.333,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 44.231,
+     "y": 68.333,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 61.231,
+     "y": 68.333,
+     "w": 12.385,
+     "h": 5.722
+    },
+    {
+     "x": 78.154,
+     "y": 68.333,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 10.385,
+     "y": 75.778,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 75.778,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 75.778,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 75.778,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 75.778,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 83.222,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 83.222,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 83.222,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 83.222,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 83.222,
+     "w": 12.462,
+     "h": 5.778
+    }
+   ],
+   "hint": {
+    "x": 16.616,
+    "y": 26.472
+   }
+  }
+ ],
+ "21": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write backward counting from 49 to 0.",
+   "say": "Write backward counting from 49 to 0.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 10.0,
+    "w": 88.0,
+    "h": 80.0
+   },
+   "lines": [
+    {
+     "x": 10.385,
+     "y": 23.722,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 23.722,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 23.722,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 23.722,
+     "w": 12.385,
+     "h": 5.722
+    },
+    {
+     "x": 78.154,
+     "y": 23.722,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 31.222,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 27.308,
+     "y": 31.222,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 44.231,
+     "y": 31.222,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 61.231,
+     "y": 31.222,
+     "w": 12.385,
+     "h": 5.722
+    },
+    {
+     "x": 78.154,
+     "y": 31.222,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 10.385,
+     "y": 38.667,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 38.667,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 38.667,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 38.667,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 38.667,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 46.167,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 46.167,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 46.167,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 46.167,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 46.167,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 53.667,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 27.308,
+     "y": 53.667,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 44.231,
+     "y": 53.667,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 61.231,
+     "y": 53.667,
+     "w": 12.385,
+     "h": 5.722
+    },
+    {
+     "x": 78.154,
+     "y": 53.667,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 10.385,
+     "y": 61.111,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 61.111,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 61.111,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 61.111,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 61.111,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 68.611,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 68.611,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 68.611,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 68.611,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 68.611,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 76.111,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 27.308,
+     "y": 76.111,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 44.231,
+     "y": 76.111,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 61.231,
+     "y": 76.111,
+     "w": 12.385,
+     "h": 5.722
+    },
+    {
+     "x": 78.154,
+     "y": 76.111,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 10.385,
+     "y": 83.556,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 83.556,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 83.556,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 83.556,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 83.556,
+     "w": 12.462,
+     "h": 5.778
+    }
+   ],
+   "hint": {
+    "x": 16.616,
+    "y": 26.611
+   }
+  }
+ ],
+ "36": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write forward counting from 50 to 99.",
+   "say": "Write forward counting from 50 to 99.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 10.0,
+    "w": 88.0,
+    "h": 80.0
+   },
+   "lines": [
+    {
+     "x": 10.385,
+     "y": 23.111,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 27.308,
+     "y": 23.111,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 44.231,
+     "y": 23.111,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 61.231,
+     "y": 23.111,
+     "w": 12.385,
+     "h": 5.722
+    },
+    {
+     "x": 78.154,
+     "y": 23.111,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 10.385,
+     "y": 30.5,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 30.5,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 30.5,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 30.5,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 30.5,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 37.889,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 37.889,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 37.889,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 37.889,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 37.889,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 45.333,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 27.308,
+     "y": 45.333,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 44.231,
+     "y": 45.333,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 61.231,
+     "y": 45.333,
+     "w": 12.385,
+     "h": 5.722
+    },
+    {
+     "x": 78.154,
+     "y": 45.333,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 10.385,
+     "y": 52.722,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 52.722,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 52.722,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 52.722,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 52.722,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 60.111,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 60.111,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 60.111,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 60.111,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 60.111,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 67.556,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 27.308,
+     "y": 67.556,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 44.231,
+     "y": 67.556,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 61.231,
+     "y": 67.556,
+     "w": 12.385,
+     "h": 5.722
+    },
+    {
+     "x": 78.154,
+     "y": 67.556,
+     "w": 12.462,
+     "h": 5.722
+    },
+    {
+     "x": 10.385,
+     "y": 74.944,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 74.944,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 74.944,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 74.944,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 74.944,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 82.333,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 82.333,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 82.333,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 82.333,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 82.333,
+     "w": 12.462,
+     "h": 5.778
+    }
+   ],
+   "hint": {
+    "x": 16.616,
+    "y": 25.972
+   }
+  }
+ ],
+ "37": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write backward counting from 99 to 50.",
+   "say": "Write backward counting from 99 to 50.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 10.0,
+    "w": 88.0,
+    "h": 80.0
+   },
+   "lines": [
+    {
+     "x": 10.385,
+     "y": 23.222,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 23.222,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 23.222,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 23.222,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 23.222,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 30.611,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 30.611,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 30.611,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 30.611,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 30.611,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 38.0,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 38.0,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 38.0,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 38.0,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 38.0,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 45.389,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 45.389,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 45.389,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 45.389,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 45.389,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 52.778,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 52.778,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 52.778,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 52.778,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 52.778,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 60.167,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 60.167,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 60.167,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 60.167,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 60.167,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 67.556,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 67.556,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 67.556,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 67.556,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 67.556,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 74.944,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 74.944,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 74.944,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 74.944,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 74.944,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 10.385,
+     "y": 82.333,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 27.308,
+     "y": 82.333,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 44.231,
+     "y": 82.333,
+     "w": 12.462,
+     "h": 5.778
+    },
+    {
+     "x": 61.231,
+     "y": 82.333,
+     "w": 12.385,
+     "h": 5.778
+    },
+    {
+     "x": 78.154,
+     "y": 82.333,
+     "w": 12.462,
+     "h": 5.778
+    }
+   ],
+   "hint": {
+    "x": 16.616,
+    "y": 26.111
+   }
+  }
+ ],
+ "23": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Fill in the blanks: left and right.",
+   "say": "Fill in the blanks: left and right.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 25.0,
+    "w": 88.0,
+    "h": 16.0
+   },
+   "lines": [
+    {
+     "x": 34.0,
+     "y": 28.0,
+     "w": 11.0,
+     "h": 3.0
+    },
+    {
+     "x": 34.0,
+     "y": 32.0,
+     "w": 12.0,
+     "h": 3.0
+    }
+   ],
+   "hint": {
+    "x": 39.5,
+    "y": 29.5
+   },
+   "hide": [
+    {
+     "x": 6.0,
+     "y": 36.4,
+     "w": 53.0,
+     "h": 4.2
+    }
+   ]
+  },
+  {
+   "type": "question",
+   "kind": "choose",
+   "title": "Where is the apple?",
+   "say": "Where is the apple?",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 55.0,
+    "w": 88.0,
+    "h": 35.7
+   },
+   "options": [
+    {
+     "x": 10.0,
+     "y": 67.0,
+     "w": 13.0,
+     "h": 4.5,
+     "correct": true,
+     "label": "top"
+    },
+    {
+     "x": 24.8,
+     "y": 67.0,
+     "w": 13.0,
+     "h": 4.5,
+     "correct": false,
+     "label": "middle"
+    },
+    {
+     "x": 39.6,
+     "y": 67.0,
+     "w": 13.0,
+     "h": 4.5,
+     "correct": false,
+     "label": "bottom"
+    }
+   ],
+   "hide": [
+    {
+     "x": 6.0,
+     "y": 72.0,
+     "w": 49.0,
+     "h": 8.7
+    },
+    {
+     "x": 6.0,
+     "y": 81.0,
+     "w": 49.0,
+     "h": 8.7
+    }
+   ]
+  },
+  {
+   "type": "question",
+   "kind": "choose",
+   "title": "Where is the butterfly?",
+   "say": "Where is the butterfly?",
+   "button": {
+    "x": 19.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 55.0,
+    "w": 88.0,
+    "h": 35.7
+   },
+   "options": [
+    {
+     "x": 10.0,
+     "y": 76.0,
+     "w": 13.0,
+     "h": 4.5,
+     "correct": false,
+     "label": "top"
+    },
+    {
+     "x": 24.8,
+     "y": 76.0,
+     "w": 13.0,
+     "h": 4.5,
+     "correct": true,
+     "label": "middle"
+    },
+    {
+     "x": 39.6,
+     "y": 76.0,
+     "w": 13.0,
+     "h": 4.5,
+     "correct": false,
+     "label": "bottom"
+    }
+   ],
+   "hide": [
+    {
+     "x": 6.0,
+     "y": 63.0,
+     "w": 49.0,
+     "h": 8.7
+    },
+    {
+     "x": 6.0,
+     "y": 81.0,
+     "w": 49.0,
+     "h": 8.7
+    }
+   ]
+  },
+  {
+   "type": "question",
+   "kind": "choose",
+   "title": "Where is the pear?",
+   "say": "Where is the pear?",
+   "button": {
+    "x": 1,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 55.0,
+    "w": 88.0,
+    "h": 35.7
+   },
+   "options": [
+    {
+     "x": 10.0,
+     "y": 85.0,
+     "w": 13.0,
+     "h": 4.5,
+     "correct": false,
+     "label": "top"
+    },
+    {
+     "x": 24.8,
+     "y": 85.0,
+     "w": 13.0,
+     "h": 4.5,
+     "correct": false,
+     "label": "middle"
+    },
+    {
+     "x": 39.6,
+     "y": 85.0,
+     "w": 13.0,
+     "h": 4.5,
+     "correct": true,
+     "label": "bottom"
+    }
+   ],
+   "hide": [
+    {
+     "x": 6.0,
+     "y": 63.0,
+     "w": 49.0,
+     "h": 8.7
+    },
+    {
+     "x": 6.0,
+     "y": 72.0,
+     "w": 49.0,
+     "h": 8.7
+    }
+   ]
+  }
+ ],
+ "24": [
+  {
+   "type": "question",
+   "kind": "choose",
+   "title": "Who is before Asad?",
+   "say": "Who is before Asad?",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 43.0,
+    "w": 90.0,
+    "h": 46.0
+   },
+   "options": [
+    {
+     "x": 69.0,
+     "y": 75.0,
+     "w": 10.0,
+     "h": 4.0,
+     "correct": true,
+     "label": "Amna"
+    },
+    {
+     "x": 81.0,
+     "y": 75.0,
+     "w": 10.0,
+     "h": 4.0,
+     "correct": false,
+     "label": "Hamza"
+    }
+   ],
+   "hide": [
+    {
+     "x": 5.0,
+     "y": 43.0,
+     "w": 56.0,
+     "h": 3.1
+    },
+    {
+     "x": 5.0,
+     "y": 79.3,
+     "w": 89.0,
+     "h": 4.1
+    },
+    {
+     "x": 5.0,
+     "y": 83.6,
+     "w": 89.0,
+     "h": 4.1
+    }
+   ]
+  },
+  {
+   "type": "question",
+   "kind": "choose",
+   "title": "Who is after Asad?",
+   "say": "Who is after Asad?",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 43.0,
+    "w": 90.0,
+    "h": 46.0
+   },
+   "options": [
+    {
+     "x": 69.0,
+     "y": 79.2,
+     "w": 10.0,
+     "h": 4.0,
+     "correct": false,
+     "label": "Amna"
+    },
+    {
+     "x": 81.0,
+     "y": 79.2,
+     "w": 10.0,
+     "h": 4.0,
+     "correct": true,
+     "label": "Hamza"
+    }
+   ],
+   "hide": [
+    {
+     "x": 5.0,
+     "y": 43.0,
+     "w": 56.0,
+     "h": 3.1
+    },
+    {
+     "x": 5.0,
+     "y": 75.0,
+     "w": 89.0,
+     "h": 4.1
+    },
+    {
+     "x": 5.0,
+     "y": 83.6,
+     "w": 89.0,
+     "h": 4.1
+    }
+   ]
+  },
+  {
+   "type": "question",
+   "kind": "choose",
+   "title": "Who is between Amna and Hamza?",
+   "say": "Who is between Amna and Hamza?",
+   "button": {
+    "x": 19.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 43.0,
+    "w": 90.0,
+    "h": 46.0
+   },
+   "options": [
+    {
+     "x": 69.0,
+     "y": 83.4,
+     "w": 10.0,
+     "h": 4.0,
+     "correct": true,
+     "label": "Asad"
+    },
+    {
+     "x": 81.0,
+     "y": 83.4,
+     "w": 10.0,
+     "h": 4.0,
+     "correct": false,
+     "label": "Hamza"
+    }
+   ],
+   "hide": [
+    {
+     "x": 5.0,
+     "y": 43.0,
+     "w": 56.0,
+     "h": 3.1
+    },
+    {
+     "x": 5.0,
+     "y": 75.0,
+     "w": 89.0,
+     "h": 4.1
+    },
+    {
+     "x": 5.0,
+     "y": 79.3,
+     "w": 89.0,
+     "h": 4.1
+    }
+   ]
+  }
+ ],
+ "26": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, circle the correct number and write it.",
+   "say": "Count, circle the correct number and write it.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 6.0,
+    "w": 90.0,
+    "h": 43.7
+   },
+   "lines": [
+    {
+     "x": 83.077,
+     "y": 13.278,
+     "w": 10.538,
+     "h": 5.833
+    },
+    {
+     "x": 83.077,
+     "y": 26.889,
+     "w": 10.538,
+     "h": 5.833
+    },
+    {
+     "x": 83.154,
+     "y": 40.556,
+     "w": 10.538,
+     "h": 5.778
+    },
+    {
+     "x": 76.0,
+     "y": 11.5,
+     "w": 5.5,
+     "h": 11.0
+    },
+    {
+     "x": 76.0,
+     "y": 25.0,
+     "w": 5.5,
+     "h": 11.0
+    },
+    {
+     "x": 76.0,
+     "y": 38.5,
+     "w": 5.5,
+     "h": 11.0
+    }
+   ],
+   "hint": {
+    "x": 88.346,
+    "y": 16.1945
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the next numbers.",
+   "say": "Write the next numbers.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 49.0,
+    "w": 43.0,
+    "h": 21.0
+   },
+   "lines": [
+    {
+     "x": 16.308,
+     "y": 54.5,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 26.923,
+     "y": 54.5,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 37.538,
+     "y": 54.5,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 16.308,
+     "y": 62.889,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 26.923,
+     "y": 62.889,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 37.538,
+     "y": 62.889,
+     "w": 8.769,
+     "h": 6.333
+    }
+   ],
+   "hint": {
+    "x": 20.6925,
+    "y": 57.639
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the previous numbers.",
+   "say": "Write the previous numbers.",
+   "button": {
+    "x": 19.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 51.0,
+    "y": 49.0,
+    "w": 44.0,
+    "h": 21.0
+   },
+   "lines": [
+    {
+     "x": 53.077,
+     "y": 54.5,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 63.692,
+     "y": 54.5,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 74.308,
+     "y": 54.5,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 53.077,
+     "y": 62.889,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 63.692,
+     "y": 62.889,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 74.308,
+     "y": 62.889,
+     "w": 8.769,
+     "h": 6.333
+    }
+   ],
+   "hint": {
+    "x": 57.4615,
+    "y": 57.639
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the missing numbers.",
+   "say": "Write the missing numbers.",
+   "button": {
+    "x": 1,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 72.0,
+    "w": 90.0,
+    "h": 22.0
+   },
+   "lines": [
+    {
+     "x": 6.692,
+     "y": 78.389,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 45.462,
+     "y": 78.389,
+     "w": 8.692,
+     "h": 6.333
+    },
+    {
+     "x": 84.231,
+     "y": 78.389,
+     "w": 8.692,
+     "h": 6.333
+    },
+    {
+     "x": 6.692,
+     "y": 86.5,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 45.462,
+     "y": 86.5,
+     "w": 8.692,
+     "h": 6.333
+    },
+    {
+     "x": 84.231,
+     "y": 86.5,
+     "w": 8.692,
+     "h": 6.333
+    }
+   ],
+   "hint": {
+    "x": 11.0765,
+    "y": 81.5555
+   }
+  }
+ ],
+ "28": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, circle the correct number and write it.",
+   "say": "Count, circle the correct number and write it.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 6.0,
+    "w": 90.0,
+    "h": 43.7
+   },
+   "lines": [
+    {
+     "x": 83.077,
+     "y": 12.944,
+     "w": 10.538,
+     "h": 5.778
+    },
+    {
+     "x": 83.077,
+     "y": 26.556,
+     "w": 10.538,
+     "h": 5.833
+    },
+    {
+     "x": 83.154,
+     "y": 40.222,
+     "w": 10.538,
+     "h": 5.778
+    },
+    {
+     "x": 76.0,
+     "y": 11.5,
+     "w": 5.5,
+     "h": 11.0
+    },
+    {
+     "x": 76.0,
+     "y": 25.0,
+     "w": 5.5,
+     "h": 11.0
+    },
+    {
+     "x": 76.0,
+     "y": 38.5,
+     "w": 5.5,
+     "h": 11.0
+    }
+   ],
+   "hint": {
+    "x": 88.346,
+    "y": 15.833
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the next numbers.",
+   "say": "Write the next numbers.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 49.0,
+    "w": 43.0,
+    "h": 21.0
+   },
+   "lines": [
+    {
+     "x": 16.385,
+     "y": 54.111,
+     "w": 8.692,
+     "h": 6.333
+    },
+    {
+     "x": 26.923,
+     "y": 54.111,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 37.538,
+     "y": 54.111,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 16.308,
+     "y": 62.556,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 26.923,
+     "y": 62.556,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 37.538,
+     "y": 62.556,
+     "w": 8.769,
+     "h": 6.278
+    }
+   ],
+   "hint": {
+    "x": 20.731,
+    "y": 57.277499999999996
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the previous numbers.",
+   "say": "Write the previous numbers.",
+   "button": {
+    "x": 19.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 51.0,
+    "y": 49.0,
+    "w": 44.0,
+    "h": 21.0
+   },
+   "lines": [
+    {
+     "x": 53.077,
+     "y": 54.111,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 63.692,
+     "y": 54.111,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 74.308,
+     "y": 54.111,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 53.077,
+     "y": 62.556,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 63.692,
+     "y": 62.556,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 74.308,
+     "y": 62.556,
+     "w": 8.769,
+     "h": 6.278
+    }
+   ],
+   "hint": {
+    "x": 57.4615,
+    "y": 57.277499999999996
+   }
+  },
+  {
+   "type": "question",
+   "kind": "colour",
+   "title": "Colour the greater number red and the smaller number blue.",
+   "say": "Colour the greater number red and the smaller number blue.",
+   "button": {
+    "x": 1,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 71.0,
+    "w": 88.0,
+    "h": 24.0
+   },
+   "parts": [
+    {
+     "part": "balloon",
+     "box": {
+      "x": 8.1,
+      "y": 78.6,
+      "w": 8.6,
+      "h": 7.9
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "balloon",
+     "box": {
+      "x": 18.4,
+      "y": 76.5,
+      "w": 8.8,
+      "h": 7.9
+     },
+     "colours": [
+      "#e63946"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "balloon",
+     "box": {
+      "x": 29.1,
+      "y": 84.1,
+      "w": 8.4,
+      "h": 7.8
+     },
+     "colours": [
+      "#e63946"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "balloon",
+     "box": {
+      "x": 39.4,
+      "y": 82.1,
+      "w": 8.6,
+      "h": 7.7
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "balloon",
+     "box": {
+      "x": 53.3,
+      "y": 78.5,
+      "w": 8.4,
+      "h": 7.8
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "balloon",
+     "box": {
+      "x": 63.7,
+      "y": 76.5,
+      "w": 8.7,
+      "h": 7.8
+     },
+     "colours": [
+      "#e63946"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "balloon",
+     "box": {
+      "x": 73.5,
+      "y": 84.0,
+      "w": 8.7,
+      "h": 7.9
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "balloon",
+     "box": {
+      "x": 83.6,
+      "y": 82.1,
+      "w": 8.6,
+      "h": 7.8
+     },
+     "colours": [
+      "#e63946"
+     ],
+     "outline": "ellipse"
+    }
+   ],
+   "samples": [],
+   "hint": {
+    "x": 12.399999999999999,
+    "y": 82.55
+   }
+  }
+ ],
+ "30": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, circle the correct number and write it.",
+   "say": "Count, circle the correct number and write it.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 6.0,
+    "w": 90.0,
+    "h": 43.7
+   },
+   "lines": [
+    {
+     "x": 83.077,
+     "y": 12.944,
+     "w": 10.538,
+     "h": 5.778
+    },
+    {
+     "x": 83.077,
+     "y": 26.556,
+     "w": 10.538,
+     "h": 5.833
+    },
+    {
+     "x": 83.154,
+     "y": 40.222,
+     "w": 10.538,
+     "h": 5.778
+    },
+    {
+     "x": 76.0,
+     "y": 11.5,
+     "w": 5.5,
+     "h": 11.0
+    },
+    {
+     "x": 76.0,
+     "y": 25.0,
+     "w": 5.5,
+     "h": 11.0
+    },
+    {
+     "x": 76.0,
+     "y": 38.5,
+     "w": 5.5,
+     "h": 11.0
+    }
+   ],
+   "hint": {
+    "x": 88.346,
+    "y": 15.833
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the next numbers.",
+   "say": "Write the next numbers.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 49.0,
+    "w": 43.0,
+    "h": 21.0
+   },
+   "lines": [
+    {
+     "x": 16.308,
+     "y": 54.111,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 26.923,
+     "y": 54.111,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 37.538,
+     "y": 54.111,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 16.308,
+     "y": 62.556,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 26.923,
+     "y": 62.556,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 37.538,
+     "y": 62.556,
+     "w": 8.769,
+     "h": 6.278
+    }
+   ],
+   "hint": {
+    "x": 20.6925,
+    "y": 57.277499999999996
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the previous numbers.",
+   "say": "Write the previous numbers.",
+   "button": {
+    "x": 19.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 51.0,
+    "y": 49.0,
+    "w": 44.0,
+    "h": 21.0
+   },
+   "lines": [
+    {
+     "x": 53.077,
+     "y": 54.111,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 63.692,
+     "y": 54.111,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 74.308,
+     "y": 54.111,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 53.077,
+     "y": 62.556,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 63.692,
+     "y": 62.556,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 74.308,
+     "y": 62.556,
+     "w": 8.769,
+     "h": 6.278
+    }
+   ],
+   "hint": {
+    "x": 57.4615,
+    "y": 57.277499999999996
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the missing numbers.",
+   "say": "Write the missing numbers.",
+   "button": {
+    "x": 1,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 72.0,
+    "w": 90.0,
+    "h": 22.0
+   },
+   "lines": [
+    {
+     "x": 6.692,
+     "y": 78.056,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 45.462,
+     "y": 78.056,
+     "w": 8.692,
+     "h": 6.333
+    },
+    {
+     "x": 84.231,
+     "y": 78.056,
+     "w": 8.692,
+     "h": 6.333
+    },
+    {
+     "x": 6.692,
+     "y": 86.167,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 45.462,
+     "y": 86.167,
+     "w": 8.692,
+     "h": 6.278
+    },
+    {
+     "x": 84.231,
+     "y": 86.167,
+     "w": 8.692,
+     "h": 6.278
+    }
+   ],
+   "hint": {
+    "x": 11.0765,
+    "y": 81.2225
+   }
+  }
+ ],
+ "33": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, colour the correct number and write it.",
+   "say": "Count, colour the correct number and write it.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 6.0,
+    "w": 90.0,
+    "h": 43.7
+   },
+   "lines": [
+    {
+     "x": 83.077,
+     "y": 13.444,
+     "w": 10.615,
+     "h": 5.833
+    },
+    {
+     "x": 83.077,
+     "y": 27.111,
+     "w": 10.538,
+     "h": 5.778
+    },
+    {
+     "x": 83.154,
+     "y": 40.722,
+     "w": 10.538,
+     "h": 5.778
+    },
+    {
+     "x": 76.0,
+     "y": 11.5,
+     "w": 5.5,
+     "h": 11.0
+    },
+    {
+     "x": 76.0,
+     "y": 25.0,
+     "w": 5.5,
+     "h": 11.0
+    },
+    {
+     "x": 76.0,
+     "y": 38.5,
+     "w": 5.5,
+     "h": 11.0
+    }
+   ],
+   "hint": {
+    "x": 88.3845,
+    "y": 16.360500000000002
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the next numbers.",
+   "say": "Write the next numbers.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 51.0,
+    "w": 90.0,
+    "h": 21.0
+   },
+   "lines": [
+    {
+     "x": 17.231,
+     "y": 55.222,
+     "w": 8.692,
+     "h": 6.333
+    },
+    {
+     "x": 27.846,
+     "y": 55.222,
+     "w": 8.692,
+     "h": 6.333
+    },
+    {
+     "x": 38.462,
+     "y": 55.222,
+     "w": 8.692,
+     "h": 6.333
+    },
+    {
+     "x": 63.077,
+     "y": 55.222,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 73.692,
+     "y": 55.222,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 84.308,
+     "y": 55.222,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 17.231,
+     "y": 63.944,
+     "w": 8.692,
+     "h": 6.278
+    },
+    {
+     "x": 27.846,
+     "y": 63.944,
+     "w": 8.692,
+     "h": 6.278
+    },
+    {
+     "x": 38.462,
+     "y": 63.944,
+     "w": 8.692,
+     "h": 6.278
+    },
+    {
+     "x": 63.077,
+     "y": 63.944,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 73.692,
+     "y": 63.944,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 84.308,
+     "y": 63.944,
+     "w": 8.769,
+     "h": 6.278
+    }
+   ],
+   "hint": {
+    "x": 21.577,
+    "y": 58.3885
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the previous numbers.",
+   "say": "Write the previous numbers.",
+   "button": {
+    "x": 19.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 74.0,
+    "w": 90.0,
+    "h": 20.0
+   },
+   "lines": [
+    {
+     "x": 6.615,
+     "y": 77.833,
+     "w": 8.692,
+     "h": 6.333
+    },
+    {
+     "x": 17.231,
+     "y": 77.833,
+     "w": 8.692,
+     "h": 6.333
+    },
+    {
+     "x": 27.846,
+     "y": 77.833,
+     "w": 8.692,
+     "h": 6.333
+    },
+    {
+     "x": 52.462,
+     "y": 77.833,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 63.077,
+     "y": 77.833,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 73.692,
+     "y": 77.833,
+     "w": 8.769,
+     "h": 6.333
+    },
+    {
+     "x": 6.615,
+     "y": 86.556,
+     "w": 8.692,
+     "h": 6.278
+    },
+    {
+     "x": 17.231,
+     "y": 86.556,
+     "w": 8.692,
+     "h": 6.278
+    },
+    {
+     "x": 27.846,
+     "y": 86.556,
+     "w": 8.692,
+     "h": 6.278
+    },
+    {
+     "x": 52.462,
+     "y": 86.556,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 63.077,
+     "y": 86.556,
+     "w": 8.769,
+     "h": 6.278
+    },
+    {
+     "x": 73.692,
+     "y": 86.556,
+     "w": 8.769,
+     "h": 6.278
+    }
+   ],
+   "hint": {
+    "x": 10.961,
+    "y": 80.9995
+   }
+  }
+ ],
+ "34": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Complete the missing numbers: count in tens.",
+   "say": "Complete the missing numbers: count in tens.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 78.1,
+    "w": 90.0,
+    "h": 9.1
+   },
+   "lines": [
+    {
+     "x": 14.692,
+     "y": 80.944,
+     "w": 8.538,
+     "h": 4.611
+    },
+    {
+     "x": 23.538,
+     "y": 80.944,
+     "w": 8.538,
+     "h": 4.611
+    },
+    {
+     "x": 41.308,
+     "y": 80.944,
+     "w": 8.538,
+     "h": 4.611
+    },
+    {
+     "x": 50.154,
+     "y": 80.944,
+     "w": 8.538,
+     "h": 4.611
+    },
+    {
+     "x": 67.846,
+     "y": 80.944,
+     "w": 8.538,
+     "h": 4.611
+    },
+    {
+     "x": 76.769,
+     "y": 80.944,
+     "w": 8.538,
+     "h": 4.611
+    },
+    {
+     "x": 85.615,
+     "y": 80.944,
+     "w": 8.538,
+     "h": 4.611
+    }
+   ],
+   "hint": {
+    "x": 18.961,
+    "y": 83.2495
+   }
+  }
+ ],
+ "38": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, write and add the fruit.",
+   "say": "Count, write and add the fruit.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 67.0,
+    "w": 90.0,
+    "h": 22.0
+   },
+   "lines": [
+    {
+     "x": 70.0,
+     "y": 69.0,
+     "w": 13.0,
+     "h": 3.0
+    },
+    {
+     "x": 70.0,
+     "y": 75.0,
+     "w": 13.0,
+     "h": 3.0
+    },
+    {
+     "x": 47.0,
+     "y": 83.0,
+     "w": 6.0,
+     "h": 4.3
+    },
+    {
+     "x": 64.0,
+     "y": 83.0,
+     "w": 6.0,
+     "h": 4.3
+    },
+    {
+     "x": 81.0,
+     "y": 83.0,
+     "w": 6.0,
+     "h": 4.3
+    }
+   ],
+   "hint": {
+    "x": 76.5,
+    "y": 70.5
+   }
+  }
+ ],
+ "39": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count on your fingers and add the numbers.",
+   "say": "Count on your fingers and add the numbers.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 36.0,
+    "w": 88.0,
+    "h": 15.0
+   },
+   "lines": [
+    {
+     "x": 25.0,
+     "y": 47.0,
+     "w": 7.0,
+     "h": 2.4
+    },
+    {
+     "x": 55.0,
+     "y": 47.0,
+     "w": 7.0,
+     "h": 2.4
+    },
+    {
+     "x": 86.0,
+     "y": 47.0,
+     "w": 7.0,
+     "h": 2.4
+    }
+   ],
+   "hint": {
+    "x": 28.5,
+    "y": 48.2
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Add the numbers after counting on your fingers.",
+   "say": "Add the numbers after counting on your fingers.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 52.0,
+    "w": 88.0,
+    "h": 37.0
+   },
+   "lines": [
+    {
+     "x": 26.0,
+     "y": 68.0,
+     "w": 7.0,
+     "h": 2.5
+    },
+    {
+     "x": 56.0,
+     "y": 68.0,
+     "w": 7.0,
+     "h": 2.5
+    },
+    {
+     "x": 86.0,
+     "y": 68.0,
+     "w": 7.0,
+     "h": 2.5
+    },
+    {
+     "x": 26.0,
+     "y": 85.0,
+     "w": 7.0,
+     "h": 2.5
+    },
+    {
+     "x": 56.0,
+     "y": 85.0,
+     "w": 7.0,
+     "h": 2.5
+    },
+    {
+     "x": 86.0,
+     "y": 85.0,
+     "w": 7.0,
+     "h": 2.5
+    }
+   ],
+   "hint": {
+    "x": 29.5,
+    "y": 69.25
+   }
+  },
+  {
+   "type": "question",
+   "kind": "colour",
+   "title": "Colour the fingers to show the addition.",
+   "say": "Colour the fingers to show the addition.",
+   "button": {
+    "x": 19.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 52.0,
+    "w": 88.0,
+    "h": 37.0
+   },
+   "parts": [
+    {
+     "part": "hand",
+     "box": {
+      "x": 10.22,
+      "y": 55.32,
+      "w": 11.11,
+      "h": 10.86
+     },
+     "colours": [
+      "#d4a373"
+     ]
+    },
+    {
+     "part": "hand",
+     "box": {
+      "x": 21.83,
+      "y": 55.32,
+      "w": 11.11,
+      "h": 10.86
+     },
+     "colours": [
+      "#d4a373"
+     ]
+    },
+    {
+     "part": "hand",
+     "box": {
+      "x": 40.29,
+      "y": 55.32,
+      "w": 11.11,
+      "h": 10.86
+     },
+     "colours": [
+      "#d4a373"
+     ]
+    },
+    {
+     "part": "hand",
+     "box": {
+      "x": 51.91,
+      "y": 55.32,
+      "w": 11.11,
+      "h": 10.86
+     },
+     "colours": [
+      "#d4a373"
+     ]
+    },
+    {
+     "part": "hand",
+     "box": {
+      "x": 69.6,
+      "y": 55.32,
+      "w": 11.11,
+      "h": 10.86
+     },
+     "colours": [
+      "#d4a373"
+     ]
+    },
+    {
+     "part": "hand",
+     "box": {
+      "x": 81.22,
+      "y": 55.32,
+      "w": 11.11,
+      "h": 10.86
+     },
+     "colours": [
+      "#d4a373"
+     ]
+    },
+    {
+     "part": "hand",
+     "box": {
+      "x": 10.22,
+      "y": 72.43,
+      "w": 11.11,
+      "h": 10.86
+     },
+     "colours": [
+      "#d4a373"
+     ]
+    },
+    {
+     "part": "hand",
+     "box": {
+      "x": 21.83,
+      "y": 72.43,
+      "w": 11.11,
+      "h": 10.86
+     },
+     "colours": [
+      "#d4a373"
+     ]
+    },
+    {
+     "part": "hand",
+     "box": {
+      "x": 40.29,
+      "y": 72.43,
+      "w": 11.11,
+      "h": 10.86
+     },
+     "colours": [
+      "#d4a373"
+     ]
+    },
+    {
+     "part": "hand",
+     "box": {
+      "x": 51.91,
+      "y": 72.43,
+      "w": 11.11,
+      "h": 10.86
+     },
+     "colours": [
+      "#d4a373"
+     ]
+    },
+    {
+     "part": "hand",
+     "box": {
+      "x": 69.6,
+      "y": 72.43,
+      "w": 11.11,
+      "h": 10.86
+     },
+     "colours": [
+      "#d4a373"
+     ]
+    },
+    {
+     "part": "hand",
+     "box": {
+      "x": 81.22,
+      "y": 72.43,
+      "w": 11.11,
+      "h": 10.86
+     },
+     "colours": [
+      "#d4a373"
+     ]
+    }
+   ],
+   "samples": [
+    {
+     "page": 39,
+     "x": 54.0,
+     "y": 8.0,
+     "w": 38.0,
+     "h": 18.0
+    }
+   ],
+   "hint": {
+    "x": 15.775,
+    "y": 60.75
+   }
+  }
+ ],
+ "40": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Add using the number lines and write the answers.",
+   "say": "Add using the number lines and write the answers.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 52.5,
+    "w": 90.0,
+    "h": 33.5
+   },
+   "lines": [
+    {
+     "x": 23.0,
+     "y": 57.0,
+     "w": 7.0,
+     "h": 2.4
+    },
+    {
+     "x": 23.0,
+     "y": 63.3,
+     "w": 7.0,
+     "h": 2.4
+    },
+    {
+     "x": 23.0,
+     "y": 69.7,
+     "w": 7.0,
+     "h": 2.4
+    },
+    {
+     "x": 23.0,
+     "y": 76.0,
+     "w": 7.0,
+     "h": 2.4
+    },
+    {
+     "x": 23.0,
+     "y": 82.2,
+     "w": 7.0,
+     "h": 2.4
+    }
+   ],
+   "hint": {
+    "x": 26.5,
+    "y": 58.2
+   }
+  }
+ ],
+ "41": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count the objects, write the numbers and find the total.",
+   "say": "Count the objects, write the numbers and find the total.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 9.0,
+    "w": 90.0,
+    "h": 79.2
+   },
+   "lines": [
+    {
+     "x": 84.538,
+     "y": 14.111,
+     "w": 9.154,
+     "h": 6.611
+    },
+    {
+     "x": 40.923,
+     "y": 17.5,
+     "w": 5.308,
+     "h": 3.833
+    },
+    {
+     "x": 70.462,
+     "y": 17.5,
+     "w": 5.308,
+     "h": 3.833
+    },
+    {
+     "x": 84.538,
+     "y": 29.833,
+     "w": 9.154,
+     "h": 6.611
+    },
+    {
+     "x": 33.077,
+     "y": 34.167,
+     "w": 5.308,
+     "h": 3.833
+    },
+    {
+     "x": 72.692,
+     "y": 33.944,
+     "w": 5.385,
+     "h": 3.833
+    },
+    {
+     "x": 84.538,
+     "y": 45.556,
+     "w": 9.154,
+     "h": 6.611
+    },
+    {
+     "x": 40.692,
+     "y": 49.833,
+     "w": 5.308,
+     "h": 3.833
+    },
+    {
+     "x": 70.769,
+     "y": 49.833,
+     "w": 5.385,
+     "h": 3.833
+    },
+    {
+     "x": 84.538,
+     "y": 60.222,
+     "w": 9.154,
+     "h": 6.611
+    },
+    {
+     "x": 40.692,
+     "y": 64.556,
+     "w": 5.308,
+     "h": 3.833
+    },
+    {
+     "x": 69.077,
+     "y": 64.556,
+     "w": 5.308,
+     "h": 3.833
+    },
+    {
+     "x": 84.538,
+     "y": 74.833,
+     "w": 9.154,
+     "h": 6.611
+    },
+    {
+     "x": 40.692,
+     "y": 79.833,
+     "w": 5.308,
+     "h": 3.833
+    },
+    {
+     "x": 69.769,
+     "y": 79.833,
+     "w": 5.308,
+     "h": 3.833
+    },
+    {
+     "x": 44.0,
+     "y": 24.0,
+     "w": 8.0,
+     "h": 2.4
+    },
+    {
+     "x": 47.0,
+     "y": 40.0,
+     "w": 8.0,
+     "h": 2.4
+    },
+    {
+     "x": 53.0,
+     "y": 55.5,
+     "w": 8.0,
+     "h": 2.4
+    },
+    {
+     "x": 47.0,
+     "y": 70.5,
+     "w": 8.0,
+     "h": 2.4
+    },
+    {
+     "x": 46.0,
+     "y": 85.2,
+     "w": 8.0,
+     "h": 2.4
+    }
+   ],
+   "hint": {
+    "x": 89.115,
+    "y": 17.4165
+   }
+  }
+ ],
+ "42": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Horizontal addition.",
+   "say": "Horizontal addition.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 29.0,
+    "w": 43.0,
+    "h": 59.0
+   },
+   "lines": [
+    {
+     "x": 38.385,
+     "y": 33.444,
+     "w": 7.0,
+     "h": 5.056
+    },
+    {
+     "x": 38.385,
+     "y": 40.444,
+     "w": 7.0,
+     "h": 5.056
+    },
+    {
+     "x": 38.385,
+     "y": 47.444,
+     "w": 7.0,
+     "h": 5.056
+    },
+    {
+     "x": 38.385,
+     "y": 54.5,
+     "w": 7.0,
+     "h": 5.056
+    },
+    {
+     "x": 38.385,
+     "y": 61.5,
+     "w": 7.0,
+     "h": 5.056
+    },
+    {
+     "x": 38.385,
+     "y": 68.556,
+     "w": 7.0,
+     "h": 5.056
+    },
+    {
+     "x": 38.385,
+     "y": 75.556,
+     "w": 7.0,
+     "h": 5.056
+    },
+    {
+     "x": 38.385,
+     "y": 82.611,
+     "w": 7.0,
+     "h": 5.056
+    }
+   ],
+   "hint": {
+    "x": 41.885,
+    "y": 35.972
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Vertical addition.",
+   "say": "Vertical addition.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 52.0,
+    "y": 29.0,
+    "w": 43.0,
+    "h": 59.0
+   },
+   "lines": [
+    {
+     "x": 59.5,
+     "y": 41.0,
+     "w": 8.5,
+     "h": 3.5
+    },
+    {
+     "x": 59.5,
+     "y": 55.2,
+     "w": 8.5,
+     "h": 3.5
+    },
+    {
+     "x": 59.5,
+     "y": 69.5,
+     "w": 8.5,
+     "h": 3.5
+    },
+    {
+     "x": 59.5,
+     "y": 83.7,
+     "w": 8.5,
+     "h": 3.5
+    },
+    {
+     "x": 80.0,
+     "y": 41.0,
+     "w": 8.5,
+     "h": 3.5
+    },
+    {
+     "x": 80.0,
+     "y": 55.2,
+     "w": 8.5,
+     "h": 3.5
+    },
+    {
+     "x": 80.0,
+     "y": 69.5,
+     "w": 8.5,
+     "h": 3.5
+    },
+    {
+     "x": 80.0,
+     "y": 83.7,
+     "w": 8.5,
+     "h": 3.5
+    }
+   ],
+   "hint": {
+    "x": 63.75,
+    "y": 42.75
+   }
+  }
+ ],
+ "43": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Add the units. Write the answers in the columns.",
+   "say": "Add the units. Write the answers in the columns.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 10.0,
+    "w": 90.0,
+    "h": 78.0
+   },
+   "lines": [
+    {
+     "x": 36.692,
+     "y": 16.278,
+     "w": 14.154,
+     "h": 7.389
+    },
+    {
+     "x": 66.692,
+     "y": 16.278,
+     "w": 14.154,
+     "h": 7.389
+    },
+    {
+     "x": 21.077,
+     "y": 20.056,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 20.056,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 20.056,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 21.077,
+     "y": 23.833,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 23.833,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 23.833,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 21.077,
+     "y": 27.611,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 51.077,
+     "y": 27.611,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 57.538,
+     "y": 27.611,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 81.077,
+     "y": 27.611,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 87.538,
+     "y": 27.611,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 6.692,
+     "y": 34.389,
+     "w": 14.154,
+     "h": 7.389
+    },
+    {
+     "x": 36.692,
+     "y": 34.389,
+     "w": 14.154,
+     "h": 7.389
+    },
+    {
+     "x": 66.692,
+     "y": 34.389,
+     "w": 14.154,
+     "h": 7.389
+    },
+    {
+     "x": 21.077,
+     "y": 38.167,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 51.077,
+     "y": 38.222,
+     "w": 6.231,
+     "h": 3.556
+    },
+    {
+     "x": 81.077,
+     "y": 38.167,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 21.077,
+     "y": 41.944,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 41.944,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 41.944,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 21.077,
+     "y": 45.722,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 27.538,
+     "y": 45.722,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 51.077,
+     "y": 45.722,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 57.538,
+     "y": 45.722,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 81.077,
+     "y": 45.722,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 87.538,
+     "y": 45.722,
+     "w": 6.154,
+     "h": 3.667
+    },
+    {
+     "x": 6.692,
+     "y": 52.5,
+     "w": 14.154,
+     "h": 7.444
+    },
+    {
+     "x": 36.692,
+     "y": 52.5,
+     "w": 14.154,
+     "h": 7.444
+    },
+    {
+     "x": 66.692,
+     "y": 52.5,
+     "w": 14.154,
+     "h": 7.444
+    },
+    {
+     "x": 21.077,
+     "y": 56.333,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 56.333,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 56.333,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 21.077,
+     "y": 60.111,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 60.111,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 60.111,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 21.077,
+     "y": 63.889,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 27.538,
+     "y": 63.889,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 63.889,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 57.538,
+     "y": 63.889,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 63.889,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 87.538,
+     "y": 63.889,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 6.692,
+     "y": 70.667,
+     "w": 14.154,
+     "h": 7.389
+    },
+    {
+     "x": 36.692,
+     "y": 70.611,
+     "w": 14.154,
+     "h": 7.444
+    },
+    {
+     "x": 66.692,
+     "y": 70.667,
+     "w": 14.154,
+     "h": 7.389
+    },
+    {
+     "x": 21.077,
+     "y": 74.444,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 74.444,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 74.444,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 21.077,
+     "y": 78.222,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 78.222,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 78.222,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 21.077,
+     "y": 82.0,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 27.538,
+     "y": 82.0,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 51.077,
+     "y": 82.0,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 57.538,
+     "y": 82.0,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 81.077,
+     "y": 82.0,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 87.538,
+     "y": 82.0,
+     "w": 6.231,
+     "h": 3.667
+    }
+   ],
+   "hint": {
+    "x": 43.769,
+    "y": 19.9725
+   }
+  }
+ ],
+ "44": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count and add the shapes.",
+   "say": "Count and add the shapes.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 9.0,
+    "w": 90.0,
+    "h": 38.0
+   },
+   "lines": [
+    {
+     "x": 86.0,
+     "y": 22.0,
+     "w": 6.0,
+     "h": 2.5
+    },
+    {
+     "x": 86.0,
+     "y": 29.5,
+     "w": 6.0,
+     "h": 2.5
+    },
+    {
+     "x": 86.0,
+     "y": 36.0,
+     "w": 6.0,
+     "h": 2.5
+    },
+    {
+     "x": 86.0,
+     "y": 42.5,
+     "w": 6.0,
+     "h": 2.5
+    }
+   ],
+   "hint": {
+    "x": 89.0,
+    "y": 23.25
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, write and add the shapes.",
+   "say": "Count, write and add the shapes.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 48.0,
+    "w": 90.0,
+    "h": 41.0
+   },
+   "lines": [
+    {
+     "x": 75.0,
+     "y": 63.0,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 82.0,
+     "y": 63.0,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 88.0,
+     "y": 63.0,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 75.0,
+     "y": 70.0,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 82.0,
+     "y": 70.0,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 88.0,
+     "y": 70.0,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 75.0,
+     "y": 77.0,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 82.0,
+     "y": 77.0,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 88.0,
+     "y": 77.0,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 75.0,
+     "y": 84.0,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 82.0,
+     "y": 84.0,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 88.0,
+     "y": 84.0,
+     "w": 5.0,
+     "h": 2.5
+    }
+   ],
+   "hint": {
+    "x": 77.5,
+    "y": 64.25
+   }
+  }
+ ],
+ "64": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count and subtract the shapes.",
+   "say": "Count and subtract the shapes.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 9.0,
+    "w": 90.0,
+    "h": 40.0
+   },
+   "lines": [
+    {
+     "x": 84.0,
+     "y": 22.5,
+     "w": 7.0,
+     "h": 2.5
+    },
+    {
+     "x": 84.0,
+     "y": 30.0,
+     "w": 7.0,
+     "h": 2.5
+    },
+    {
+     "x": 84.0,
+     "y": 37.5,
+     "w": 7.0,
+     "h": 2.5
+    },
+    {
+     "x": 84.0,
+     "y": 44.5,
+     "w": 7.0,
+     "h": 2.5
+    }
+   ],
+   "hint": {
+    "x": 87.5,
+    "y": 23.75
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, write and subtract the shapes.",
+   "say": "Count, write and subtract the shapes.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 50.0,
+    "w": 90.0,
+    "h": 39.0
+   },
+   "lines": [
+    {
+     "x": 75.0,
+     "y": 62.5,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 82.0,
+     "y": 62.5,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 88.0,
+     "y": 62.5,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 75.0,
+     "y": 70.2,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 82.0,
+     "y": 70.2,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 88.0,
+     "y": 70.2,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 75.0,
+     "y": 77.8,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 82.0,
+     "y": 77.8,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 88.0,
+     "y": 77.8,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 75.0,
+     "y": 85.4,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 82.0,
+     "y": 85.4,
+     "w": 5.0,
+     "h": 2.5
+    },
+    {
+     "x": 88.0,
+     "y": 85.4,
+     "w": 5.0,
+     "h": 2.5
+    }
+   ],
+   "hint": {
+    "x": 77.5,
+    "y": 63.75
+   }
+  }
+ ],
+ "45": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "How many sparrows are there in total?",
+   "say": "How many sparrows are there in total?",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 9.0,
+    "w": 90.0,
+    "h": 36.5
+   },
+   "lines": [
+    {
+     "x": 81.077,
+     "y": 14.667,
+     "w": 6.154,
+     "h": 4.444
+    },
+    {
+     "x": 81.077,
+     "y": 20.722,
+     "w": 6.154,
+     "h": 4.444
+    },
+    {
+     "x": 86.308,
+     "y": 28.111,
+     "w": 6.154,
+     "h": 4.444
+    },
+    {
+     "x": 62.154,
+     "y": 38.611,
+     "w": 6.538,
+     "h": 4.667
+    },
+    {
+     "x": 74.077,
+     "y": 38.611,
+     "w": 6.462,
+     "h": 4.667
+    },
+    {
+     "x": 85.769,
+     "y": 38.611,
+     "w": 6.462,
+     "h": 4.667
+    }
+   ],
+   "hint": {
+    "x": 84.154,
+    "y": 16.889
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "How many caterpillars are there altogether?",
+   "say": "How many caterpillars are there altogether?",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 46.0,
+    "w": 90.0,
+    "h": 37.5
+   },
+   "lines": [
+    {
+     "x": 78.308,
+     "y": 53.611,
+     "w": 6.154,
+     "h": 4.444
+    },
+    {
+     "x": 78.308,
+     "y": 59.5,
+     "w": 6.154,
+     "h": 4.444
+    },
+    {
+     "x": 85.538,
+     "y": 66.056,
+     "w": 6.077,
+     "h": 4.444
+    },
+    {
+     "x": 60.769,
+     "y": 75.722,
+     "w": 6.538,
+     "h": 4.667
+    },
+    {
+     "x": 72.692,
+     "y": 75.722,
+     "w": 6.462,
+     "h": 4.667
+    },
+    {
+     "x": 84.385,
+     "y": 75.722,
+     "w": 6.462,
+     "h": 4.667
+    }
+   ],
+   "hint": {
+    "x": 81.385,
+    "y": 55.833
+   }
+  }
+ ],
+ "67": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "How many apples are left?",
+   "say": "How many apples are left?",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 9.0,
+    "w": 90.0,
+    "h": 39.0
+   },
+   "lines": [
+    {
+     "x": 79.538,
+     "y": 17.833,
+     "w": 6.385,
+     "h": 4.611
+    },
+    {
+     "x": 79.538,
+     "y": 24.389,
+     "w": 6.385,
+     "h": 4.611
+    },
+    {
+     "x": 84.154,
+     "y": 31.222,
+     "w": 6.385,
+     "h": 4.611
+    },
+    {
+     "x": 60.308,
+     "y": 41.889,
+     "w": 6.769,
+     "h": 4.889
+    },
+    {
+     "x": 72.692,
+     "y": 41.889,
+     "w": 6.769,
+     "h": 4.889
+    },
+    {
+     "x": 84.923,
+     "y": 41.889,
+     "w": 6.769,
+     "h": 4.889
+    }
+   ],
+   "hint": {
+    "x": 82.73049999999999,
+    "y": 20.138499999999997
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "How many buttons are left?",
+   "say": "How many buttons are left?",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 49.0,
+    "w": 90.0,
+    "h": 36.0
+   },
+   "lines": [
+    {
+     "x": 79.462,
+     "y": 53.778,
+     "w": 6.769,
+     "h": 4.889
+    },
+    {
+     "x": 79.462,
+     "y": 60.333,
+     "w": 6.769,
+     "h": 4.889
+    },
+    {
+     "x": 84.846,
+     "y": 67.722,
+     "w": 6.462,
+     "h": 4.667
+    },
+    {
+     "x": 59.538,
+     "y": 77.278,
+     "w": 6.769,
+     "h": 4.889
+    },
+    {
+     "x": 71.923,
+     "y": 77.278,
+     "w": 6.769,
+     "h": 4.889
+    },
+    {
+     "x": 84.154,
+     "y": 77.278,
+     "w": 6.769,
+     "h": 4.889
+    }
+   ],
+   "hint": {
+    "x": 82.8465,
+    "y": 56.2225
+   }
+  }
+ ],
+ "46": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Match each object to its relevant shape.",
+   "say": "Match each object to its relevant shape.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 29.0,
+    "w": 88.0,
+    "h": 40.0
+   },
+   "lines": [
+    {
+     "x": 8.0,
+     "y": 44.0,
+     "w": 78.0,
+     "h": 14.0
+    }
+   ],
+   "hint": {
+    "x": 47.0,
+    "y": 51.0
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Trace and write the name of each shape.",
+   "say": "Trace and write the name of each shape.",
+   "button": {
+    "x": 19.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 69.0,
+    "w": 90.0,
+    "h": 19.0
+   },
+   "lines": [
+    {
+     "x": 7.0,
+     "y": 72.0,
+     "w": 13.0,
+     "h": 9.0
+    },
+    {
+     "x": 24.0,
+     "y": 72.0,
+     "w": 13.0,
+     "h": 9.0
+    },
+    {
+     "x": 42.0,
+     "y": 72.0,
+     "w": 13.0,
+     "h": 9.0
+    },
+    {
+     "x": 58.0,
+     "y": 72.0,
+     "w": 13.0,
+     "h": 9.0
+    },
+    {
+     "x": 78.0,
+     "y": 72.0,
+     "w": 13.0,
+     "h": 9.0
+    },
+    {
+     "x": 6.0,
+     "y": 82.5,
+     "w": 14.0,
+     "h": 4.0
+    },
+    {
+     "x": 24.0,
+     "y": 82.5,
+     "w": 14.0,
+     "h": 4.0
+    },
+    {
+     "x": 42.0,
+     "y": 82.5,
+     "w": 14.0,
+     "h": 4.0
+    },
+    {
+     "x": 61.0,
+     "y": 82.5,
+     "w": 14.0,
+     "h": 4.0
+    },
+    {
+     "x": 79.0,
+     "y": 82.5,
+     "w": 14.0,
+     "h": 4.0
+    }
+   ],
+   "hint": {
+    "x": 13.5,
+    "y": 76.5
+   }
+  }
+ ],
+ "47": [
+  {
+   "type": "question",
+   "kind": "match",
+   "title": "Match each object to its relevant solid shape.",
+   "say": "Match each object to its relevant solid shape.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 38.0,
+    "w": 88.0,
+    "h": 50.0
+   },
+   "dots": [
+    {
+     "id": "cube",
+     "x": 14,
+     "y": 55
+    },
+    {
+     "id": "cone",
+     "x": 32.5,
+     "y": 55
+    },
+    {
+     "id": "cylinder",
+     "x": 48.5,
+     "y": 55
+    },
+    {
+     "id": "sphere",
+     "x": 64.3,
+     "y": 55
+    },
+    {
+     "id": "cuboid",
+     "x": 84,
+     "y": 55
+    },
+    {
+     "id": "cuboid",
+     "x": 18,
+     "y": 78
+    },
+    {
+     "id": "cylinder",
+     "x": 37.8,
+     "y": 77
+    },
+    {
+     "id": "sphere",
+     "x": 54.8,
+     "y": 77
+    },
+    {
+     "id": "cone",
+     "x": 72.6,
+     "y": 76
+    },
+    {
+     "id": "cube",
+     "x": 86.3,
+     "y": 78.5
+    }
+   ]
+  }
+ ],
+ "48": [
+  {
+   "type": "question",
+   "kind": "colour",
+   "title": "Complete the patterns.",
+   "say": "Complete the patterns.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 30.0,
+    "w": 90.0,
+    "h": 52.0
+   },
+   "parts": [
+    {
+     "part": "pattern shape",
+     "box": {
+      "x": 63.0,
+      "y": 35.0,
+      "w": 9.0,
+      "h": 6.0
+     },
+     "colours": [
+      "#e63946"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "pattern shape",
+     "box": {
+      "x": 76.0,
+      "y": 35.0,
+      "w": 9.0,
+      "h": 6.0
+     },
+     "colours": [
+      "#f9c74f"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "pattern shape",
+     "box": {
+      "x": 53.0,
+      "y": 45.0,
+      "w": 8.5,
+      "h": 6.0
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "triangle"
+    },
+    {
+     "part": "pattern shape",
+     "box": {
+      "x": 64.0,
+      "y": 45.0,
+      "w": 17.0,
+      "h": 6.0
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "pattern shape",
+     "box": {
+      "x": 83.0,
+      "y": 45.0,
+      "w": 9.0,
+      "h": 6.0
+     },
+     "colours": [
+      "#e63946"
+     ]
+    },
+    {
+     "part": "pattern shape",
+     "box": {
+      "x": 63.0,
+      "y": 55.0,
+      "w": 9.0,
+      "h": 6.0
+     },
+     "colours": [
+      "#f9c74f"
+     ],
+     "outline": "triangle"
+    },
+    {
+     "part": "pattern shape",
+     "box": {
+      "x": 76.0,
+      "y": 55.0,
+      "w": 9.0,
+      "h": 6.0
+     },
+     "colours": [
+      "#f9c74f"
+     ],
+     "outline": "triangle"
+    },
+    {
+     "part": "pattern shape",
+     "box": {
+      "x": 56.0,
+      "y": 65.0,
+      "w": 9.0,
+      "h": 6.0
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "pattern shape",
+     "box": {
+      "x": 67.0,
+      "y": 65.0,
+      "w": 14.0,
+      "h": 6.0
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "pattern shape",
+     "box": {
+      "x": 83.0,
+      "y": 65.0,
+      "w": 9.0,
+      "h": 6.0
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "ellipse"
+    },
+    {
+     "part": "pattern shape",
+     "box": {
+      "x": 51.0,
+      "y": 75.0,
+      "w": 9.0,
+      "h": 6.0
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "triangle"
+    },
+    {
+     "part": "pattern shape",
+     "box": {
+      "x": 64.0,
+      "y": 75.0,
+      "w": 9.0,
+      "h": 6.0
+     },
+     "colours": [
+      "#43aa8b"
+     ],
+     "outline": "triangle"
+    },
+    {
+     "part": "pattern shape",
+     "box": {
+      "x": 76.0,
+      "y": 75.0,
+      "w": 9.0,
+      "h": 6.0
+     },
+     "colours": [
+      "#e63946"
+     ],
+     "outline": "rectangle"
+    }
+   ],
+   "samples": [],
+   "hint": {
+    "x": 67.5,
+    "y": 38.0
+   }
+  }
+ ],
+ "49": [
+  {
+   "type": "question",
+   "kind": "colour",
+   "title": "Colour the fifth and ninth leaves.",
+   "say": "Colour the fifth and ninth leaves.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 73.0,
+    "w": 90.0,
+    "h": 15.0
+   },
+   "parts": [
+    {
+     "part": "fifth leaf",
+     "box": {
+      "x": 40.7,
+      "y": 77.7,
+      "w": 9.2,
+      "h": 9.0
+     },
+     "colours": [
+      "#43aa8b"
+     ]
+    },
+    {
+     "part": "ninth leaf",
+     "box": {
+      "x": 75.95,
+      "y": 77.7,
+      "w": 9.2,
+      "h": 9.0
+     },
+     "colours": [
+      "#43aa8b"
+     ]
+    }
+   ],
+   "samples": [],
+   "hint": {
+    "x": 45.300000000000004,
+    "y": 82.2
+   }
+  }
+ ],
+ "50": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Make groups of two.",
+   "say": "Make groups of two.",
+   "button": {
+    "x": 75,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 9.0,
+    "w": 90.0,
+    "h": 41.0
+   },
+   "lines": [
+    {
+     "x": 29.692,
+     "y": 21.222,
+     "w": 6.231,
+     "h": 4.278
+    },
+    {
+     "x": 47.077,
+     "y": 21.222,
+     "w": 6.154,
+     "h": 4.278
+    },
+    {
+     "x": 64.385,
+     "y": 21.222,
+     "w": 6.231,
+     "h": 4.333
+    },
+    {
+     "x": 81.769,
+     "y": 21.222,
+     "w": 6.231,
+     "h": 4.333
+    },
+    {
+     "x": 47.769,
+     "y": 40.444,
+     "w": 6.923,
+     "h": 4.333
+    },
+    {
+     "x": 27.615,
+     "y": 45.556,
+     "w": 6.923,
+     "h": 4.278
+    }
+   ],
+   "hint": {
+    "x": 32.8075,
+    "y": 23.361
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Make groups of two.",
+   "say": "Make groups of two.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 50.0,
+    "w": 90.0,
+    "h": 38.0
+   },
+   "lines": [
+    {
+     "x": 47.538,
+     "y": 76.778,
+     "w": 6.923,
+     "h": 4.278
+    },
+    {
+     "x": 27.846,
+     "y": 81.5,
+     "w": 6.923,
+     "h": 4.333
+    }
+   ],
+   "hint": {
+    "x": 50.9995,
+    "y": 78.917
+   },
+   "hide": [
+    {
+     "x": 58.0,
+     "y": 82.3,
+     "w": 37.0,
+     "h": 5.7
+    }
+   ]
+  }
+ ],
+ "51": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Make groups of five.",
+   "say": "Make groups of five.",
+   "button": {
+    "x": 75,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 9.0,
+    "w": 90.0,
+    "h": 39.0
+   },
+   "lines": [
+    {
+     "x": 25.923,
+     "y": 38.167,
+     "w": 6.923,
+     "h": 4.278
+    },
+    {
+     "x": 28.846,
+     "y": 43.611,
+     "w": 6.923,
+     "h": 4.278
+    },
+    {
+     "x": 16.0,
+     "y": 17.0,
+     "w": 21.0,
+     "h": 1.2
+    },
+    {
+     "x": 16.0,
+     "y": 33.3,
+     "w": 21.0,
+     "h": 1.2
+    },
+    {
+     "x": 16.0,
+     "y": 17.0,
+     "w": 1.2,
+     "h": 17.5
+    },
+    {
+     "x": 35.8,
+     "y": 17.0,
+     "w": 1.2,
+     "h": 17.5
+    },
+    {
+     "x": 40.0,
+     "y": 17.0,
+     "w": 21.0,
+     "h": 1.2
+    },
+    {
+     "x": 40.0,
+     "y": 33.3,
+     "w": 21.0,
+     "h": 1.2
+    },
+    {
+     "x": 40.0,
+     "y": 17.0,
+     "w": 1.2,
+     "h": 17.5
+    },
+    {
+     "x": 59.8,
+     "y": 17.0,
+     "w": 1.2,
+     "h": 17.5
+    },
+    {
+     "x": 64.0,
+     "y": 17.0,
+     "w": 21.0,
+     "h": 1.2
+    },
+    {
+     "x": 64.0,
+     "y": 33.3,
+     "w": 21.0,
+     "h": 1.2
+    },
+    {
+     "x": 64.0,
+     "y": 17.0,
+     "w": 1.2,
+     "h": 17.5
+    },
+    {
+     "x": 83.8,
+     "y": 17.0,
+     "w": 1.2,
+     "h": 17.5
+    }
+   ],
+   "hint": {
+    "x": 29.3845,
+    "y": 40.306000000000004
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Make groups of five.",
+   "say": "Make groups of five.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 49.0,
+    "w": 90.0,
+    "h": 41.0
+   },
+   "lines": [
+    {
+     "x": 24.538,
+     "y": 79.278,
+     "w": 6.923,
+     "h": 4.278
+    },
+    {
+     "x": 27.615,
+     "y": 84.944,
+     "w": 6.923,
+     "h": 4.333
+    },
+    {
+     "x": 10.0,
+     "y": 56.0,
+     "w": 37.0,
+     "h": 1.2
+    },
+    {
+     "x": 10.0,
+     "y": 61.3,
+     "w": 37.0,
+     "h": 1.2
+    },
+    {
+     "x": 10.0,
+     "y": 56.0,
+     "w": 1.2,
+     "h": 6.5
+    },
+    {
+     "x": 45.8,
+     "y": 56.0,
+     "w": 1.2,
+     "h": 6.5
+    },
+    {
+     "x": 10.0,
+     "y": 62.5,
+     "w": 37.0,
+     "h": 1.2
+    },
+    {
+     "x": 10.0,
+     "y": 67.8,
+     "w": 37.0,
+     "h": 1.2
+    },
+    {
+     "x": 10.0,
+     "y": 62.5,
+     "w": 1.2,
+     "h": 6.5
+    },
+    {
+     "x": 45.8,
+     "y": 62.5,
+     "w": 1.2,
+     "h": 6.5
+    },
+    {
+     "x": 10.0,
+     "y": 69.0,
+     "w": 37.0,
+     "h": 1.2
+    },
+    {
+     "x": 10.0,
+     "y": 74.3,
+     "w": 37.0,
+     "h": 1.2
+    },
+    {
+     "x": 10.0,
+     "y": 69.0,
+     "w": 1.2,
+     "h": 6.5
+    },
+    {
+     "x": 45.8,
+     "y": 69.0,
+     "w": 1.2,
+     "h": 6.5
+    },
+    {
+     "x": 55.0,
+     "y": 56.0,
+     "w": 37.0,
+     "h": 1.2
+    },
+    {
+     "x": 55.0,
+     "y": 61.3,
+     "w": 37.0,
+     "h": 1.2
+    },
+    {
+     "x": 55.0,
+     "y": 56.0,
+     "w": 1.2,
+     "h": 6.5
+    },
+    {
+     "x": 90.8,
+     "y": 56.0,
+     "w": 1.2,
+     "h": 6.5
+    },
+    {
+     "x": 55.0,
+     "y": 62.5,
+     "w": 37.0,
+     "h": 1.2
+    },
+    {
+     "x": 55.0,
+     "y": 67.8,
+     "w": 37.0,
+     "h": 1.2
+    },
+    {
+     "x": 55.0,
+     "y": 62.5,
+     "w": 1.2,
+     "h": 6.5
+    },
+    {
+     "x": 90.8,
+     "y": 62.5,
+     "w": 1.2,
+     "h": 6.5
+    },
+    {
+     "x": 55.0,
+     "y": 69.0,
+     "w": 37.0,
+     "h": 1.2
+    },
+    {
+     "x": 55.0,
+     "y": 74.3,
+     "w": 37.0,
+     "h": 1.2
+    },
+    {
+     "x": 55.0,
+     "y": 69.0,
+     "w": 1.2,
+     "h": 6.5
+    },
+    {
+     "x": 90.8,
+     "y": 69.0,
+     "w": 1.2,
+     "h": 6.5
+    }
+   ],
+   "hint": {
+    "x": 27.9995,
+    "y": 81.417
+   }
+  }
+ ],
+ "52": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Share equally and write the answer.",
+   "say": "Share equally and write the answer.",
+   "button": {
+    "x": 75,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 10.0,
+    "w": 90.0,
+    "h": 34.0
+   },
+   "lines": [
+    {
+     "x": 13.538,
+     "y": 30.444,
+     "w": 6.923,
+     "h": 4.611
+    }
+   ],
+   "hint": {
+    "x": 16.9995,
+    "y": 32.7495
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Share equally and write the answer.",
+   "say": "Share equally and write the answer.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 44.0,
+    "w": 90.0,
+    "h": 43.0
+   },
+   "lines": [
+    {
+     "x": 12.538,
+     "y": 78.222,
+     "w": 6.923,
+     "h": 4.556
+    }
+   ],
+   "hint": {
+    "x": 15.999500000000001,
+    "y": 80.5
+   }
+  }
+ ],
+ "53": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Skip count in twos.",
+   "say": "Skip count in twos.",
+   "button": {
+    "x": 75,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 11.0,
+    "w": 90.0,
+    "h": 39.0
+   },
+   "lines": [
+    {
+     "x": 67.0,
+     "y": 16.0,
+     "w": 8.0,
+     "h": 3.5
+    },
+    {
+     "x": 73.0,
+     "y": 25.0,
+     "w": 8.0,
+     "h": 3.5
+    },
+    {
+     "x": 55.0,
+     "y": 30.0,
+     "w": 8.0,
+     "h": 3.5
+    },
+    {
+     "x": 35.0,
+     "y": 29.0,
+     "w": 8.0,
+     "h": 3.5
+    },
+    {
+     "x": 22.0,
+     "y": 35.0,
+     "w": 8.0,
+     "h": 3.5
+    },
+    {
+     "x": 35.0,
+     "y": 42.0,
+     "w": 8.0,
+     "h": 3.5
+    },
+    {
+     "x": 58.0,
+     "y": 42.0,
+     "w": 8.0,
+     "h": 3.5
+    }
+   ],
+   "hint": {
+    "x": 71.0,
+    "y": 17.75
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Skip count in fives.",
+   "say": "Skip count in fives.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 50.0,
+    "w": 90.0,
+    "h": 38.0
+   },
+   "lines": [
+    {
+     "x": 71.0,
+     "y": 56.0,
+     "w": 8.0,
+     "h": 3.5
+    },
+    {
+     "x": 78.0,
+     "y": 64.0,
+     "w": 8.0,
+     "h": 3.5
+    },
+    {
+     "x": 58.0,
+     "y": 70.0,
+     "w": 8.0,
+     "h": 3.5
+    },
+    {
+     "x": 39.0,
+     "y": 69.0,
+     "w": 8.0,
+     "h": 3.5
+    },
+    {
+     "x": 25.0,
+     "y": 74.0,
+     "w": 8.0,
+     "h": 3.5
+    },
+    {
+     "x": 40.0,
+     "y": 81.0,
+     "w": 8.0,
+     "h": 3.5
+    },
+    {
+     "x": 62.0,
+     "y": 81.0,
+     "w": 8.0,
+     "h": 3.5
+    }
+   ],
+   "hint": {
+    "x": 75.0,
+    "y": 57.75
+   }
+  }
+ ],
+ "54": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write one more and one less.",
+   "say": "Write one more and one less.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 34.0,
+    "w": 90.0,
+    "h": 52.0
+   },
+   "lines": [
+    {
+     "x": 16.231,
+     "y": 44.722,
+     "w": 8.846,
+     "h": 4.833
+    },
+    {
+     "x": 32.077,
+     "y": 44.722,
+     "w": 8.769,
+     "h": 4.833
+    },
+    {
+     "x": 59.077,
+     "y": 44.722,
+     "w": 8.846,
+     "h": 4.833
+    },
+    {
+     "x": 74.923,
+     "y": 44.722,
+     "w": 8.692,
+     "h": 4.833
+    },
+    {
+     "x": 16.231,
+     "y": 56.278,
+     "w": 8.846,
+     "h": 4.833
+    },
+    {
+     "x": 32.077,
+     "y": 56.278,
+     "w": 8.769,
+     "h": 4.833
+    },
+    {
+     "x": 59.077,
+     "y": 56.278,
+     "w": 8.846,
+     "h": 4.833
+    },
+    {
+     "x": 74.923,
+     "y": 56.278,
+     "w": 8.692,
+     "h": 4.833
+    },
+    {
+     "x": 16.231,
+     "y": 67.889,
+     "w": 8.846,
+     "h": 4.833
+    },
+    {
+     "x": 32.077,
+     "y": 67.889,
+     "w": 8.769,
+     "h": 4.833
+    },
+    {
+     "x": 59.077,
+     "y": 67.889,
+     "w": 8.769,
+     "h": 4.833
+    },
+    {
+     "x": 74.923,
+     "y": 67.889,
+     "w": 8.692,
+     "h": 4.833
+    },
+    {
+     "x": 16.231,
+     "y": 79.444,
+     "w": 8.846,
+     "h": 4.833
+    },
+    {
+     "x": 32.154,
+     "y": 79.444,
+     "w": 8.692,
+     "h": 4.833
+    },
+    {
+     "x": 59.077,
+     "y": 79.444,
+     "w": 8.769,
+     "h": 4.833
+    },
+    {
+     "x": 74.923,
+     "y": 79.444,
+     "w": 8.692,
+     "h": 4.833
+    }
+   ],
+   "hint": {
+    "x": 20.654000000000003,
+    "y": 47.1385
+   }
+  }
+ ],
+ "59": [
+  {
+   "type": "question",
+   "kind": "colour",
+   "title": "Draw and sort the balls and balloons. Colour big ones yellow and small ones blue.",
+   "say": "Draw and sort the balls and balloons. Colour big ones yellow and small ones blue.",
+   "button": {
+    "x": 75,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 10.0,
+    "w": 90.0,
+    "h": 35.5
+   },
+   "parts": [
+    {
+     "part": "drawing box",
+     "box": {
+      "x": 51.0,
+      "y": 19.0,
+      "w": 19.0,
+      "h": 11.0
+     },
+     "colours": [
+      "#f9c74f"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "drawing box",
+     "box": {
+      "x": 73.0,
+      "y": 19.0,
+      "w": 19.0,
+      "h": 11.0
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "drawing box",
+     "box": {
+      "x": 51.0,
+      "y": 36.0,
+      "w": 19.0,
+      "h": 9.0
+     },
+     "colours": [
+      "#f9c74f"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "drawing box",
+     "box": {
+      "x": 73.0,
+      "y": 36.0,
+      "w": 19.0,
+      "h": 9.0
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    }
+   ],
+   "samples": [
+    {
+     "page": 59,
+     "x": 8.0,
+     "y": 16.0,
+     "w": 39.0,
+     "h": 28.5
+    }
+   ],
+   "hint": {
+    "x": 60.5,
+    "y": 24.5
+   }
+  },
+  {
+   "type": "question",
+   "kind": "colour",
+   "title": "Draw and sort squares and triangles. Use the model colours.",
+   "say": "Draw and sort squares and triangles. Use the model colours.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 46.0,
+    "w": 90.0,
+    "h": 23.0
+   },
+   "parts": [
+    {
+     "part": "drawing box",
+     "box": {
+      "x": 51.0,
+      "y": 54.0,
+      "w": 19.0,
+      "h": 14.0
+     },
+     "colours": [
+      "#ff8fab",
+      "#7b5ea7",
+      "#43aa8b"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "drawing box",
+     "box": {
+      "x": 73.0,
+      "y": 54.0,
+      "w": 19.0,
+      "h": 14.0
+     },
+     "colours": [
+      "#f4a261",
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    }
+   ],
+   "samples": [
+    {
+     "page": 59,
+     "x": 8.0,
+     "y": 52.0,
+     "w": 39.0,
+     "h": 16.0
+    }
+   ],
+   "hint": {
+    "x": 60.5,
+    "y": 61.0
+   }
+  },
+  {
+   "type": "question",
+   "kind": "colour",
+   "title": "Draw and sort circles and rectangles. Use the model colours.",
+   "say": "Draw and sort circles and rectangles. Use the model colours.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 70.0,
+    "w": 90.0,
+    "h": 19.0
+   },
+   "parts": [
+    {
+     "part": "drawing box",
+     "box": {
+      "x": 51.0,
+      "y": 75.0,
+      "w": 19.0,
+      "h": 13.0
+     },
+     "colours": [
+      "#4aa3df",
+      "#43aa8b"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "drawing box",
+     "box": {
+      "x": 73.0,
+      "y": 75.0,
+      "w": 19.0,
+      "h": 13.0
+     },
+     "colours": [
+      "#f4a261",
+      "#ff8fab"
+     ],
+     "outline": "rectangle"
+    }
+   ],
+   "samples": [
+    {
+     "page": 59,
+     "x": 8.0,
+     "y": 76.0,
+     "w": 39.0,
+     "h": 12.0
+    }
+   ],
+   "hint": {
+    "x": 60.5,
+    "y": 81.5
+   }
+  }
+ ],
+ "60": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Subtract and write the answer.",
+   "say": "Subtract and write the answer.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 70.5,
+    "w": 90.0,
+    "h": 18.5
+   },
+   "lines": [
+    {
+     "x": 79.0,
+     "y": 77.0,
+     "w": 6.0,
+     "h": 3.0
+    },
+    {
+     "x": 79.0,
+     "y": 84.0,
+     "w": 6.0,
+     "h": 3.0
+    }
+   ],
+   "hint": {
+    "x": 82.0,
+    "y": 78.5
+   },
+   "hide": [
+    {
+     "x": 67.0,
+     "y": 70.5,
+     "w": 28.0,
+     "h": 5.0
+    }
+   ]
+  }
+ ],
+ "61": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count back on your fingers and subtract.",
+   "say": "Count back on your fingers and subtract.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 27.0,
+    "w": 90.0,
+    "h": 36.0
+   },
+   "lines": [
+    {
+     "x": 22.0,
+     "y": 41.0,
+     "w": 7.0,
+     "h": 2.5
+    },
+    {
+     "x": 53.0,
+     "y": 41.0,
+     "w": 7.0,
+     "h": 2.5
+    },
+    {
+     "x": 85.0,
+     "y": 41.0,
+     "w": 7.0,
+     "h": 2.5
+    },
+    {
+     "x": 39.0,
+     "y": 58.0,
+     "w": 7.0,
+     "h": 2.5
+    },
+    {
+     "x": 71.0,
+     "y": 58.0,
+     "w": 7.0,
+     "h": 2.5
+    }
+   ],
+   "hint": {
+    "x": 25.5,
+    "y": 42.25
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Cross out fingers and subtract.",
+   "say": "Cross out fingers and subtract.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 64.0,
+    "w": 90.0,
+    "h": 22.4
+   },
+   "lines": [
+    {
+     "x": 8.0,
+     "y": 69.0,
+     "w": 22.0,
+     "h": 11.0
+    },
+    {
+     "x": 39.0,
+     "y": 69.0,
+     "w": 22.0,
+     "h": 11.0
+    },
+    {
+     "x": 72.0,
+     "y": 69.0,
+     "w": 22.0,
+     "h": 11.0
+    },
+    {
+     "x": 22.0,
+     "y": 82.0,
+     "w": 7.0,
+     "h": 3.0
+    },
+    {
+     "x": 53.0,
+     "y": 82.0,
+     "w": 7.0,
+     "h": 3.0
+    },
+    {
+     "x": 84.0,
+     "y": 82.0,
+     "w": 7.0,
+     "h": 3.0
+    }
+   ],
+   "hint": {
+    "x": 19.0,
+    "y": 74.5
+   }
+  }
+ ],
+ "62": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Subtract using the number lines.",
+   "say": "Subtract using the number lines.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 44.0,
+    "w": 90.0,
+    "h": 41.0
+   },
+   "lines": [
+    {
+     "x": 22.0,
+     "y": 48.5,
+     "w": 7.0,
+     "h": 3.0
+    },
+    {
+     "x": 22.0,
+     "y": 56.3,
+     "w": 7.0,
+     "h": 3.0
+    },
+    {
+     "x": 22.0,
+     "y": 64.0,
+     "w": 7.0,
+     "h": 3.0
+    },
+    {
+     "x": 22.0,
+     "y": 71.8,
+     "w": 7.0,
+     "h": 3.0
+    },
+    {
+     "x": 22.0,
+     "y": 79.5,
+     "w": 7.0,
+     "h": 3.0
+    }
+   ],
+   "hint": {
+    "x": 25.5,
+    "y": 50.0
+   }
+  }
+ ],
+ "63": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count and subtract the objects.",
+   "say": "Count and subtract the objects.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 9.0,
+    "w": 90.0,
+    "h": 32.0
+   },
+   "lines": [
+    {
+     "x": 28.0,
+     "y": 36.0,
+     "w": 6.5,
+     "h": 3.0
+    },
+    {
+     "x": 75.0,
+     "y": 36.0,
+     "w": 6.5,
+     "h": 3.0
+    }
+   ],
+   "hint": {
+    "x": 31.25,
+    "y": 37.5
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Cross out the objects. Write the subtraction.",
+   "say": "Cross out the objects. Write the subtraction.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 41.0,
+    "w": 90.0,
+    "h": 48.0
+   },
+   "lines": [
+    {
+     "x": 24.0,
+     "y": 61.0,
+     "w": 6.0,
+     "h": 2.5
+    },
+    {
+     "x": 54.0,
+     "y": 61.0,
+     "w": 6.0,
+     "h": 2.5
+    },
+    {
+     "x": 84.0,
+     "y": 61.0,
+     "w": 6.0,
+     "h": 2.5
+    },
+    {
+     "x": 24.0,
+     "y": 83.0,
+     "w": 6.0,
+     "h": 2.5
+    },
+    {
+     "x": 54.0,
+     "y": 83.0,
+     "w": 6.0,
+     "h": 2.5
+    },
+    {
+     "x": 84.0,
+     "y": 83.0,
+     "w": 6.0,
+     "h": 2.5
+    },
+    {
+     "x": 10.0,
+     "y": 46.0,
+     "w": 25.0,
+     "h": 15.0
+    },
+    {
+     "x": 40.0,
+     "y": 46.0,
+     "w": 25.0,
+     "h": 15.0
+    },
+    {
+     "x": 70.0,
+     "y": 46.0,
+     "w": 25.0,
+     "h": 15.0
+    },
+    {
+     "x": 10.0,
+     "y": 69.0,
+     "w": 25.0,
+     "h": 15.0
+    },
+    {
+     "x": 40.0,
+     "y": 69.0,
+     "w": 25.0,
+     "h": 15.0
+    },
+    {
+     "x": 70.0,
+     "y": 69.0,
+     "w": 25.0,
+     "h": 15.0
+    }
+   ],
+   "hint": {
+    "x": 27.0,
+    "y": 62.25
+   }
+  }
+ ],
+ "65": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Horizontal subtraction.",
+   "say": "Horizontal subtraction.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 28.0,
+    "w": 60.0,
+    "h": 63.0
+   },
+   "lines": [
+    {
+     "x": 57.923,
+     "y": 36.167,
+     "w": 6.0,
+     "h": 4.333
+    },
+    {
+     "x": 58.615,
+     "y": 50.833,
+     "w": 6.0,
+     "h": 4.333
+    },
+    {
+     "x": 57.923,
+     "y": 65.5,
+     "w": 6.0,
+     "h": 4.333
+    },
+    {
+     "x": 57.923,
+     "y": 80.167,
+     "w": 6.0,
+     "h": 4.333
+    }
+   ],
+   "hint": {
+    "x": 60.923,
+    "y": 38.3335
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Vertical subtraction.",
+   "say": "Vertical subtraction.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 66.0,
+    "y": 28.0,
+    "w": 28.0,
+    "h": 63.0
+   },
+   "lines": [
+    {
+     "x": 77.0,
+     "y": 41.0,
+     "w": 7.0,
+     "h": 3.0
+    },
+    {
+     "x": 77.0,
+     "y": 56.5,
+     "w": 7.0,
+     "h": 3.0
+    },
+    {
+     "x": 77.0,
+     "y": 71.5,
+     "w": 7.0,
+     "h": 3.0
+    },
+    {
+     "x": 77.0,
+     "y": 86.0,
+     "w": 7.0,
+     "h": 3.0
+    }
+   ],
+   "hint": {
+    "x": 80.5,
+    "y": 42.5
+   }
+  }
+ ],
+ "66": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Subtract the units and write the answers.",
+   "say": "Subtract the units and write the answers.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 9.0,
+    "w": 90.0,
+    "h": 76.0
+   },
+   "lines": [
+    {
+     "x": 36.692,
+     "y": 16.333,
+     "w": 14.154,
+     "h": 7.444
+    },
+    {
+     "x": 66.692,
+     "y": 16.333,
+     "w": 14.154,
+     "h": 7.444
+    },
+    {
+     "x": 21.077,
+     "y": 20.167,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 20.167,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 20.167,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 21.077,
+     "y": 23.944,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 23.944,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 23.944,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 21.077,
+     "y": 27.722,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 27.722,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 57.538,
+     "y": 27.722,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 27.722,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 87.538,
+     "y": 27.722,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 6.692,
+     "y": 33.556,
+     "w": 14.154,
+     "h": 7.444
+    },
+    {
+     "x": 36.692,
+     "y": 33.556,
+     "w": 14.154,
+     "h": 7.444
+    },
+    {
+     "x": 66.692,
+     "y": 33.556,
+     "w": 14.154,
+     "h": 7.444
+    },
+    {
+     "x": 21.077,
+     "y": 37.389,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 37.389,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 37.389,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 21.077,
+     "y": 41.167,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 41.167,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 41.167,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 21.077,
+     "y": 44.944,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 27.538,
+     "y": 44.944,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 51.077,
+     "y": 44.944,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 57.538,
+     "y": 44.944,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 44.944,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 87.538,
+     "y": 44.944,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 6.692,
+     "y": 50.833,
+     "w": 14.154,
+     "h": 7.389
+    },
+    {
+     "x": 36.692,
+     "y": 50.833,
+     "w": 14.154,
+     "h": 7.389
+    },
+    {
+     "x": 66.692,
+     "y": 50.833,
+     "w": 14.154,
+     "h": 7.389
+    },
+    {
+     "x": 21.077,
+     "y": 54.611,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 54.611,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 54.611,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 21.077,
+     "y": 58.389,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 58.389,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 58.389,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 21.077,
+     "y": 62.167,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 27.538,
+     "y": 62.167,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 51.077,
+     "y": 62.167,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 57.538,
+     "y": 62.167,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 81.077,
+     "y": 62.167,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 87.538,
+     "y": 62.167,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 6.692,
+     "y": 68.056,
+     "w": 14.154,
+     "h": 7.389
+    },
+    {
+     "x": 36.692,
+     "y": 68.056,
+     "w": 14.154,
+     "h": 7.389
+    },
+    {
+     "x": 66.692,
+     "y": 68.056,
+     "w": 14.154,
+     "h": 7.389
+    },
+    {
+     "x": 21.077,
+     "y": 71.833,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 71.889,
+     "w": 6.231,
+     "h": 3.556
+    },
+    {
+     "x": 81.077,
+     "y": 71.889,
+     "w": 6.231,
+     "h": 3.556
+    },
+    {
+     "x": 21.077,
+     "y": 75.611,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 51.077,
+     "y": 75.611,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 81.077,
+     "y": 75.611,
+     "w": 6.231,
+     "h": 3.611
+    },
+    {
+     "x": 21.077,
+     "y": 79.389,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 27.538,
+     "y": 79.389,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 51.077,
+     "y": 79.389,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 57.538,
+     "y": 79.389,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 81.077,
+     "y": 79.389,
+     "w": 6.231,
+     "h": 3.667
+    },
+    {
+     "x": 87.538,
+     "y": 79.389,
+     "w": 6.231,
+     "h": 3.667
+    }
+   ],
+   "hint": {
+    "x": 43.769,
+    "y": 20.055
+   }
+  }
+ ],
+ "68": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Add zero.",
+   "say": "Add zero.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 40.0,
+    "w": 90.0,
+    "h": 11.0
+   },
+   "lines": [
+    {
+     "x": 22.154,
+     "y": 44.5,
+     "w": 8.077,
+     "h": 4.944
+    },
+    {
+     "x": 51.615,
+     "y": 44.5,
+     "w": 8.0,
+     "h": 4.944
+    },
+    {
+     "x": 81.0,
+     "y": 44.5,
+     "w": 8.077,
+     "h": 4.944
+    }
+   ],
+   "hint": {
+    "x": 26.1925,
+    "y": 46.972
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Subtract zero.",
+   "say": "Subtract zero.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 78.0,
+    "w": 90.0,
+    "h": 10.0
+   },
+   "lines": [
+    {
+     "x": 23.154,
+     "y": 81.667,
+     "w": 8.0,
+     "h": 4.944
+    },
+    {
+     "x": 52.615,
+     "y": 81.667,
+     "w": 8.0,
+     "h": 4.944
+    },
+    {
+     "x": 82.0,
+     "y": 81.667,
+     "w": 8.077,
+     "h": 4.944
+    }
+   ],
+   "hint": {
+    "x": 27.154,
+    "y": 84.139
+   }
+  }
+ ],
+ "70": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Measure each object and write the answer.",
+   "say": "Measure each object and write the answer.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 10.0,
+    "w": 90.0,
+    "h": 76.0
+   },
+   "lines": [
+    {
+     "x": 80.0,
+     "y": 19.0,
+     "w": 6.0,
+     "h": 3.5
+    },
+    {
+     "x": 80.0,
+     "y": 37.5,
+     "w": 6.0,
+     "h": 3.5
+    },
+    {
+     "x": 80.0,
+     "y": 55.0,
+     "w": 6.0,
+     "h": 3.5
+    },
+    {
+     "x": 80.0,
+     "y": 73.5,
+     "w": 6.0,
+     "h": 3.5
+    }
+   ],
+   "hint": {
+    "x": 83.0,
+    "y": 20.75
+   }
+  }
+ ],
+ "71": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Mark the heavy and light objects.",
+   "say": "Mark the heavy and light objects.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 31.5,
+    "w": 90.0,
+    "h": 56.5
+   },
+   "lines": [
+    {
+     "x": 10.923,
+     "y": 40.889,
+     "w": 4.923,
+     "h": 3.611
+    },
+    {
+     "x": 85.538,
+     "y": 40.889,
+     "w": 5.0,
+     "h": 3.611
+    },
+    {
+     "x": 37.154,
+     "y": 45.444,
+     "w": 5.0,
+     "h": 3.611
+    },
+    {
+     "x": 59.308,
+     "y": 45.444,
+     "w": 5.0,
+     "h": 3.611
+    },
+    {
+     "x": 57.308,
+     "y": 58.0,
+     "w": 5.0,
+     "h": 3.611
+    },
+    {
+     "x": 39.154,
+     "y": 58.889,
+     "w": 4.923,
+     "h": 3.611
+    },
+    {
+     "x": 83.538,
+     "y": 62.556,
+     "w": 5.0,
+     "h": 3.611
+    },
+    {
+     "x": 12.846,
+     "y": 63.5,
+     "w": 5.0,
+     "h": 3.556
+    },
+    {
+     "x": 12.923,
+     "y": 70.0,
+     "w": 3.154,
+     "h": 1.778
+    },
+    {
+     "x": 10.923,
+     "y": 77.778,
+     "w": 4.923,
+     "h": 3.611
+    },
+    {
+     "x": 85.538,
+     "y": 77.667,
+     "w": 5.0,
+     "h": 3.611
+    },
+    {
+     "x": 37.154,
+     "y": 82.333,
+     "w": 5.0,
+     "h": 3.611
+    },
+    {
+     "x": 59.308,
+     "y": 82.222,
+     "w": 5.0,
+     "h": 3.611
+    }
+   ],
+   "hint": {
+    "x": 13.3845,
+    "y": 42.694500000000005
+   }
+  }
+ ],
+ "72": [
+  {
+   "type": "question",
+   "kind": "colour",
+   "title": "Colour blocks to show the height of the ostrich.",
+   "say": "Colour blocks to show the height of the ostrich.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 48.0,
+    "w": 49.0,
+    "h": 39.0
+   },
+   "parts": [
+    {
+     "part": "height block",
+     "box": {
+      "x": 46.5,
+      "y": 81.8,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "height block",
+     "box": {
+      "x": 46.5,
+      "y": 78.1,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "height block",
+     "box": {
+      "x": 46.5,
+      "y": 74.4,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "height block",
+     "box": {
+      "x": 46.5,
+      "y": 70.7,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "height block",
+     "box": {
+      "x": 46.5,
+      "y": 67.0,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "height block",
+     "box": {
+      "x": 46.5,
+      "y": 63.3,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    }
+   ],
+   "samples": [],
+   "hint": {
+    "x": 50.0,
+    "y": 83.625
+   }
+  },
+  {
+   "type": "question",
+   "kind": "colour",
+   "title": "Colour blocks to show the height of the giraffe.",
+   "say": "Colour blocks to show the height of the giraffe.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 55.0,
+    "y": 48.0,
+    "w": 39.0,
+    "h": 39.0
+   },
+   "parts": [
+    {
+     "part": "height block",
+     "box": {
+      "x": 80.3,
+      "y": 81.8,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "height block",
+     "box": {
+      "x": 80.3,
+      "y": 78.1,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "height block",
+     "box": {
+      "x": 80.3,
+      "y": 74.4,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "height block",
+     "box": {
+      "x": 80.3,
+      "y": 70.7,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "height block",
+     "box": {
+      "x": 80.3,
+      "y": 67.0,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "height block",
+     "box": {
+      "x": 80.3,
+      "y": 63.3,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "height block",
+     "box": {
+      "x": 80.3,
+      "y": 59.6,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "height block",
+     "box": {
+      "x": 80.3,
+      "y": 55.9,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "height block",
+     "box": {
+      "x": 80.3,
+      "y": 52.2,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    },
+    {
+     "part": "height block",
+     "box": {
+      "x": 80.3,
+      "y": 48.5,
+      "w": 7.0,
+      "h": 3.65
+     },
+     "colours": [
+      "#4aa3df"
+     ],
+     "outline": "rectangle"
+    }
+   ],
+   "samples": [],
+   "hint": {
+    "x": 83.8,
+    "y": 83.625
+   }
+  }
+ ],
+ "73": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "How many eggs can the egg box hold?",
+   "say": "How many eggs can the egg box hold?",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 50.0,
+    "w": 90.0,
+    "h": 20.0
+   },
+   "lines": [
+    {
+     "x": 38.0,
+     "y": 61.0,
+     "w": 9.0,
+     "h": 3.0
+    }
+   ],
+   "hint": {
+    "x": 42.5,
+    "y": 62.5
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "How many bread rolls can the basket hold?",
+   "say": "How many bread rolls can the basket hold?",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 70.0,
+    "w": 90.0,
+    "h": 17.0
+   },
+   "lines": [
+    {
+     "x": 82.0,
+     "y": 76.5,
+     "w": 9.0,
+     "h": 3.0
+    }
+   ],
+   "hint": {
+    "x": 86.5,
+    "y": 78.0
+   }
+  }
+ ],
+ "74": [
+  {
+   "type": "question",
+   "kind": "choose",
+   "title": "Circle the spoon which has more capacity.",
+   "say": "Circle the spoon which has more capacity.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 43.0,
+    "w": 42.0,
+    "h": 25.0
+   },
+   "options": [
+    {
+     "x": 10.0,
+     "y": 55.0,
+     "w": 16.0,
+     "h": 10.0,
+     "correct": false,
+     "label": "small metal spoon"
+    },
+    {
+     "x": 21.0,
+     "y": 51.0,
+     "w": 23.0,
+     "h": 15.0,
+     "correct": true,
+     "label": "large wooden spoon"
+    }
+   ]
+  },
+  {
+   "type": "question",
+   "kind": "choose",
+   "title": "Circle the bowl which has less capacity.",
+   "say": "Circle the bowl which has less capacity.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 53.0,
+    "y": 43.0,
+    "w": 41.0,
+    "h": 25.0
+   },
+   "options": [
+    {
+     "x": 55.0,
+     "y": 54.0,
+     "w": 23.0,
+     "h": 11.0,
+     "correct": false,
+     "label": "large blue bowl"
+    },
+    {
+     "x": 80.0,
+     "y": 56.0,
+     "w": 12.0,
+     "h": 8.0,
+     "correct": true,
+     "label": "small orange bowl"
+    }
+   ]
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Circle the correct words about Cup A and Cup B.",
+   "say": "Circle the correct words about Cup A and Cup B.",
+   "button": {
+    "x": 19.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 69.0,
+    "w": 90.0,
+    "h": 17.0
+   },
+   "lines": [
+    {
+     "x": 9.0,
+     "y": 76.0,
+     "w": 7.0,
+     "h": 3.0
+    },
+    {
+     "x": 31.0,
+     "y": 82.0,
+     "w": 11.0,
+     "h": 3.0
+    }
+   ],
+   "hint": {
+    "x": 12.5,
+    "y": 77.5
+   }
+  }
+ ],
+ "75": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the time.",
+   "say": "Write the time.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 54.0,
+    "w": 90.0,
+    "h": 33.7
+   },
+   "lines": [
+    {
+     "x": 11.0,
+     "y": 71.0,
+     "w": 16.0,
+     "h": 3.0
+    },
+    {
+     "x": 33.0,
+     "y": 71.0,
+     "w": 16.0,
+     "h": 3.0
+    },
+    {
+     "x": 55.0,
+     "y": 71.0,
+     "w": 16.0,
+     "h": 3.0
+    },
+    {
+     "x": 77.0,
+     "y": 71.0,
+     "w": 16.0,
+     "h": 3.0
+    },
+    {
+     "x": 32.0,
+     "y": 83.0,
+     "w": 16.0,
+     "h": 3.0
+    },
+    {
+     "x": 78.0,
+     "y": 83.0,
+     "w": 16.0,
+     "h": 3.0
+    }
+   ],
+   "hint": {
+    "x": 19.0,
+    "y": 72.5
+   }
+  }
+ ],
+ "76": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Read the sentences and draw the hour and minute hands.",
+   "say": "Read the sentences and draw the hour and minute hands.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 4.0,
+    "y": 6.0,
+    "w": 92.0,
+    "h": 89.0
+   },
+   "lines": [
+    {
+     "x": 58.0,
+     "y": 16.0,
+     "w": 10.0,
+     "h": 7.0
+    },
+    {
+     "x": 12.0,
+     "y": 46.0,
+     "w": 10.0,
+     "h": 7.0
+    },
+    {
+     "x": 58.0,
+     "y": 46.0,
+     "w": 10.0,
+     "h": 7.0
+    },
+    {
+     "x": 9.0,
+     "y": 76.0,
+     "w": 10.0,
+     "h": 7.0
+    },
+    {
+     "x": 56.0,
+     "y": 76.0,
+     "w": 10.0,
+     "h": 7.0
+    }
+   ],
+   "hint": {
+    "x": 63.0,
+    "y": 19.5
+   }
+  }
+ ],
+ "77": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the next day.",
+   "say": "Write the next day.",
+   "button": {
+    "x": 75,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 28.0,
+    "w": 43.0,
+    "h": 35.0
+   },
+   "lines": [
+    {
+     "x": 27.154,
+     "y": 32.444,
+     "w": 20.0,
+     "h": 4.944
+    },
+    {
+     "x": 27.154,
+     "y": 38.556,
+     "w": 20.0,
+     "h": 5.0
+    },
+    {
+     "x": 27.154,
+     "y": 44.722,
+     "w": 20.0,
+     "h": 4.944
+    },
+    {
+     "x": 27.154,
+     "y": 50.889,
+     "w": 20.0,
+     "h": 4.944
+    },
+    {
+     "x": 27.154,
+     "y": 57.0,
+     "w": 20.0,
+     "h": 5.0
+    }
+   ],
+   "hint": {
+    "x": 37.153999999999996,
+    "y": 34.916000000000004
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Write the day before.",
+   "say": "Write the day before.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 52.0,
+    "y": 28.0,
+    "w": 43.0,
+    "h": 35.0
+   },
+   "lines": [
+    {
+     "x": 57.385,
+     "y": 32.444,
+     "w": 20.077,
+     "h": 4.944
+    },
+    {
+     "x": 57.385,
+     "y": 38.556,
+     "w": 20.077,
+     "h": 5.0
+    },
+    {
+     "x": 57.385,
+     "y": 44.722,
+     "w": 20.077,
+     "h": 4.944
+    },
+    {
+     "x": 57.385,
+     "y": 50.889,
+     "w": 20.077,
+     "h": 4.944
+    },
+    {
+     "x": 57.385,
+     "y": 57.056,
+     "w": 20.077,
+     "h": 4.944
+    }
+   ],
+   "hint": {
+    "x": 67.4235,
+    "y": 34.916000000000004
+   }
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Fill in the missing letters.",
+   "say": "Fill in the missing letters.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 64.0,
+    "w": 88.0,
+    "h": 31.0
+   },
+   "lines": [
+    {
+     "x": 57.769,
+     "y": 68.833,
+     "w": 3.923,
+     "h": 4.0
+    },
+    {
+     "x": 70.231,
+     "y": 68.833,
+     "w": 3.923,
+     "h": 4.0
+    },
+    {
+     "x": 14.231,
+     "y": 69.889,
+     "w": 3.923,
+     "h": 2.944
+    },
+    {
+     "x": 26.692,
+     "y": 69.889,
+     "w": 3.846,
+     "h": 2.944
+    },
+    {
+     "x": 14.538,
+     "y": 76.611,
+     "w": 3.846,
+     "h": 2.944
+    },
+    {
+     "x": 22.769,
+     "y": 76.611,
+     "w": 3.923,
+     "h": 2.944
+    },
+    {
+     "x": 35.231,
+     "y": 76.611,
+     "w": 3.923,
+     "h": 4.056
+    },
+    {
+     "x": 61.923,
+     "y": 76.611,
+     "w": 3.923,
+     "h": 2.944
+    },
+    {
+     "x": 66.077,
+     "y": 76.611,
+     "w": 3.923,
+     "h": 2.944
+    },
+    {
+     "x": 78.462,
+     "y": 76.611,
+     "w": 3.923,
+     "h": 4.056
+    },
+    {
+     "x": 14.538,
+     "y": 83.333,
+     "w": 3.923,
+     "h": 2.944
+    },
+    {
+     "x": 27.0,
+     "y": 83.333,
+     "w": 3.923,
+     "h": 2.944
+    },
+    {
+     "x": 43.538,
+     "y": 83.333,
+     "w": 3.923,
+     "h": 4.0
+    },
+    {
+     "x": 62.077,
+     "y": 82.556,
+     "w": 3.923,
+     "h": 3.722
+    },
+    {
+     "x": 74.462,
+     "y": 83.333,
+     "w": 3.923,
+     "h": 2.944
+    },
+    {
+     "x": 86.923,
+     "y": 83.333,
+     "w": 3.923,
+     "h": 4.0
+    },
+    {
+     "x": 35.692,
+     "y": 90.056,
+     "w": 3.923,
+     "h": 2.889
+    },
+    {
+     "x": 44.0,
+     "y": 90.056,
+     "w": 3.846,
+     "h": 2.889
+    },
+    {
+     "x": 48.154,
+     "y": 90.056,
+     "w": 3.846,
+     "h": 2.889
+    },
+    {
+     "x": 60.538,
+     "y": 90.056,
+     "w": 3.923,
+     "h": 4.0
+    }
+   ],
+   "hint": {
+    "x": 59.7305,
+    "y": 70.833
+   }
+  }
+ ],
+ "78": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Order the months from January to December by connecting the dots.",
+   "say": "Order the months from January to December by connecting the dots.",
+   "button": {
+    "x": 75,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 43.0,
+    "w": 90.0,
+    "h": 46.0
+   },
+   "lines": [
+    {
+     "x": 25.0,
+     "y": 51.0,
+     "w": 54.0,
+     "h": 36.0
+    }
+   ],
+   "hint": {
+    "x": 52.0,
+    "y": 69.0
+   }
+  }
+ ],
+ "79": [
+  {
+   "type": "question",
+   "kind": "choose",
+   "title": "Choose the value of the one-rupee coin.",
+   "say": "Choose the value of the one-rupee coin.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 6.0,
+    "y": 50.0,
+    "w": 26.0,
+    "h": 15.0
+   },
+   "options": [
+    {
+     "x": 13.0,
+     "y": 62.0,
+     "w": 7.0,
+     "h": 3.0,
+     "correct": true,
+     "label": "Rs 1"
+    },
+    {
+     "x": 22.0,
+     "y": 62.0,
+     "w": 7.0,
+     "h": 3.0,
+     "correct": false,
+     "label": "Rs 2"
+    }
+   ],
+   "hide": [
+    {
+     "x": 6.0,
+     "y": 50.0,
+     "w": 26.0,
+     "h": 3.2
+    }
+   ]
+  },
+  {
+   "type": "question",
+   "kind": "choose",
+   "title": "Choose the value of the five-rupee coin.",
+   "say": "Choose the value of the five-rupee coin.",
+   "button": {
+    "x": 38,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 35.0,
+    "y": 50.0,
+    "w": 24.0,
+    "h": 15.0
+   },
+   "options": [
+    {
+     "x": 39.0,
+     "y": 62.0,
+     "w": 8.0,
+     "h": 3.0,
+     "correct": true,
+     "label": "Rs 5"
+    },
+    {
+     "x": 48.0,
+     "y": 62.0,
+     "w": 8.0,
+     "h": 3.0,
+     "correct": false,
+     "label": "Rs 2"
+    }
+   ],
+   "hide": [
+    {
+     "x": 35.0,
+     "y": 50.0,
+     "w": 24.0,
+     "h": 3.2
+    }
+   ]
+  },
+  {
+   "type": "question",
+   "kind": "choose",
+   "title": "Choose the value of the ten-rupee note.",
+   "say": "Choose the value of the ten-rupee note.",
+   "button": {
+    "x": 19.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 65.0,
+    "y": 49.0,
+    "w": 28.0,
+    "h": 16.0
+   },
+   "options": [
+    {
+     "x": 69.0,
+     "y": 62.0,
+     "w": 9.0,
+     "h": 3.0,
+     "correct": true,
+     "label": "Rs 10"
+    },
+    {
+     "x": 79.0,
+     "y": 62.0,
+     "w": 9.0,
+     "h": 3.0,
+     "correct": false,
+     "label": "Rs 20"
+    }
+   ]
+  },
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Count, add and write the money totals.",
+   "say": "Count, add and write the money totals.",
+   "button": {
+    "x": 1,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 66.0,
+    "w": 90.0,
+    "h": 19.0
+   },
+   "lines": [
+    {
+     "x": 41.0,
+     "y": 72.0,
+     "w": 6.0,
+     "h": 3.0
+    },
+    {
+     "x": 33.0,
+     "y": 79.0,
+     "w": 7.0,
+     "h": 3.0
+    },
+    {
+     "x": 85.0,
+     "y": 72.0,
+     "w": 6.0,
+     "h": 3.0
+    },
+    {
+     "x": 77.0,
+     "y": 79.0,
+     "w": 7.0,
+     "h": 3.0
+    }
+   ],
+   "hint": {
+    "x": 44.0,
+    "y": 73.5
+   }
+  }
+ ],
+ "80": [
+  {
+   "type": "question",
+   "kind": "write",
+   "title": "Circle the coins and notes that match the price.",
+   "say": "Circle the coins and notes that match the price.",
+   "button": {
+    "x": 56.5,
+    "y": 0.55
+   },
+   "crop": {
+    "x": 5.0,
+    "y": 6.0,
+    "w": 90.0,
+    "h": 89.1
+   },
+   "lines": [
+    {
+     "x": 28.5,
+     "y": 12.0,
+     "w": 66.0,
+     "h": 14.0
+    },
+    {
+     "x": 28.5,
+     "y": 29.0,
+     "w": 66.0,
+     "h": 14.0
+    },
+    {
+     "x": 28.5,
+     "y": 46.0,
+     "w": 66.0,
+     "h": 14.0
+    },
+    {
+     "x": 28.5,
+     "y": 63.0,
+     "w": 66.0,
+     "h": 14.0
+    },
+    {
+     "x": 28.5,
+     "y": 81.0,
+     "w": 66.0,
+     "h": 14.0
+    }
+   ],
+   "hint": {
+    "x": 61.5,
+    "y": 19.0
+   }
+  }
+ ]
+};
+// END GENERATED MATHS 5 QUESTIONS
