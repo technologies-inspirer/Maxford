@@ -1,1 +1,0 @@
-window.BOOK_QUESTIONS={};

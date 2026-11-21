@@ -7,7 +7,7 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 globalThis.window = {};
 globalThis.localStorage = { getItem: () => null };
 // every book's activity file (books/activities-<book>.js), so a new book needs no change here
-const bookActivities = readdirSync(resolve(root, 'books')).filter(name => /^activities-.+\.js$/.test(name)).sort().map(name => `books/${name}`);
+const bookActivities = readdirSync(resolve(root, 'books')).filter(name => /^(activities|questions)-.+\.js$/.test(name)).sort().map(name => `books/${name}`);
 for (const file of [
   'data.js', 'books/library.js', 'books/zones.js', 'books/activities.js',
   ...bookActivities, 'books/game-crops.js', 'books/questions.js'

@@ -395,6 +395,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#43aa8b"
   ]
  },
+ "13": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter a. Go round like a ball, then go up, and come down with a little tail.",
+    "marks": [
+     {
+      "glyph": "a",
+      "box": [
+       43.85,
+       9.95,
+       16.92,
+       13.28
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_438_100.png",
+       "box": [
+        39.62,
+        6.63,
+        25.38,
+        19.92
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "a",
+      "box": [
+       77.38,
+       15.65,
+       6.46,
+       5.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_774_156.png",
+       "box": [
+        75.76,
+        14.3,
+        9.69,
+        8.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "a",
+      "box": [
+       13.08,
+       30.32,
+       4.31,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_131_303.png",
+       "box": [
+        12.0,
+        29.42,
+        6.46,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       30.0,
+       30.32,
+       4.31,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_300_303.png",
+       "box": [
+        28.92,
+        29.42,
+        6.46,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       46.85,
+       30.32,
+       4.31,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_468_303.png",
+       "box": [
+        45.77,
+        29.42,
+        6.46,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       63.69,
+       30.32,
+       4.31,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_637_303.png",
+       "box": [
+        62.61,
+        29.42,
+        6.46,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       80.54,
+       30.32,
+       4.31,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_805_303.png",
+       "box": [
+        79.46,
+        29.42,
+        6.46,
+        5.37
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "a",
+      "box": [
+       13.08,
+       43.06,
+       4.31,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_131_431.png",
+       "box": [
+        12.0,
+        42.15,
+        6.46,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       30.0,
+       43.06,
+       4.31,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_300_431.png",
+       "box": [
+        28.92,
+        42.15,
+        6.46,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       46.85,
+       43.06,
+       4.31,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_468_431.png",
+       "box": [
+        45.77,
+        42.15,
+        6.46,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       63.69,
+       43.06,
+       4.31,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_637_431.png",
+       "box": [
+        62.61,
+        42.15,
+        6.46,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       80.54,
+       43.06,
+       4.31,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_805_431.png",
+       "box": [
+        79.46,
+        42.15,
+        6.46,
+        5.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "a",
+      "box": [
+       13.08,
+       55.85,
+       4.31,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_131_558.png",
+       "box": [
+        12.0,
+        54.94,
+        6.46,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       30.0,
+       55.85,
+       4.31,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_300_558.png",
+       "box": [
+        28.92,
+        54.94,
+        6.46,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       46.85,
+       55.85,
+       4.31,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_468_558.png",
+       "box": [
+        45.77,
+        54.94,
+        6.46,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       63.69,
+       55.85,
+       4.31,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_637_558.png",
+       "box": [
+        62.61,
+        54.94,
+        6.46,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       80.54,
+       55.85,
+       4.31,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_805_558.png",
+       "box": [
+        79.46,
+        54.94,
+        6.46,
+        5.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write a on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "a",
+      "box": [
+       13.08,
+       68.59,
+       4.31,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_131_686.png",
+       "box": [
+        12.0,
+        67.68,
+        6.46,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       30.0,
+       68.59,
+       4.31,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_300_686.png",
+       "box": [
+        28.92,
+        67.68,
+        6.46,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       46.85,
+       68.59,
+       4.31,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_468_686.png",
+       "box": [
+        45.77,
+        67.68,
+        6.46,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       63.69,
+       68.59,
+       4.31,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_637_686.png",
+       "box": [
+        62.61,
+        67.68,
+        6.46,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "a",
+      "box": [
+       80.54,
+       68.59,
+       4.31,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p013_805_686.png",
+       "box": [
+        79.46,
+        67.68,
+        6.46,
+        5.46
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
+  ]
+ },
  "15": [
   {
    "type": "game",
@@ -780,6 +1215,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#43aa8b",
    "#f4a261",
    "#7b5ea7"
+  ]
+ },
+ "17": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter b. Start at the top, go straight down, then go up and round.",
+    "marks": [
+     {
+      "glyph": "b",
+      "box": [
+       43.85,
+       9.95,
+       16.77,
+       15.04
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_438_100.png",
+       "box": [
+        39.66,
+        6.19,
+        25.16,
+        22.56
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "b",
+      "box": [
+       76.85,
+       13.95,
+       5.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_768_140.png",
+       "box": [
+        75.39,
+        12.14,
+        8.77,
+        10.83
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "b",
+      "box": [
+       13.31,
+       26.74,
+       4.0,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_133_267.png",
+       "box": [
+        12.31,
+        24.94,
+        6.0,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       30.15,
+       26.8,
+       4.08,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_302_268.png",
+       "box": [
+        29.13,
+        25.01,
+        6.12,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       47.0,
+       26.74,
+       4.08,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_470_267.png",
+       "box": [
+        45.98,
+        24.94,
+        6.12,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       63.85,
+       26.74,
+       4.08,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_638_267.png",
+       "box": [
+        62.83,
+        24.94,
+        6.12,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       80.69,
+       26.8,
+       4.08,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_807_268.png",
+       "box": [
+        79.67,
+        25.01,
+        6.12,
+        10.74
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "b",
+      "box": [
+       13.38,
+       39.6,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_134_396.png",
+       "box": [
+        12.4,
+        37.83,
+        5.88,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       30.31,
+       39.6,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_303_396.png",
+       "box": [
+        29.33,
+        37.83,
+        5.88,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       47.15,
+       39.54,
+       3.92,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_472_395.png",
+       "box": [
+        46.17,
+        37.75,
+        5.88,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       64.0,
+       39.54,
+       3.92,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_640_395.png",
+       "box": [
+        63.02,
+        37.75,
+        5.88,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       80.85,
+       39.6,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_808_396.png",
+       "box": [
+        79.87,
+        37.83,
+        5.88,
+        10.65
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "b",
+      "box": [
+       13.38,
+       52.27,
+       3.92,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_134_523.png",
+       "box": [
+        12.4,
+        50.46,
+        5.88,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       30.31,
+       52.27,
+       3.92,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_303_523.png",
+       "box": [
+        29.33,
+        50.48,
+        5.88,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       47.15,
+       52.27,
+       3.92,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_472_523.png",
+       "box": [
+        46.17,
+        50.48,
+        5.88,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       64.0,
+       52.27,
+       3.92,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_640_523.png",
+       "box": [
+        63.02,
+        50.46,
+        5.88,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       80.77,
+       52.27,
+       4.0,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_808_523.png",
+       "box": [
+        79.77,
+        50.46,
+        6.0,
+        10.83
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write b on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "b",
+      "box": [
+       13.38,
+       65.13,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_134_651.png",
+       "box": [
+        12.4,
+        63.36,
+        5.88,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       30.31,
+       65.19,
+       3.92,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_303_652.png",
+       "box": [
+        29.33,
+        63.43,
+        5.88,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       47.15,
+       65.13,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_472_651.png",
+       "box": [
+        46.17,
+        63.36,
+        5.88,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       64.0,
+       65.07,
+       3.92,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_640_651.png",
+       "box": [
+        63.02,
+        63.28,
+        5.88,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       80.85,
+       65.19,
+       3.92,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p017_808_652.png",
+       "box": [
+        79.87,
+        63.43,
+        5.88,
+        10.54
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
   ]
  },
  "19": [
@@ -1174,6 +2044,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
   ],
   "colours": [
    "#4aa3df"
+  ]
+ },
+ "21": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter c. Start at the top and go round, like a big open mouth.",
+    "marks": [
+     {
+      "glyph": "c",
+      "box": [
+       43.85,
+       9.95,
+       15.0,
+       13.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_438_100.png",
+       "box": [
+        40.1,
+        6.54,
+        22.5,
+        20.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "c",
+      "box": [
+       77.77,
+       15.65,
+       5.62,
+       5.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_778_156.png",
+       "box": [
+        76.36,
+        14.3,
+        8.43,
+        8.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "c",
+      "box": [
+       13.31,
+       30.26,
+       3.92,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_133_303.png",
+       "box": [
+        12.33,
+        29.34,
+        5.88,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       30.23,
+       30.26,
+       3.85,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_302_303.png",
+       "box": [
+        29.27,
+        29.34,
+        5.78,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       47.0,
+       30.26,
+       3.92,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_470_303.png",
+       "box": [
+        46.02,
+        29.34,
+        5.88,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       63.85,
+       30.26,
+       3.92,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_638_303.png",
+       "box": [
+        62.87,
+        29.34,
+        5.88,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       80.69,
+       30.26,
+       3.92,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_807_303.png",
+       "box": [
+        79.71,
+        29.34,
+        5.88,
+        5.55
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "c",
+      "box": [
+       13.31,
+       43.06,
+       3.92,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_133_431.png",
+       "box": [
+        12.33,
+        42.15,
+        5.88,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       30.23,
+       43.06,
+       3.85,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_302_431.png",
+       "box": [
+        29.27,
+        42.15,
+        5.78,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       47.0,
+       43.06,
+       3.92,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_470_431.png",
+       "box": [
+        46.02,
+        42.15,
+        5.88,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       63.85,
+       43.06,
+       3.92,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_638_431.png",
+       "box": [
+        62.87,
+        42.15,
+        5.88,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       80.69,
+       43.06,
+       3.92,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_807_431.png",
+       "box": [
+        79.71,
+        42.15,
+        5.88,
+        5.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "c",
+      "box": [
+       13.31,
+       55.85,
+       3.92,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_133_558.png",
+       "box": [
+        12.33,
+        54.94,
+        5.88,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       30.23,
+       55.85,
+       3.85,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_302_558.png",
+       "box": [
+        29.27,
+        54.94,
+        5.78,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       47.0,
+       55.85,
+       3.92,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_470_558.png",
+       "box": [
+        46.02,
+        54.94,
+        5.88,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       63.85,
+       55.85,
+       3.92,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_638_558.png",
+       "box": [
+        62.87,
+        54.94,
+        5.88,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       80.69,
+       55.85,
+       3.92,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_807_558.png",
+       "box": [
+        79.71,
+        54.94,
+        5.88,
+        5.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write c on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "c",
+      "box": [
+       13.31,
+       68.59,
+       3.92,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_133_686.png",
+       "box": [
+        12.33,
+        67.68,
+        5.88,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       30.23,
+       68.59,
+       3.85,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_302_686.png",
+       "box": [
+        29.27,
+        67.68,
+        5.78,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       47.0,
+       68.59,
+       3.92,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_470_686.png",
+       "box": [
+        46.02,
+        67.68,
+        5.88,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       63.85,
+       68.59,
+       3.92,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_638_686.png",
+       "box": [
+        62.87,
+        67.68,
+        5.88,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       80.69,
+       68.59,
+       3.92,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p021_807_686.png",
+       "box": [
+        79.71,
+        67.68,
+        5.88,
+        5.46
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
   ]
  },
  "23": [
@@ -1571,6 +2876,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#f4a261"
   ]
  },
+ "25": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter d. Go round like a ball, then go up tall, and come down.",
+    "marks": [
+     {
+      "glyph": "d",
+      "box": [
+       43.85,
+       9.95,
+       16.77,
+       15.04
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_438_100.png",
+       "box": [
+        39.66,
+        6.19,
+        25.16,
+        22.56
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "d",
+      "box": [
+       76.54,
+       11.52,
+       5.77,
+       9.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_765_115.png",
+       "box": [
+        75.1,
+        9.17,
+        8.65,
+        14.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "d",
+      "box": [
+       13.23,
+       26.86,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_132_269.png",
+       "box": [
+        12.25,
+        25.08,
+        5.88,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       30.08,
+       26.86,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_301_269.png",
+       "box": [
+        29.1,
+        25.08,
+        5.88,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       46.92,
+       26.86,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_469_269.png",
+       "box": [
+        45.94,
+        25.08,
+        5.88,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       63.77,
+       26.86,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_638_269.png",
+       "box": [
+        62.79,
+        25.08,
+        5.88,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       80.62,
+       26.86,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_806_269.png",
+       "box": [
+        79.64,
+        25.08,
+        5.88,
+        10.65
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "d",
+      "box": [
+       13.23,
+       39.66,
+       3.92,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_132_397.png",
+       "box": [
+        12.25,
+        37.9,
+        5.88,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       30.08,
+       39.6,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_301_396.png",
+       "box": [
+        29.1,
+        37.83,
+        5.88,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       46.92,
+       39.6,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_469_396.png",
+       "box": [
+        45.94,
+        37.83,
+        5.88,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       63.77,
+       39.6,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_638_396.png",
+       "box": [
+        62.79,
+        37.83,
+        5.88,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       80.62,
+       39.66,
+       3.92,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_806_397.png",
+       "box": [
+        79.64,
+        37.9,
+        5.88,
+        10.54
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "d",
+      "box": [
+       13.23,
+       52.4,
+       4.0,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_132_524.png",
+       "box": [
+        12.23,
+        50.62,
+        6.0,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       30.08,
+       52.4,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_301_524.png",
+       "box": [
+        29.1,
+        50.62,
+        5.88,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       46.92,
+       52.4,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_469_524.png",
+       "box": [
+        45.94,
+        50.62,
+        5.88,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       63.77,
+       52.4,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_638_524.png",
+       "box": [
+        62.79,
+        50.62,
+        5.88,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       80.62,
+       52.4,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_806_524.png",
+       "box": [
+        79.64,
+        50.62,
+        5.88,
+        10.65
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write d on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "d",
+      "box": [
+       13.23,
+       65.19,
+       3.92,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_132_652.png",
+       "box": [
+        12.25,
+        63.45,
+        5.88,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       30.08,
+       65.19,
+       3.92,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_301_652.png",
+       "box": [
+        29.1,
+        63.45,
+        5.88,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       46.92,
+       65.13,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_469_651.png",
+       "box": [
+        45.94,
+        63.36,
+        5.88,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       63.77,
+       65.07,
+       3.92,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_638_651.png",
+       "box": [
+        62.79,
+        63.28,
+        5.88,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       80.62,
+       65.13,
+       3.92,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p025_806_651.png",
+       "box": [
+        79.64,
+        63.36,
+        5.88,
+        10.65
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
+  ]
+ },
  "31": [
   {
    "type": "game",
@@ -1965,6 +3705,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#9aa5b1"
   ]
  },
+ "33": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter e. Go across, then round and round.",
+    "marks": [
+     {
+      "glyph": "e",
+      "box": [
+       43.85,
+       9.95,
+       16.54,
+       13.28
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_438_100.png",
+       "box": [
+        39.72,
+        6.63,
+        24.81,
+        19.92
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "e",
+      "box": [
+       76.15,
+       15.65,
+       6.92,
+       5.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_762_156.png",
+       "box": [
+        74.42,
+        14.3,
+        10.38,
+        8.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "e",
+      "box": [
+       12.92,
+       30.32,
+       4.69,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_129_303.png",
+       "box": [
+        11.75,
+        29.41,
+        7.04,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       29.85,
+       30.32,
+       4.62,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_298_303.png",
+       "box": [
+        28.7,
+        29.41,
+        6.93,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       46.69,
+       30.32,
+       4.62,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_467_303.png",
+       "box": [
+        45.54,
+        29.41,
+        6.93,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       63.46,
+       30.32,
+       4.69,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_635_303.png",
+       "box": [
+        62.29,
+        29.41,
+        7.04,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       80.31,
+       30.32,
+       4.69,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_803_303.png",
+       "box": [
+        79.14,
+        29.41,
+        7.04,
+        5.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "e",
+      "box": [
+       12.92,
+       43.06,
+       4.69,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_129_431.png",
+       "box": [
+        11.75,
+        42.15,
+        7.04,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       29.85,
+       43.06,
+       4.62,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_298_431.png",
+       "box": [
+        28.7,
+        42.15,
+        6.93,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       46.69,
+       43.06,
+       4.62,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_467_431.png",
+       "box": [
+        45.54,
+        42.15,
+        6.93,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       63.54,
+       43.06,
+       4.62,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_635_431.png",
+       "box": [
+        62.38,
+        42.15,
+        6.93,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       80.31,
+       43.06,
+       4.69,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_803_431.png",
+       "box": [
+        79.14,
+        42.15,
+        7.04,
+        5.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "e",
+      "box": [
+       12.92,
+       55.85,
+       4.69,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_129_558.png",
+       "box": [
+        11.75,
+        54.94,
+        7.04,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       29.85,
+       55.85,
+       4.62,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_298_558.png",
+       "box": [
+        28.7,
+        54.94,
+        6.93,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       46.69,
+       55.85,
+       4.62,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_467_558.png",
+       "box": [
+        45.54,
+        54.94,
+        6.93,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       63.54,
+       55.85,
+       4.62,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_635_558.png",
+       "box": [
+        62.38,
+        54.94,
+        6.93,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       80.31,
+       55.85,
+       4.69,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_803_558.png",
+       "box": [
+        79.14,
+        54.94,
+        7.04,
+        5.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write e on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "e",
+      "box": [
+       12.92,
+       68.59,
+       4.69,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_129_686.png",
+       "box": [
+        11.75,
+        67.68,
+        7.04,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       29.85,
+       68.59,
+       4.69,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_298_686.png",
+       "box": [
+        28.68,
+        67.7,
+        7.04,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       46.69,
+       68.59,
+       4.62,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_467_686.png",
+       "box": [
+        45.54,
+        67.7,
+        6.93,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       63.54,
+       68.59,
+       4.62,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_635_686.png",
+       "box": [
+        62.38,
+        67.7,
+        6.93,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       80.31,
+       68.59,
+       4.69,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p033_803_686.png",
+       "box": [
+        79.14,
+        67.7,
+        7.04,
+        5.37
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
+  ]
+ },
  "35": [
   {
    "type": "game",
@@ -2345,6 +4520,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
   ],
   "colours": [
    "#4aa3df"
+  ]
+ },
+ "37": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter f. Start with a hook at the top, go down, then a line across.",
+    "marks": [
+     {
+      "glyph": "f",
+      "box": [
+       43.85,
+       9.95,
+       12.62,
+       14.8
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_438_100.png",
+       "box": [
+        40.7,
+        6.25,
+        18.93,
+        22.2
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "f",
+      "box": [
+       78.31,
+       11.58,
+       6.31,
+       9.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_783_116.png",
+       "box": [
+        76.73,
+        9.23,
+        9.46,
+        14.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "f",
+      "box": [
+       10.23,
+       26.62,
+       3.77,
+       7.34
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_102_266.png",
+       "box": [
+        9.29,
+        24.78,
+        5.66,
+        11.01
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       30.23,
+       26.62,
+       3.85,
+       7.34
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_302_266.png",
+       "box": [
+        29.27,
+        24.78,
+        5.78,
+        11.01
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       47.08,
+       26.62,
+       3.85,
+       7.34
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_471_266.png",
+       "box": [
+        46.12,
+        24.78,
+        5.78,
+        11.01
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       64.0,
+       26.62,
+       3.77,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_640_266.png",
+       "box": [
+        63.06,
+        24.82,
+        5.66,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       80.77,
+       26.62,
+       3.85,
+       7.34
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_808_266.png",
+       "box": [
+        79.81,
+        24.78,
+        5.78,
+        11.01
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "f",
+      "box": [
+       10.23,
+       39.48,
+       3.77,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_102_395.png",
+       "box": [
+        9.29,
+        37.69,
+        5.66,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       30.23,
+       39.54,
+       3.85,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_302_395.png",
+       "box": [
+        29.27,
+        37.76,
+        5.78,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       47.08,
+       39.48,
+       3.85,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_471_395.png",
+       "box": [
+        46.12,
+        37.69,
+        5.78,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       63.92,
+       39.54,
+       3.77,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_639_395.png",
+       "box": [
+        62.98,
+        37.76,
+        5.66,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       80.77,
+       39.54,
+       3.77,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_808_395.png",
+       "box": [
+        79.83,
+        37.76,
+        5.66,
+        10.65
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "f",
+      "box": [
+       10.23,
+       52.27,
+       3.77,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_102_523.png",
+       "box": [
+        9.29,
+        50.46,
+        5.66,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       30.23,
+       52.27,
+       3.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_302_523.png",
+       "box": [
+        29.27,
+        50.46,
+        5.78,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       47.08,
+       52.27,
+       3.85,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_471_523.png",
+       "box": [
+        46.12,
+        50.48,
+        5.78,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       64.0,
+       52.27,
+       3.77,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_640_523.png",
+       "box": [
+        63.06,
+        50.48,
+        5.66,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       80.77,
+       52.27,
+       3.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_808_523.png",
+       "box": [
+        79.81,
+        50.46,
+        5.78,
+        10.83
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write f on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "f",
+      "box": [
+       10.15,
+       65.07,
+       3.85,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_102_651.png",
+       "box": [
+        9.19,
+        63.29,
+        5.78,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       30.23,
+       65.07,
+       3.85,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_302_651.png",
+       "box": [
+        29.27,
+        63.29,
+        5.78,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       47.08,
+       65.07,
+       3.85,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_471_651.png",
+       "box": [
+        46.12,
+        63.29,
+        5.78,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       63.92,
+       65.07,
+       3.85,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_639_651.png",
+       "box": [
+        62.96,
+        63.29,
+        5.78,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "f",
+      "box": [
+       80.77,
+       65.07,
+       3.77,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p037_808_651.png",
+       "box": [
+        79.83,
+        63.29,
+        5.66,
+        10.65
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
   ]
  },
  "39": [
@@ -2743,6 +5353,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#8d5524"
   ]
  },
+ "41": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter g. Go round like a ball, then go down and curl like a hook.",
+    "marks": [
+     {
+      "glyph": "g",
+      "box": [
+       43.85,
+       9.95,
+       14.15,
+       14.37
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_438_100.png",
+       "box": [
+        40.31,
+        6.36,
+        21.22,
+        21.56
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "g",
+      "box": [
+       77.23,
+       15.71,
+       6.85,
+       9.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_772_157.png",
+       "box": [
+        75.52,
+        13.36,
+        10.27,
+        14.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "g",
+      "box": [
+       12.85,
+       30.2,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_128_302.png",
+       "box": [
+        11.64,
+        28.4,
+        7.28,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       29.77,
+       30.2,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_298_302.png",
+       "box": [
+        28.56,
+        28.4,
+        7.28,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       46.62,
+       30.2,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_466_302.png",
+       "box": [
+        45.41,
+        28.4,
+        7.28,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       63.38,
+       30.2,
+       4.92,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_634_302.png",
+       "box": [
+        62.15,
+        28.4,
+        7.38,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       80.23,
+       30.2,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_802_302.png",
+       "box": [
+        79.02,
+        28.4,
+        7.28,
+        10.83
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "g",
+      "box": [
+       12.85,
+       43.0,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_128_430.png",
+       "box": [
+        11.64,
+        41.2,
+        7.28,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       29.77,
+       43.0,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_298_430.png",
+       "box": [
+        28.56,
+        41.2,
+        7.28,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       46.62,
+       43.0,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_466_430.png",
+       "box": [
+        45.41,
+        41.2,
+        7.28,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       63.38,
+       43.0,
+       4.92,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_634_430.png",
+       "box": [
+        62.15,
+        41.2,
+        7.38,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       80.23,
+       43.0,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_802_430.png",
+       "box": [
+        79.02,
+        41.2,
+        7.28,
+        10.83
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "g",
+      "box": [
+       12.85,
+       55.79,
+       4.85,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_128_558.png",
+       "box": [
+        11.64,
+        54.0,
+        7.28,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       29.77,
+       55.79,
+       4.85,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_298_558.png",
+       "box": [
+        28.56,
+        54.0,
+        7.28,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       46.62,
+       55.79,
+       4.85,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_466_558.png",
+       "box": [
+        45.41,
+        54.0,
+        7.28,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       63.38,
+       55.79,
+       4.92,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_634_558.png",
+       "box": [
+        62.15,
+        54.0,
+        7.38,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       80.23,
+       55.79,
+       4.85,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_802_558.png",
+       "box": [
+        79.02,
+        54.0,
+        7.28,
+        10.74
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write g on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "g",
+      "box": [
+       12.85,
+       68.53,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_128_685.png",
+       "box": [
+        11.64,
+        66.72,
+        7.28,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       29.77,
+       68.53,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_298_685.png",
+       "box": [
+        28.56,
+        66.72,
+        7.28,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       46.62,
+       68.53,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_466_685.png",
+       "box": [
+        45.41,
+        66.72,
+        7.28,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       63.38,
+       68.53,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_634_685.png",
+       "box": [
+        62.17,
+        66.72,
+        7.28,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       80.23,
+       68.53,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p041_802_685.png",
+       "box": [
+        79.02,
+        66.72,
+        7.28,
+        10.83
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
+  ]
+ },
  "43": [
   {
    "type": "game",
@@ -3124,6 +6169,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
   "colours": [
    "#f9c74f",
    "#43aa8b"
+  ]
+ },
+ "45": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter h. Go down tall, then go up and make a hump.",
+    "marks": [
+     {
+      "glyph": "h",
+      "box": [
+       43.85,
+       9.95,
+       14.77,
+       14.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_438_100.png",
+       "box": [
+        40.16,
+        6.34,
+        22.16,
+        21.64
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "h",
+      "box": [
+       77.46,
+       13.89,
+       5.0,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_775_139.png",
+       "box": [
+        76.21,
+        12.12,
+        7.5,
+        10.65
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "h",
+      "box": [
+       13.38,
+       26.74,
+       3.62,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_134_267.png",
+       "box": [
+        12.48,
+        24.94,
+        5.43,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       30.23,
+       26.74,
+       3.69,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_302_267.png",
+       "box": [
+        29.31,
+        24.94,
+        5.54,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       47.15,
+       26.74,
+       3.62,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_472_267.png",
+       "box": [
+        46.24,
+        24.94,
+        5.43,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       64.0,
+       26.74,
+       3.69,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_640_267.png",
+       "box": [
+        63.08,
+        24.94,
+        5.54,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       80.92,
+       26.74,
+       3.62,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_809_267.png",
+       "box": [
+        80.02,
+        24.94,
+        5.43,
+        10.83
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "h",
+      "box": [
+       13.46,
+       39.54,
+       3.54,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_135_395.png",
+       "box": [
+        12.58,
+        37.76,
+        5.31,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       30.38,
+       39.54,
+       3.54,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_304_395.png",
+       "box": [
+        29.49,
+        37.76,
+        5.31,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       47.23,
+       39.54,
+       3.54,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_472_395.png",
+       "box": [
+        46.34,
+        37.75,
+        5.31,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       64.15,
+       39.54,
+       3.54,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_642_395.png",
+       "box": [
+        63.27,
+        37.75,
+        5.31,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       81.0,
+       39.54,
+       3.54,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_810_395.png",
+       "box": [
+        80.11,
+        37.76,
+        5.31,
+        10.65
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "h",
+      "box": [
+       13.46,
+       52.27,
+       3.54,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_135_523.png",
+       "box": [
+        12.58,
+        50.46,
+        5.31,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       30.38,
+       52.33,
+       3.54,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_304_523.png",
+       "box": [
+        29.49,
+        50.54,
+        5.31,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       47.23,
+       52.27,
+       3.54,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_472_523.png",
+       "box": [
+        46.34,
+        50.46,
+        5.31,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       64.15,
+       52.33,
+       3.54,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_642_523.png",
+       "box": [
+        63.27,
+        50.54,
+        5.31,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       81.0,
+       52.27,
+       3.54,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_810_523.png",
+       "box": [
+        80.11,
+        50.46,
+        5.31,
+        10.83
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write h on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "h",
+      "box": [
+       13.46,
+       65.07,
+       3.54,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_135_651.png",
+       "box": [
+        12.58,
+        63.26,
+        5.31,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       30.38,
+       65.13,
+       3.54,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_304_651.png",
+       "box": [
+        29.49,
+        63.34,
+        5.31,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       47.23,
+       65.07,
+       3.54,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_472_651.png",
+       "box": [
+        46.34,
+        63.26,
+        5.31,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       64.15,
+       65.13,
+       3.54,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_642_651.png",
+       "box": [
+        63.27,
+        63.34,
+        5.31,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       81.0,
+       65.07,
+       3.54,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p045_810_651.png",
+       "box": [
+        80.11,
+        63.26,
+        5.31,
+        10.83
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
   ]
  },
  "49": [
@@ -3520,6 +7000,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#90e0ef"
   ]
  },
+ "51": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter i. Go straight down, then put a dot on top.",
+    "marks": [
+     {
+      "glyph": "i",
+      "box": [
+       43.85,
+       9.95,
+       12.08,
+       14.55
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_438_100.png",
+       "box": [
+        40.83,
+        6.31,
+        18.12,
+        21.83
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "i",
+      "box": [
+       80.54,
+       13.83,
+       0.77,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_805_138.png",
+       "box": [
+        80.35,
+        12.02,
+        1.16,
+        10.83
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "i",
+      "box": [
+       14.92,
+       28.87,
+       0.62,
+       5.09
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_149_289.png",
+       "box": [
+        14.76,
+        27.6,
+        0.93,
+        7.64
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       31.85,
+       28.87,
+       0.62,
+       5.09
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_318_289.png",
+       "box": [
+        31.7,
+        27.6,
+        0.93,
+        7.64
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       48.69,
+       28.87,
+       0.62,
+       5.09
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_487_289.png",
+       "box": [
+        48.54,
+        27.6,
+        0.93,
+        7.64
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       65.54,
+       28.87,
+       0.62,
+       4.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_655_289.png",
+       "box": [
+        65.39,
+        27.63,
+        0.93,
+        7.46
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       82.38,
+       28.87,
+       0.62,
+       5.09
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_824_289.png",
+       "box": [
+        82.22,
+        27.6,
+        0.93,
+        7.64
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "i",
+      "box": [
+       14.92,
+       41.6,
+       0.62,
+       5.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_149_416.png",
+       "box": [
+        14.76,
+        40.34,
+        0.93,
+        7.54
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       31.85,
+       41.6,
+       0.62,
+       5.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_318_416.png",
+       "box": [
+        31.7,
+        40.34,
+        0.93,
+        7.54
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       48.69,
+       41.6,
+       0.62,
+       5.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_487_416.png",
+       "box": [
+        48.54,
+        40.34,
+        0.93,
+        7.54
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       65.54,
+       41.6,
+       0.62,
+       5.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_655_416.png",
+       "box": [
+        65.39,
+        40.34,
+        0.93,
+        7.54
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       82.38,
+       41.6,
+       0.62,
+       5.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_824_416.png",
+       "box": [
+        82.22,
+        40.34,
+        0.93,
+        7.54
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "i",
+      "box": [
+       14.92,
+       54.4,
+       0.62,
+       5.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_149_544.png",
+       "box": [
+        14.76,
+        53.14,
+        0.93,
+        7.54
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       31.85,
+       54.4,
+       0.62,
+       4.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_318_544.png",
+       "box": [
+        31.7,
+        53.16,
+        0.93,
+        7.46
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       48.69,
+       54.4,
+       0.62,
+       4.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_487_544.png",
+       "box": [
+        48.54,
+        53.16,
+        0.93,
+        7.46
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       65.54,
+       54.4,
+       0.62,
+       4.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_655_544.png",
+       "box": [
+        65.39,
+        53.16,
+        0.93,
+        7.46
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       82.38,
+       54.4,
+       0.62,
+       4.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_824_544.png",
+       "box": [
+        82.22,
+        53.16,
+        0.93,
+        7.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write i on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "i",
+      "box": [
+       14.92,
+       67.13,
+       0.62,
+       5.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_149_671.png",
+       "box": [
+        14.76,
+        65.87,
+        0.93,
+        7.54
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       31.85,
+       67.13,
+       0.62,
+       5.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_318_671.png",
+       "box": [
+        31.7,
+        65.87,
+        0.93,
+        7.54
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       48.69,
+       67.13,
+       0.62,
+       5.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_487_671.png",
+       "box": [
+        48.54,
+        65.87,
+        0.93,
+        7.54
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       65.54,
+       67.13,
+       0.62,
+       5.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_655_671.png",
+       "box": [
+        65.39,
+        65.87,
+        0.93,
+        7.54
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       82.38,
+       67.13,
+       0.62,
+       5.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p051_824_671.png",
+       "box": [
+        82.22,
+        65.87,
+        0.93,
+        7.54
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
+  ]
+ },
  "53": [
   {
    "type": "game",
@@ -3912,6 +7827,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
   ],
   "colours": [
    "#4aa3df"
+  ]
+ },
+ "55": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter j. Go down and curl like a hook, then put a dot on top.",
+    "marks": [
+     {
+      "glyph": "j",
+      "box": [
+       43.85,
+       9.95,
+       12.08,
+       15.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_438_100.png",
+       "box": [
+        40.83,
+        6.07,
+        18.12,
+        23.28
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "j",
+      "box": [
+       78.15,
+       17.53,
+       4.92,
+       7.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_782_175.png",
+       "box": [
+        76.92,
+        15.64,
+        7.38,
+        11.37
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "j",
+      "box": [
+       13.38,
+       29.05,
+       3.77,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_134_290.png",
+       "box": [
+        12.44,
+        26.94,
+        5.66,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       30.23,
+       29.05,
+       3.85,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_302_290.png",
+       "box": [
+        29.27,
+        26.94,
+        5.78,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       47.08,
+       29.05,
+       3.85,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_471_290.png",
+       "box": [
+        46.12,
+        26.94,
+        5.78,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       63.92,
+       29.05,
+       3.85,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_639_290.png",
+       "box": [
+        62.96,
+        26.94,
+        5.78,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       80.77,
+       29.05,
+       3.77,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_808_290.png",
+       "box": [
+        79.83,
+        26.94,
+        5.66,
+        12.64
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "j",
+      "box": [
+       13.38,
+       41.84,
+       3.77,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_134_418.png",
+       "box": [
+        12.44,
+        39.73,
+        5.66,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       30.23,
+       41.84,
+       3.85,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_302_418.png",
+       "box": [
+        29.27,
+        39.73,
+        5.78,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       47.08,
+       41.84,
+       3.85,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_471_418.png",
+       "box": [
+        46.12,
+        39.73,
+        5.78,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       63.92,
+       41.84,
+       3.85,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_639_418.png",
+       "box": [
+        62.96,
+        39.73,
+        5.78,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       80.77,
+       41.84,
+       3.77,
+       8.37
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_808_418.png",
+       "box": [
+        79.83,
+        39.75,
+        5.66,
+        12.56
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "j",
+      "box": [
+       13.38,
+       54.58,
+       3.77,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_134_546.png",
+       "box": [
+        12.44,
+        52.47,
+        5.66,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       30.31,
+       54.58,
+       3.77,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_303_546.png",
+       "box": [
+        29.37,
+        52.47,
+        5.66,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       47.08,
+       54.58,
+       3.85,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_471_546.png",
+       "box": [
+        46.12,
+        52.47,
+        5.78,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       63.92,
+       54.58,
+       3.85,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_639_546.png",
+       "box": [
+        62.96,
+        52.47,
+        5.78,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       80.77,
+       54.58,
+       3.77,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_808_546.png",
+       "box": [
+        79.83,
+        52.47,
+        5.66,
+        12.64
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write j on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "j",
+      "box": [
+       13.38,
+       67.37,
+       3.77,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_134_674.png",
+       "box": [
+        12.44,
+        65.26,
+        5.66,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       30.23,
+       67.37,
+       3.85,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_302_674.png",
+       "box": [
+        29.27,
+        65.26,
+        5.78,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       47.08,
+       67.37,
+       3.85,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_471_674.png",
+       "box": [
+        46.12,
+        65.26,
+        5.78,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       63.92,
+       67.37,
+       3.85,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_639_674.png",
+       "box": [
+        62.96,
+        65.26,
+        5.78,
+        12.64
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       80.77,
+       67.37,
+       3.77,
+       8.43
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p055_808_674.png",
+       "box": [
+        79.83,
+        65.26,
+        5.66,
+        12.64
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
   ]
  },
  "57": [
@@ -4309,6 +8659,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#d4a373"
   ]
  },
+ "59": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter k. Go down tall, then in, and out.",
+    "marks": [
+     {
+      "glyph": "k",
+      "box": [
+       43.85,
+       9.95,
+       16.0,
+       14.19
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_438_100.png",
+       "box": [
+        39.85,
+        6.4,
+        24.0,
+        21.28
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "k",
+      "box": [
+       76.92,
+       12.07,
+       4.92,
+       8.98
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_769_121.png",
+       "box": [
+        75.69,
+        9.82,
+        7.38,
+        13.47
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "k",
+      "box": [
+       14.15,
+       26.74,
+       2.69,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_142_267.png",
+       "box": [
+        13.48,
+        24.96,
+        4.04,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       31.08,
+       26.74,
+       2.62,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_311_267.png",
+       "box": [
+        30.42,
+        24.96,
+        3.93,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       47.92,
+       26.74,
+       2.62,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_479_267.png",
+       "box": [
+        47.26,
+        24.96,
+        3.93,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       64.77,
+       26.74,
+       2.62,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_648_267.png",
+       "box": [
+        64.11,
+        24.96,
+        3.93,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       81.62,
+       26.74,
+       2.62,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_816_267.png",
+       "box": [
+        80.96,
+        24.96,
+        3.93,
+        10.65
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "k",
+      "box": [
+       14.31,
+       39.6,
+       2.54,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_143_396.png",
+       "box": [
+        13.68,
+        37.84,
+        3.81,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       31.23,
+       39.66,
+       2.54,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_312_397.png",
+       "box": [
+        30.6,
+        37.92,
+        3.81,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       48.0,
+       39.66,
+       2.62,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_480_397.png",
+       "box": [
+        47.34,
+        37.92,
+        3.93,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       64.85,
+       39.6,
+       2.62,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_648_396.png",
+       "box": [
+        64.19,
+        37.84,
+        3.93,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       81.69,
+       39.6,
+       2.54,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_817_396.png",
+       "box": [
+        81.05,
+        37.84,
+        3.81,
+        10.54
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "k",
+      "box": [
+       14.31,
+       52.4,
+       2.46,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_143_524.png",
+       "box": [
+        13.7,
+        50.66,
+        3.69,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       31.15,
+       52.4,
+       2.54,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_312_524.png",
+       "box": [
+        30.51,
+        50.66,
+        3.81,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       48.0,
+       52.4,
+       2.54,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_480_524.png",
+       "box": [
+        47.36,
+        50.64,
+        3.81,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       64.85,
+       52.4,
+       2.54,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_648_524.png",
+       "box": [
+        64.21,
+        50.64,
+        3.81,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       81.69,
+       52.33,
+       2.54,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_817_523.png",
+       "box": [
+        81.05,
+        50.56,
+        3.81,
+        10.65
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write k on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "k",
+      "box": [
+       14.31,
+       65.19,
+       2.54,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_143_652.png",
+       "box": [
+        13.68,
+        63.45,
+        3.81,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       31.23,
+       65.19,
+       2.54,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_312_652.png",
+       "box": [
+        30.6,
+        63.45,
+        3.81,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       48.0,
+       65.19,
+       2.54,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_480_652.png",
+       "box": [
+        47.36,
+        63.45,
+        3.81,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       64.85,
+       65.13,
+       2.54,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_648_651.png",
+       "box": [
+        64.21,
+        63.37,
+        3.81,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "k",
+      "box": [
+       81.69,
+       65.07,
+       2.54,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p059_817_651.png",
+       "box": [
+        81.05,
+        63.29,
+        3.81,
+        10.65
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
+  ]
+ },
  "61": [
   {
    "type": "game",
@@ -4701,6 +9486,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
   ],
   "colours": [
    "#43aa8b"
+  ]
+ },
+ "63": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter l. Go straight down from the top, with a little tail.",
+    "marks": [
+     {
+      "glyph": "l",
+      "box": [
+       43.85,
+       9.95,
+       11.08,
+       14.25
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_438_100.png",
+       "box": [
+        41.08,
+        6.39,
+        16.62,
+        21.38
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "l",
+      "box": [
+       80.46,
+       11.52,
+       2.31,
+       9.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_805_115.png",
+       "box": [
+        79.88,
+        9.15,
+        3.46,
+        14.19
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "l",
+      "box": [
+       15.08,
+       26.8,
+       0.38,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_151_268.png",
+       "box": [
+        14.98,
+        25.04,
+        0.57,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       32.0,
+       26.8,
+       0.38,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_320_268.png",
+       "box": [
+        31.9,
+        25.04,
+        0.57,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       48.85,
+       26.8,
+       0.38,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_488_268.png",
+       "box": [
+        48.76,
+        25.04,
+        0.57,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       65.69,
+       26.8,
+       0.31,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_657_268.png",
+       "box": [
+        65.61,
+        25.04,
+        0.46,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       82.46,
+       26.8,
+       0.38,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_825_268.png",
+       "box": [
+        82.36,
+        25.04,
+        0.57,
+        10.54
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "l",
+      "box": [
+       15.15,
+       39.6,
+       0.15,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_152_396.png",
+       "box": [
+        15.11,
+        37.84,
+        0.22,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       32.08,
+       39.66,
+       0.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_321_397.png",
+       "box": [
+        32.04,
+        37.92,
+        0.22,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       48.92,
+       39.66,
+       0.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_489_397.png",
+       "box": [
+        48.88,
+        37.92,
+        0.22,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       65.77,
+       39.66,
+       0.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_658_397.png",
+       "box": [
+        65.73,
+        37.92,
+        0.22,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       82.62,
+       39.66,
+       0.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_826_397.png",
+       "box": [
+        82.58,
+        37.92,
+        0.22,
+        10.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "l",
+      "box": [
+       15.15,
+       52.4,
+       0.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_152_524.png",
+       "box": [
+        15.11,
+        50.66,
+        0.22,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       32.08,
+       52.4,
+       0.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_321_524.png",
+       "box": [
+        32.04,
+        50.66,
+        0.22,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       48.92,
+       52.4,
+       0.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_489_524.png",
+       "box": [
+        48.88,
+        50.66,
+        0.22,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       65.77,
+       52.4,
+       0.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_658_524.png",
+       "box": [
+        65.73,
+        50.66,
+        0.22,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       82.62,
+       52.4,
+       0.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_826_524.png",
+       "box": [
+        82.58,
+        50.66,
+        0.22,
+        10.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write l on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "l",
+      "box": [
+       15.15,
+       65.19,
+       0.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_152_652.png",
+       "box": [
+        15.11,
+        63.45,
+        0.22,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       32.08,
+       65.19,
+       0.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_321_652.png",
+       "box": [
+        32.04,
+        63.45,
+        0.22,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       48.92,
+       65.19,
+       0.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_489_652.png",
+       "box": [
+        48.88,
+        63.45,
+        0.22,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       65.77,
+       65.19,
+       0.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_658_652.png",
+       "box": [
+        65.73,
+        63.45,
+        0.22,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       82.62,
+       65.19,
+       0.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p063_826_652.png",
+       "box": [
+        82.58,
+        63.45,
+        0.22,
+        10.46
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
   ]
  },
  "69": [
@@ -5099,6 +10319,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#43aa8b"
   ]
  },
+ "71": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter m. Go down, then make two humps.",
+    "marks": [
+     {
+      "glyph": "m",
+      "box": [
+       43.15,
+       9.95,
+       19.69,
+       14.01
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_432_100.png",
+       "box": [
+        38.23,
+        6.45,
+        29.54,
+        21.02
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "m",
+      "box": [
+       76.08,
+       15.65,
+       10.0,
+       5.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_761_156.png",
+       "box": [
+        73.58,
+        14.3,
+        15.0,
+        8.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "m",
+      "box": [
+       12.0,
+       30.38,
+       6.62,
+       3.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_120_304.png",
+       "box": [
+        10.34,
+        29.52,
+        9.93,
+        5.19
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       28.85,
+       30.38,
+       6.69,
+       3.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_288_304.png",
+       "box": [
+        27.18,
+        29.52,
+        10.04,
+        5.19
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       45.69,
+       30.38,
+       6.69,
+       3.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_457_304.png",
+       "box": [
+        44.02,
+        29.52,
+        10.04,
+        5.19
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       62.54,
+       30.32,
+       6.69,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_625_303.png",
+       "box": [
+        60.87,
+        29.44,
+        10.04,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       79.38,
+       30.38,
+       6.69,
+       3.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_794_304.png",
+       "box": [
+        77.71,
+        29.52,
+        10.04,
+        5.19
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "m",
+      "box": [
+       12.08,
+       43.06,
+       6.54,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_121_431.png",
+       "box": [
+        10.44,
+        42.16,
+        9.81,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       29.0,
+       43.06,
+       6.54,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_290_431.png",
+       "box": [
+        27.36,
+        42.16,
+        9.81,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       45.85,
+       43.06,
+       6.54,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_458_431.png",
+       "box": [
+        44.22,
+        42.16,
+        9.81,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       62.69,
+       43.06,
+       6.54,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_627_431.png",
+       "box": [
+        61.06,
+        42.16,
+        9.81,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       79.54,
+       43.06,
+       6.54,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_795_431.png",
+       "box": [
+        77.9,
+        42.16,
+        9.81,
+        5.37
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "m",
+      "box": [
+       12.08,
+       55.91,
+       6.54,
+       3.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_121_559.png",
+       "box": [
+        10.44,
+        55.04,
+        9.81,
+        5.19
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       29.0,
+       55.91,
+       6.54,
+       3.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_290_559.png",
+       "box": [
+        27.36,
+        55.04,
+        9.81,
+        5.19
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       45.85,
+       55.91,
+       6.54,
+       3.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_458_559.png",
+       "box": [
+        44.22,
+        55.04,
+        9.81,
+        5.19
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       62.69,
+       55.91,
+       6.54,
+       3.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_627_559.png",
+       "box": [
+        61.06,
+        55.04,
+        9.81,
+        5.19
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       79.54,
+       55.91,
+       6.54,
+       3.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_795_559.png",
+       "box": [
+        77.9,
+        55.04,
+        9.81,
+        5.19
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write m on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "m",
+      "box": [
+       12.08,
+       68.59,
+       6.54,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_121_686.png",
+       "box": [
+        10.44,
+        67.7,
+        9.81,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       29.0,
+       68.65,
+       6.54,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_290_686.png",
+       "box": [
+        27.36,
+        67.77,
+        9.81,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       45.85,
+       68.59,
+       6.54,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_458_686.png",
+       "box": [
+        44.22,
+        67.7,
+        9.81,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       62.69,
+       68.59,
+       6.54,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_627_686.png",
+       "box": [
+        61.06,
+        67.7,
+        9.81,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       79.54,
+       68.59,
+       6.54,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p071_795_686.png",
+       "box": [
+        77.9,
+        67.7,
+        9.81,
+        5.37
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
+  ]
+ },
  "73": [
   {
    "type": "game",
@@ -5494,6 +11149,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#43aa8b"
   ]
  },
+ "75": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter n. Go down, then up and over, one hump.",
+    "marks": [
+     {
+      "glyph": "n",
+      "box": [
+       44.0,
+       9.95,
+       15.15,
+       13.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_440_100.png",
+       "box": [
+        40.21,
+        6.6,
+        22.72,
+        20.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "n",
+      "box": [
+       77.46,
+       15.59,
+       5.15,
+       5.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_775_156.png",
+       "box": [
+        76.17,
+        14.24,
+        7.72,
+        8.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "n",
+      "box": [
+       13.69,
+       30.26,
+       3.46,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_137_303.png",
+       "box": [
+        12.82,
+        29.38,
+        5.19,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       30.54,
+       30.32,
+       3.54,
+       3.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_305_303.png",
+       "box": [
+        29.65,
+        29.46,
+        5.31,
+        5.19
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       47.38,
+       30.32,
+       3.54,
+       3.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_474_303.png",
+       "box": [
+        46.5,
+        29.46,
+        5.31,
+        5.19
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       64.23,
+       30.32,
+       3.54,
+       3.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_642_303.png",
+       "box": [
+        63.35,
+        29.46,
+        5.31,
+        5.19
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       81.08,
+       30.26,
+       3.54,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_811_303.png",
+       "box": [
+        80.19,
+        29.36,
+        5.31,
+        5.37
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "n",
+      "box": [
+       13.77,
+       43.06,
+       3.38,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_138_431.png",
+       "box": [
+        12.92,
+        42.18,
+        5.07,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       30.69,
+       43.06,
+       3.38,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_307_431.png",
+       "box": [
+        29.85,
+        42.18,
+        5.07,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       47.54,
+       43.06,
+       3.38,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_475_431.png",
+       "box": [
+        46.7,
+        42.18,
+        5.07,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       64.38,
+       43.06,
+       3.38,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_644_431.png",
+       "box": [
+        63.54,
+        42.18,
+        5.07,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       81.23,
+       43.06,
+       3.38,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_812_431.png",
+       "box": [
+        80.39,
+        42.18,
+        5.07,
+        5.28
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "n",
+      "box": [
+       13.77,
+       55.85,
+       3.38,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_138_558.png",
+       "box": [
+        12.92,
+        54.97,
+        5.07,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       30.69,
+       55.85,
+       3.38,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_307_558.png",
+       "box": [
+        29.85,
+        54.97,
+        5.07,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       47.54,
+       55.85,
+       3.38,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_475_558.png",
+       "box": [
+        46.7,
+        54.97,
+        5.07,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       64.38,
+       55.85,
+       3.38,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_644_558.png",
+       "box": [
+        63.54,
+        54.97,
+        5.07,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       81.23,
+       55.85,
+       3.38,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_812_558.png",
+       "box": [
+        80.39,
+        54.97,
+        5.07,
+        5.28
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write n on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "n",
+      "box": [
+       13.77,
+       68.65,
+       3.38,
+       3.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_138_686.png",
+       "box": [
+        12.92,
+        67.79,
+        5.07,
+        5.19
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       30.69,
+       68.59,
+       3.38,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_307_686.png",
+       "box": [
+        29.85,
+        67.71,
+        5.07,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       47.54,
+       68.59,
+       3.38,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_475_686.png",
+       "box": [
+        46.7,
+        67.71,
+        5.07,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       64.38,
+       68.59,
+       3.38,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_644_686.png",
+       "box": [
+        63.54,
+        67.71,
+        5.07,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       81.23,
+       68.59,
+       3.38,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p075_812_686.png",
+       "box": [
+        80.39,
+        67.71,
+        5.07,
+        5.28
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
+  ]
+ },
  "77": [
   {
    "type": "game",
@@ -5887,6 +11977,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
   "colours": [
    "#f4a261",
    "#43aa8b"
+  ]
+ },
+ "79": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter o. Go round and round, like an orange.",
+    "marks": [
+     {
+      "glyph": "o",
+      "box": [
+       43.92,
+       9.95,
+       15.69,
+       13.28
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_439_100.png",
+       "box": [
+        40.0,
+        6.63,
+        23.54,
+        19.92
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "o",
+      "box": [
+       77.62,
+       15.65,
+       6.31,
+       5.34
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_776_156.png",
+       "box": [
+        76.04,
+        14.32,
+        9.46,
+        8.01
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "o",
+      "box": [
+       13.31,
+       30.32,
+       4.15,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_133_303.png",
+       "box": [
+        12.27,
+        29.44,
+        6.22,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       30.15,
+       30.32,
+       4.23,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_302_303.png",
+       "box": [
+        29.09,
+        29.44,
+        6.35,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       47.0,
+       30.32,
+       4.23,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_470_303.png",
+       "box": [
+        45.94,
+        29.42,
+        6.35,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       63.85,
+       30.26,
+       4.23,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_638_303.png",
+       "box": [
+        62.79,
+        29.35,
+        6.35,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       80.69,
+       30.32,
+       4.23,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_807_303.png",
+       "box": [
+        79.63,
+        29.44,
+        6.35,
+        5.28
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "o",
+      "box": [
+       13.23,
+       43.06,
+       4.23,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_132_431.png",
+       "box": [
+        12.17,
+        42.16,
+        6.35,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       30.15,
+       43.06,
+       4.23,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_302_431.png",
+       "box": [
+        29.09,
+        42.16,
+        6.35,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       47.0,
+       43.06,
+       4.23,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_470_431.png",
+       "box": [
+        45.94,
+        42.16,
+        6.35,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       63.85,
+       43.06,
+       4.23,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_638_431.png",
+       "box": [
+        62.79,
+        42.16,
+        6.35,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       80.69,
+       43.06,
+       4.23,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_807_431.png",
+       "box": [
+        79.63,
+        42.16,
+        6.35,
+        5.37
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "o",
+      "box": [
+       13.23,
+       55.85,
+       4.23,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_132_558.png",
+       "box": [
+        12.17,
+        54.97,
+        6.35,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       30.15,
+       55.85,
+       4.23,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_302_558.png",
+       "box": [
+        29.09,
+        54.97,
+        6.35,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       47.0,
+       55.85,
+       4.23,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_470_558.png",
+       "box": [
+        45.94,
+        54.96,
+        6.35,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       63.85,
+       55.85,
+       4.23,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_638_558.png",
+       "box": [
+        62.79,
+        54.96,
+        6.35,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       80.69,
+       55.85,
+       4.23,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_807_558.png",
+       "box": [
+        79.63,
+        54.97,
+        6.35,
+        5.28
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write o on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "o",
+      "box": [
+       13.23,
+       68.65,
+       4.23,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_132_686.png",
+       "box": [
+        12.17,
+        67.77,
+        6.35,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       30.15,
+       68.59,
+       4.23,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_302_686.png",
+       "box": [
+        29.09,
+        67.7,
+        6.35,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       47.0,
+       68.59,
+       4.23,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_470_686.png",
+       "box": [
+        45.94,
+        67.7,
+        6.35,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       63.85,
+       68.59,
+       4.23,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_638_686.png",
+       "box": [
+        62.79,
+        67.7,
+        6.35,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       80.69,
+       68.59,
+       4.23,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p079_807_686.png",
+       "box": [
+        79.63,
+        67.7,
+        6.35,
+        5.37
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
   ]
  },
  "81": [
@@ -6285,6 +12810,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#f9c74f"
   ]
  },
+ "83": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter p. Go down long, then up and round.",
+    "marks": [
+     {
+      "glyph": "p",
+      "box": [
+       44.0,
+       9.95,
+       16.0,
+       15.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_440_100.png",
+       "box": [
+        40.0,
+        6.1,
+        24.0,
+        23.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "p",
+      "box": [
+       79.15,
+       15.59,
+       6.77,
+       9.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_792_156.png",
+       "box": [
+        77.46,
+        13.22,
+        10.15,
+        14.19
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "p",
+      "box": [
+       13.0,
+       30.26,
+       4.69,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_130_303.png",
+       "box": [
+        11.83,
+        28.47,
+        7.04,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       29.92,
+       30.26,
+       4.69,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_299_303.png",
+       "box": [
+        28.75,
+        28.49,
+        7.04,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       46.77,
+       30.32,
+       4.69,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_468_303.png",
+       "box": [
+        45.6,
+        28.54,
+        7.04,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       63.62,
+       30.26,
+       4.62,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_636_303.png",
+       "box": [
+        62.46,
+        28.49,
+        6.93,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       80.46,
+       30.32,
+       4.62,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_805_303.png",
+       "box": [
+        79.3,
+        28.58,
+        6.93,
+        10.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "p",
+      "box": [
+       13.15,
+       43.06,
+       4.54,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_132_431.png",
+       "box": [
+        12.02,
+        41.27,
+        6.81,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       30.08,
+       43.06,
+       4.54,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_301_431.png",
+       "box": [
+        28.94,
+        41.27,
+        6.81,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       46.85,
+       43.06,
+       4.62,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_468_431.png",
+       "box": [
+        45.7,
+        41.27,
+        6.93,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       63.69,
+       43.06,
+       4.54,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_637_431.png",
+       "box": [
+        62.56,
+        41.27,
+        6.81,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       80.54,
+       43.06,
+       4.54,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_805_431.png",
+       "box": [
+        79.4,
+        41.27,
+        6.81,
+        10.74
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "p",
+      "box": [
+       13.15,
+       55.85,
+       4.54,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_132_558.png",
+       "box": [
+        12.02,
+        54.06,
+        6.81,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       30.08,
+       55.79,
+       4.54,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_301_558.png",
+       "box": [
+        28.94,
+        53.98,
+        6.81,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       46.85,
+       55.85,
+       4.62,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_468_558.png",
+       "box": [
+        45.7,
+        54.06,
+        6.93,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       63.69,
+       55.85,
+       4.62,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_637_558.png",
+       "box": [
+        62.54,
+        54.06,
+        6.93,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       80.54,
+       55.85,
+       4.54,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_805_558.png",
+       "box": [
+        79.4,
+        54.06,
+        6.81,
+        10.74
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write p on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "p",
+      "box": [
+       13.15,
+       68.59,
+       4.54,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_132_686.png",
+       "box": [
+        12.02,
+        66.83,
+        6.81,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       30.08,
+       68.59,
+       4.54,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_301_686.png",
+       "box": [
+        28.94,
+        66.83,
+        6.81,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       46.85,
+       68.59,
+       4.62,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_468_686.png",
+       "box": [
+        45.7,
+        66.83,
+        6.93,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       63.69,
+       68.59,
+       4.54,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_637_686.png",
+       "box": [
+        62.56,
+        66.83,
+        6.81,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "p",
+      "box": [
+       80.54,
+       68.59,
+       4.54,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p083_805_686.png",
+       "box": [
+        79.4,
+        66.83,
+        6.81,
+        10.54
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
+  ]
+ },
  "87": [
   {
    "type": "game",
@@ -6678,6 +13638,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
   "colours": [
    "#8d5524",
    "#f9c74f"
+  ]
+ },
+ "89": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter q. Go round like a ball, then go down long.",
+    "marks": [
+     {
+      "glyph": "q",
+      "box": [
+       43.85,
+       9.95,
+       16.62,
+       14.37
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_438_100.png",
+       "box": [
+        39.7,
+        6.36,
+        24.93,
+        21.56
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "q",
+      "box": [
+       76.0,
+       15.52,
+       9.54,
+       9.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_760_155.png",
+       "box": [
+        73.61,
+        13.12,
+        14.31,
+        14.37
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "q",
+      "box": [
+       12.08,
+       30.32,
+       6.62,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_121_303.png",
+       "box": [
+        10.42,
+        28.54,
+        9.93,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       28.92,
+       30.26,
+       6.62,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_289_303.png",
+       "box": [
+        27.26,
+        28.47,
+        9.93,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       45.77,
+       30.26,
+       6.69,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_458_303.png",
+       "box": [
+        44.1,
+        28.47,
+        10.04,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       62.62,
+       30.26,
+       6.69,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_626_303.png",
+       "box": [
+        60.95,
+        28.47,
+        10.04,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       79.46,
+       30.32,
+       6.69,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_795_303.png",
+       "box": [
+        77.79,
+        28.54,
+        10.04,
+        10.65
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "q",
+      "box": [
+       12.08,
+       43.06,
+       6.62,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_121_431.png",
+       "box": [
+        10.42,
+        41.27,
+        9.93,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       28.92,
+       43.06,
+       6.62,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_289_431.png",
+       "box": [
+        27.26,
+        41.27,
+        9.93,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       45.77,
+       43.06,
+       6.62,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_458_431.png",
+       "box": [
+        44.12,
+        41.27,
+        9.93,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       62.62,
+       43.06,
+       6.62,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_626_431.png",
+       "box": [
+        60.96,
+        41.27,
+        9.93,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       79.46,
+       43.0,
+       6.69,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_795_430.png",
+       "box": [
+        77.79,
+        41.2,
+        10.04,
+        10.83
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "q",
+      "box": [
+       12.08,
+       55.85,
+       6.62,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_121_558.png",
+       "box": [
+        10.42,
+        54.08,
+        9.93,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       28.92,
+       55.79,
+       6.62,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_289_558.png",
+       "box": [
+        27.26,
+        53.98,
+        9.93,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       45.77,
+       55.85,
+       6.69,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_458_558.png",
+       "box": [
+        44.1,
+        54.06,
+        10.04,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       62.62,
+       55.79,
+       6.69,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_626_558.png",
+       "box": [
+        60.95,
+        53.98,
+        10.04,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       79.46,
+       55.85,
+       6.69,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_795_558.png",
+       "box": [
+        77.79,
+        54.06,
+        10.04,
+        10.74
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write q on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "q",
+      "box": [
+       12.08,
+       68.59,
+       6.62,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_121_686.png",
+       "box": [
+        10.42,
+        66.82,
+        9.93,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       28.92,
+       68.53,
+       6.62,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_289_685.png",
+       "box": [
+        27.26,
+        66.72,
+        9.93,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       45.77,
+       68.59,
+       6.62,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_458_686.png",
+       "box": [
+        44.12,
+        66.82,
+        9.93,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       62.62,
+       68.59,
+       6.62,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_626_686.png",
+       "box": [
+        60.96,
+        66.8,
+        9.93,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       79.46,
+       68.53,
+       6.62,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p089_795_685.png",
+       "box": [
+        77.8,
+        66.74,
+        9.93,
+        10.74
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
   ]
  },
  "91": [
@@ -7075,6 +14470,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#ff8fab"
   ]
  },
+ "93": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter r. Go down, then up and over a little.",
+    "marks": [
+     {
+      "glyph": "r",
+      "box": [
+       43.92,
+       9.95,
+       14.38,
+       14.07
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_439_100.png",
+       "box": [
+        40.33,
+        6.43,
+        21.57,
+        21.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "r",
+      "box": [
+       78.77,
+       15.59,
+       4.38,
+       5.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_788_156.png",
+       "box": [
+        77.68,
+        14.24,
+        6.57,
+        8.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "r",
+      "box": [
+       13.77,
+       30.2,
+       3.15,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_138_302.png",
+       "box": [
+        12.98,
+        29.28,
+        4.72,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       30.77,
+       30.2,
+       3.15,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_308_302.png",
+       "box": [
+        29.98,
+        29.28,
+        4.72,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       47.62,
+       30.2,
+       3.15,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_476_302.png",
+       "box": [
+        46.83,
+        29.28,
+        4.72,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       64.46,
+       30.2,
+       3.15,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_645_302.png",
+       "box": [
+        63.67,
+        29.28,
+        4.72,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       81.31,
+       30.2,
+       3.15,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_813_302.png",
+       "box": [
+        80.52,
+        29.28,
+        4.72,
+        5.55
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "r",
+      "box": [
+       13.85,
+       43.0,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_138_430.png",
+       "box": [
+        13.08,
+        42.08,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       30.85,
+       43.0,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_308_430.png",
+       "box": [
+        30.08,
+        42.08,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       47.69,
+       43.0,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_477_430.png",
+       "box": [
+        46.92,
+        42.08,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       64.54,
+       43.0,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_645_430.png",
+       "box": [
+        63.77,
+        42.08,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       81.38,
+       43.0,
+       3.0,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_814_430.png",
+       "box": [
+        80.63,
+        42.08,
+        4.5,
+        5.55
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "r",
+      "box": [
+       13.85,
+       55.73,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_138_557.png",
+       "box": [
+        13.08,
+        54.8,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       30.85,
+       55.73,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_308_557.png",
+       "box": [
+        30.08,
+        54.8,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       47.69,
+       55.73,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_477_557.png",
+       "box": [
+        46.92,
+        54.8,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       64.54,
+       55.73,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_645_557.png",
+       "box": [
+        63.77,
+        54.8,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       81.38,
+       55.73,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_814_557.png",
+       "box": [
+        80.61,
+        54.8,
+        4.62,
+        5.55
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write r on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "r",
+      "box": [
+       13.85,
+       68.53,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_138_685.png",
+       "box": [
+        13.08,
+        67.6,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       30.85,
+       68.53,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_308_685.png",
+       "box": [
+        30.08,
+        67.6,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       47.69,
+       68.53,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_477_685.png",
+       "box": [
+        46.92,
+        67.6,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       64.54,
+       68.53,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_645_685.png",
+       "box": [
+        63.77,
+        67.6,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       81.38,
+       68.53,
+       3.0,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p093_814_685.png",
+       "box": [
+        80.63,
+        67.6,
+        4.5,
+        5.55
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
+  ]
+ },
  "95": [
   {
    "type": "game",
@@ -7470,6 +15300,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#f9c74f"
   ]
  },
+ "97": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter s. Curve like a snake, round one way, then round the other way.",
+    "marks": [
+     {
+      "glyph": "s",
+      "box": [
+       43.92,
+       9.95,
+       12.23,
+       14.19
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_439_100.png",
+       "box": [
+        40.86,
+        6.4,
+        18.34,
+        21.28
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "s",
+      "box": [
+       77.92,
+       15.65,
+       4.15,
+       5.34
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_779_156.png",
+       "box": [
+        76.88,
+        14.32,
+        6.22,
+        8.01
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "s",
+      "box": [
+       13.92,
+       30.14,
+       2.92,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_139_301.png",
+       "box": [
+        13.19,
+        29.2,
+        4.38,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       30.85,
+       30.2,
+       2.85,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_308_302.png",
+       "box": [
+        30.14,
+        29.28,
+        4.28,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       47.69,
+       30.2,
+       2.85,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_477_302.png",
+       "box": [
+        46.98,
+        29.28,
+        4.28,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       64.54,
+       30.14,
+       2.85,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_645_301.png",
+       "box": [
+        63.83,
+        29.2,
+        4.28,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       81.38,
+       30.14,
+       2.85,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_814_301.png",
+       "box": [
+        80.67,
+        29.2,
+        4.28,
+        5.64
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "s",
+      "box": [
+       13.92,
+       43.0,
+       2.85,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_139_430.png",
+       "box": [
+        13.21,
+        42.08,
+        4.28,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       30.85,
+       43.0,
+       2.85,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_308_430.png",
+       "box": [
+        30.14,
+        42.08,
+        4.28,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       47.69,
+       43.0,
+       2.85,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_477_430.png",
+       "box": [
+        46.98,
+        42.08,
+        4.28,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       64.54,
+       43.0,
+       2.85,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_645_430.png",
+       "box": [
+        63.83,
+        42.08,
+        4.28,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       81.38,
+       43.0,
+       2.85,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_814_430.png",
+       "box": [
+        80.67,
+        42.08,
+        4.28,
+        5.55
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "s",
+      "box": [
+       13.92,
+       55.79,
+       2.92,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_139_558.png",
+       "box": [
+        13.19,
+        54.88,
+        4.38,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       30.85,
+       55.79,
+       2.85,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_308_558.png",
+       "box": [
+        30.14,
+        54.88,
+        4.28,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       47.69,
+       55.79,
+       2.85,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_477_558.png",
+       "box": [
+        46.98,
+        54.88,
+        4.28,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       64.54,
+       55.79,
+       2.85,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_645_558.png",
+       "box": [
+        63.83,
+        54.88,
+        4.28,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       81.38,
+       55.79,
+       2.85,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_814_558.png",
+       "box": [
+        80.67,
+        54.88,
+        4.28,
+        5.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write s on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "s",
+      "box": [
+       13.92,
+       68.53,
+       2.92,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_139_685.png",
+       "box": [
+        13.19,
+        67.6,
+        4.38,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       30.85,
+       68.59,
+       2.85,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_308_686.png",
+       "box": [
+        30.14,
+        67.68,
+        4.28,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       47.69,
+       68.53,
+       2.85,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_477_685.png",
+       "box": [
+        46.98,
+        67.6,
+        4.28,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       64.54,
+       68.53,
+       2.85,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_645_685.png",
+       "box": [
+        63.83,
+        67.6,
+        4.28,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       81.38,
+       68.53,
+       2.85,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p097_814_685.png",
+       "box": [
+        80.67,
+        67.6,
+        4.28,
+        5.55
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
+  ]
+ },
  "99": [
   {
    "type": "game",
@@ -7863,6 +16128,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
   "colours": [
    "#43aa8b",
    "#8d5524"
+  ]
+ },
+ "101": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter t. Go down with a little tail, then a line across.",
+    "marks": [
+     {
+      "glyph": "t",
+      "box": [
+       44.0,
+       9.95,
+       15.92,
+       14.8
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_440_100.png",
+       "box": [
+        40.02,
+        6.25,
+        23.88,
+        22.2
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "t",
+      "box": [
+       77.23,
+       11.52,
+       5.23,
+       9.46
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_772_115.png",
+       "box": [
+        75.92,
+        9.15,
+        7.85,
+        14.19
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "t",
+      "box": [
+       12.92,
+       26.68,
+       4.92,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_129_267.png",
+       "box": [
+        11.69,
+        24.88,
+        7.38,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       29.85,
+       26.68,
+       4.92,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_298_267.png",
+       "box": [
+        28.62,
+        24.88,
+        7.38,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       46.69,
+       26.68,
+       4.92,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_467_267.png",
+       "box": [
+        45.46,
+        24.88,
+        7.38,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       63.54,
+       26.68,
+       4.92,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_635_267.png",
+       "box": [
+        62.31,
+        24.88,
+        7.38,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       80.31,
+       26.68,
+       4.92,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_803_267.png",
+       "box": [
+        79.08,
+        24.88,
+        7.38,
+        10.83
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "t",
+      "box": [
+       12.92,
+       39.48,
+       4.92,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_129_395.png",
+       "box": [
+        11.69,
+        37.67,
+        7.38,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       29.85,
+       39.54,
+       4.92,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_298_395.png",
+       "box": [
+        28.62,
+        37.75,
+        7.38,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       46.77,
+       39.48,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_468_395.png",
+       "box": [
+        45.56,
+        37.67,
+        7.28,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       63.46,
+       39.54,
+       5.0,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_635_395.png",
+       "box": [
+        62.21,
+        37.75,
+        7.5,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       80.38,
+       39.48,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_804_395.png",
+       "box": [
+        79.17,
+        37.67,
+        7.28,
+        10.83
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "t",
+      "box": [
+       12.92,
+       52.27,
+       4.92,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_129_523.png",
+       "box": [
+        11.69,
+        50.48,
+        7.38,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       29.77,
+       52.27,
+       5.0,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_298_523.png",
+       "box": [
+        28.52,
+        50.48,
+        7.5,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       46.62,
+       52.27,
+       5.0,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_466_523.png",
+       "box": [
+        45.37,
+        50.48,
+        7.5,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       63.46,
+       52.33,
+       5.0,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_635_523.png",
+       "box": [
+        62.21,
+        50.56,
+        7.5,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       80.31,
+       52.27,
+       4.92,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_803_523.png",
+       "box": [
+        79.08,
+        50.48,
+        7.38,
+        10.74
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write t on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "t",
+      "box": [
+       12.92,
+       65.01,
+       4.92,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_129_650.png",
+       "box": [
+        11.69,
+        63.21,
+        7.38,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       29.85,
+       65.01,
+       4.92,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_298_650.png",
+       "box": [
+        28.62,
+        63.21,
+        7.38,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       46.69,
+       65.01,
+       4.92,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_467_650.png",
+       "box": [
+        45.46,
+        63.21,
+        7.38,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       63.54,
+       65.07,
+       4.92,
+       7.16
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_635_651.png",
+       "box": [
+        62.31,
+        63.28,
+        7.38,
+        10.74
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       80.38,
+       65.01,
+       4.85,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p101_804_650.png",
+       "box": [
+        79.17,
+        63.21,
+        7.28,
+        10.83
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
   ]
  },
  "107": [
@@ -8261,6 +16961,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#4aa3df",
    "#43aa8b",
    "#f4a261"
+  ]
+ },
+ "109": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter u. Go down and round like a cup, then up and down.",
+    "marks": [
+     {
+      "glyph": "u",
+      "box": [
+       43.92,
+       9.95,
+       13.08,
+       13.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_439_100.png",
+       "box": [
+        40.65,
+        6.54,
+        19.62,
+        20.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "u",
+      "box": [
+       78.77,
+       15.52,
+       4.46,
+       5.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_788_155.png",
+       "box": [
+        77.66,
+        14.17,
+        6.69,
+        8.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "u",
+      "box": [
+       13.77,
+       30.2,
+       3.15,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_138_302.png",
+       "box": [
+        12.98,
+        29.28,
+        4.72,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       30.77,
+       30.2,
+       3.15,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_308_302.png",
+       "box": [
+        29.98,
+        29.28,
+        4.72,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       47.62,
+       30.2,
+       3.15,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_476_302.png",
+       "box": [
+        46.83,
+        29.28,
+        4.72,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       64.38,
+       30.2,
+       3.23,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_644_302.png",
+       "box": [
+        63.57,
+        29.28,
+        4.84,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       81.23,
+       30.2,
+       3.23,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_812_302.png",
+       "box": [
+        80.42,
+        29.28,
+        4.84,
+        5.55
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "u",
+      "box": [
+       13.85,
+       43.0,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_138_430.png",
+       "box": [
+        13.08,
+        42.08,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       30.85,
+       43.0,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_308_430.png",
+       "box": [
+        30.08,
+        42.08,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       47.69,
+       43.0,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_477_430.png",
+       "box": [
+        46.92,
+        42.08,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       64.54,
+       43.0,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_645_430.png",
+       "box": [
+        63.77,
+        42.08,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       81.38,
+       43.0,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_814_430.png",
+       "box": [
+        80.61,
+        42.08,
+        4.62,
+        5.55
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "u",
+      "box": [
+       13.85,
+       55.73,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_138_557.png",
+       "box": [
+        13.08,
+        54.8,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       30.85,
+       55.73,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_308_557.png",
+       "box": [
+        30.08,
+        54.8,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       47.69,
+       55.73,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_477_557.png",
+       "box": [
+        46.92,
+        54.8,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       64.54,
+       55.73,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_645_557.png",
+       "box": [
+        63.77,
+        54.8,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       81.38,
+       55.73,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_814_557.png",
+       "box": [
+        80.61,
+        54.8,
+        4.62,
+        5.55
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write u on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "u",
+      "box": [
+       13.85,
+       68.53,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_138_685.png",
+       "box": [
+        13.08,
+        67.6,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       30.85,
+       68.53,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_308_685.png",
+       "box": [
+        30.08,
+        67.6,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       47.69,
+       68.53,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_477_685.png",
+       "box": [
+        46.92,
+        67.6,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       64.54,
+       68.53,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_645_685.png",
+       "box": [
+        63.77,
+        67.6,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "u",
+      "box": [
+       81.38,
+       68.53,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p109_814_685.png",
+       "box": [
+        80.61,
+        67.6,
+        4.62,
+        5.55
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
   ]
  },
  "111": [
@@ -8662,6 +17797,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#00aaa0"
   ]
  },
+ "113": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter v. Slide down, then slide up.",
+    "marks": [
+     {
+      "glyph": "v",
+      "box": [
+       43.92,
+       9.95,
+       15.77,
+       13.71
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_439_100.png",
+       "box": [
+        39.98,
+        6.52,
+        23.66,
+        20.56
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "v",
+      "box": [
+       78.15,
+       15.59,
+       5.15,
+       5.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_782_156.png",
+       "box": [
+        76.86,
+        14.24,
+        7.72,
+        8.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "v",
+      "box": [
+       13.62,
+       30.26,
+       3.54,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_136_303.png",
+       "box": [
+        12.74,
+        29.35,
+        5.31,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       30.54,
+       30.26,
+       3.46,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_305_303.png",
+       "box": [
+        29.68,
+        29.35,
+        5.19,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       47.38,
+       30.26,
+       3.46,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_474_303.png",
+       "box": [
+        46.52,
+        29.35,
+        5.19,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       64.23,
+       30.26,
+       3.46,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_642_303.png",
+       "box": [
+        63.36,
+        29.35,
+        5.19,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       81.08,
+       30.2,
+       3.46,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_811_302.png",
+       "box": [
+        80.22,
+        29.28,
+        5.19,
+        5.55
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "v",
+      "box": [
+       13.62,
+       43.0,
+       3.54,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_136_430.png",
+       "box": [
+        12.74,
+        42.1,
+        5.31,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       30.54,
+       43.0,
+       3.46,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_305_430.png",
+       "box": [
+        29.68,
+        42.09,
+        5.19,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       47.38,
+       43.0,
+       3.46,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_474_430.png",
+       "box": [
+        46.52,
+        42.09,
+        5.19,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       64.23,
+       43.0,
+       3.46,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_642_430.png",
+       "box": [
+        63.36,
+        42.09,
+        5.19,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       81.08,
+       43.0,
+       3.46,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_811_430.png",
+       "box": [
+        80.22,
+        42.09,
+        5.19,
+        5.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "v",
+      "box": [
+       13.62,
+       55.79,
+       3.54,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_136_558.png",
+       "box": [
+        12.74,
+        54.88,
+        5.31,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       30.54,
+       55.79,
+       3.46,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_305_558.png",
+       "box": [
+        29.68,
+        54.88,
+        5.19,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       47.38,
+       55.79,
+       3.46,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_474_558.png",
+       "box": [
+        46.52,
+        54.88,
+        5.19,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       64.23,
+       55.79,
+       3.46,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_642_558.png",
+       "box": [
+        63.36,
+        54.88,
+        5.19,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       81.08,
+       55.79,
+       3.46,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_811_558.png",
+       "box": [
+        80.22,
+        54.88,
+        5.19,
+        5.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write v on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "v",
+      "box": [
+       13.62,
+       68.53,
+       3.46,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_136_685.png",
+       "box": [
+        12.76,
+        67.6,
+        5.19,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       30.54,
+       68.53,
+       3.46,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_305_685.png",
+       "box": [
+        29.68,
+        67.6,
+        5.19,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       47.38,
+       68.53,
+       3.46,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_474_685.png",
+       "box": [
+        46.52,
+        67.6,
+        5.19,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       64.23,
+       68.53,
+       3.46,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_642_685.png",
+       "box": [
+        63.36,
+        67.6,
+        5.19,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       81.08,
+       68.53,
+       3.46,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p113_811_685.png",
+       "box": [
+        80.22,
+        67.6,
+        5.19,
+        5.55
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
+  ]
+ },
  "115": [
   {
    "type": "game",
@@ -9056,6 +18626,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#90e0ef",
    "#8d5524",
    "#ff8fab"
+  ]
+ },
+ "117": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter w. Down, up, down, up.",
+    "marks": [
+     {
+      "glyph": "w",
+      "box": [
+       43.92,
+       9.95,
+       20.08,
+       13.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_439_100.png",
+       "box": [
+        38.9,
+        6.54,
+        30.12,
+        20.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "w",
+      "box": [
+       77.0,
+       15.59,
+       7.46,
+       5.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_770_156.png",
+       "box": [
+        75.14,
+        14.24,
+        11.19,
+        8.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "w",
+      "box": [
+       12.77,
+       30.2,
+       5.23,
+       3.82
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_128_302.png",
+       "box": [
+        11.46,
+        29.24,
+        7.85,
+        5.73
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       29.62,
+       30.2,
+       5.31,
+       3.82
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_296_302.png",
+       "box": [
+        28.29,
+        29.24,
+        7.96,
+        5.73
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       46.46,
+       30.2,
+       5.31,
+       3.82
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_465_302.png",
+       "box": [
+        45.13,
+        29.24,
+        7.96,
+        5.73
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       63.31,
+       30.2,
+       5.31,
+       3.82
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_633_302.png",
+       "box": [
+        61.98,
+        29.24,
+        7.96,
+        5.73
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       80.15,
+       30.2,
+       5.31,
+       3.82
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_802_302.png",
+       "box": [
+        78.82,
+        29.24,
+        7.96,
+        5.73
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "w",
+      "box": [
+       12.77,
+       43.0,
+       5.23,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_128_430.png",
+       "box": [
+        11.46,
+        42.06,
+        7.85,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       29.62,
+       43.0,
+       5.31,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_296_430.png",
+       "box": [
+        28.29,
+        42.06,
+        7.96,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       46.46,
+       43.0,
+       5.31,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_465_430.png",
+       "box": [
+        45.13,
+        42.06,
+        7.96,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       63.31,
+       43.0,
+       5.31,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_633_430.png",
+       "box": [
+        61.98,
+        42.06,
+        7.96,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       80.15,
+       43.0,
+       5.31,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_802_430.png",
+       "box": [
+        78.82,
+        42.06,
+        7.96,
+        5.64
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "w",
+      "box": [
+       12.77,
+       55.79,
+       5.23,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_128_558.png",
+       "box": [
+        11.46,
+        54.85,
+        7.85,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       29.69,
+       55.73,
+       5.23,
+       3.82
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_297_557.png",
+       "box": [
+        28.38,
+        54.78,
+        7.85,
+        5.73
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       46.46,
+       55.73,
+       5.31,
+       3.82
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_465_557.png",
+       "box": [
+        45.13,
+        54.78,
+        7.96,
+        5.73
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       63.31,
+       55.73,
+       5.31,
+       3.82
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_633_557.png",
+       "box": [
+        61.98,
+        54.78,
+        7.96,
+        5.73
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       80.15,
+       55.73,
+       5.31,
+       3.82
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_802_557.png",
+       "box": [
+        78.82,
+        54.78,
+        7.96,
+        5.73
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write w on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "w",
+      "box": [
+       12.77,
+       68.53,
+       5.23,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_128_685.png",
+       "box": [
+        11.46,
+        67.59,
+        7.85,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       29.69,
+       68.53,
+       5.23,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_297_685.png",
+       "box": [
+        28.38,
+        67.59,
+        7.85,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       46.46,
+       68.53,
+       5.31,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_465_685.png",
+       "box": [
+        45.13,
+        67.59,
+        7.96,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       63.31,
+       68.53,
+       5.31,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_633_685.png",
+       "box": [
+        61.98,
+        67.59,
+        7.96,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       80.15,
+       68.53,
+       5.31,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p117_802_685.png",
+       "box": [
+        78.82,
+        67.59,
+        7.96,
+        5.64
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
   ]
  },
  "119": [
@@ -9457,6 +19462,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#7b5ea7"
   ]
  },
+ "121": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter x. Slide down one way, then slide down the other way.",
+    "marks": [
+     {
+      "glyph": "x",
+      "box": [
+       43.92,
+       9.95,
+       15.46,
+       12.92
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_439_100.png",
+       "box": [
+        40.06,
+        6.72,
+        23.19,
+        19.38
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "x",
+      "box": [
+       77.92,
+       15.59,
+       5.69,
+       5.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_779_156.png",
+       "box": [
+        76.5,
+        14.24,
+        8.54,
+        8.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "x",
+      "box": [
+       13.54,
+       30.26,
+       3.69,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_135_303.png",
+       "box": [
+        12.62,
+        29.38,
+        5.54,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       30.38,
+       30.26,
+       3.77,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_304_303.png",
+       "box": [
+        29.44,
+        29.36,
+        5.66,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       47.23,
+       30.26,
+       3.85,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_472_303.png",
+       "box": [
+        46.27,
+        29.36,
+        5.78,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       64.0,
+       30.26,
+       3.85,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_640_303.png",
+       "box": [
+        63.04,
+        29.36,
+        5.78,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       80.92,
+       30.26,
+       3.77,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_809_303.png",
+       "box": [
+        79.98,
+        29.36,
+        5.66,
+        5.37
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "x",
+      "box": [
+       13.46,
+       43.0,
+       3.77,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_135_430.png",
+       "box": [
+        12.52,
+        42.1,
+        5.66,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       30.38,
+       43.0,
+       3.77,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_304_430.png",
+       "box": [
+        29.44,
+        42.1,
+        5.66,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       47.23,
+       43.0,
+       3.77,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_472_430.png",
+       "box": [
+        46.29,
+        42.09,
+        5.66,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       64.08,
+       43.0,
+       3.77,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_641_430.png",
+       "box": [
+        63.14,
+        42.09,
+        5.66,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       80.92,
+       43.06,
+       3.77,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_809_431.png",
+       "box": [
+        79.98,
+        42.18,
+        5.66,
+        5.28
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "x",
+      "box": [
+       13.54,
+       55.79,
+       3.69,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_135_558.png",
+       "box": [
+        12.62,
+        54.9,
+        5.54,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       30.38,
+       55.79,
+       3.85,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_304_558.png",
+       "box": [
+        29.42,
+        54.9,
+        5.78,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       47.23,
+       55.85,
+       3.85,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_472_558.png",
+       "box": [
+        46.27,
+        54.97,
+        5.78,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       64.0,
+       55.85,
+       3.85,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_640_558.png",
+       "box": [
+        63.04,
+        54.97,
+        5.78,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       80.85,
+       55.85,
+       3.85,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_808_558.png",
+       "box": [
+        79.89,
+        54.97,
+        5.78,
+        5.28
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write x on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "x",
+      "box": [
+       13.46,
+       68.53,
+       3.77,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_135_685.png",
+       "box": [
+        12.52,
+        67.6,
+        5.66,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       30.38,
+       68.59,
+       3.77,
+       3.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_304_686.png",
+       "box": [
+        29.44,
+        67.71,
+        5.66,
+        5.28
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       47.23,
+       68.65,
+       3.85,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_472_686.png",
+       "box": [
+        46.27,
+        67.76,
+        5.78,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       64.0,
+       68.53,
+       3.85,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_640_685.png",
+       "box": [
+        63.04,
+        67.62,
+        5.78,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       80.92,
+       68.53,
+       3.77,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p121_809_685.png",
+       "box": [
+        79.98,
+        67.64,
+        5.66,
+        5.37
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
+  ]
+ },
  "125": [
   {
    "type": "game",
@@ -9842,6 +20282,441 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
    "#43aa8b"
   ]
  },
+ "127": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter y. Go down and round, then down long with a hook.",
+    "marks": [
+     {
+      "glyph": "y",
+      "box": [
+       43.92,
+       9.95,
+       12.77,
+       14.68
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_439_100.png",
+       "box": [
+        40.73,
+        6.28,
+        19.16,
+        22.02
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "y",
+      "box": [
+       78.0,
+       15.59,
+       5.92,
+       9.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_780_156.png",
+       "box": [
+        76.52,
+        13.21,
+        8.88,
+        14.28
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "y",
+      "box": [
+       13.38,
+       30.32,
+       4.08,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_134_303.png",
+       "box": [
+        12.36,
+        28.58,
+        6.12,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       30.31,
+       30.32,
+       4.08,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_303_303.png",
+       "box": [
+        29.29,
+        28.58,
+        6.12,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       47.15,
+       30.32,
+       4.08,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_472_303.png",
+       "box": [
+        46.13,
+        28.58,
+        6.12,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       64.0,
+       30.32,
+       4.08,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_640_303.png",
+       "box": [
+        62.98,
+        28.58,
+        6.12,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       80.85,
+       30.32,
+       4.08,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_808_303.png",
+       "box": [
+        79.83,
+        28.58,
+        6.12,
+        10.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "y",
+      "box": [
+       13.38,
+       43.0,
+       4.08,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_134_430.png",
+       "box": [
+        12.36,
+        41.22,
+        6.12,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       30.31,
+       43.06,
+       4.08,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_303_431.png",
+       "box": [
+        29.29,
+        41.3,
+        6.12,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       47.15,
+       43.06,
+       4.08,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_472_431.png",
+       "box": [
+        46.13,
+        41.3,
+        6.12,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       63.92,
+       43.0,
+       4.15,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_639_430.png",
+       "box": [
+        62.88,
+        41.22,
+        6.22,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       80.77,
+       43.0,
+       4.15,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_808_430.png",
+       "box": [
+        79.73,
+        41.22,
+        6.22,
+        10.65
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "y",
+      "box": [
+       13.38,
+       55.85,
+       4.08,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_134_558.png",
+       "box": [
+        12.36,
+        54.09,
+        6.12,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       30.31,
+       55.85,
+       4.08,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_303_558.png",
+       "box": [
+        29.29,
+        54.09,
+        6.12,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       47.15,
+       55.79,
+       4.08,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_472_558.png",
+       "box": [
+        46.13,
+        54.02,
+        6.12,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       64.0,
+       55.85,
+       4.08,
+       7.03
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_640_558.png",
+       "box": [
+        62.98,
+        54.09,
+        6.12,
+        10.54
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       80.77,
+       55.79,
+       4.15,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_808_558.png",
+       "box": [
+        79.73,
+        54.02,
+        6.22,
+        10.65
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write y on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "y",
+      "box": [
+       13.38,
+       68.65,
+       4.08,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_134_686.png",
+       "box": [
+        12.36,
+        66.91,
+        6.12,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       30.31,
+       68.65,
+       4.08,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_303_686.png",
+       "box": [
+        29.29,
+        66.91,
+        6.12,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       47.15,
+       68.65,
+       4.08,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_472_686.png",
+       "box": [
+        46.13,
+        66.91,
+        6.12,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       63.92,
+       68.65,
+       4.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_639_686.png",
+       "box": [
+        62.88,
+        66.91,
+        6.22,
+        10.46
+       ]
+      }
+     },
+     {
+      "glyph": "y",
+      "box": [
+       80.77,
+       68.65,
+       4.15,
+       6.97
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p127_808_686.png",
+       "box": [
+        79.73,
+        66.91,
+        6.22,
+        10.46
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
+  ]
+ },
  "129": [
   {
    "type": "game",
@@ -10223,6 +21098,2400 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
   "colours": [
    "#222222",
    "#ff8fab"
+  ]
+ },
+ "131": {
+  "type": "fill",
+  "title": "Trace, write and say the sound",
+  "steps": [
+   {
+    "say": "Let us write the letter z. Go across, slide down, then go across again.",
+    "marks": [
+     {
+      "glyph": "z",
+      "box": [
+       43.92,
+       9.95,
+       15.15,
+       12.73
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_439_100.png",
+       "box": [
+        40.13,
+        6.77,
+        22.72,
+        19.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now the small one on its lines.",
+    "marks": [
+     {
+      "glyph": "z",
+      "box": [
+       78.62,
+       15.59,
+       4.46,
+       5.4
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_786_156.png",
+       "box": [
+        77.51,
+        14.24,
+        6.69,
+        8.1
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the dotted letters.",
+    "marks": [
+     {
+      "glyph": "z",
+      "box": [
+       13.85,
+       30.14,
+       3.08,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_138_301.png",
+       "box": [
+        13.08,
+        29.2,
+        4.62,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       30.77,
+       30.14,
+       3.0,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_308_301.png",
+       "box": [
+        30.02,
+        29.2,
+        4.5,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       47.62,
+       30.14,
+       3.0,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_476_301.png",
+       "box": [
+        46.87,
+        29.2,
+        4.5,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       64.46,
+       30.14,
+       3.0,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_645_301.png",
+       "box": [
+        63.71,
+        29.2,
+        4.5,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       81.23,
+       30.14,
+       3.08,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_812_301.png",
+       "box": [
+        80.46,
+        29.2,
+        4.62,
+        5.64
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "z",
+      "box": [
+       13.85,
+       43.0,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_138_430.png",
+       "box": [
+        13.08,
+        42.08,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       30.77,
+       43.0,
+       3.0,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_308_430.png",
+       "box": [
+        30.02,
+        42.09,
+        4.5,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       47.62,
+       43.0,
+       3.0,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_476_430.png",
+       "box": [
+        46.87,
+        42.09,
+        4.5,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       64.46,
+       43.0,
+       3.0,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_645_430.png",
+       "box": [
+        63.71,
+        42.08,
+        4.5,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       81.31,
+       43.0,
+       3.0,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_813_430.png",
+       "box": [
+        80.56,
+        42.08,
+        4.5,
+        5.55
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next line.",
+    "marks": [
+     {
+      "glyph": "z",
+      "box": [
+       13.85,
+       55.79,
+       3.08,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_138_558.png",
+       "box": [
+        13.08,
+        54.88,
+        4.62,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       30.77,
+       55.79,
+       3.0,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_308_558.png",
+       "box": [
+        30.02,
+        54.88,
+        4.5,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       47.62,
+       55.79,
+       3.0,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_476_558.png",
+       "box": [
+        46.87,
+        54.88,
+        4.5,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       64.46,
+       55.79,
+       3.0,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_645_558.png",
+       "box": [
+        63.71,
+        54.88,
+        4.5,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       81.31,
+       55.79,
+       3.0,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_813_558.png",
+       "box": [
+        80.56,
+        54.88,
+        4.5,
+        5.46
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "One more line. Then write z on your own on the last line. Well done!",
+    "marks": [
+     {
+      "glyph": "z",
+      "box": [
+       13.85,
+       68.53,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_138_685.png",
+       "box": [
+        13.08,
+        67.6,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       30.77,
+       68.53,
+       3.0,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_308_685.png",
+       "box": [
+        30.02,
+        67.6,
+        4.5,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       47.62,
+       68.53,
+       3.0,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_476_685.png",
+       "box": [
+        46.87,
+        67.6,
+        4.5,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       64.46,
+       68.53,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_645_685.png",
+       "box": [
+        63.69,
+        67.6,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       81.31,
+       68.53,
+       3.0,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p131_813_685.png",
+       "box": [
+        80.56,
+        67.6,
+        4.5,
+        5.55
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
+  ]
+ },
+ "7": {
+  "type": "fill",
+  "title": "Standing lines",
+  "steps": [
+   {
+    "say": "Standing lines! Start at the dot and go straight down.",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       9.92,
+       14.68,
+       1.77,
+       32.63
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_99_147.png",
+       "box": [
+        9.48,
+        6.52,
+        2.66,
+        48.95
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       14.54,
+       14.43,
+       2.08,
+       32.87
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_145_144.png",
+       "box": [
+        14.02,
+        6.21,
+        3.12,
+        49.3
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       19.77,
+       14.68,
+       1.77,
+       32.63
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_198_147.png",
+       "box": [
+        19.33,
+        6.52,
+        2.66,
+        48.95
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       24.69,
+       14.68,
+       1.77,
+       32.63
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_247_147.png",
+       "box": [
+        24.25,
+        6.52,
+        2.66,
+        48.95
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       29.62,
+       14.68,
+       1.77,
+       32.63
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_296_147.png",
+       "box": [
+        29.18,
+        6.52,
+        2.66,
+        48.95
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       34.54,
+       14.68,
+       1.77,
+       32.63
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_345_147.png",
+       "box": [
+        34.1,
+        6.52,
+        2.66,
+        48.95
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       39.46,
+       14.68,
+       1.69,
+       32.63
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_395_147.png",
+       "box": [
+        39.04,
+        6.52,
+        2.54,
+        48.95
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       44.38,
+       14.68,
+       1.69,
+       32.63
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_444_147.png",
+       "box": [
+        43.96,
+        6.52,
+        2.54,
+        48.95
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Again! Straight down from each dot. Now colour the house.",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       53.62,
+       15.1,
+       1.69,
+       15.28
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_536_151.png",
+       "box": [
+        53.2,
+        11.28,
+        2.54,
+        22.92
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       58.54,
+       15.1,
+       1.69,
+       15.28
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_585_151.png",
+       "box": [
+        58.12,
+        11.28,
+        2.54,
+        22.92
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       63.38,
+       15.1,
+       1.77,
+       15.28
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_634_151.png",
+       "box": [
+        62.94,
+        11.28,
+        2.66,
+        22.92
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       68.31,
+       15.1,
+       1.77,
+       15.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_683_151.png",
+       "box": [
+        67.87,
+        11.3,
+        2.66,
+        22.83
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       73.23,
+       15.1,
+       1.77,
+       15.28
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_732_151.png",
+       "box": [
+        72.79,
+        11.28,
+        2.66,
+        22.92
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       78.15,
+       15.1,
+       1.77,
+       15.28
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_782_151.png",
+       "box": [
+        77.71,
+        11.28,
+        2.66,
+        22.92
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       83.08,
+       14.43,
+       2.08,
+       15.89
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_831_144.png",
+       "box": [
+        82.56,
+        10.46,
+        3.12,
+        23.84
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       88.0,
+       14.43,
+       2.08,
+       15.95
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_880_144.png",
+       "box": [
+        87.48,
+        10.44,
+        3.12,
+        23.92
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       68.31,
+       30.87,
+       2.08,
+       16.37
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_683_309.png",
+       "box": [
+        67.79,
+        26.78,
+        3.12,
+        24.56
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       87.77,
+       31.41,
+       2.0,
+       15.83
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_878_314.png",
+       "box": [
+        87.27,
+        27.45,
+        3.0,
+        23.74
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       53.62,
+       32.02,
+       1.69,
+       15.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_536_320.png",
+       "box": [
+        53.2,
+        28.22,
+        2.54,
+        22.83
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       58.54,
+       32.02,
+       1.69,
+       15.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_585_320.png",
+       "box": [
+        58.12,
+        28.22,
+        2.54,
+        22.83
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       63.38,
+       31.96,
+       1.77,
+       15.28
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_634_320.png",
+       "box": [
+        62.94,
+        28.14,
+        2.66,
+        22.92
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       73.23,
+       32.02,
+       1.77,
+       15.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_732_320.png",
+       "box": [
+        72.79,
+        28.22,
+        2.66,
+        22.83
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       78.15,
+       32.02,
+       1.77,
+       15.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_782_320.png",
+       "box": [
+        77.71,
+        28.22,
+        2.66,
+        22.83
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       83.08,
+       32.02,
+       1.77,
+       15.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p007_831_320.png",
+       "box": [
+        82.64,
+        28.22,
+        2.66,
+        22.83
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#e63946",
+   "#8d5524",
+   "#f9c74f",
+   "#4aa3df"
+  ]
+ },
+ "8": {
+  "type": "fill",
+  "title": "Sleeping lines",
+  "steps": [
+   {
+    "say": "Sleeping lines! Start at the dot and go straight across.",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       11.38,
+       13.83,
+       37.23,
+       1.39
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_114_138.png",
+       "box": [
+        2.07,
+        13.48,
+        55.84,
+        2.08
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       51.31,
+       13.83,
+       37.31,
+       1.39
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_513_138.png",
+       "box": [
+        41.98,
+        13.48,
+        55.96,
+        2.08
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       11.0,
+       17.4,
+       37.62,
+       1.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_110_174.png",
+       "box": [
+        1.6,
+        16.97,
+        56.43,
+        2.55
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       50.38,
+       17.59,
+       38.23,
+       1.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_504_176.png",
+       "box": [
+        40.82,
+        17.21,
+        57.34,
+        2.28
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       11.38,
+       21.59,
+       37.23,
+       1.39
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_114_216.png",
+       "box": [
+        2.07,
+        21.24,
+        55.84,
+        2.08
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       50.62,
+       21.47,
+       38.0,
+       1.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_506_215.png",
+       "box": [
+        41.12,
+        21.03,
+        57.0,
+        2.64
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       11.38,
+       25.47,
+       37.23,
+       1.33
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_114_255.png",
+       "box": [
+        2.07,
+        25.14,
+        55.84,
+        2.0
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       50.62,
+       25.17,
+       38.0,
+       1.94
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_506_252.png",
+       "box": [
+        41.12,
+        24.68,
+        57.0,
+        2.91
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Again! Straight across from each dot. Now colour the well.",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       10.31,
+       31.9,
+       20.38,
+       1.39
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_103_319.png",
+       "box": [
+        5.22,
+        31.55,
+        30.57,
+        2.08
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       38.85,
+       31.9,
+       20.38,
+       1.39
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_388_319.png",
+       "box": [
+        33.76,
+        31.55,
+        30.57,
+        2.08
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       67.15,
+       31.9,
+       20.62,
+       1.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_672_319.png",
+       "box": [
+        62.0,
+        31.49,
+        30.93,
+        2.46
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       10.31,
+       35.78,
+       20.38,
+       1.39
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_103_358.png",
+       "box": [
+        5.22,
+        35.43,
+        30.57,
+        2.08
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       38.38,
+       35.48,
+       20.85,
+       1.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_384_355.png",
+       "box": [
+        33.17,
+        35.06,
+        31.28,
+        2.55
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       66.85,
+       35.48,
+       20.92,
+       1.94
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_668_355.png",
+       "box": [
+        61.62,
+        34.99,
+        31.38,
+        2.91
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       10.31,
+       39.66,
+       20.38,
+       1.39
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_103_397.png",
+       "box": [
+        5.22,
+        39.31,
+        30.57,
+        2.08
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       38.85,
+       39.66,
+       20.38,
+       1.39
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_388_397.png",
+       "box": [
+        33.76,
+        39.31,
+        30.57,
+        2.08
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       66.92,
+       39.36,
+       20.85,
+       1.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_669_394.png",
+       "box": [
+        61.71,
+        38.94,
+        31.28,
+        2.55
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       66.77,
+       43.24,
+       21.0,
+       1.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_668_432.png",
+       "box": [
+        61.52,
+        42.83,
+        31.5,
+        2.46
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       10.31,
+       43.54,
+       20.38,
+       1.33
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_103_435.png",
+       "box": [
+        5.22,
+        43.21,
+        30.57,
+        2.0
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       37.92,
+       43.54,
+       21.31,
+       1.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p008_379_435.png",
+       "box": [
+        32.59,
+        43.16,
+        31.96,
+        2.28
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#9aa5b1",
+   "#4aa3df"
+  ]
+ },
+ "9": {
+  "type": "fill",
+  "title": "Curved lines",
+  "steps": [
+   {
+    "say": "Curved lines! Start at the dot and curve round.",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       9.77,
+       13.22,
+       12.77,
+       8.98
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_98_132.png",
+       "box": [
+        6.58,
+        10.98,
+        19.16,
+        13.47
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       21.08,
+       13.28,
+       12.0,
+       8.91
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_211_133.png",
+       "box": [
+        18.08,
+        11.05,
+        18.0,
+        13.36
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       32.31,
+       13.22,
+       12.0,
+       8.98
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_323_132.png",
+       "box": [
+        29.31,
+        10.98,
+        18.0,
+        13.47
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       43.62,
+       13.22,
+       13.0,
+       8.98
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_436_132.png",
+       "box": [
+        40.37,
+        10.98,
+        19.5,
+        13.47
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       54.85,
+       13.28,
+       13.15,
+       8.91
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_548_133.png",
+       "box": [
+        51.56,
+        11.05,
+        19.73,
+        13.36
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       66.08,
+       13.22,
+       13.31,
+       8.98
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_661_132.png",
+       "box": [
+        62.75,
+        10.98,
+        19.96,
+        13.47
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       77.31,
+       13.28,
+       13.38,
+       8.91
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_773_133.png",
+       "box": [
+        73.96,
+        11.05,
+        20.07,
+        13.36
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Again! Curve round from each dot.",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       11.0,
+       27.59,
+       14.0,
+       10.37
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_110_276.png",
+       "box": [
+        7.5,
+        25.0,
+        21.0,
+        15.56
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       31.85,
+       27.59,
+       14.0,
+       10.37
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_318_276.png",
+       "box": [
+        28.35,
+        25.0,
+        21.0,
+        15.56
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       52.69,
+       27.59,
+       14.08,
+       10.37
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_527_276.png",
+       "box": [
+        49.17,
+        25.0,
+        21.12,
+        15.56
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       74.15,
+       27.59,
+       13.08,
+       10.01
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_742_276.png",
+       "box": [
+        70.88,
+        25.09,
+        19.62,
+        15.02
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       11.54,
+       37.17,
+       15.0,
+       9.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_115_372.png",
+       "box": [
+        7.79,
+        34.78,
+        22.5,
+        14.37
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       32.46,
+       37.17,
+       14.92,
+       9.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_325_372.png",
+       "box": [
+        28.73,
+        34.78,
+        22.38,
+        14.37
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       53.31,
+       37.17,
+       14.92,
+       9.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_533_372.png",
+       "box": [
+        49.58,
+        34.78,
+        22.38,
+        14.37
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       74.15,
+       37.17,
+       14.92,
+       9.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_742_372.png",
+       "box": [
+        70.42,
+        34.78,
+        22.38,
+        14.37
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Now trace the big curves on the orange page, one column at a time.",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       9.0,
+       53,
+       20.5,
+       37
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_90_530.png",
+       "box": [
+        3.88,
+        43.75,
+        30.75,
+        55.5
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next column.",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       29.5,
+       53,
+       20.5,
+       37
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_295_530.png",
+       "box": [
+        24.38,
+        43.75,
+        30.75,
+        55.5
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Next column.",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       50.0,
+       53,
+       20.5,
+       37
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_500_530.png",
+       "box": [
+        44.88,
+        43.75,
+        30.75,
+        55.5
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Last column. Well done!",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       70.5,
+       53,
+       21.0,
+       37
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p009_705_530.png",
+       "box": [
+        65.25,
+        43.75,
+        31.5,
+        55.5
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#f4a261"
+  ]
+ },
+ "10": {
+  "type": "fill",
+  "title": "Loops and curves",
+  "steps": [
+   {
+    "say": "Loops! Start at the dot by the fish and go round and round.",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       24.0,
+       13,
+       23.33,
+       12
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p010_240_130.png",
+       "box": [
+        18.17,
+        10.0,
+        34.99,
+        18.0
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       47.33,
+       13,
+       23.33,
+       12
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p010_473_130.png",
+       "box": [
+        41.5,
+        10.0,
+        34.99,
+        18.0
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       70.67,
+       13,
+       23.33,
+       12
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p010_707_130.png",
+       "box": [
+        64.84,
+        10.0,
+        34.99,
+        18.0
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Waves! From the turtle's dot, go up and down.",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       50.5,
+       27,
+       37.5,
+       12
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p010_505_270.png",
+       "box": [
+        41.12,
+        24.0,
+        56.25,
+        18.0
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       13.0,
+       27,
+       37.5,
+       12
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p010_130_270.png",
+       "box": [
+        3.62,
+        24.0,
+        56.25,
+        18.0
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Zigzag curves! From the octopus' dot, up and down.",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       23.0,
+       38.5,
+       33.5,
+       11
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p010_230_385.png",
+       "box": [
+        14.62,
+        35.75,
+        50.25,
+        16.5
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       56.5,
+       38.5,
+       33.5,
+       11
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p010_565_385.png",
+       "box": [
+        48.12,
+        35.75,
+        50.25,
+        16.5
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Circles! From the submarine's dot, go round each circle.",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       14.0,
+       52.5,
+       56.0,
+       9
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p010_140_525.png",
+       "box": [
+        0.0,
+        50.25,
+        84.0,
+        13.5
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Bumps! From the starfish's dot, go over each bump.",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       27.0,
+       65.5,
+       31.5,
+       9
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p010_270_655.png",
+       "box": [
+        19.12,
+        63.25,
+        47.25,
+        13.5
+       ]
+      }
+     },
+     {
+      "glyph": "ur",
+      "box": [
+       58.5,
+       65.5,
+       31.5,
+       9
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p010_585_655.png",
+       "box": [
+        50.62,
+        63.25,
+        47.25,
+        13.5
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Clouds! From the seahorse's dot, go round each cloud. Well done!",
+    "marks": [
+     {
+      "glyph": "ur",
+      "box": [
+       26.0,
+       77.5,
+       56.0,
+       10
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p010_260_775.png",
+       "box": [
+        12.0,
+        75.0,
+        84.0,
+        15.0
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#4aa3df"
+  ]
+ },
+ "133": {
+  "type": "fill",
+  "title": "Trace the letters a - z",
+  "steps": [
+   {
+    "say": "Let us trace the letters, a to z. Trace a, b, c, d, e.",
+    "marks": [
+     {
+      "glyph": "a",
+      "box": [
+       15.62,
+       18.19,
+       4.46,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_156_182.png",
+       "box": [
+        14.5,
+        17.26,
+        6.69,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "b",
+      "box": [
+       32.38,
+       14.68,
+       4.08,
+       7.28
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_324_147.png",
+       "box": [
+        31.36,
+        12.86,
+        6.12,
+        10.92
+       ]
+      }
+     },
+     {
+      "glyph": "c",
+      "box": [
+       48.85,
+       18.19,
+       4.0,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_488_182.png",
+       "box": [
+        47.85,
+        17.26,
+        6.0,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "d",
+      "box": [
+       65.23,
+       14.68,
+       4.08,
+       7.28
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_652_147.png",
+       "box": [
+        64.21,
+        12.86,
+        6.12,
+        10.92
+       ]
+      }
+     },
+     {
+      "glyph": "e",
+      "box": [
+       81.62,
+       18.19,
+       4.77,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_816_182.png",
+       "box": [
+        80.43,
+        17.26,
+        7.15,
+        5.55
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Trace f, g, h, i, j.",
+    "marks": [
+     {
+      "glyph": "f",
+      "box": [
+       15.85,
+       27.77,
+       4.0,
+       7.28
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_158_278.png",
+       "box": [
+        14.85,
+        25.95,
+        6.0,
+        10.92
+       ]
+      }
+     },
+     {
+      "glyph": "g",
+      "box": [
+       32.0,
+       31.29,
+       4.92,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_320_313.png",
+       "box": [
+        30.77,
+        29.48,
+        7.38,
+        10.83
+       ]
+      }
+     },
+     {
+      "glyph": "h",
+      "box": [
+       49.0,
+       27.77,
+       3.69,
+       7.28
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_490_278.png",
+       "box": [
+        48.08,
+        25.95,
+        5.54,
+        10.92
+       ]
+      }
+     },
+     {
+      "glyph": "i",
+      "box": [
+       66.92,
+       30.14,
+       0.62,
+       4.91
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_669_301.png",
+       "box": [
+        66.76,
+        28.91,
+        0.93,
+        7.36
+       ]
+      }
+     },
+     {
+      "glyph": "j",
+      "box": [
+       82.0,
+       30.08,
+       3.92,
+       8.49
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_820_301.png",
+       "box": [
+        81.02,
+        27.96,
+        5.88,
+        12.74
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Trace k, l, m, n, o.",
+    "marks": [
+     {
+      "glyph": "k",
+      "box": [
+       16.54,
+       41.06,
+       2.62,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_165_411.png",
+       "box": [
+        15.88,
+        39.29,
+        3.93,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "l",
+      "box": [
+       34.31,
+       40.93,
+       0.31,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_343_409.png",
+       "box": [
+        34.23,
+        39.16,
+        0.46,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "m",
+      "box": [
+       47.54,
+       44.45,
+       6.62,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_475_444.png",
+       "box": [
+        45.88,
+        43.56,
+        9.93,
+        5.37
+       ]
+      }
+     },
+     {
+      "glyph": "n",
+      "box": [
+       65.46,
+       44.45,
+       3.54,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_655_444.png",
+       "box": [
+        64.57,
+        43.53,
+        5.31,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "o",
+      "box": [
+       81.85,
+       44.45,
+       4.31,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_818_444.png",
+       "box": [
+        80.77,
+        43.53,
+        6.46,
+        5.55
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Trace p, q, r, s, t.",
+    "marks": [
+     {
+      "glyph": "p",
+      "box": [
+       15.38,
+       57.31,
+       4.85,
+       7.52
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_154_573.png",
+       "box": [
+        14.17,
+        55.43,
+        7.28,
+        11.28
+       ]
+      }
+     },
+     {
+      "glyph": "q",
+      "box": [
+       31.08,
+       57.49,
+       6.69,
+       7.28
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_311_575.png",
+       "box": [
+        29.41,
+        55.67,
+        10.04,
+        10.92
+       ]
+      }
+     },
+     {
+      "glyph": "r",
+      "box": [
+       49.31,
+       57.55,
+       3.08,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_493_576.png",
+       "box": [
+        48.54,
+        56.62,
+        4.62,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "s",
+      "box": [
+       65.77,
+       57.55,
+       2.92,
+       3.64
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_658_576.png",
+       "box": [
+        65.04,
+        56.64,
+        4.38,
+        5.46
+       ]
+      }
+     },
+     {
+      "glyph": "t",
+      "box": [
+       81.46,
+       54.03,
+       5.08,
+       7.22
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_815_540.png",
+       "box": [
+        80.19,
+        52.22,
+        7.62,
+        10.83
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Trace u, v, w, x.",
+    "marks": [
+     {
+      "glyph": "u",
+      "box": [
+       23.08,
+       70.65,
+       3.15,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_231_706.png",
+       "box": [
+        22.29,
+        69.71,
+        4.72,
+        5.64
+       ]
+      }
+     },
+     {
+      "glyph": "v",
+      "box": [
+       39.85,
+       70.71,
+       3.62,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_398_707.png",
+       "box": [
+        38.94,
+        69.78,
+        5.43,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "w",
+      "box": [
+       57.08,
+       70.71,
+       5.15,
+       3.7
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_571_707.png",
+       "box": [
+        55.79,
+        69.78,
+        7.72,
+        5.55
+       ]
+      }
+     },
+     {
+      "glyph": "x",
+      "box": [
+       75.85,
+       70.83,
+       3.85,
+       3.58
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_758_708.png",
+       "box": [
+        74.89,
+        69.94,
+        5.78,
+        5.37
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "say": "Trace y, z. Well done! You know all the letters!",
+    "marks": [
+     {
+      "glyph": "y",
+      "box": [
+       39.08,
+       83.87,
+       4.08,
+       7.1
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_391_839.png",
+       "box": [
+        38.06,
+        82.1,
+        6.12,
+        10.65
+       ]
+      }
+     },
+     {
+      "glyph": "z",
+      "box": [
+       62.69,
+       83.75,
+       3.15,
+       3.76
+      ],
+      "ink": {
+       "src": "books/maxford-global-qaida-3-english/ink/p133_627_838.png",
+       "box": [
+        61.9,
+        82.81,
+        4.72,
+        5.64
+       ]
+      }
+     }
+    ]
+   }
+  ],
+  "colours": [
+   "#222222"
   ]
  }
 };

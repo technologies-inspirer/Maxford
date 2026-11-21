@@ -127,10 +127,10 @@ def big_letter(im, xa, xb, ya=11, yb=25.8):
     return pct_box(x0 + xs.min(), y0 + ys.min(), x0 + xs.max() + 1, y0 + ys.max() + 1, W, H)
 
 
-def dotted_row(im, ya, yb, n=5):
-    """The n dotted letters in one writing row, left to right."""
+def dotted_row(im, ya, yb, n=5, xa=6, xb=95):
+    """The n dotted letters in one writing row, left to right (xa, xb: the part of the page across, in %)."""
     H, W = im.shape[:2]
-    y0, y1, x0, x1 = int(H * ya / 100), int(H * yb / 100), int(W * .06), int(W * .95)
+    y0, y1, x0, x1 = int(H * ya / 100), int(H * yb / 100), int(W * xa / 100), int(W * xb / 100)
     crop = im[y0:y1, x0:x1]
     gray = cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY)
     spread = crop.max(axis=2).astype(int) - crop.min(axis=2)
@@ -303,6 +303,127 @@ def trace_page(L, page):
     return act
 
 
+def dotted_bands(im, ya=26, yb=80, xa=6, xb=95):
+    """The writing rows of dotted letters between ya and yb (in %), top to bottom, as (top, bottom) in %."""
+    H, W = im.shape[:2]
+    y0, y1, x0, x1 = int(H * ya / 100), int(H * yb / 100), int(W * xa / 100), int(W * xb / 100)
+    crop = im[y0:y1, x0:x1]
+    gray = cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY)
+    spread = crop.max(axis=2).astype(int) - crop.min(axis=2)
+    dark = (gray < 170) & (spread < 70)
+    rows = np.nonzero(dark.sum(axis=1) > 2)[0]
+    bands, s, pv = [], rows[0], rows[0]
+    for v in rows[1:]:
+        if v - pv > H * .015:
+            bands.append((s, pv)); s = v
+        pv = v
+    bands.append((s, pv))
+    bands = [(a, b) for a, b in bands if b - a > H * .03]          # a row of letters, not a stray mark
+    return [(round((y0 + a) / H * 100 - .8, 2), round((y0 + b) / H * 100 + .8, 2)) for a, b in bands]
+
+
+def write_page(L, page):
+    """"Trace, write and say the sound": the big guided letter, the small dotted letter on its lines, then four
+    rows of five dotted letters; the last row of start marks is the child's own writing."""
+    im = page_img(page)
+    big = big_letter(im, 42, 64, 10, 26)
+    small = dotted_row(im, 10, 27.5, n=1, xa=68, xb=95)
+    bands = dotted_bands(im)
+    assert len(bands) == 4, (L, page, bands)
+    rows = [dotted_row(im, a, b) for a, b in bands]
+    src, ib = fill_ink(page, big)
+    def marks(bs):
+        out = []
+        for b in bs:
+            s, box = make_ink(BOOK, page, b)
+            m = {'glyph': L, 'box': b}
+            if cv2.imread(s, cv2.IMREAD_UNCHANGED)[..., 3].mean() > 8:
+                m['ink'] = {'src': s, 'box': box}
+            else:
+                os.remove(s)
+            out.append(m)
+        return out
+    steps = [{'say': f'Let us write the letter {L}. {HOW[L]}', 'marks': [{'glyph': L, 'box': big, 'ink': {'src': src, 'box': ib}}]}]
+    if small:
+        steps.append({'say': 'Now the small one on its lines.', 'marks': marks(small)})
+    steps += [{'say': 'Now trace the dotted letters.', 'marks': marks(rows[0])},
+              {'say': 'Next line.', 'marks': marks(rows[1])},
+              {'say': 'Next line.', 'marks': marks(rows[2])},
+              {'say': f'One more line. Then write {L} on your own on the last line. Well done!', 'marks': marks(rows[3])}]
+    act = {'type': 'fill', 'title': 'Trace, write and say the sound', 'steps': steps}
+    act['colours'] = page_colours(BOOK, page)
+    return act
+
+
+def az_page(page):
+    """Review: "Trace the letters a - z": rows of five dotted letters, a to z."""
+    im = page_img(page)
+    letters = iter('abcdefghijklmnopqrstuvwxyz')
+    steps = []
+    for k, (a, b) in enumerate(dotted_bands(im, 10, 93)):
+        row = dotted_row(im, a, b, n=5 if k < 5 else 2)
+        marks = []
+        for box in row:
+            L = next(letters)
+            s, ib = make_ink(BOOK, page, box)
+            marks.append({'glyph': L, 'box': box, 'ink': {'src': s, 'box': ib}})
+        names = ', '.join(m['glyph'] for m in marks)
+        steps.append({'say': f'Trace {names}.' if k else f'Let us trace the letters, a to z. Trace {names}.', 'marks': marks})
+    assert next(letters, None) is None, 'all 26 letters found'
+    steps[-1]['say'] += ' Well done! You know all the letters!'
+    return {'type': 'fill', 'title': 'Trace the letters a - z', 'steps': steps, 'colours': page_colours(BOOK, page)}
+
+
+def dotted_shapes(im, box, min_size=2.0, join=21):
+    """The dotted lines and curves to trace inside box (x, y, w, h in %), top to bottom and left to right."""
+    H, W = im.shape[:2]
+    x, y, w, h = box
+    x0, y0, x1, y1 = int(W * x / 100), int(H * y / 100), int(W * (x + w) / 100), int(H * (y + h) / 100)
+    crop = im[y0:y1, x0:x1]
+    gray = cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY)
+    spread = crop.max(axis=2).astype(int) - crop.min(axis=2)
+    dark = ((gray < 170) & (spread < 70)).astype(np.uint8)
+    joined = cv2.dilate(dark, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (join, join)))
+    n, lab, st, _ = cv2.connectedComponentsWithStats(joined)
+    out = []
+    for i in range(1, n):
+        sx, sy, sw, sh, area = st[i]
+        b = pct_box(x0 + sx, y0 + sy, x0 + sx + sw, y0 + sy + sh, W, H)
+        if max(b[2], b[3]) >= min_size:
+            out.append(b)
+    return sorted(out, key=lambda b: (round(b[1] / 3), b[0]))
+
+
+def band_pieces(box, rtl=False):
+    """A long white path split into equal boxes across, as few as keep each box plus the 25% margin that
+    tools/ink.py cuts on the page (a margin off the page would stretch the ink)."""
+    x, y, w, h = box
+    assert y - h * PAD >= 0 and y + h * (1 + PAD) <= 100, box
+    for n in range(1, 8):
+        pieces = [[round(x + w * k / n, 2), y, round(w / n, 2), h] for k in range(n)]
+        if all(p[0] - p[2] * PAD >= 0 and p[0] + p[2] * (1 + PAD) <= 100 for p in pieces):
+            return pieces[::-1] if rtl else pieces
+    raise ValueError(box)
+
+
+def lines_page(page, title, areas, colour_say):
+    """Pre-writing: trace each dotted line or curve (its own shape, cut from the page), then colour the picture."""
+    im = page_img(page)
+    steps = []
+    for say, box in areas:
+        marks = []
+        # [x, y, w, h, 'band']: a white path on a coloured band, one shape in its own box;
+        # [x, y, w, h]: grey dotted lines, found one by one
+        band = box[4] if len(box) == 5 else None       # 'band' (left to right) or 'band-rtl'
+        box = box[:4]
+        for b in (band_pieces(box, band == 'band-rtl') if band else dotted_shapes(im, box)):
+            s, ib = make_ink(BOOK, page, b)
+            marks.append({'glyph': 'ur', 'box': b, 'ink': {'src': s, 'box': ib}})
+        steps.append({'say': say, 'marks': marks})
+    steps[-1]['say'] += ' ' + colour_say
+    return {'type': 'fill', 'title': title, 'steps': steps, 'colours': page_colours(BOOK, page)}
+
+
 # One video for the three pages after a Sound page ("Letter b Formation and Activities.mp4"): the part for each
 # page, as (start, end) in seconds, found by looking through the video. end None = to the end of the video.
 PARTS_FILE = 'Letter {L} Formation and Activities.mp4'
@@ -334,8 +455,31 @@ if __name__ == '__main__':
     for L, p in LETTER_PAGE.items():
         acts[p] = letter_page(L, p)
         acts[p + 1] = trace_page(L, p + 1)
+        acts[p + 2] = write_page(L, p + 2)
         acts.update(part_pages(L, p))
         print(L, end=' ', flush=True)
+    # Pre-writing pages 7 to 10: trace the lines from their start dots, then colour the picture.
+    acts[7] = lines_page(7, 'Standing lines', [
+        ('Standing lines! Start at the dot and go straight down.', [8, 13, 40, 35]),
+        ('Again! Straight down from each dot.', [52, 13, 40, 35])], 'Now colour the house.')
+    acts[8] = lines_page(8, 'Sleeping lines', [
+        ('Sleeping lines! Start at the dot and go straight across.', [8, 13, 85, 16]),
+        ('Again! Straight across from each dot.', [8, 31, 85, 16])], 'Now colour the well.')
+    acts[9] = lines_page(9, 'Curved lines', [
+        ('Curved lines! Start at the dot and curve round.', [8, 12.5, 84, 11]),
+        ('Again! Curve round from each dot.', [8, 25, 84, 25]),
+        ('Now trace the big curves on the orange page, one column at a time.', [9, 53, 20.5, 37, 'band']),
+        ('Next column.', [29.5, 53, 20.5, 37, 'band']),
+        ('Next column.', [50, 53, 20.5, 37, 'band']),
+        ('Last column.', [70.5, 53, 21, 37, 'band'])], 'Well done!')
+    acts[10] = lines_page(10, 'Loops and curves', [
+        ('Loops! Start at the dot by the fish and go round and round.', [24, 13, 70, 12, 'band']),
+        ('Waves! From the turtle\'s dot, go up and down.', [13, 27, 75, 12, 'band-rtl']),
+        ('Zigzag curves! From the octopus\' dot, up and down.', [23, 38.5, 67, 11, 'band']),
+        ('Circles! From the submarine\'s dot, go round each circle.', [14, 52.5, 56, 9, 'band']),
+        ('Bumps! From the starfish\'s dot, go over each bump.', [27, 65.5, 63, 9, 'band']),
+        ('Clouds! From the seahorse\'s dot, go round each cloud.', [26, 77.5, 56, 10, 'band'])], 'Well done!')
+    acts[133] = az_page(133)
     print()
     with open('books/activities-maxford.js', 'w', encoding='utf-8', newline='\n') as f:
         f.write('// Generated by tools/make_maxford.py: letters a to z of Maxford Global Qaida 3+ English.\n')

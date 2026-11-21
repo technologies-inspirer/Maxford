@@ -46,6 +46,48 @@ test('every letter has its picture game on the Sound page and tracing on the nex
   }
 });
 
+test('every letter\'s "Trace, write and say the sound" page, the pre-writing pages and the a to z chart can be written on', () => {
+  for (const [k, page] of SOUND_PAGES.entries()) {
+    const letter = String.fromCharCode(97 + k);
+    const fill = list(page + 2).find(item => item.type === 'fill' && item.title === 'Trace, write and say the sound');
+    assert.ok(fill, `write ${letter} on page ${page + 2}`);
+    assert.ok(fill.steps.length >= 6, `${letter}: big letter, small letter and four rows`);
+  }
+  for (const page of [7, 8, 9, 10]) assert.ok(list(page).some(item => item.type === 'fill'), `pre-writing page ${page}`);
+  const chart = list(133).find(item => item.type === 'fill');
+  assert.deepEqual([...new Set(chart.steps.flatMap(step => step.marks.map(mark => mark.glyph)))].sort().join(''), 'abcdefghijklmnopqrstuvwxyz');
+});
+
+test('every printed exercise is a question at its place on the page', () => {
+  const qc = { window: { BOOK_QUESTIONS: {} } };
+  vm.createContext(qc);
+  vm.runInContext(read('books/questions-maxford.js'), qc);
+  const questions = JSON.parse(JSON.stringify(qc.window.BOOK_QUESTIONS[ID]));
+  const EXERCISE_PAGES = [3, 4, 5, 6, 14, 18, 22, 26, 27, 28, 29, 34, 38, 42, 46, 47, 48, 52, 56, 60, 64, 65, 66, 67, 72, 76, 80, 84, 85, 86,
+    90, 94, 98, 102, 103, 104, 110, 114, 118, 122, 123, 124, 128, 132, 134, 135];
+  assert.deepEqual(Object.keys(questions).map(Number).sort((a, b) => a - b), EXERCISE_PAGES);
+  const inside = (b, what) => assert.ok(b.x >= 0 && b.y >= 0 && b.x + b.w <= 100 && b.y + b.h <= 100, what);
+  for (const [page, items] of Object.entries(questions)) for (const q of items) {
+    const what = `page ${page}: ${q.title}`;
+    assert.equal(q.type, 'question');
+    inside(q.crop, what);
+    // the button is a pill drawn from this corner, about 14.5% of the page wide and 3.5% high: all of it on the page
+    assert.ok(q.button.x >= 0 && q.button.x + 14.5 <= 99.5 && q.button.y >= 0 && q.button.y + 3.5 <= 100, `${what}: button on the page`);
+    if (q.kind === 'choose') {
+      assert.ok(q.options.some(o => o.correct) && q.options.some(o => !o.correct), what);
+      q.options.forEach(o => inside(o, what));
+    } else if (q.kind === 'write') {
+      assert.ok(q.lines.length > 0, what);
+      q.lines.forEach(l => inside(l, what));
+    } else if (q.kind === 'colour') {
+      assert.ok(q.parts.every(p => p.colours.length > 0), what);
+    } else if (q.kind === 'match') {
+      const ids = q.dots.map(d => d.id);
+      for (const id of new Set(ids)) assert.ok(ids.filter(x => x === id).length >= 2, `${what}: ${id} has a partner`);
+    } else assert.fail(`${what}: unknown kind ${q.kind}`);
+  }
+});
+
 test('printed QR codes open the publisher\'s videos, and game fixes point at the games', () => {
   assert.deepEqual(Object.keys(book.qr), ['11']);
   assert.equal(book.qr[11].videos[0].id, 'fSS9i-9nBeI');

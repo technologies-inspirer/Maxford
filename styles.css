@@ -686,6 +686,9 @@ img.ink { pointer-events: none; }
   animation: bob 2.4s ease-in-out infinite;
 }
 .story-btn b { font-size: 3.6cqw; }
+/* exercise buttons sit beside the printed instruction, often two on one line, so they are smaller */
+.question-btn { padding: .9cqw 1.8cqw .9cqw 1.2cqw; gap: .6cqw; font-size: 2.3cqw; }
+.question-btn b { font-size: 2.7cqw; }
 .story { position: fixed; inset: 0; z-index: 42; background: rgba(6, 12, 22, .92); display: grid; place-items: center; padding: 16px; animation: fade .2s; }
 .story-card { position: relative; width: min(960px, 100%, calc((100dvh - 230px) * 16 / 9 + 40px)); background: #fff8e8; color: #23324a; border-radius: 22px; padding: 16px 20px 18px; text-align: center; box-shadow: 0 20px 60px rgba(0, 0, 0, .5); }
 .story-card .modal-x { top: -14px; right: -14px; }
