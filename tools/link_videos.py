@@ -22,8 +22,10 @@ def scan(pdf, book_id):
     import numpy as np
     import pymupdf
     from pyzbar.pyzbar import ZBarSymbol, decode
+    from import_pdf import blank
     found = {}
-    doc = pymupdf.open(pdf)
+    whole = pymupdf.open(pdf)
+    doc = [page for page in whole if not blank(page)]   # numbered like the imported pages (empty pages left out)
     for i, page in enumerate(doc):
         for zoom in (2.5, 4):               # small codes only read at the higher zoom
             pix = page.get_pixmap(matrix=pymupdf.Matrix(zoom, zoom), alpha=False, colorspace=pymupdf.csGRAY)

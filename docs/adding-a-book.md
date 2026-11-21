@@ -24,7 +24,7 @@ The digital book mirrors the printed book. Add only what the page itself has:
 | Tracing | dotted letters, numbers and lines: "Show me how", then the child traces from the start dot and earns a star | `type: 'fill'`, marks with `glyph` + `ink` (`tools/ink.py`, `tools/urdu_alif.py`) | all books |
 | Colouring | crayons of the picture's real colours; a wrong colour says the right one | `fill.colours` from `books/colour-palettes.json`; part rules in `books/colour-regions.json` | all books |
 | Exercise questions | colour / write / match / choose on practice pages | `books/questions.js` (`templates/books/questions.js` has the helpers) | english3, maths3, maths5, urdu3 |
-| Checklists | the printed "I can ..." boxes become tick boxes | `books/checklists.js` (`tools/find_checklists.py`) | Play Group books |
+| Checklists | where the printed answer boxes are, for a generator that turns them into questions (not shown on its own) | `books/checklists.js` (`tools/find_checklists.py`) | maths5 (`templates/tools/make_maths5.py`) |
 | Letter lesson bar | a side button per letter or number: lesson page, its video, game and tracing | `src/englishLessons.js` (`LESSON_BOOKS`) | english3, english4, maths3, maths4, urdu3, urdu4, urdu5, computer0 |
 | Rhymes | a Rhymes button listing the printed rhymes | `src/data/bookRhymes.js` | english3, urdu3 |
 | Urdu books | right-to-left reading, Urdu prompts and colour names | `"rtl": true` in the book's `meta.json` | urdu3, urdu4, urdu5 |

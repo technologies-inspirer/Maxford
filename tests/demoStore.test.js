@@ -314,7 +314,7 @@ test('assignment edits require admin, validate selections, support unassigning a
   const storage = { getItem: key => values.get(key) || null, setItem: (key, value) => values.set(key, value) };
   const store = createDemoStore([], storage);
   loginAdmin(store);
-  const english = store.createSubject({ name: 'English', seriesId: 'maxford', classId: 'prep' });
+  const english = store.createSubject({ name: 'Art', seriesId: 'maxford', classId: 'prep' });
   store.signOut();
   const input = { seriesId: 'maxford', subjectId: english.id, classIds: ['prep', 'nursery', 'prep'] };
   assert.throws(() => store.assignSubjectClasses(input), /admin/);
@@ -336,8 +336,8 @@ test('assignment edits require admin, validate selections, support unassigning a
 });
 
 test('invalid stored assignments are ignored and failed saves leave defaults intact', () => {
-  // a saved subject (English, Prep) exists; the saved assignment refers to a missing one; writes fail
-  const saved = { [SUBJECT_STORAGE_KEY]: '[{"id":"subject-english","name":"English","classId":"prep","seriesId":"maxford"}]', [ASSIGNMENT_STORAGE_KEY]: '[{"subjectId":"missing","seriesId":"maxford","classIds":["prep"]}]' };
+  // a saved subject (Art, Prep) exists; the saved assignment refers to a missing one; writes fail
+  const saved = { [SUBJECT_STORAGE_KEY]: '[{"id":"subject-english","name":"Art","classId":"prep","seriesId":"maxford"}]', [ASSIGNMENT_STORAGE_KEY]: '[{"subjectId":"missing","seriesId":"maxford","classIds":["prep"]}]' };
   const store = createDemoStore([], { getItem: key => saved[key] || null, setItem: () => { throw Error('blocked'); } });
   assert.deepEqual(store.snapshot().subjectAssignments, []);
   loginAdmin(store);

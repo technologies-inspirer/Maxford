@@ -18,7 +18,9 @@ export const learningSubjects = [
 
 // Where each book shows in the library. Add one line per book, for example:
 //   'maxford-english-3': { classId: 'play-group', seriesId: 'maxford', subjectId: 'english' },
-export const learningBookMetadata = {};
+export const learningBookMetadata = {
+  'maxford-global-qaida-3-english': { classId: 'play-group', seriesId: 'maxford', subjectId: 'english' }
+};
 
 // Kept in the project but not shown in the reader's library. Remove an ID here to show that book again.
 export const hiddenFromLibrary = new Set();

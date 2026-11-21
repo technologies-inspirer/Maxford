@@ -1,6 +1,9 @@
 """Turn PDF books into page images the reader can show.
 
     python tools/import_pdf.py "C:/path/Book One.pdf" "C:/path/Book Two.pdf"
+    python tools/import_pdf.py "C:/path/Book.pdf" --id maxford-english-3 --title "Maxford English 3+"
+
+Empty pages the printer adds (no text, picture or drawing) are left out.
 
 For each PDF this writes books/<id>/p001.jpg ..., cover.jpg, text.json (the text
 blocks of every page, used to pre-fill the voice text in Publisher mode) and
@@ -35,12 +38,23 @@ def cover_colours(page):
     return hexc(0.85), hexc(0.5)
 
 
-def import_pdf(path):
-    title = clean_title(path)
-    book_id = re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
+def blank(page):
+    """A printer's empty page: no text, no picture and no drawing."""
+    return not page.get_text().strip() and not page.get_images() and not page.get_drawings()
+
+
+def import_pdf(path, book_id=None, title=None):
+    title = title or clean_title(path)
+    book_id = book_id or re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
     out = os.path.join(ROOT, book_id)
     os.makedirs(out, exist_ok=True)
-    doc = pymupdf.open(path)
+    whole = pymupdf.open(path)
+    keep = [i for i, page in enumerate(whole) if not blank(page)]
+    if len(keep) < len(whole):
+        print('  skipping empty PDF page(s): %s' % ', '.join(str(i + 1) for i in range(len(whole)) if i not in keep))
+    doc = pymupdf.open()
+    for i in keep:
+        doc.insert_pdf(whole, from_page=i, to_page=i)
     first = doc[0].rect
     text = []
     for i, page in enumerate(doc):
@@ -80,7 +94,16 @@ def rebuild_library():
 
 
 if __name__ == '__main__':
+    # python tools/import_pdf.py "Book.pdf" [--id maxford-english-3] [--title "Maxford English 3+"]
     os.makedirs(ROOT, exist_ok=True)
-    for pdf in sys.argv[1:]:
-        import_pdf(pdf)
+    args, opts = [], {}
+    rest = sys.argv[1:]
+    while rest:
+        arg = rest.pop(0)
+        if arg in ('--id', '--title'):
+            opts[arg[2:]] = rest.pop(0)
+        else:
+            args.append(arg)
+    for pdf in args:
+        import_pdf(pdf, opts.get('id') if len(args) == 1 else None, opts.get('title') if len(args) == 1 else None)
     rebuild_library()

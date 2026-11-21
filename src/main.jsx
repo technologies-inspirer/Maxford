@@ -15,6 +15,7 @@ root.render(<LoadingScreen />);
 async function startApp() {
   const minimumStartup = new Promise(resolve => setTimeout(resolve, 1000));   // the owl shows briefly, not for long
   await Promise.all([
+    import('../books/activities-maxford.js'),
     import('../books/game-crops.js'),
     import('../books/questions.js')
   ]);
