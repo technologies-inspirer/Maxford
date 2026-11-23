@@ -2432,9 +2432,12 @@ export function mountBookActivityApp(app, { intro = false, onPositionChange, lib
       picks.querySelectorAll('button').forEach((b, i) => b.classList.toggle('on', i === k));
     };
     if (vids.length > 1) vids.forEach((v, k) => {
-      // YouTube titles read "Class | Chapter | Introduction": the last part tells the videos apart.
-      const part = (v.title || '').split('|').pop().trim();
-      picks.append(el('button', { onclick: () => play(k) }, part && part.length <= 30 ? part : `Video ${k + 1}`));
+      // a video's own short name (v.label, from the publisher's list), or else its YouTube title's first part,
+      // which names the lesson ("Letter a Story for Kids | English Alphabet | Preschool & Homeschooling"), without
+      // "for Kids" and the channel's name
+      const first = (v.title || '').split('|').map(s => s.trim()).filter(s => s && !/preschool|homeschool/i.test(s))[0] || '';
+      const name = v.label || first.replace(/\s+for kids\b.*$/i, '').trim();
+      picks.append(el('button', { onclick: () => play(k) }, name && name.length <= 50 ? name : `Video ${k + 1}`));
     });
     play(0);
     const card = el('div', { class: 'modal-card video-card' },

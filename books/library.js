@@ -22,19 +22,23 @@ window.PDF_BOOKS = [
     "videos": [
      {
       "id": "2QoinivfMZw",
-      "title": "Letter a Story for Kids | English Alphabet | Preschool & Homeschooling"
+      "title": "Letter a Story for Kids | English Alphabet",
+      "label": "Story of Letter a"
      },
      {
       "id": "sUUFFx9T2U0",
-      "title": "Letter a Vocabulary for Kids | English Words | Preschool & Homeschooli"
+      "title": "Letter a Vocabulary for Kids | English Words",
+      "label": "Letter a Vocabulary"
      },
      {
       "id": "gZyccxXDZ5I",
-      "title": "Letter a Phonic Poem for Kids | Learn Phonics"
+      "title": "Letter a Phonic Poem for Kids | Learn Phonics",
+      "label": "Letter a Phonic Poem"
      },
      {
       "id": "kMvM2L0A_54",
-      "title": "Letter a Formation & Activities for Kids"
+      "title": "Letter a Formation & Activities for Kids",
+      "label": "Letter a Formation"
      }
     ],
     "title": "A (3 plus)"
@@ -50,19 +54,23 @@ window.PDF_BOOKS = [
     "videos": [
      {
       "id": "EepE6CZo0Uw",
-      "title": "Letter b Story for Kids | English Alphabet | Preschool & Homeschooling"
+      "title": "Letter b Story for Kids | English Alphabet",
+      "label": "Story of Letter b"
      },
      {
       "id": "q903jGrCyMU",
-      "title": "Letter b Vocabulary for Kids | English Words | Preschool & Homeschooli"
+      "title": "Letter b Vocabulary for Kids | English Words",
+      "label": "Letter b Vocabulary"
      },
      {
       "id": "i1isUxBFg8Q",
-      "title": "Letter b Phonic Poem for Kids | Learn Phonics | Preschool & Homeschool"
+      "title": "Letter b Phonic Poem for Kids | Learn Phonics",
+      "label": "Letter b Phonic Poem"
      },
      {
       "id": "ZSl_4NzB81E",
-      "title": "Letter b Formation & Activities for Kids | Preschool & Homeschooling"
+      "title": "Letter b Formation & Activities for Kids",
+      "label": "Letter b Formation"
      }
     ],
     "title": "B (3 plus)"
@@ -581,7 +589,8 @@ window.PDF_BOOKS = [
      },
      {
       "id": "6K6Dngyi2zg",
-      "title": "Khay (خ) Urdu Letter Recognition, Writing & Activities for Kids"
+      "title": "Khay (خ) Urdu Letter Recognition, Writing & Activities for Kids",
+      "label": "Khay (خ) Urdu Letter Recognition & Writing"
      }
     ],
     "title": ""

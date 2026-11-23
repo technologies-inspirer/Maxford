@@ -122,10 +122,14 @@ def rebuild_library():
                             continue
                         # a video already behind the QR keeps its place, but takes the title given here (for
                         # videos whose YouTube title names the wrong lesson)
-                        given = {v['id']: v['title'] for v in videos}
+                        # (and its short name for the player's button, 'label', when the publisher's list gives one)
+                        given = {v['id']: v for v in videos}
                         have = item.get('videos', [])
                         for v in have:
-                            v['title'] = given.get(v['id'], v['title'])
+                            g = given.get(v['id'], {})
+                            v['title'] = g.get('title', v['title'])
+                            if g.get('label'):
+                                v['label'] = g['label']
                         ids = {v['id'] for v in have}
                         item['videos'] = have + [v for v in videos if v['id'] not in ids]
             # only pages whose QR really leads to a video get a button
