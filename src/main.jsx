@@ -19,7 +19,8 @@ async function startApp() {
     import('../books/game-crops.js'),
     import('../books/questions.js'),
     import('../books/questions-maxford.js'),
-    import('../books/questions-maxford-maths.js')
+    import('../books/questions-maxford-maths.js'),
+    import('../books/questions-maxford-urdu.js')
   ]);
   const { App } = await import('./App.jsx');
   await minimumStartup;

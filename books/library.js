@@ -281,5 +281,193 @@ window.PDF_BOOKS = [
     "title": "Introduction to Number 4 — 22"
    }
   }
+ },
+ {
+  "id": "maxford-global-qaida-3-urdu",
+  "title": "Maxford Global Qaida 3+ Urdu",
+  "dir": "books/maxford-global-qaida-3-urdu",
+  "pages": 159,
+  "ratio": 0.7884,
+  "c1": "#c0bdb5",
+  "c2": "#716f6b",
+  "rtl": true,
+  "qr": {
+   "11": {
+    "url": "https://o2o.to/i/W9JOR0QE3IC2",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "y4RTAf_3eY8",
+      "title": "Alif (ا) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "GYidCcyksUk",
+      "title": "Alif (ا) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "_fwTyCNmx_0",
+      "title": "Alif (ا) Urdu Words for Kids"
+     },
+     {
+      "id": "TD30aoF0AfI",
+      "title": "Alif (ا) Urdu Letter Writing & Activities for Kids"
+     },
+     {
+      "id": "l6Ubhc01om8",
+      "title": "Alif (ا) Urdu Letter Teaching Guide for Teachers"
+     },
+     {
+      "id": "BaKg86FTcJQ",
+      "title": "Alif (ا) Urdu Letter Learning Guide for Parents"
+     }
+    ],
+    "title": "حرف ا"
+   },
+   "15": {
+    "url": "https://o2o.to/i/8T54VQBCE0DY",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "NueGWx0FrR4",
+      "title": "Alif Madd (آ) Story | Learn Urdu Alphabet for Kids"
+     },
+     {
+      "id": "QCU8WIBMhDo",
+      "title": "Alif Madd (آ) Poem | Urdu Alphabet Rhyme for Kids"
+     },
+     {
+      "id": "1l0mf58eNRQ",
+      "title": "Alif Madd (آ) Writing & Activities | Learn Urdu for Kids"
+     }
+    ],
+    "title": "حرف آ"
+   },
+   "20": {
+    "url": "https://o2o.to/i/UTY059MFHZOI",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "KOxcLTAw51A",
+      "title": "Bay (ب) Story | Learn Urdu Alphabet for Kids"
+     },
+     {
+      "id": "zFlx5LdWN3A",
+      "title": "Bay (ب) Phonic Poem | Urdu Alphabet Rhyme for Kids"
+     },
+     {
+      "id": "L0mGyQRnxjM",
+      "title": "Bay (ب) Writing & Activities | Learn Urdu for Kids"
+     }
+    ],
+    "title": "حرف ب"
+   },
+   "24": {
+    "url": "https://o2o.to/i/9FSY4APVIO5D",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "leulFD6Ok20",
+      "title": "Pay (پ) Urdu Story for Kids | Learn Urdu Alphabet"
+     },
+     {
+      "id": "goNvZRL2nbI",
+      "title": "Pay (پ) Phonic Poem | Urdu Rhymes for Kids"
+     },
+     {
+      "id": "Vr_7BwFo4X0",
+      "title": "Pay (پ) Words & Writing | Learn Urdu Letter Pay for Kids"
+     }
+    ],
+    "title": "حرف پ"
+   },
+   "27": {
+    "url": "https://o2o.to/i/W21QEMHRA8JX",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "ZH7oncasXdU",
+      "title": "Tay (ت) Urdu Letter Story for Kids"
+     },
+     {
+      "id": "nwQChjQ8GJI",
+      "title": "Tay (ت) Words & Writing Practice"
+     }
+    ],
+    "title": "حرف ت"
+   },
+   "30": {
+    "url": "https://o2o.to/i/FDBJA1SUM0XT",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "JZu8mJz3QlY",
+      "title": "Ttay (ٹ) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "SF3GJonD_Vg",
+      "title": "Ttay (ٹ) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "ZXfdxpzechw",
+      "title": "Ttay (ٹ) Urdu Words for Kids"
+     }
+    ],
+    "title": "حرف ٹ"
+   },
+   "33": {
+    "url": "https://o2o.to/i/VDKL513X8TGU",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "bU-dJPN8y10",
+      "title": "Say (ث) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "rD7casf28eo",
+      "title": "Say (ث) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "l3WOegu1vcc",
+      "title": "Say (ث) Urdu Words for Kids"
+     }
+    ],
+    "title": "حرف ث"
+   }
+  }
  }
 ];
