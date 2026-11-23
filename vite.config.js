@@ -7,7 +7,7 @@ import react from '@vitejs/plugin-react';
 const projectRoot = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  base: '/Maxford-Global/',
+  base: '/Maxford/',
   publicDir: false,
   server: { watch: { ignored: [resolve(projectRoot, 'index.html').replace(/\\/g, '/'), '**/site-assets/**'] } },
   optimizeDeps: { entries: ['app.html'], include: ['react', 'react-dom', 'react-dom/client', 'jszip', 'pdfjs-dist'] },
@@ -19,8 +19,8 @@ export default defineConfig({
         // main/index.html is the published build. Development uses the source HTML.
         server.middlewares.use((request, _response, next) => {
           const [path, query] = (request.url || '/').split('?');
-          if (['/', '/index.html', '/Maxford-Global/', '/Maxford-Global/index.html'].includes(path)) {
-            request.url = `${path.startsWith('/Maxford-Global/') ? '/Maxford-Global' : ''}/app.html${query ? `?${query}` : ''}`;
+          if (['/', '/index.html', '/Maxford/', '/Maxford/index.html'].includes(path)) {
+            request.url = `${path.startsWith('/Maxford/') ? '/Maxford' : ''}/app.html${query ? `?${query}` : ''}`;
           }
           next();
         });

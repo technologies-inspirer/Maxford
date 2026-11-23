@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const html = readFileSync(resolve(root, 'index.html'), 'utf8');
 assert.doesNotMatch(html, /%BASE_URL%|src\/main\.jsx/);
-assert.match(html, /\/Maxford-Global\/site-assets\//);
+assert.match(html, /\/Maxford\/site-assets\//);
 assert.equal(html, readFileSync(resolve(root, 'dist/index.html'), 'utf8'), 'Run npm run prepare:pages to publish the current build.');
 assert.ok(existsSync(resolve(root, '.nojekyll')));
 const built = readdirSync(resolve(root, 'dist/site-assets')).sort();

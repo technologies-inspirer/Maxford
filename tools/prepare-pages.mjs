@@ -7,7 +7,7 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const output = resolve(root, 'dist');
 const publishedAssets = resolve(root, 'site-assets');
 const html = readFileSync(resolve(output, 'index.html'), 'utf8');
-assert.match(html, /\/Maxford-Global\/site-assets\//);
+assert.match(html, /\/Maxford\/site-assets\//);
 assert.doesNotMatch(html, /%BASE_URL%|src\/main\.jsx/);
 assert.equal(publishedAssets, resolve(root) + sep + 'site-assets');
 

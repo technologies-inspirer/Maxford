@@ -17,7 +17,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173/Maxford-Global/ (the URL Vite prints). On Windows you can double-click `start.bat`.
+Open http://localhost:5173/Maxford/ (the URL Vite prints). On Windows you can double-click `start.bat`.
 If PowerShell blocks `npm.ps1`, use `npm.cmd`.
 
 Demo sign in:
@@ -34,7 +34,7 @@ npm run check          # every book's pages, activities, QR links and assets are
 npm run check:pages    # the published index.html is the current build
 ```
 
-The site is built for the `/Maxford-Global/` path, for a GitHub Pages repository named `Maxford-Global`.
+The site is built for the `/Maxford/` path, for the GitHub Pages repository `Maxford` (https://github.com/technologies-inspirer/Maxford).
 To use another repository name, change `base` in `vite.config.js` and the same path in `tools/prepare-pages.mjs`,
 `tools/check-pages.mjs` and `tools/check-migration.mjs`.
 

@@ -1,6 +1,6 @@
 // Run Vite and Chrome with --remote-debugging-port=9222 before this browser check.
 import { mkdir, writeFile } from 'node:fs/promises';
-const base = process.env.RESPONSIVE_URL || 'http://127.0.0.1:5173/Maxford-Global/';
+const base = process.env.RESPONSIVE_URL || 'http://127.0.0.1:5173/Maxford/';
 const targets = await (await fetch('http://127.0.0.1:9222/json')).json();
 const target = targets.find(item => item.type === 'page');
 if (!target) throw new Error('No Chrome page available on port 9222.');
