@@ -654,6 +654,13 @@ img.ink { pointer-events: none; }
 .choose-hit { position: absolute; border: 0; background: transparent; border-radius: 50%; cursor: pointer; padding: 0; z-index: 2; }
 .choose-hit.ringed { box-shadow: 0 0 0 4px #2a9d8f; background: #2a9d8f1a; }
 .choose-hit.wrong { box-shadow: 0 0 0 4px #e63946; animation: shake .4s; }
+/* "Tick (✓) ..." and "Cross (✗) ..." exercises put that mark on the answer instead of a ring */
+.choose-hit.ringed.mark-tick, .choose-hit.ringed.mark-cross { box-shadow: none; background: transparent; }
+.choose-hit.mark-tick.ringed::after, .choose-hit.mark-cross.ringed::after { position: absolute; inset: 0; display: grid; place-items: center;
+  font: 900 min(9vmin, 64px)/1 system-ui, sans-serif; animation: mark-pop .35s cubic-bezier(.2, .9, .3, 1.4); }
+.choose-hit.mark-tick.ringed::after { content: '✓'; color: #2a9d8f; }
+.choose-hit.mark-cross.ringed::after { content: '✗'; color: #e63946; }
+@keyframes mark-pop { from { transform: scale(.3); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
 .q-swatches { position: absolute; z-index: 2; display: flex; gap: 3px; padding: 3px; border-radius: 99px; background: #fffc; box-shadow: 0 1px 4px #0003; pointer-events: none; }
 .q-swatches .q-swatch { position: static; margin: 0; width: 18px; height: 18px; border-width: 2px; }

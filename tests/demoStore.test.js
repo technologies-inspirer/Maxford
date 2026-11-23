@@ -40,7 +40,7 @@ test('school class selections restrict only that school and retain independent b
   // Books not yet placed in a class (learningCatalog.js) are visible only to schools without class selections.
   const realBooks = ['book-one', 'book-two', 'book-three'].map(id => ({ id }));
   const store = createDemoStore(realBooks.map(book => book.id)); loginAdmin(store);
-  const maths = store.createSubject({ name: 'Maths', classId: 'play-group', seriesId: 'maxford' });
+  const maths = store.createSubject({ name: 'Science', classId: 'play-group', seriesId: 'maxford' });   // a subject no book has yet
   const [id, other] = store.importSchools([newUser({ allBooks: true }), newUser({ email: 'another@example.test', allBooks: true })]);
   const school = () => store.snapshot().accounts.find(item => item.id === id);
   assert.equal(availableBooks(school(), realBooks).length, 3, 'Existing schools retain their library until selections are saved');

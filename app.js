@@ -374,14 +374,19 @@ export function mountBookActivityApp(app, { intro = false, onPositionChange, lib
       parts.push(said);
     } else if (q.kind === 'choose') {
       // circle the right one: a tap on a right answer rings it; all of them rung finishes the question
-      const right = q.options.filter(o => o.correct).length;
+      // q.counts {row: n}: "cross out 7 of these": any n of that row's pictures, no more (each option names its row)
+      const right = q.counts ? Object.values(q.counts).reduce((a, n) => a + n, 0) : q.options.filter(o => o.correct).length;
+      const taken = {};
       let found = 0;
       q.options.forEach(o => {
-        const b = el('button', { class: 'choose-hit', 'aria-label': o.label || 'answer',
+        // q.mark 'tick' or 'cross': the printed task asks for that mark, so a right answer shows it instead of a ring
+        const b = el('button', { class: `choose-hit${q.mark ? ' mark-' + q.mark : ''}`, 'aria-label': o.label || 'answer',
           style: `${at(o.x, o.y)};width:${o.w / c.w * 100}%;height:${o.h / c.h * 100}%` });
         b.addEventListener('click', () => {
           if (b.classList.contains('ringed')) return;
-          if (o.correct) {
+          const full = q.counts && (taken[o.group] || 0) >= q.counts[o.group];
+          if (o.correct && !full) {
+            if (q.counts) taken[o.group] = (taken[o.group] || 0) + 1;
             b.classList.add('ringed'); found++;
             if (found === right) { chime('done'); feedback(ur ? ALL_DONE.ur : ALL_DONE.en); speak('', T.found, null, el('div')); }
             else { chime('good'); feedback(praise()); }

@@ -89,8 +89,9 @@ test('every printed exercise is a question at its place on the page', () => {
 });
 
 test('printed QR codes open the publisher\'s videos, and game fixes point at the games', () => {
-  assert.deepEqual(Object.keys(book.qr), ['11']);
-  assert.equal(book.qr[11].videos[0].id, 'fSS9i-9nBeI');
+  assert.deepEqual(Object.keys(book.qr), ['11', '15']);   // the publisher's videos behind the printed codes (more are added over time)
+  assert.ok(book.qr[11].videos.length && book.qr[11].videos.every(v => /^[\w-]{11}$/.test(v.id) && /letter a/i.test(v.title)), 'page 11: letter a videos');
+  assert.ok(book.qr[15].videos.length && book.qr[15].videos.every(v => /^[\w-]{11}$/.test(v.id) && /letter b/i.test(v.title)), 'page 15: letter b videos');
   assert.equal(Object.keys(GAME_FIXES[ID]).length, 26);
   for (const [page, games] of Object.entries(GAME_FIXES[ID])) for (const index of Object.keys(games)) assert.equal(list(page)[index]?.type, 'game', `page ${page}`);
 });

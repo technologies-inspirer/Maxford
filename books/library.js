@@ -19,11 +19,266 @@ window.PDF_BOOKS = [
     ],
     "videos": [
      {
-      "id": "fSS9i-9nBeI",
-      "title": "English 3+ Kids Learning | Letter A | Alphabet Recognition & Phonics |"
+      "id": "2QoinivfMZw",
+      "title": "Letter a Story for Kids | English Alphabet | Preschool & Homeschooling"
+     },
+     {
+      "id": "sUUFFx9T2U0",
+      "title": "Letter a Vocabulary for Kids | English Words | Preschool & Homeschooli"
+     },
+     {
+      "id": "gZyccxXDZ5I",
+      "title": "Letter a Vocabulary for Kids | English Words | Preschool & Homeschooli"
+     },
+     {
+      "id": "kMvM2L0A_54",
+      "title": "Letter a Phonic Poem for Kids | Learn Phonics | Preschool & Homeschool"
      }
     ],
     "title": "A (3 plus)"
+   },
+   "15": {
+    "url": "https://o2o.to/i/M75EYVZFLG6R",
+    "box": [
+     86.1,
+     10.3,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "EepE6CZo0Uw",
+      "title": "Letter b Story for Kids | English Alphabet | Preschool & Homeschooling"
+     },
+     {
+      "id": "q903jGrCyMU",
+      "title": "Letter b Vocabulary for Kids | English Words | Preschool & Homeschooli"
+     },
+     {
+      "id": "i1isUxBFg8Q",
+      "title": "Letter b Phonic Poem for Kids | Learn Phonics | Preschool & Homeschool"
+     },
+     {
+      "id": "ZSl_4NzB81E",
+      "title": "Letter b Formation & Activities for Kids | Preschool & Homeschooling"
+     }
+    ],
+    "title": "B (3 plus)"
+   }
+  }
+ },
+ {
+  "id": "maxford-global-qaida-3-maths",
+  "title": "Maxford Global Qaida 3+ Maths",
+  "dir": "books/maxford-global-qaida-3-maths",
+  "pages": 111,
+  "ratio": 0.7884,
+  "c1": "#adbec6",
+  "c2": "#667075",
+  "qr": {
+   "7": {
+    "url": "https://o2o.to/i/QNJO6UKAI5B9",
+    "box": [
+     84.6,
+     10.7,
+     6.4,
+     5.0
+    ],
+    "videos": [
+     {
+      "id": "gsRvfkUVJh0",
+      "title": "Big and Small Story for Kids | Size Comparison | Preschool & Homeschoo"
+     },
+     {
+      "id": "pWzI4e_rwvg",
+      "title": "Big and Small Poem for Kids | Preschool Maths Rhyme | Preschool & Home"
+     },
+     {
+      "id": "1Ld0se0dxdo",
+      "title": "Big and Small Comparison for Kids | Preschool Maths | Preschool & Home"
+     },
+     {
+      "id": "aCAnmH8gJb8",
+      "title": "Big and Small Teacher's Guide | Preschool Maths | Preschool & Homescho"
+     },
+     {
+      "id": "ZUExI2nxQag",
+      "title": "Big and Small Parent's Guide | Preschool Maths | Preschool & Homeschoo"
+     }
+    ],
+    "title": "Big/Small — 8"
+   },
+   "8": {
+    "url": "https://o2o.to/i/GDXZ4BH8SVUE",
+    "box": [
+     85.6,
+     12.1,
+     6.3,
+     5.0
+    ],
+    "videos": [
+     {
+      "id": "_FqPrFSDn84",
+      "title": "More and Less Story for Kids | Preschool Maths | Preschool & Homeschoo"
+     },
+     {
+      "id": "n_WuuHaVhRc",
+      "title": "More and Less Lesson for Kids | Preschool Maths | Preschool & Homescho"
+     },
+     {
+      "id": "F9GX4dJoo5c",
+      "title": "More and Less Teacher's Guide | Preschool Maths | Preschool & Homescho"
+     },
+     {
+      "id": "4FSQvN0FED0",
+      "title": "More and Less Parent's Guide | Preschool Maths | Preschool & Homeschoo"
+     }
+    ],
+    "title": "More/Less — 9"
+   },
+   "9": {
+    "url": "https://o2o.to/i/D7OSJ3QR6PC0",
+    "box": [
+     85.1,
+     10.3,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "DZhn3Y_JZyw",
+      "title": "Number 1 Story for Kids | Learn Counting 1 | Preschool & Homeschooling"
+     },
+     {
+      "id": "IwQN-4iHFI0",
+      "title": "Number 1 Poem for Kids | Counting Rhyme | Preschool & Homeschooling"
+     },
+     {
+      "id": "a4MY5tT6mdk",
+      "title": "Number 1 Poem for Kids | Counting Rhyme | Preschool & Homeschooling"
+     },
+     {
+      "id": "2LFMtda20BY",
+      "title": "Number 1 Formation for Kids | Learn to Write 1 | Preschool & Homeschoo"
+     },
+     {
+      "id": "Lj-9_dntr5M",
+      "title": "Number 1 Teacher's Guide | How to Teach Number 1 | Preschool & Homesch"
+     },
+     {
+      "id": "px_SDCvJ7Ow",
+      "title": "Number 1 Parent's Guide | How to Teach Number 1 | Preschool & Homescho"
+     }
+    ],
+    "title": "Introduction to Number 1 — 10"
+   },
+   "13": {
+    "url": "https://o2o.to/i/AY6O28V7GNDL",
+    "box": [
+     85.1,
+     10.3,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "ongG8uqP4Oc",
+      "title": "Number 2 Story for Kids | Learn Counting Two | Preschool & Homeschooli"
+     },
+     {
+      "id": "TxtclTnri4I",
+      "title": "Number 2 Poem for Kids | Counting Rhyme | Preschool & Homeschooling"
+     },
+     {
+      "id": "3oZVmbdUDTI",
+      "title": "Two objectNumber 2 Objects for Kids | Learn Counting Two | Preschool &"
+     },
+     {
+      "id": "7LyQi9Aa7mQ",
+      "title": "Number 2 Formation for Kids | Learn to Write 2 | Preschool & Homeschoo"
+     },
+     {
+      "id": "Yld-ok_yytY",
+      "title": "Number 1 Teacher's Guide | How to Teach Number 1 | Preschool & Homesch"
+     },
+     {
+      "id": "TJ7YvR0cvYc",
+      "title": "Number 2 Parent's Guide | How to Teach Number 2 | Preschool & Homescho"
+     }
+    ],
+    "title": "Introduction to Number 2 — 14"
+   },
+   "17": {
+    "url": "https://o2o.to/i/7EHND35Q8I0T",
+    "box": [
+     85.1,
+     10.3,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "WtVwkgEfNx0",
+      "title": "Number 3 Story for Kids | Learn Counting Three | Preschool & Homeschoo"
+     },
+     {
+      "id": "xkv739Pr7Ls",
+      "title": "Number 3 Poem for Kids | Counting Rhyme | Preschool & Homeschooling"
+     },
+     {
+      "id": "U0GnLtdF5qc",
+      "title": "Number 3 Objects for Kids | Learn Counting Three | Preschool & Homesch"
+     },
+     {
+      "id": "RHuWOwz6s-o",
+      "title": "Number 3 Formation for Kids | Learn to Write 3 | Preschool & Homeschoo"
+     },
+     {
+      "id": "LbT2yUdNkfc",
+      "title": "Number 3 Teacher's Guide | How to Teach Number 3 | Preschool & Homesch"
+     },
+     {
+      "id": "X-fttcJUTNQ",
+      "title": "Number 3 Parent's Guide | How to Teach Number 3 | Preschool & Homescho"
+     }
+    ],
+    "title": "Introduction to Number 3 — 18"
+   },
+   "21": {
+    "url": "https://o2o.to/i/JGBEYN0DUQWH",
+    "box": [
+     85.1,
+     10.3,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "hERhywD_eD0",
+      "title": "Number 4 Story for Kids | Learn Counting Four | Preschool & Homeschool"
+     },
+     {
+      "id": "1ZZha6w8ih4",
+      "title": "Number 4 Poem for Kids | Counting Rhyme | Preschool & Homeschooling"
+     },
+     {
+      "id": "FkeKgfINH98",
+      "title": "Number 4 Objects for Kids | Learn Counting Four | Preschool & Homescho"
+     },
+     {
+      "id": "hsU_Y92uU-Y",
+      "title": "Number 4 Formation for Kids | Learn to Write 4 | Preschool & Homeschoo"
+     },
+     {
+      "id": "bodPj85BZDk",
+      "title": "Number 4 Teacher's Guide | How to Teach Number 4 | Preschool & Homesch"
+     },
+     {
+      "id": "o6HzHlWOM1A",
+      "title": "Number 4 Parent's Guide | How to Teach Number 4 | Preschool & Homescho"
+     }
+    ],
+    "title": "Introduction to Number 4 — 22"
    }
   }
  }
