@@ -5,8 +5,9 @@ import { ResourceOptions } from './ResourceOptions.jsx';
 export function DemoNotice() {
   return <div className="demo-notice"><span className="demo-dot" />Frontend demo only — real authentication is not connected. <span>Account changes reset on refresh. Added series and subjects stay in this browser. UI access checks do not provide real security.</span></div>;
 }
-export function Logo({ href = '#/' }) {
-  return <a className="portal-logo" href={href} aria-label="Maxford Global home"><img src="assets/logo-white.png" alt="Maxford Global" /></a>;
+// colour: the full-colour logo, for light pages (the sign-in page); otherwise the white one, which dark sidebars use
+export function Logo({ href = '#/', colour = false }) {
+  return <a className={`portal-logo${colour ? ' portal-logo-colour' : ''}`} href={href} aria-label="Maxford Global home"><img src={colour ? 'assets/maxford-logo-wide.png' : 'assets/logo-white.png'} alt="Maxford Global Learning" /></a>;
 }
 export function SignOut() {
   const { store } = useDemo();

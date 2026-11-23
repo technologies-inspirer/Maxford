@@ -1,10 +1,11 @@
 import storybook from '../../assets/user-dashboard-storybook.png';
 import maxford from '../../assets/maxford-dashboard.jpg';
+import login from '../../assets/maxford-login.jpg';
 
 // Decorative crops of two reference pictures. Each shows only artwork; all labels and links stay live HTML.
 // assets/maxford-dashboard.jpg (1541 x 672) is the Maxford dashboard design; the older storybook picture
 // still gives the landscape along the bottom and the Paper Maker notebook.
-const pictures = { maxford: [maxford, 1541, 672], storybook: [storybook, 1672, 941] };
+const pictures = { maxford: [maxford, 1541, 672], storybook: [storybook, 1672, 941], login: [login, 1551, 672] };
 const regions = {
   welcome: ['maxford', '895 82 528 182'],
   library: ['maxford', '865 284 485 122'],
@@ -12,7 +13,14 @@ const regions = {
   'paper-maker': ['storybook', '704 715 125 105'],
   'resources-app': ['maxford', '998 508 96 124'],
   'school-management': ['maxford', '1290 548 138 86'],
-  landscape: ['storybook', '0 837 1672 104']
+  landscape: ['storybook', '0 837 1672 104'],
+  // the sign-in page design (assets/maxford-login.jpg)
+  'login-books': ['login', '222 362 486 250'],
+  'login-star': ['login', '1360 50 115 110'],
+  'login-butterfly': ['login', '882 126 72 70'],
+  'login-butterfly-2': ['login', '1450 540 72 74'],
+  'login-cloud': ['login', '832 192 108 50'],
+  'login-cloud-2': ['login', '0 540 160 132']
 };
 
 export function DashboardArtwork({ variant }) {
