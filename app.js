@@ -266,9 +266,9 @@ export function mountBookActivityApp(app, { intro = false, onPositionChange, lib
   const QUESTION_LABEL_UR = { colour: 'رنگ بھریں', write: 'لکھیں', match: 'ملائیں', choose: 'دائرہ' };
   // what the question window tells the child, in the book's language
   const QSAY = {
-    en: { again: 'Try again!', lines: 'Write on the lines!', inside: 'Colour inside a picture!', matched: 'Well done! You matched them all.',
+    en: { again: 'Try again!', lines: 'Write on the lines!', trace: what => `Trace on the ${what}!`, inside: 'Colour inside a picture!', matched: 'Well done! You matched them all.',
       found: 'Well done! You found them all.', use: (names, name) => [`Use ${names} for the ${name}!`, `Use ${names} for the ${name}. Look at the small picture.`], or: ' or ', like: 'Like this' },
-    ur: { again: 'دوبارہ کوشش کریں!', lines: 'لکیروں کے اندر لکھیں!', inside: 'تصویر کے اندر رنگ بھریں!', matched: 'شاباش! آپ نے سب ملا لیا۔',
+    ur: { again: 'دوبارہ کوشش کریں!', lines: 'لکیروں کے اندر لکھیں!', trace: () => 'حرف کے اوپر لکھیں!', inside: 'تصویر کے اندر رنگ بھریں!', matched: 'شاباش! آپ نے سب ملا لیا۔',
       found: 'شاباش! آپ نے سب ڈھونڈ لیا۔', use: names => [`${names} رنگ لگائیں!`, `یہاں ${names} رنگ لگائیں۔ چھوٹی تصویر دیکھیں۔`], or: ' یا ', like: 'ایسے' }
   };
   function questionButton(book, idx, q, live) {
@@ -411,15 +411,59 @@ export function mountBookActivityApp(app, { intro = false, onPositionChange, lib
       };
       // Writing lines: the mask the pencil stays inside. A line box drawn over the printed picture beside it is
       // narrowed to the ruled part (columns that are mostly picture are left out), once the page picture is read.
+      // A question that traces the big printed letters or numbers themselves (q.trace: 'letter' or 'number') is
+      // written on the letter, not on lines: the pencil marks only the letter's own colour in each box (and the white
+      // dashed guide inside it), a little past its edge, and nothing on the paper round it.
       const limit = write && q.lines?.length ? document.createElement('canvas') : null;
+      const traceMask = (lx, r0) => {
+        const hp = fullPixelsOf(pic);
+        if (!hp) return;
+        const W = limit.width, H = limit.height, pad = 2.5;   // the measured box may cut a letter's tip
+        const X0 = Math.max(0, Math.floor((r0.x - pad - c.x) / c.w * W)), X1 = Math.min(W, Math.ceil((r0.x + r0.w + pad - c.x) / c.w * W));
+        const Y0 = Math.max(0, Math.floor((r0.y - pad - c.y) / c.h * H)), Y1 = Math.min(H, Math.ceil((r0.y + r0.h + pad - c.y) / c.h * H));
+        const bw = X1 - X0, bh = Y1 - Y0;
+        if (bw <= 0 || bh <= 0) return;
+        let on = new Uint8Array(bw * bh);
+        for (let y = 0; y < bh; y++) for (let x = 0; x < bw; x++) {
+          const px = Math.min(hp.w - 1, Math.floor((c.x + (X0 + x + .5) / W * c.w) / 100 * hp.w));
+          const py = Math.min(hp.h - 1, Math.floor((c.y + (Y0 + y + .5) / H * c.h) / 100 * hp.h));
+          const i = (py * hp.w + px) * 4, R = hp.data[i], G = hp.data[i + 1], B = hp.data[i + 2];
+          const mx = Math.max(R, G, B), mn = Math.min(R, G, B);
+          if (mx - mn > 80 || mx < 110) on[y * bw + x] = 1;   // the letter's strong colour, not the pale paper behind it
+        }
+        // close it: grow, then shrink back as far, so the white dashes and arrows inside the letter are filled while
+        // its outer edge stays where it is printed; then one pixel more, so the colour meets the edge cleanly
+        const step = (src, grow) => {
+          const out = src.slice();
+          for (let k = 0; k < src.length; k++) {
+            if (grow ? !src[k] : src[k]) continue;
+            const x = k % bw;
+            const n = [x > 0 ? k - 1 : -1, x < bw - 1 ? k + 1 : -1, k >= bw ? k - bw : -1, k < bw * (bh - 1) ? k + bw : -1];
+            if (grow) { if (n.some(j => j >= 0 && src[j])) out[k] = 1; } else if (n.some(j => j < 0 || !src[j])) out[k] = 0;
+          }
+          return out;
+        };
+        const D = Math.max(4, Math.round(W / 150));
+        for (let pass = 0; pass < D; pass++) on = step(on, true);
+        for (let pass = 0; pass < D; pass++) on = step(on, false);
+        on = step(on, true);
+        const img = lx.createImageData(bw, bh);
+        let area = 0;
+        for (let k = 0; k < on.length; k++) if (on[k]) { img.data[k * 4 + 3] = 255; area++; }
+        lx.putImageData(img, X0, Y0);
+        traced.push({ X0, Y0, bw, bh, on, area, done: false });
+      };
+      const traced = [];   // each traced letter: its mask on the canvas, and whether it is coloured in yet
       if (limit) {
         limit.width = Math.round(c.w * 12); limit.height = Math.round(c.h * 12 / ratio);
         const draw = () => {
           const lx = limit.getContext('2d', { willReadFrequently: true }), px = pixelsOf(pic);
           lx.clearRect(0, 0, limit.width, limit.height); lx.fillStyle = '#000';
+          traced.length = 0;
           scene.querySelectorAll('.q-line').forEach(n => n.remove());
           q.lines.forEach(r0 => {
             let r = { ...r0 };
+            if (q.trace) { traceMask(lx, r0); return; }
             if (px) {
               const col = x => {   // share of a column of the box that is printed picture, not paper or a ruled line
                 const cx = Math.round(x / 100 * px.w), y0 = Math.round(r0.y / 100 * px.h), y1 = Math.round((r0.y + r0.h) / 100 * px.h);
@@ -559,11 +603,29 @@ export function mountBookActivityApp(app, { intro = false, onPositionChange, lib
         return null;
       };
       const names = list => list.map(colour => colourName(colour)[ur ? 'ur' : 'en']).join(T.or);
-      const surface = write ? { crop: c, limit, outside: () => tell(T.lines) }
+      // Tracing: going off the letter is not scolded (only the part on the letter shows anyway); a letter coloured in
+      // nearly all over is praised, and all of them together is the end of the exercise.
+      const checkTraced = () => {
+        if (!traced.length) return;
+        const cx2 = canvas.getContext('2d');
+        let fresh = false;
+        for (const t of traced) {
+          if (t.done || !t.area) continue;
+          const d = cx2.getImageData(t.X0, t.Y0, t.bw, t.bh).data;
+          let inked = 0;
+          for (let k = 0; k < t.on.length; k++) if (t.on[k] && d[k * 4 + 3] > 0) inked++;
+          if (inked / t.area >= 0.75) { t.done = true; fresh = true; }
+        }
+        if (!fresh) return;
+        if (traced.every(t => t.done || !t.area)) { chime('done'); feedback(ur ? ALL_DONE.ur : ALL_DONE.en); }
+        else { chime('good'); feedback(praise()); }
+      };
+      const surface = write ? { crop: c, limit, loose: !!q.trace, after: q.trace ? checkTraced : null, outside: q.trace ? null : () => tell(T.lines) }
         : partsOf.length ? { img: pic, crop: c, pick, miss: () => tell(T.inside),
           wrongAll: (allowed, name) => tell(...T.use(names(allowed), name)) }
         : { img: pic, crop: c };
-      const canvasFor = () => inkCanvas(book, { w: c.w, h: c.h }, key, null, surface);
+      // (a traced letter shows the crayon's own colour, laid over the printed letter, not blended into it)
+      const canvasFor = () => { const cv = inkCanvas(book, { w: c.w, h: c.h }, key, null, surface); if (q.trace) cv.classList.add('trace'); return cv; };
       let canvas = canvasFor();
       scene.append(canvas);
       // where to start: a pencil bobs there until the child starts
@@ -573,13 +635,15 @@ export function mountBookActivityApp(app, { intro = false, onPositionChange, lib
         scene.addEventListener('pointerdown', () => hint.remove(), { once: true });
       }
       // only the colours this question needs: black to write with, or the colours of its pictures
-      const needed = write ? ['#222222'] : [...new Set(partsOf.flatMap(p => [...p.colours, ...(p.seeds || []).map(sd => sd.colour)]))];
-      const tools = drawTools(() => { delete drawings[key]; const fresh = canvasFor(); canvas.replaceWith(fresh); canvas = fresh; },
+      // (tracing a big letter: bright crayons, yellow first, which shows on every letter's colour)
+      const needed = write ? (q.trace ? ['#ffd60a', '#ff4d6d', '#4cc9f0', '#52b788', '#9b5de5', '#222222'] : ['#222222']) : [...new Set(partsOf.flatMap(p => [...p.colours, ...(p.seeds || []).map(sd => sd.colour)]))];
+      const tools = drawTools(() => { delete drawings[key]; const fresh = canvasFor(); canvas.replaceWith(fresh); canvas = fresh; traced.forEach(t => { t.done = false; }); },
         needed.length ? needed : ['#222222', '#e63946', '#f4a261', '#f9c74f', '#43aa8b', '#4aa3df', '#7b5ea7', '#ff8fab', '#8d5524']);
       tools.hidden = false;
       if (ur) { tools.dir = 'rtl'; tools.querySelector('.tools-lbl').textContent = write ? 'پنسل' : 'رنگ'; tools.querySelectorAll('.txt').forEach((b, i) => { b.textContent = i ? 'مٹائیں سب' : 'ربڑ'; }); }
-      // writing is the thin black pencil, colouring a broad colour
-      if (write) { brush.color = '#222222'; brush.size = 7; } else { brush.color = needed[0] || '#e63946'; brush.size = SIZES.at(-1)[0]; }
+      // writing is the thin black pencil, colouring a broad colour; tracing a big printed letter is a thick crayon about
+      // as wide as the letter's band (what falls off the letter does not show)
+      if (write) { brush.color = needed[0]; brush.size = q.trace ? 30 : 7; } else { brush.color = needed[0] || '#e63946'; brush.size = SIZES.at(-1)[0]; }
       brush.erase = false; tools.sync();
       // small coloured pictures from the book show how each should look: q.samples (words of the book's own Play
       // games or explicit { page, x, y, w, h } crops) or q.sample (one crop or { word }).
@@ -1282,13 +1346,15 @@ export function mountBookActivityApp(app, { intro = false, onPositionChange, lib
       inside = null;
       if (own) { own = false; watch.up(c); }
       drawings[key] = c.toDataURL();
+      page?.after?.();
     };
     c.addEventListener('pointerdown', e => {
       if (editMode) return;
       e.preventDefault();
       const p = pos(e), mode = watch ? watch.down(p, c, brush.erase) : 'free';
       if (mode === 'block') return;
-      if (page?.limit && !brush.erase && !limitAt(p)) { page.outside?.(p); return; }
+      // (page.loose: a stroke begun off the letter being traced still goes on; only its part on the letter shows)
+      if (page?.limit && !brush.erase && !limitAt(p)) { page.outside?.(p); if (!page.loose) return; }
       let area;
       if (page?.pick && !brush.erase) {
         // an exercise question's parts: the whole part, in one of its own colours

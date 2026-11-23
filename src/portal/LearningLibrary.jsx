@@ -4,9 +4,10 @@ import { useDemo } from './DemoContext.jsx';
 import { BookTile } from './BookCollection.jsx';
 import { EmptyState } from './Shared.jsx';
 import { LibraryBookIcon } from './LibraryIcons.jsx';
-import { LearningIllustration } from './LearningIllustration.jsx';
-import { LearningLandscape, LearningScenery } from './LearningScenery.jsx';
-import classSelectionTemplate from '../../assets/class-selection-company-books.jpeg';
+import { LearningScenery } from './LearningScenery.jsx';
+import classSelectionTemplate from '../../assets/maxford-classes.jpg';
+import maxfordMark from '../../assets/maxford-mark.png';
+import { DashboardArtwork } from './DashboardArtwork.jsx';
 import subjectSelectionTemplate from '../../assets/subject-selection-company-books.jpeg';
 import subjectSelectionNursery from '../../assets/subject-selection-company-books-nursery.jpeg';
 import subjectSelectionPrep from '../../assets/subject-selection-company-books-prep.jpeg';
@@ -50,15 +51,22 @@ export function LearningLibrary({ segments = [], onBookOpen }) {
 
   return (
     <div className={`learning-library ${step === 0 ? 'library-class-selection' : step === 1 ? 'library-subject-selection' : 'library-open-selection'}`} style={{ '--class-template': `url("${classSelectionTemplate}")`, '--subject-template': `url("${subjectArtByClass[selectedClass?.id]?.subjects || subjectSelectionTemplate}")`, '--maths-template': `url("${subjectArtByClass[selectedClass?.id]?.maths || mathsSelectionTemplate}")`, '--computer-cover': `url("${subjectArtByClass[selectedClass?.id]?.computer || computerBookCover}")`, '--social-template': `url("${subjectArtByClass[selectedClass?.id]?.social || subjectSelectionTemplate}")`, '--science-template': `url("${subjectArtByClass[selectedClass?.id]?.science || subjectSelectionTemplate}")`, '--islamiat-template': `url("${subjectArtByClass[selectedClass?.id]?.islamiat || subjectSelectionTemplate}")` }}>
-      <LearningScenery />
+      {step === 0 ? (
+        <div className="library-class-scenery" aria-hidden="true">
+          <DashboardArtwork variant="classes-butterfly-left" />
+          <DashboardArtwork variant="classes-butterfly-right" />
+        </div>
+      ) : <LearningScenery />}
       <div className="library-navigation"><a className="library-back-link" href={backHref}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m10 5-7 7 7 7M3 12h18" /></svg><span>{step === 0 ? 'Back to dashboard' : step === 1 ? 'Back to classes' : 'Back to subjects'}</span></a></div>
       <header className="library-heading portal-panel">
-        <span className="library-heading-icon"><LibraryBookIcon /></span>
+        <span className="library-heading-icon library-heading-mark">
+          {step === 0 ? <DashboardArtwork variant="classes-mark" /> : <img src={maxfordMark} alt="" width="256" height="114" />}
+        </span>
         <div>
           <h1 ref={titleRef} tabIndex="-1">Explore Books</h1>
           {selectedClass && <p>{selectedClass.name}{selectedSubject ? ` / ${selectedSubject.name}` : ''}</p>}
         </div>
-        <LearningIllustration />
+        <DashboardArtwork variant="classes-top" />
       </header>
       <nav className="library-progress portal-panel" aria-label="Book selection progress" style={{ '--step-progress': `${step * 50}%` }}>
         <div className="library-progress-summary"><span>Your reading journey</span><span>Step {step + 1} of {steps.length}</span></div>
@@ -98,7 +106,7 @@ export function LearningLibrary({ segments = [], onBookOpen }) {
           )}
         </>
       )}
-      <LearningLandscape />
+      <DashboardArtwork variant="classes-ground" />
     </div>
   );
 }

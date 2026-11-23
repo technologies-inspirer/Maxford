@@ -11,6 +11,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 # Image numbers, not the often different page numbers printed in the books.
 EXTRA = {
+    'maxford-global-qaida-5-urdu': {
+        60: ('red blue yellow green orange black', 'Use the six colours named beside the printed pictures'),
+        98: ('black red orange yellow green blue purple pink', 'Draw and colour a favourite fruit'),
+    },
     # 'maxford-english-3': {
     #     13: ('red blue orange green', 'Colour a-d and the apple; match and write letters'),
     # },

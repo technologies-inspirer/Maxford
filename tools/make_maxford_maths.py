@@ -466,14 +466,14 @@ def tick_and_cross(tick_title, cross_title, tick_say, cross_say, buttons, pictur
 def _(pg):
     nums = [[15.1, 17.1, 3.8, 18.7], [54.2, 16.6, 14.7, 18.5], [9.9, 43.0, 15.0, 19.2], [53.7, 43.5, 14.4, 19.6], [13.6, 70.6, 16.0, 19.3]]
     return [write('Touch and feel the numbers with objects.', 'Trace each big number with your finger, following the arrows. Say the number and count its pictures.',
-                  (43, 94.5), union(nums), nums)]
+                  (43, 94.5), union(nums), nums, trace='number')]
 
 
 @page(4)
 def _(pg):
     nums = [[10.0, 17.1, 16.8, 19.7], [52.4, 16.8, 15.7, 19.3], [9.7, 43.6, 16.6, 18.8], [53.1, 41.1, 14.3, 20.8], [10.4, 70.6, 23.4, 19.2]]
     return [write('Touch and feel the numbers with objects.', 'Trace each big number with your finger, following the arrows. Say the number and count its pictures.',
-                  (43, 94.5), union(nums), nums)]
+                  (43, 94.5), union(nums), nums, trace='number')]
 
 
 @page(5)

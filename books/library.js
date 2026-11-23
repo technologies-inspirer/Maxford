@@ -28,11 +28,11 @@ window.PDF_BOOKS = [
      },
      {
       "id": "gZyccxXDZ5I",
-      "title": "Letter a Vocabulary for Kids | English Words | Preschool & Homeschooli"
+      "title": "Letter a Phonic Poem for Kids | Learn Phonics"
      },
      {
       "id": "kMvM2L0A_54",
-      "title": "Letter a Phonic Poem for Kids | Learn Phonics | Preschool & Homeschool"
+      "title": "Letter a Formation & Activities for Kids"
      }
     ],
     "title": "A (3 plus)"
@@ -155,7 +155,7 @@ window.PDF_BOOKS = [
      },
      {
       "id": "a4MY5tT6mdk",
-      "title": "Number 1 Poem for Kids | Counting Rhyme | Preschool & Homeschooling"
+      "title": "Number 1 Objects for Kids | Learn Counting One"
      },
      {
       "id": "2LFMtda20BY",
@@ -191,7 +191,7 @@ window.PDF_BOOKS = [
      },
      {
       "id": "3oZVmbdUDTI",
-      "title": "Two objectNumber 2 Objects for Kids | Learn Counting Two | Preschool &"
+      "title": "Number 2 Objects for Kids | Learn Counting Two"
      },
      {
       "id": "7LyQi9Aa7mQ",
@@ -199,7 +199,7 @@ window.PDF_BOOKS = [
      },
      {
       "id": "Yld-ok_yytY",
-      "title": "Number 1 Teacher's Guide | How to Teach Number 1 | Preschool & Homesch"
+      "title": "Number 2 Teacher's Guide | How to Teach Number 2"
      },
      {
       "id": "TJ7YvR0cvYc",
@@ -467,7 +467,716 @@ window.PDF_BOOKS = [
      }
     ],
     "title": "حرف ث"
+   },
+   "40": {
+    "url": "https://o2o.to/i/LAZX04953KMO",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "AqP7JfIkNCg",
+      "title": "Jeem (ج) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "eMLwQVGElIg",
+      "title": "Jeem (ج) Urdu Letter Recognition with Poem for Kids"
+     },
+     {
+      "id": "VwxNHGVjtW0",
+      "title": "Jeem (ج) Urdu Words for Kids"
+     },
+     {
+      "id": "xJQLU_b3uFE",
+      "title": "Jeem (ج) Urdu Letter Recognition & Writing for Kids"
+     }
+    ],
+    "title": ""
+   },
+   "43": {
+    "url": "https://o2o.to/i/JT6BUHK5Z3WM",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "Q18ajWIOGCI",
+      "title": "Chay (چ) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "uuFRZnpnkrM",
+      "title": "Chay (چ) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "A6VwFLhkdmk",
+      "title": "Chay (چ) Urdu Words Recognition for Kids"
+     },
+     {
+      "id": "YFLjfktwhA4",
+      "title": "Chay (چ) Urdu Letter Recognition & Writing for Kids"
+     }
+    ],
+    "title": ""
+   },
+   "46": {
+    "url": "https://o2o.to/i/SU6J7LEZMKR5",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "AvcdOscY9dg",
+      "title": "Hay (ح) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "ak2BwYmzoOA",
+      "title": "Hay (ح) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "1BQqKbOL_cU",
+      "title": "Hay (ح) Urdu Words Recognition for Kids"
+     },
+     {
+      "id": "wUfExGXbu-A",
+      "title": "Hay (ح) Urdu Letter Recognition & Writing for Kids"
+     }
+    ],
+    "title": ""
+   },
+   "49": {
+    "url": "https://o2o.to/i/EFA18WY0U7CL",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "TOCmjtMYLyU",
+      "title": "Khay (خ) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "HVyNis1spYU",
+      "title": "Khay (خ) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "pG-1m1XapQc",
+      "title": "Khay (خ) Urdu Words Recognition for Kids"
+     },
+     {
+      "id": "6K6Dngyi2zg",
+      "title": "Khay (خ) Urdu Letter Recognition, Writing & Activities for Kids"
+     }
+    ],
+    "title": ""
+   },
+   "56": {
+    "url": "https://o2o.to/i/JEHXK258WLZS",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "k5daV3Wv674",
+      "title": "Daal (د) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "FptVf-sgZfA",
+      "title": "Daal (د) Urdu Words Recognition for Kids"
+     },
+     {
+      "id": "y6SlccEmbIo",
+      "title": "Daal (د) Urdu Letter Recognition & Writing for Kids"
+     }
+    ],
+    "title": ""
+   },
+   "59": {
+    "url": "https://o2o.to/i/Y5E4ZNLPK1T0",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "h33PQZXvmh8",
+      "title": "Ddaal (ڈ) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "KavIpbScms4",
+      "title": "Ddaal (ڈ) Urdu Words for Kids"
+     },
+     {
+      "id": "_DtzecVI1BQ",
+      "title": "Ddaal (ڈ) Urdu Letter Recognition & Writing for Kids"
+     }
+    ],
+    "title": ""
+   },
+   "62": {
+    "url": "https://o2o.to/i/4LFZ1DV6IHC9",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "Qxy5x0okYuU",
+      "title": "Zaal (ذ) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "9ov-bwnHCcg",
+      "title": "Zaal (ذ) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "uvkjRmzSExQ",
+      "title": "Zaal (ذ) Urdu Words Recognition for Kids"
+     },
+     {
+      "id": "IsJbaAc8iJY",
+      "title": "Zaal (ذ) Urdu Letter Recognition & Writing for Kids"
+     }
+    ],
+    "title": ""
+   },
+   "65": {
+    "url": "https://o2o.to/i/UX7N6IKWBD3Q",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "lxnZFGtOpH0",
+      "title": "Ray (ر) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "Igl6jUgAiJo",
+      "title": "Ray (ر) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "iiVGJ2JTCeg",
+      "title": "Ray (ر) Urdu Words Recognition for Kids"
+     },
+     {
+      "id": "S9ouu3Hhqds",
+      "title": "Ray (ر) Urdu Letter Recognition & Writing for Kids"
+     }
+    ],
+    "title": ""
+   },
+   "68": {
+    "url": "https://o2o.to/i/CGH4APV65UXZ",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "_2WtVeT0_BY",
+      "title": "Rray (ڑ) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "KLCYRyTKjbg",
+      "title": "Rray (ڑ) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "0cqtn68Lm18",
+      "title": "Rray (ڑ) Urdu Words Recognition for Kids"
+     },
+     {
+      "id": "9MEA5FjLE60",
+      "title": "Rray (ڑ) Urdu Letter Recognition & Writing for Kids"
+     }
+    ],
+    "title": ""
+   },
+   "71": {
+    "url": "https://o2o.to/i/5AJOXNWQTCS1",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "b93-Qi5KrH4",
+      "title": "Zay (ز) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "UPTtDSIJ-0g",
+      "title": "Zay (ز) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "ZQXvpezYeHI",
+      "title": "Zay (ز) Urdu Words for Kids"
+     },
+     {
+      "id": "scAyZjxnG1M",
+      "title": "Zay (ز) Urdu Letter Recognition & Writing"
+     }
+    ],
+    "title": ""
+   },
+   "74": {
+    "url": "https://o2o.to/i/WDP46CZFA2QH",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "UXvLc7LRQAY",
+      "title": "Zhay (ژ) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "PEHk5AaugBc",
+      "title": "Zhay (ژ) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "z3QeK_bWtsY",
+      "title": "Zhay (ژ) Urdu Words for Kids"
+     },
+     {
+      "id": "l3pURFmYT1I",
+      "title": "Zhay (ژ) Urdu Letter Recognition & Writing"
+     }
+    ],
+    "title": ""
+   },
+   "81": {
+    "url": "https://o2o.to/i/7FTUA5GPRZLW",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "fDmoP8yo38g",
+      "title": "Seen (س) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "frjFn2GA-80",
+      "title": "Seen (س) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "Figq4SI3wvk",
+      "title": "Seen (س) Urdu Words for Kids"
+     },
+     {
+      "id": "p5iD_RfJcFU",
+      "title": "Seen (س) Urdu Letter Recognition & Writing"
+     }
+    ],
+    "title": ""
+   },
+   "84": {
+    "url": "https://o2o.to/i/Y48ABUFVENSH",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "YAL6jzookSU",
+      "title": "Sheen (ش) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "g-cuKWKBIyk",
+      "title": "Sheen (ش) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "cYNiD5mxsfo",
+      "title": "Sheen (ش) Urdu Words for Kids"
+     },
+     {
+      "id": "uIsDgttgRbw",
+      "title": "Sheen (ش) Urdu Letter Recognition & Writing"
+     }
+    ],
+    "title": ""
+   },
+   "87": {
+    "url": "https://o2o.to/i/1PASZ86CH5FX",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "cCqhWqVXSmQ",
+      "title": "Suaad (ص) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "CWOPiWhTjJk",
+      "title": "Suaad (ص) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "0ilys96jVpU",
+      "title": "Suaad (ص) Urdu Words for Kids"
+     },
+     {
+      "id": "FmqGnI75JOs",
+      "title": "Suaad (ص) Urdu Letter Recognition & Writing"
+     },
+     {
+      "id": "L-31iGIa1kw",
+      "title": "Suaad (ص) Urdu Phonic Poem for Kids"
+     }
+    ],
+    "title": ""
+   },
+   "97": {
+    "url": "https://o2o.to/i/E2W34DVZ5JGS",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "ugHND-TTZQ8",
+      "title": "Toay (ط) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "uBdDi-y1V50",
+      "title": "Toay (ط) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "W78U_u068NM",
+      "title": "Toay (ط) Urdu Words for Kids"
+     },
+     {
+      "id": "hEz0wsRNoOE",
+      "title": "Toay (ط) Urdu Letter Recognition & Writing"
+     }
+    ],
+    "title": ""
+   },
+   "100": {
+    "url": "https://o2o.to/i/VOGKJ86US5NL",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "YK0Nn5fd60c",
+      "title": "Zoay (ظ) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "cp75QHIYIcg",
+      "title": "Zoay (ظ) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "OlRAJhLNXME",
+      "title": "Zoay (ظ) Urdu Words for Kids"
+     },
+     {
+      "id": "IyDA76nqA9w",
+      "title": "Zoay (ظ) Urdu Letter Recognition & Writing"
+     }
+    ],
+    "title": ""
+   },
+   "103": {
+    "url": "https://o2o.to/i/AULSI9JQ1DEB",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "dPHkHq0Q4Y0",
+      "title": "Ain (ع) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "ONiXqEiTfcQ",
+      "title": "Ain (ع) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "eR5wgI-x1Rs",
+      "title": "Ain (ع) Urdu Words for Kids"
+     },
+     {
+      "id": "PNEkHFQoE6s",
+      "title": "Ain (ع) Urdu Letter Recognition & Writing"
+     }
+    ],
+    "title": ""
+   },
+   "106": {
+    "url": "https://o2o.to/i/FN43TOY1D80L",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "CBGKrhMl3jE",
+      "title": "Ghain (غ) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "Q9a08woGpkw",
+      "title": "Ghain (غ) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "ylzz4TELZxM",
+      "title": "Ghain (غ) Urdu Words for Kids"
+     },
+     {
+      "id": "2cWyMbrGtsw",
+      "title": "Ghain (غ) Urdu Letter Recognition & Writing"
+     }
+    ],
+    "title": ""
+   },
+   "113": {
+    "url": "https://o2o.to/i/NR69BF2034T1",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "NxOvKWXhr0A",
+      "title": "Fay (ف) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "dAZfPzqEHeU",
+      "title": "Fay (ف) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "Gl3iyaM0hFs",
+      "title": "Fay (ف) Urdu Words for Kids"
+     },
+     {
+      "id": "C9RWLStzOEs",
+      "title": "Fay (ف) Urdu Letter Recognition & Writing"
+     }
+    ],
+    "title": ""
+   },
+   "116": {
+    "url": "https://o2o.to/i/XAPEHG7MSLIY",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "10_4QFgg8N4",
+      "title": "Qaaf (ق) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "z1DWhl5L2hw",
+      "title": "Qaaf (ق) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "kLW3Ru9r2uA",
+      "title": "Qaaf (ق) Urdu Words for Kids"
+     },
+     {
+      "id": "RtLz9-_6Nmo",
+      "title": "Qaaf (ق) Urdu Letter Recognition & Writing"
+     }
+    ],
+    "title": ""
+   },
+   "119": {
+    "url": "https://o2o.to/i/B9O8QRYHD51G",
+    "box": [
+     9.7,
+     10.5,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "6maUCrnAyiU",
+      "title": "Kaaf (ک) Urdu Alphabet Story for Kids"
+     },
+     {
+      "id": "WNxZJCxvz0A",
+      "title": "Kaaf (ک) Urdu Phonic Poem for Kids"
+     },
+     {
+      "id": "V8c2boJddmc",
+      "title": "Kaaf (ک) Urdu Words for Kids"
+     },
+     {
+      "id": "pMroTXU7cBk",
+      "title": "Kaaf (ک) Urdu Letter Recognition & Writing"
+     }
+    ],
+    "title": ""
    }
   }
+ },
+ {
+  "id": "maxford-global-qaida-4-english",
+  "title": "Maxford Global Qaida 4+ English",
+  "dir": "books/maxford-global-qaida-4-english",
+  "pages": 136,
+  "ratio": 0.7884,
+  "c1": "#c1c0b9",
+  "c2": "#72716d",
+  "qr": {
+   "6": {
+    "url": "https://o2o.to/i/KMQ4NTW276C0",
+    "box": [
+     86.2,
+     10.3,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "ZapFIMBwuUE",
+      "title": "Story of Letter Aa for Kids | Alphabet Learning"
+     },
+     {
+      "id": "6HVjiGBhrno",
+      "title": "Letter Aa Vocabulary for Kids | A Words & Phonics"
+     },
+     {
+      "id": "MaZTBWhGWvc",
+      "title": "Letter Aa Formation for Kids | Learn to Write Capital A & Small a"
+     },
+     {
+      "id": "3Q950pV_5_I",
+      "title": "Pet Animals for Kids | Learn Pet Animal Names"
+     },
+     {
+      "id": "g5Fl66UgS0E",
+      "title": "Colouring Activity for Kids | Fun Colouring Practice"
+     }
+    ]
+   },
+   "10": {
+    "url": "https://o2o.to/i/QRXKSC15MO6P",
+    "box": [
+     86.2,
+     10.3,
+     5.7,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "ng8_thEXFKc",
+      "title": "Story of Letter Bb for Kids | Alphabet Learning"
+     },
+     {
+      "id": "WrCUev-mdqQ",
+      "title": "Vocabulary of Letter Bb for Kids | B Words with Pictures"
+     },
+     {
+      "id": "CEAFJYyAhzk",
+      "title": "Phonics of Letters Aa & Bb for Kids | Learn A and B Sounds"
+     },
+     {
+      "id": "E4-tnxoLuFg",
+      "title": "Letter Bb Formation for Kids | Learn to Write Capital B & Small b"
+     },
+     {
+      "id": "RN5Q47oGNr8",
+      "title": "Letter Bb Colouring Activity for Kids | Fun Alphabet Colouring"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "maxford-global-qaida-4-maths",
+  "title": "Maxford Global Qaida 4+ Maths",
+  "dir": "books/maxford-global-qaida-4-maths",
+  "pages": 111,
+  "ratio": 0.7884,
+  "c1": "#beafbc",
+  "c2": "#70676f",
+  "qr": {}
+ },
+ {
+  "id": "maxford-global-qaida-4-urdu",
+  "title": "Maxford Global Qaida 4+ Urdu",
+  "dir": "books/maxford-global-qaida-4-urdu",
+  "pages": 135,
+  "ratio": 0.7884,
+  "c1": "#bebdb7",
+  "c2": "#706f6c",
+  "rtl": true,
+  "qr": {}
+ },
+ {
+  "id": "maxford-global-qaida-5-english",
+  "title": "Maxford Global Qaida 5+ English",
+  "dir": "books/maxford-global-qaida-5-english",
+  "pages": 133,
+  "ratio": 0.7884,
+  "c1": "#aabdc6",
+  "c2": "#646f75",
+  "qr": {}
+ },
+ {
+  "id": "maxford-global-qaida-5-maths",
+  "title": "Maxford Global Qaida 5+ Maths",
+  "dir": "books/maxford-global-qaida-5-maths",
+  "pages": 119,
+  "ratio": 0.7884,
+  "c1": "#b7c0ae",
+  "c2": "#6c7166",
+  "qr": {}
+ },
+ {
+  "id": "maxford-global-qaida-5-urdu",
+  "title": "Maxford Global Qaida 5+ Urdu",
+  "dir": "books/maxford-global-qaida-5-urdu",
+  "pages": 110,
+  "ratio": 0.7884,
+  "c1": "#c2c3b6",
+  "c2": "#72736b",
+  "rtl": true,
+  "qr": {}
  }
 ];

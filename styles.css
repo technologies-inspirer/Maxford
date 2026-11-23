@@ -356,6 +356,7 @@ button { cursor: pointer; }
 .zone.fill .zone-content { padding: 0; position: absolute; inset: 0; }
 .zone.fill svg { width: 100%; height: 100%; display: block; }
 .ink { position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: multiply; touch-action: none; cursor: crosshair; }
+.ink.trace { mix-blend-mode: normal; }
 img.ink { pointer-events: none; }
 /* letters traced on a trace page: drawn plainly over the page, so they look solid */
 .ink-letters { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }

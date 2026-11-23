@@ -6,7 +6,24 @@
 //                                                                     video buttons ("Story of letter Aa", "Story: بے")
 //   'book-id': { subject: 'English', kind: 'Letter', pages: [5, 7] }  lessons on these pages, one letter each from a,
 //                                                                     with tracing on the next page (as in English 3+)
-const LESSON_BOOKS = {};
+const LESSON_BOOKS = {
+  'maxford-global-qaida-4-english': {
+    subject: 'English',
+    kind: 'Letter',
+    pages: [6, 10, 14, 18, 24, 28, 32, 36, 42, 46, 50, 54, 60, 64, 68, 72, 78, 82, 86, 90, 94, 100, 104, 108, 112, 116]
+  },
+  'maxford-global-qaida-4-maths': {
+    subject: 'Maths',
+    kind: 'Number',
+    pages: [27, 5, 7, 9, 11, 13, 19, 21, 23, 25, 29, 45, 47, 49, 51, 53, 59, 61, 63, 65, 67]
+  },
+  'maxford-global-qaida-4-urdu': {
+    subject: 'Urdu',
+    kind: 'Letter',
+    pages: [4, 6, 10, 13, 16, 19, 22, 29, 32, 35, 38, 45, 47, 49, 51, 53, 55, 57, 63, 66, 69, 72, 75, 77, 83, 86, 89, 92, 95, 98, 104, 107, 110, 113, 115, 118, 120],
+    labels: [...'اآبپتٹثجچحخدڈذرڑزژسشصضطظعغفقکگلمنوہء', 'ی، ے']
+  }
+};
 
 const acts = (book, page) => book.pages[page - 1]?.acts || [];
 const lessonVideo = (book, page) => {
@@ -28,15 +45,18 @@ export function englishLessons(book) {
   if (config.pages) return config.pages.map((page, index) => {
     const activities = acts(book, page);
     const game = activities.find(activity => activity.type === 'game');
-    const letter = String.fromCharCode(97 + index);
+    const isNumber = config.kind === 'Number';
+    const label = config.labels?.[index] ?? (isNumber ? String(index) : null);
+    const letter = label ?? String.fromCharCode(97 + index);
+    const tracePage = isNumber && index === 0 ? page : page + 1;
     return {
-      letter, key: letter, name: letter.toUpperCase() + letter, big: letter.toUpperCase(), small: letter, kind: config.kind, subject: config.subject,
-      page, tracePage: page + 1,
+      letter, key: letter, name: label ?? (letter.toUpperCase() + letter), big: letter.toUpperCase(), small: label ? '' : letter, kind: config.kind, subject: config.subject,
+      page, tracePage,
       words: (game?.targets || []).map(target => target.name), game,
       lessonVideo: lessonVideo(book, page),
       story: activities.find(activity => activity.type === 'story'),
       videos: activities.filter(activity => activity.type === 'videos'),
-      trace: acts(book, page + 1).find(activity => activity.type === 'fill')
+      trace: acts(book, tracePage).find(activity => activity.type === 'fill')
     };
   });
   const lessons = [];

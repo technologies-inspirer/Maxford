@@ -58,7 +58,8 @@ window.BOOK_QUESTIONS['maxford-global-qaida-3-english'] = {
      "w": 13.5,
      "h": 19.5
     }
-   ]
+   ],
+   "trace": "letter"
   }
  ],
  "4": [
@@ -118,7 +119,8 @@ window.BOOK_QUESTIONS['maxford-global-qaida-3-english'] = {
      "w": 5,
      "h": 17.7
     }
-   ]
+   ],
+   "trace": "letter"
   }
  ],
  "5": [
@@ -178,7 +180,8 @@ window.BOOK_QUESTIONS['maxford-global-qaida-3-english'] = {
      "w": 12.9,
      "h": 14.2
     }
-   ]
+   ],
+   "trace": "letter"
   }
  ],
  "6": [
@@ -250,7 +253,8 @@ window.BOOK_QUESTIONS['maxford-global-qaida-3-english'] = {
      "w": 11.9,
      "h": 11.5
     }
-   ]
+   ],
+   "trace": "letter"
   }
  ],
  "14": [

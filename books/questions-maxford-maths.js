@@ -52,7 +52,8 @@ window.BOOK_QUESTIONS['maxford-global-qaida-3-maths'] = {
      "w": 16.0,
      "h": 19.3
     }
-   ]
+   ],
+   "trace": "number"
   }
  ],
  "4": [
@@ -106,7 +107,8 @@ window.BOOK_QUESTIONS['maxford-global-qaida-3-maths'] = {
      "w": 23.4,
      "h": 19.2
     }
-   ]
+   ],
+   "trace": "number"
   }
  ],
  "5": [

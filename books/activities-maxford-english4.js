@@ -1,0 +1,46 @@
+// Picture vocabulary on the printed Phonics pages, left to right.
+const vocabulary = {
+  6: ['almond', 'axe', 'apricot'],
+  10: ['bag', 'ball', 'bear'],
+  14: ['cup', 'cap', 'candle'],
+  18: ['dolphin', 'doll', 'dice'],
+  24: ['elbow', 'egg', 'engine'],
+  28: ['fruit', 'fan', 'fig'],
+  32: ['guava', 'glass', 'gloves'],
+  36: ['honey', 'hat', 'house'],
+  42: ['ink', 'insect', 'injection'],
+  46: ['jewellery', 'jar', 'jacket'],
+  50: ['kiwi', 'key', 'kettle'],
+  54: ['leaf', 'lamp', 'laptop'],
+  60: ['mask', 'melon', 'mirror'],
+  64: ['nose', 'nuts', 'net'],
+  68: ['olive', 'owl', 'oil'],
+  72: ['peach', 'parrot', 'pumpkin'],
+  78: ['queen', 'quail', 'quilt'],
+  82: ['rose', 'rocket', 'racket'],
+  86: ['sofa', 'soap', 'swan'],
+  90: ['toy', 'tree', 'tub'],
+  94: ['utensils', 'urn', 'umbrella'],
+  100: ['vase', 'vest', 'violin'],
+  104: ['whale', 'watch', 'wolf'],
+  108: ['x-ray', 'xebec', 'xylophone'],
+  112: ['yoghurt', 'yarn', 'yoga'],
+  116: ['zero', 'zigzag', 'zip']
+};
+
+window.BOOK_ACTIVITIES = window.BOOK_ACTIVITIES || {};
+window.BOOK_ACTIVITIES['maxford-global-qaida-4-english'] = Object.fromEntries(
+  Object.entries(vocabulary).map(([page, words]) => [page, [{
+    type: 'game',
+    title: 'Find the picture!',
+    button: { x: 35, y: 74 },
+    crop: { x: 6, y: 72, w: 88, h: 19 },
+    targets: words.map((name, index) => ({
+      name,
+      x: [8, 36, 65][index],
+      y: 73,
+      w: 27,
+      h: 17
+    }))
+  }]])
+);

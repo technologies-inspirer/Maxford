@@ -21,7 +21,13 @@ export const learningSubjects = [
 export const learningBookMetadata = {
   'maxford-global-qaida-3-english': { classId: 'play-group', seriesId: 'maxford', subjectId: 'english' },
   'maxford-global-qaida-3-maths': { classId: 'play-group', seriesId: 'maxford', subjectId: 'maths' },
-  'maxford-global-qaida-3-urdu': { classId: 'play-group', seriesId: 'maxford', subjectId: 'urdu' }
+  'maxford-global-qaida-3-urdu': { classId: 'play-group', seriesId: 'maxford', subjectId: 'urdu' },
+  'maxford-global-qaida-4-english': { classId: 'nursery', seriesId: 'maxford', subjectId: 'english' },
+  'maxford-global-qaida-4-maths': { classId: 'nursery', seriesId: 'maxford', subjectId: 'maths' },
+  'maxford-global-qaida-4-urdu': { classId: 'nursery', seriesId: 'maxford', subjectId: 'urdu' },
+  'maxford-global-qaida-5-maths': { classId: 'prep', seriesId: 'maxford', subjectId: 'maths' },
+  'maxford-global-qaida-5-english': { classId: 'prep', seriesId: 'maxford', subjectId: 'english' },
+  'maxford-global-qaida-5-urdu': { classId: 'prep', seriesId: 'maxford', subjectId: 'urdu' }
 };
 
 // Kept in the project but not shown in the reader's library. Remove an ID here to show that book again.

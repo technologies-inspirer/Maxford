@@ -16,11 +16,18 @@ async function startApp() {
   const minimumStartup = new Promise(resolve => setTimeout(resolve, 1000));   // the owl shows briefly, not for long
   await Promise.all([
     import('../books/activities-maxford.js'),
+    import('../books/activities-maxford-english4.js'),
+    import('../books/activities-maxford-urdu5.js'),
     import('../books/game-crops.js'),
     import('../books/questions.js'),
     import('../books/questions-maxford.js'),
+    import('../books/questions-maxford-english5.js'),
     import('../books/questions-maxford-maths.js'),
-    import('../books/questions-maxford-urdu.js')
+    import('../books/questions-maxford-maths4.js'),
+    import('../books/questions-maxford-maths5.js'),
+    import('../books/questions-maxford-urdu.js'),
+    import('../books/questions-maxford-urdu4.js'),
+    import('../books/questions-maxford-urdu5.js')
   ]);
   const { App } = await import('./App.jsx');
   await minimumStartup;

@@ -40,8 +40,10 @@ def choose(title, say, button, crop, options):
     return Q('choose', title, say, button, crop, options=options)
 
 
-def write(title, say, button, crop, lines):
-    return Q('write', title, say, button, crop, hint={'x': lines[0][0] + 2, 'y': lines[0][1] + 2}, lines=[box(*l) for l in lines])
+def write(title, say, button, crop, lines, trace=None):
+    """trace ('letter' or 'number'): the boxes hold big printed letters (or numbers), traced over themselves."""
+    more = {'trace': trace} if trace else {}
+    return Q('write', title, say, button, crop, hint={'x': lines[0][0] + 2, 'y': lines[0][1] + 2}, lines=[box(*l) for l in lines], **more)
 
 
 def colour(title, say, button, crop, parts):
@@ -98,7 +100,7 @@ def match_letter(L, crop, pairs, button):
 def touch_and_feel(boxes):
     """The big letters with numbered arrows: trace each one with a finger and say its sound."""
     return [write('Touch and feel the letters and say the sounds.', 'Trace each big letter, following the arrows. Say its sound and the name of its picture.',
-                  (43, 95.5), (5, 10, 90, 83), boxes)]
+                  (43, 95.5), (5, 10, 90, 83), boxes, trace='letter')]
 
 
 def tap_group(title, say, button, items, group):
