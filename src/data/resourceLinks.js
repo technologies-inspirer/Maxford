@@ -1,9 +1,9 @@
 // Resource destinations used by the dashboard and class resources page.
 export const resourceLinks = [
-  { id: 'dropbox', title: 'Resources', description: 'Browse learning materials for Play Group, Nursery and Prep.', action: 'Choose your class', url: '' },
+  { id: 'dropbox', title: 'Activities & Resources', description: 'Browse learning materials for Play Group, Nursery and Prep.', action: 'Start Activity', url: '' },
   { id: 'paper-maker', title: 'Paper Maker', description: 'Sign in to prepare papers for your classroom.', action: 'Open Paper Maker', url: 'https://papermaker.impliesapp.com/account/login' },
-  { id: 'resources-app', title: 'LearnBee', description: 'Explore, read and download books with our Android app.', action: 'Get on Google Play', url: 'https://play.google.com/store/apps/details?id=com.rza.bookseriesapp' },
-  { id: 'school-management', title: 'School Management System', description: 'Sign in to manage your school.', action: 'Open school system', url: 'https://sms.inspirertechnologies.com/login' }
+  { id: 'resources-app', title: 'Fun Learning Apps', description: 'Explore, read and download books with the LearnBee app.', action: 'Explore Apps', url: 'https://play.google.com/store/apps/details?id=com.rza.bookseriesapp' },
+  { id: 'school-management', title: 'School & Parent Portal', description: 'Sign in to manage your school.', action: 'Enter Portal', url: 'https://sms.inspirertechnologies.com/login' }
 ];
 
 export const classResourceLinks = [

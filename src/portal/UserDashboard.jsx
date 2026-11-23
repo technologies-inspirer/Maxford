@@ -1,8 +1,7 @@
 import { useDemo } from './DemoContext.jsx';
-import { LibraryBookIcon } from './LibraryIcons.jsx';
 import { ResourceOptions } from './ResourceOptions.jsx';
 import { LearningScenery } from './LearningScenery.jsx';
-import { DashboardArtwork } from './DashboardArtwork.jsx';
+import { DashboardArtwork, Sparkles } from './DashboardArtwork.jsx';
 
 export function UserDashboard() {
   const { account, assignedBooks, progress } = useDemo();
@@ -12,23 +11,25 @@ export function UserDashboard() {
   return (
     <div className="learning-dashboard">
       <LearningScenery />
-      <section className="user-welcome">
+      <section className="user-welcome mx-welcome">
         <div>
-          <p className="portal-eyebrow">Welcome to Maxford Global!</p>
-          <h1>A new day.<br />A new discovery.</h1>
-          <p>Choose your class, explore a series and subject, and open your next book.</p>
+          <h1>
+            <span className="mx-welcome-line">Welcome to <span className="mx-brand">Maxford!</span></span>
+            <span className="mx-welcome-sub">A new day of learning and fun!</span>
+          </h1>
         </div>
         <DashboardArtwork variant="welcome" />
+        <Sparkles spots={[[58, 18, 16, 0], [64, 70, 12, 1.2], [96, 12, 14, .6], [52, 48, 10, 2]]} />
       </section>
-      <a className="learning-entry portal-panel" href="#/user/library">
-        <span className="learning-entry-icon"><LibraryBookIcon /></span>
+      <a className="learning-entry portal-panel mx-ebooks" href="#/user/library">
         <span className="learning-entry-copy">
-          <span className="portal-eyebrow">Your digital library</span>
-          <h2>Explore Books</h2>
-          <span className="portal-muted">Select a class, choose your series and subject, then start reading.</span>
-          <span className="learning-entry-count">{assignedBooks.length} book{assignedBooks.length === 1 ? '' : 's'} available in your library</span>
+          <h2>Explore E-Books</h2>
+          <span className="portal-muted">Discover interactive storybooks, activities, and learning resources.</span>
+          <span className="learning-entry-count">{assignedBooks.length} book{assignedBooks.length === 1 ? '' : 's'} in your library</span>
         </span>
+        <span className="mx-ebooks-arrow" aria-hidden="true">→</span>
         <DashboardArtwork variant="library" />
+        <Sparkles spots={[[60, 20, 14, .3], [72, 74, 10, 1.4], [88, 16, 12, .9], [66, 44, 8, 2.1]]} />
         <span className="learning-entry-go" aria-hidden="true">→</span>
       </a>
       <ResourceOptions classFolders illustrated />

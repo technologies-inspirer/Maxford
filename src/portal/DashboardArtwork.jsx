@@ -1,17 +1,34 @@
-import artwork from '../../assets/user-dashboard-storybook.png';
+import storybook from '../../assets/user-dashboard-storybook.png';
+import maxford from '../../assets/maxford-dashboard.jpg';
 
-// Fixed view boxes show only decorative artwork; all labels and links stay live.
+// Decorative crops of two reference pictures. Each shows only artwork; all labels and links stay live HTML.
+// assets/maxford-dashboard.jpg (1541 x 672) is the Maxford dashboard design; the older storybook picture
+// still gives the landscape along the bottom and the Paper Maker notebook.
+const pictures = { maxford: [maxford, 1541, 672], storybook: [storybook, 1672, 941] };
 const regions = {
-  welcome: '865 94 630 212',
-  library: '900 338 493 167',
-  dropbox: '350 713 140 107',
-  'paper-maker': '704 715 125 105',
-  'resources-app': '1035 710 136 110',
-  'school-management': '1385 703 126 117',
-  landscape: '0 837 1672 104'
+  welcome: ['maxford', '895 82 528 182'],
+  library: ['maxford', '865 284 485 122'],
+  dropbox: ['maxford', '328 524 108 108'],
+  'paper-maker': ['storybook', '704 715 125 105'],
+  'resources-app': ['maxford', '998 508 96 124'],
+  'school-management': ['maxford', '1290 548 138 86'],
+  landscape: ['storybook', '0 837 1672 104']
 };
 
 export function DashboardArtwork({ variant }) {
-  const [, , width, height] = regions[variant].split(' ').map(Number);
-  return <svg className={`dashboard-artwork dashboard-artwork-${variant}`} viewBox={regions[variant]} width={width} height={height} preserveAspectRatio={variant === 'landscape' ? 'xMidYMin slice' : 'xMidYMid meet'} fill="none" aria-hidden="true" focusable="false"><image href={artwork} x="0" y="0" width="1672" height="941" /></svg>;
+  const [picture, box] = regions[variant];
+  const [href, pictureWidth, pictureHeight] = pictures[picture];
+  const [x, y, width, height] = box.split(' ').map(Number);
+  // the clip keeps the rest of the picture hidden when the box on screen is a different shape from the crop
+  const clip = `dashboard-artwork-clip-${variant}`;
+  return <svg className={`dashboard-artwork dashboard-artwork-${variant}`} viewBox={box} width={width} height={height} preserveAspectRatio={variant === 'landscape' ? 'xMidYMin slice' : 'xMaxYMax meet'} fill="none" aria-hidden="true" focusable="false">
+    <clipPath id={clip}><rect x={x} y={y} width={width} height={height} /></clipPath>
+    <image href={href} x="0" y="0" width={pictureWidth} height={pictureHeight} clipPath={`url(#${clip})`} />
+  </svg>;
+}
+
+// Small four-point stars that twinkle over a banner; positions are % of the banner.
+export function Sparkles({ spots }) {
+  return <span className="mx-sparkles" aria-hidden="true">{spots.map(([x, y, size, delay], i) =>
+    <svg key={i} className="mx-sparkle" style={{ left: `${x}%`, top: `${y}%`, width: size, height: size, animationDelay: `${delay}s` }} viewBox="0 0 20 20"><path d="M10 0c1 6 4 9 10 10-6 1-9 4-10 10-1-6-4-9-10-10 6-1 9-4 10-10Z" /></svg>)}</span>;
 }
