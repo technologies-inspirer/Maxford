@@ -1,9 +1,11 @@
 {
-  "id": "maxford-global-qaida-5-english",
-  "title": "Maxford Global Qaida 5+ English",
-  "dir": "books/maxford-global-qaida-5-english",
-  "pages": 133,
-  "ratio": 0.7884,
-  "c1": "#aabdc6",
-  "c2": "#646f75"
+    "id": "maxford-global-qaida-5-english",
+    "title": "Simply Phonics Step C",
+    "dir": "books/maxford-global-qaida-5-english",
+    "pages": 133,
+    "ratio": 0.7884,
+    "c1": "#008479",
+    "c2": "#00514b",
+    "frontCover": true,
+    "author": "Maxford Global Learning"
 }

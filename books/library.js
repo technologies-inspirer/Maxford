@@ -2,12 +2,14 @@
 window.PDF_BOOKS = [
  {
   "id": "maxford-global-qaida-3-english",
-  "title": "Maxford Global Qaida 3+ English",
+  "title": "Simply Phonics Step A",
   "dir": "books/maxford-global-qaida-3-english",
   "pages": 135,
   "ratio": 0.7884,
-  "c1": "#bac2b0",
-  "c2": "#6d7268",
+  "c1": "#269302",
+  "c2": "#175b01",
+  "frontCover": true,
+  "author": "Maxford Global Learning",
   "qr": {
    "11": {
     "url": "https://o2o.to/i/YUL3FSRA40Z8",
@@ -69,12 +71,14 @@ window.PDF_BOOKS = [
  },
  {
   "id": "maxford-global-qaida-3-maths",
-  "title": "Maxford Global Qaida 3+ Maths",
+  "title": "Simply Maths Step A",
   "dir": "books/maxford-global-qaida-3-maths",
   "pages": 111,
   "ratio": 0.7884,
-  "c1": "#adbec6",
-  "c2": "#667075",
+  "c1": "#7f0377",
+  "c2": "#4e0149",
+  "frontCover": true,
+  "author": "Maxford Global Learning",
   "qr": {
    "7": {
     "url": "https://o2o.to/i/QNJO6UKAI5B9",
@@ -284,13 +288,15 @@ window.PDF_BOOKS = [
  },
  {
   "id": "maxford-global-qaida-3-urdu",
-  "title": "Maxford Global Qaida 3+ Urdu",
+  "title": "آسان اردو قدم پہلا",
   "dir": "books/maxford-global-qaida-3-urdu",
   "pages": 159,
   "ratio": 0.7884,
-  "c1": "#c0bdb5",
-  "c2": "#716f6b",
+  "c1": "#fb890a",
+  "c2": "#9b5406",
   "rtl": true,
+  "frontCover": true,
+  "author": "Maxford Global Learning",
   "qr": {
    "11": {
     "url": "https://o2o.to/i/W9JOR0QE3IC2",
@@ -1056,12 +1062,14 @@ window.PDF_BOOKS = [
  },
  {
   "id": "maxford-global-qaida-4-english",
-  "title": "Maxford Global Qaida 4+ English",
+  "title": "Simply Phonics Step B",
   "dir": "books/maxford-global-qaida-4-english",
   "pages": 136,
   "ratio": 0.7884,
-  "c1": "#c1c0b9",
-  "c2": "#72716d",
+  "c1": "#8d033a",
+  "c2": "#570123",
+  "frontCover": true,
+  "author": "Maxford Global Learning",
   "qr": {
    "6": {
     "url": "https://o2o.to/i/KMQ4NTW276C0",
@@ -1129,54 +1137,64 @@ window.PDF_BOOKS = [
  },
  {
   "id": "maxford-global-qaida-4-maths",
-  "title": "Maxford Global Qaida 4+ Maths",
+  "title": "Simply Maths Step B",
   "dir": "books/maxford-global-qaida-4-maths",
   "pages": 111,
   "ratio": 0.7884,
-  "c1": "#beafbc",
-  "c2": "#70676f",
+  "c1": "#d70212",
+  "c2": "#85010b",
+  "frontCover": true,
+  "author": "Maxford Global Learning",
   "qr": {}
  },
  {
   "id": "maxford-global-qaida-4-urdu",
-  "title": "Maxford Global Qaida 4+ Urdu",
+  "title": "آسان اردو قدم دوسرا",
   "dir": "books/maxford-global-qaida-4-urdu",
   "pages": 135,
   "ratio": 0.7884,
-  "c1": "#bebdb7",
-  "c2": "#706f6c",
+  "c1": "#fa6e0d",
+  "c2": "#9b4408",
   "rtl": true,
+  "frontCover": true,
+  "author": "Maxford Global Learning",
   "qr": {}
  },
  {
   "id": "maxford-global-qaida-5-english",
-  "title": "Maxford Global Qaida 5+ English",
+  "title": "Simply Phonics Step C",
   "dir": "books/maxford-global-qaida-5-english",
   "pages": 133,
   "ratio": 0.7884,
-  "c1": "#aabdc6",
-  "c2": "#646f75",
+  "c1": "#008479",
+  "c2": "#00514b",
+  "frontCover": true,
+  "author": "Maxford Global Learning",
   "qr": {}
  },
  {
   "id": "maxford-global-qaida-5-maths",
-  "title": "Maxford Global Qaida 5+ Maths",
+  "title": "Simply Maths Step C",
   "dir": "books/maxford-global-qaida-5-maths",
   "pages": 119,
   "ratio": 0.7884,
-  "c1": "#b7c0ae",
-  "c2": "#6c7166",
+  "c1": "#0248ac",
+  "c2": "#012c6a",
+  "frontCover": true,
+  "author": "Maxford Global Learning",
   "qr": {}
  },
  {
   "id": "maxford-global-qaida-5-urdu",
-  "title": "Maxford Global Qaida 5+ Urdu",
+  "title": "آسان اردو قدم تیسرا",
   "dir": "books/maxford-global-qaida-5-urdu",
   "pages": 110,
   "ratio": 0.7884,
-  "c1": "#c2c3b6",
-  "c2": "#72736b",
+  "c1": "#047b05",
+  "c2": "#024c03",
   "rtl": true,
+  "frontCover": true,
+  "author": "Maxford Global Learning",
   "qr": {}
  }
 ];

@@ -1,9 +1,11 @@
 {
-  "id": "maxford-global-qaida-5-maths",
-  "title": "Maxford Global Qaida 5+ Maths",
-  "dir": "books/maxford-global-qaida-5-maths",
-  "pages": 119,
-  "ratio": 0.7884,
-  "c1": "#b7c0ae",
-  "c2": "#6c7166"
+    "id": "maxford-global-qaida-5-maths",
+    "title": "Simply Maths Step C",
+    "dir": "books/maxford-global-qaida-5-maths",
+    "pages": 119,
+    "ratio": 0.7884,
+    "c1": "#0248ac",
+    "c2": "#012c6a",
+    "frontCover": true,
+    "author": "Maxford Global Learning"
 }

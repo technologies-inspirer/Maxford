@@ -1,10 +1,12 @@
 {
-    "id":  "maxford-global-qaida-3-urdu",
-    "title":  "Maxford Global Qaida 3+ Urdu",
-    "dir":  "books/maxford-global-qaida-3-urdu",
-    "pages":  159,
-    "ratio":  0.7884,
-    "c1":  "#c0bdb5",
-    "c2":  "#716f6b",
-    "rtl":  true
+    "id": "maxford-global-qaida-3-urdu",
+    "title": "آسان اردو قدم پہلا",
+    "dir": "books/maxford-global-qaida-3-urdu",
+    "pages": 159,
+    "ratio": 0.7884,
+    "c1": "#fb890a",
+    "c2": "#9b5406",
+    "rtl": true,
+    "frontCover": true,
+    "author": "Maxford Global Learning"
 }

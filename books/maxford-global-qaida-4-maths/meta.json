@@ -1,9 +1,11 @@
 {
-  "id": "maxford-global-qaida-4-maths",
-  "title": "Maxford Global Qaida 4+ Maths",
-  "dir": "books/maxford-global-qaida-4-maths",
-  "pages": 111,
-  "ratio": 0.7884,
-  "c1": "#beafbc",
-  "c2": "#70676f"
+    "id": "maxford-global-qaida-4-maths",
+    "title": "Simply Maths Step B",
+    "dir": "books/maxford-global-qaida-4-maths",
+    "pages": 111,
+    "ratio": 0.7884,
+    "c1": "#d70212",
+    "c2": "#85010b",
+    "frontCover": true,
+    "author": "Maxford Global Learning"
 }
