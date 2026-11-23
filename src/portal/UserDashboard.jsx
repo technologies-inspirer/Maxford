@@ -27,7 +27,6 @@ export function UserDashboard() {
           <span className="portal-muted">Discover interactive storybooks, activities, and learning resources.</span>
           <span className="learning-entry-count">{assignedBooks.length} book{assignedBooks.length === 1 ? '' : 's'} in your library</span>
         </span>
-        <span className="mx-ebooks-arrow" aria-hidden="true">→</span>
         <DashboardArtwork variant="library" />
         <Sparkles spots={[[60, 20, 14, .3], [72, 74, 10, 1.4], [88, 16, 12, .9], [66, 44, 8, 2.1]]} />
         <span className="learning-entry-go" aria-hidden="true">→</span>
