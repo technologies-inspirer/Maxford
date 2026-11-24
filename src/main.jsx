@@ -29,6 +29,8 @@ async function startApp() {
     import('../books/questions-maxford-urdu4.js'),
     import('../books/questions-maxford-urdu5.js')
   ]);
+  // the publisher's video buttons add to the pages the files above fill in, so they load after them
+  await import('../books/activities-maxford-videos.js');
   const { App } = await import('./App.jsx');
   await minimumStartup;
   root.render(<App />);

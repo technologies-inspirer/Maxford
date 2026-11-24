@@ -103,6 +103,8 @@ body { background: var(--theme-bg); color: var(--theme-text); }
 .fx-page { box-shadow: 0 20px 60px var(--theme-shadow); }
 .watch-btn, .game-btn { background: var(--theme-gold); color: var(--theme-text); box-shadow: 0 .5cqw 1.4cqw #99610833; }
 .story-btn { background: var(--theme-teal); color: #fff; box-shadow: 0 .5cqw 1.4cqw #0b625e33; }
+/* a publisher's video keeps its own red, so the video buttons stand apart from the exercise buttons */
+.story-btn.video-btn { background: linear-gradient(135deg, #ff5a5f, #f7941d); box-shadow: 0 .4cqw 1.2cqw rgba(214, 60, 40, .45), inset 0 -.35cqw 0 rgba(0, 0, 0, .14); }
 .vid-pill { background: var(--theme-teal); color: #fff; }
 .game-card, .story-card { background: var(--theme-bg); color: var(--theme-text); box-shadow: 0 20px 60px var(--theme-shadow); }
 .game-card h3, .story-card h3, .story-end b { color: var(--theme-teal); }

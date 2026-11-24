@@ -697,6 +697,12 @@ img.ink { pointer-events: none; }
 /* exercise buttons sit beside the printed instruction, often two on one line, so they are smaller */
 .question-btn { padding: .9cqw 1.8cqw .9cqw 1.2cqw; gap: .6cqw; font-size: 2.3cqw; }
 .question-btn b { font-size: 2.7cqw; }
+/* the publisher's videos, a button each, grouped on the page's picture (tools/make_maxford_video_buttons.py) */
+.video-btn { padding: .8cqw 1.7cqw .8cqw 1.1cqw; gap: .5cqw; font-size: 2.1cqw; white-space: nowrap; animation: none;
+  background: linear-gradient(135deg, #ff5a5f, #f7941d); box-shadow: 0 .4cqw 1.2cqw rgba(214, 60, 40, .45), inset 0 -.35cqw 0 rgba(0, 0, 0, .14);
+  transition: transform .15s; }
+.video-btn b { font-size: 2.4cqw; }
+.video-btn:hover, .video-btn:focus-visible { transform: translateY(-.3cqw) scale(1.05); }
 .story { position: fixed; inset: 0; z-index: 42; background: rgba(6, 12, 22, .92); display: grid; place-items: center; padding: 16px; animation: fade .2s; }
 .story-card { position: relative; width: min(960px, 100%, calc((100dvh - 230px) * 16 / 9 + 40px)); background: #fff8e8; color: #23324a; border-radius: 22px; padding: 16px 20px 18px; text-align: center; box-shadow: 0 20px 60px rgba(0, 0, 0, .5); }
 .story-card .modal-x { top: -14px; right: -14px; }

@@ -250,7 +250,9 @@ export function mountBookActivityApp(app, { intro = false, onPositionChange, lib
   }
 
   function storyButton(book, idx, a, live) {
-    const btn = el('button', { class: 'story-btn', style: `left:${a.button.x}%;top:${a.button.y}%`, html: `<b>${a.icon || '📖'}</b><span>${a.label || 'Story time'}</span>` });
+    // (a video's own button, one of a group on the page's picture, is smaller and video red: .video-btn)
+    const btn = el('button', { class: 'story-btn' + (a.type === 'videos' ? ' video-btn' : ''), style: `left:${a.button.x}%;top:${a.button.y}%`,
+      'aria-label': a.type === 'videos' ? `Watch: ${a.title || a.label}` : null, html: `<b>${a.icon || '📖'}</b><span>${a.label || 'Story time'}</span>` });
     if (live) btn.addEventListener('click', e => { e.stopPropagation(); if (!editMode) a.type === 'videos' ? openVideos(a.title, a.videos) : openStory(book, idx, a); });
     return btn;
   }
