@@ -32,26 +32,49 @@
         ]
       },
       "3": {
-        "picture": "No requested colouring: black pencil for reading notes, matching or writing",
+        "picture": "Colour the big letters a to f in their printed colours",
         "colours": [
+          "green",
+          "red",
+          "orange",
+          "teal",
+          "magenta",
+          "blue",
           "black"
         ]
       },
       "4": {
-        "picture": "No requested colouring: black pencil for reading notes, matching or writing",
+        "picture": "Colour the big letters g to l in their printed colours",
         "colours": [
+          "red",
+          "teal",
+          "blue",
+          "green",
+          "orange",
           "black"
         ]
       },
       "5": {
-        "picture": "No requested colouring: black pencil for reading notes, matching or writing",
+        "picture": "Colour the big letters m to r in their printed colours",
         "colours": [
+          "magenta",
+          "blue",
+          "green",
+          "red",
+          "teal",
+          "purple",
           "black"
         ]
       },
       "6": {
-        "picture": "No requested colouring: black pencil for reading notes, matching or writing",
+        "picture": "Colour the big letters s to z in their printed colours",
         "colours": [
+          "blue",
+          "green",
+          "red",
+          "teal",
+          "magenta",
+          "yellow",
           "black"
         ]
       },

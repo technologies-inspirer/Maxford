@@ -15,6 +15,13 @@ EXTRA = {
         60: ('red blue yellow green orange black', 'Use the six colours named beside the printed pictures'),
         98: ('black red orange yellow green blue purple pink', 'Draw and colour a favourite fruit'),
     },
+    # "Touch and feel the letters": each big letter is printed in its own colour, and the child colours it in
+    'maxford-global-qaida-3-english': {
+        3: ('green red orange teal magenta blue black', 'Colour the big letters a to f in their printed colours'),
+        4: ('red teal blue green orange black', 'Colour the big letters g to l in their printed colours'),
+        5: ('magenta blue green red teal purple black', 'Colour the big letters m to r in their printed colours'),
+        6: ('blue green red teal magenta yellow black', 'Colour the big letters s to z in their printed colours'),
+    },
     # 'maxford-english-3': {
     #     13: ('red blue orange green', 'Colour a-d and the apple; match and write letters'),
     # },
