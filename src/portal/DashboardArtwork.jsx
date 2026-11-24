@@ -3,14 +3,29 @@ import maxford from '../../assets/maxford-dashboard.jpg';
 import login from '../../assets/maxford-login.jpg';
 import classes from '../../assets/maxford-classes.jpg';
 import board from '../../assets/maxford-dashboard-2.jpg';
+import world from '../../assets/maxford-dashboard-3.jpg';
 
 // Decorative crops of reference pictures. Each shows only artwork; all labels and links stay live HTML.
 // assets/maxford-dashboard-2.jpg (1643 x 656) is the dashboard design with the tall welcome card; the first
 // design (maxford-dashboard.jpg) and the older storybook picture still give the other pages' artwork.
-const pictures = { maxford: [maxford, 1541, 672], storybook: [storybook, 1672, 941], login: [login, 1551, 672], classes: [classes, 1418, 752], board: [board, 1643, 656] };
+const pictures = { maxford: [maxford, 1541, 672], storybook: [storybook, 1672, 941], login: [login, 1551, 672], classes: [classes, 1418, 752], board: [board, 1643, 656], world: [world, 1672, 941] };
 // a crop's third value, when given, is how it sits in its box (SVG preserveAspectRatio)
 const regions = {
-  // the dashboard (assets/maxford-dashboard-2.jpg)
+  // the dashboard (assets/maxford-dashboard-3.jpg, the "learning world" design): its banner, card pictures,
+  // card icons and the scenery along the bottom
+  'world-hero': ['world', '0 92 1672 352', 'xMidYMid slice'],
+  'world-ebooks': ['world', '92 452 252 156', 'xMidYMax meet'],
+  'world-dropbox': ['world', '408 448 246 158', 'xMidYMax meet'],
+  'world-paper-maker': ['world', '730 446 222 160', 'xMidYMax meet'],
+  'world-resources-app': ['world', '1036 452 246 156', 'xMidYMax meet'],
+  'world-school-management': ['world', '1342 442 250 160', 'xMidYMax meet'],
+  'world-icon-ebooks': ['world', '68 612 50 46', 'xMidYMid meet'],
+  'world-icon-dropbox': ['world', '388 604 56 56', 'xMidYMid meet'],
+  'world-icon-paper-maker': ['world', '708 610 46 50', 'xMidYMid meet'],
+  'world-icon-resources-app': ['world', '1018 610 56 46', 'xMidYMid meet'],
+  'world-icon-school-management': ['world', '1336 606 58 48', 'xMidYMid meet'],
+  'world-ground': ['world', '0 792 1672 149', 'xMidYMax slice'],
+  // the dashboard before it (assets/maxford-dashboard-2.jpg)
   'board-welcome': ['board', '120 206 512 444', 'xMidYMax meet'],
   'board-library': ['board', '1098 90 356 150'],
   'dropbox-2': ['board', '858 298 112 148'],

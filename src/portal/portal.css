@@ -1517,11 +1517,6 @@ a.resource-option-card .resource-option-status { color: var(--portal-accent-text
 .learning-dashboard .mx-board > :nth-child(2) { animation-delay: .1s; }
 .learning-dashboard .mx-board .mx-class-pill { animation-delay: .6s; }
 
-/* the header's links, as in the design: Resources green, E-Books pink, Profile in a soft pill */
-.user-portal-header .portal-textlink[href="#/user/resources"] { color: #2f9a4e; }
-.user-portal-header .portal-textlink[href="#/user/library"] { color: #d33a7e; }
-.user-portal-header .portal-textlink[href="#/user/profile"] { padding: 7px 16px; border-radius: 99px; background: #f4e7d6; color: #2a2f45; }
-.user-portal-header .portal-textlink:is([href="#/user/resources"], [href="#/user/library"]):hover { filter: brightness(.85); }
 
 /* short windows (a laptop, or zoomed in): the cards' words and pictures tighten so the board still fits */
 @media (min-width: 1101px) and (max-height: 760px) {
@@ -1558,4 +1553,102 @@ a.resource-option-card .resource-option-status { color: var(--portal-accent-text
 @media (prefers-reduced-motion: reduce) {
   .learning-dashboard .mx-board > *, .learning-dashboard .mx-board .resource-option-card, .learning-dashboard .mx-board .dashboard-artwork,
   .mx-class-pill, .mx-class-pill span { animation: none !important; transition: none !important; }
+}
+
+/* ---------- Maxford "learning world" dashboard (design: assets/maxford-dashboard-3.jpg) ----------
+   A wide picture banner, one row of five pastel cards (picture, icon, title, words, button) and a scenery of
+   books, a globe and a school bag along the bottom. The page is the window's height, so it never scrolls on a
+   desktop. Motion: the banner breathes slowly with drifting clouds, twinkling stars and a passing light; the
+   cards rise in one by one and their pictures float; a card lifts and its button glows when touched. */
+.mx-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* the header: its links in one white pill, the open page in purple */
+.user-portal-header nav { align-items: center; gap: 4px; padding: 5px; border-radius: 99px; background: #fff; box-shadow: 0 4px 16px #3a2a7a14, inset 0 0 0 1px #ece7f6; }
+.user-portal-header nav .portal-textlink { display: inline-flex; align-items: center; gap: 7px; padding: 7px 16px; border-radius: 99px; color: #2a2f4a; font-weight: 700;
+  text-decoration: none; transition: background .2s, color .2s, transform .2s; }
+.user-portal-header nav .portal-textlink .mobile-header-icon { display: block; width: 18px; height: 18px; }
+.user-portal-header nav .portal-textlink:hover { background: #f2ecff; transform: translateY(-1px); }
+.user-portal-header nav .portal-textlink[aria-current="page"] { background: linear-gradient(135deg, #8a5cf0, #6b3fd6); color: #fff; box-shadow: 0 4px 10px #6b3fd655; }
+
+.learning-dashboard.mx-world { position: relative; display: flex; flex-direction: column; gap: clamp(10px, 1.6dvh, 18px);
+  height: max(470px, calc(100dvh - 146px)); overflow-x: clip; }
+.learning-dashboard.mx-world > * { animation: mx-rise .75s cubic-bezier(.2, .8, .2, 1) both; }
+
+/* the banner */
+/* the banner keeps the picture's own shape (nothing at its sides is cut), as wide as the height allows */
+.mx-world .mx-hero { position: relative; overflow: hidden; flex: 0 0 auto; aspect-ratio: 1672 / 352; width: min(100%, calc(36dvh * 4.75)); margin-inline: auto; border-radius: 30px;
+  box-shadow: 0 14px 30px #4a8a3a26, inset 0 0 0 2px #ffffffaa; background: #bfe7fb; }
+.mx-world .mx-hero .dashboard-artwork-world-hero { position: absolute; inset: 0; width: 100%; height: 100%; animation: mx-breathe 16s ease-in-out infinite; transform-origin: 50% 60%; }
+.mx-world .mx-hero::after { content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background: linear-gradient(105deg, transparent 38%, #ffffff55 50%, transparent 62%); background-size: 260% 100%; animation: mx-sweep 8s ease-in-out 1s infinite; }
+.mx-world .mx-hero .mx-sparkle { fill: #fff8cf; }
+
+/* the five cards */
+.mx-world .mx-cards { position: relative; z-index: 2; flex: 1 1 0; min-height: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(10px, 1.3vw, 20px);
+  padding: 0 clamp(0px, 1vw, 16px); animation: none; }
+.mx-card { --c1: #efe4ff; --c2: #d9c6fb; --ink: #3b2a7a; --btn: #7c4ae0; --btn2: #6236c6;
+  position: relative; display: flex; flex-direction: column; min-height: 0; overflow: hidden; border: 3px solid #ffffffd9; border-radius: 26px; text-decoration: none; color: #24304a;
+  background: linear-gradient(180deg, var(--c2) 0%, var(--c1) 42%, #ffffffe6 100%); box-shadow: 0 10px 22px color-mix(in srgb, var(--btn) 22%, transparent), inset 0 0 0 1px #ffffff99;
+  animation: mx-rise .75s cubic-bezier(.2, .8, .2, 1) both; transition: transform .35s cubic-bezier(.2, .9, .3, 1.3), box-shadow .3s; }
+.mx-card-purple { --c1: #f1e8ff; --c2: #dcc8fb; --ink: #3b2a7a; --btn: #8a5cf0; --btn2: #6236c6; }
+.mx-card-yellow { --c1: #fff4d6; --c2: #ffe2a0; --ink: #4a3208; --btn: #f59a1a; --btn2: #e07a0a; }
+.mx-card-blue { --c1: #e2f8fd; --c2: #b9ecf8; --ink: #0d3a4a; --btn: #1fb5c6; --btn2: #0f93a6; }
+.mx-card-pink { --c1: #ffe6ef; --c2: #ffc7dc; --ink: #4a1230; --btn: #ef4778; --btn2: #d32e5e; }
+.mx-card-green { --c1: #e8f9df; --c2: #c9efb6; --ink: #1c3a12; --btn: #2fae3e; --btn2: #1f8f2e; }
+a.mx-card:hover, a.mx-card:focus-visible { transform: translateY(-8px) rotate(-.5deg); box-shadow: 0 18px 30px color-mix(in srgb, var(--btn) 34%, transparent), inset 0 0 0 1px #fff; }
+.mx-card-art { position: relative; flex: 1 1 0; min-height: 0; display: block; }
+.mx-card-art .dashboard-artwork { position: absolute; inset: 6% 6% 0; width: 88%; height: 94%; animation: mx-bob 4.5s ease-in-out infinite;
+  mask-image: radial-gradient(ellipse 52% 54% at 50% 54%, #000 56%, transparent 100%); }
+.mx-card:nth-child(2) .mx-card-art .dashboard-artwork { animation-delay: -.9s; }
+.mx-card:nth-child(3) .mx-card-art .dashboard-artwork { animation-delay: -1.8s; }
+.mx-card:nth-child(4) .mx-card-art .dashboard-artwork { animation-delay: -2.7s; }
+.mx-card:nth-child(5) .mx-card-art .dashboard-artwork { animation-delay: -3.6s; }
+a.mx-card:hover .mx-card-art .dashboard-artwork { animation: mx-hop .6s cubic-bezier(.2, .9, .3, 1.3); }
+.mx-card-body { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-start; gap: clamp(3px, .8dvh, 8px);
+  margin: 0 8px 8px; padding: clamp(8px, 1.4dvh, 16px) clamp(10px, 1vw, 16px); border-radius: 20px; background: #ffffffb3; }
+.mx-card-title { display: flex; align-items: center; gap: 8px; }
+.mx-card-title .dashboard-artwork { flex: none; width: clamp(24px, 2.2vw, 34px); height: clamp(24px, 2.2vw, 34px); }
+.portal .mx-card-title h2 { margin: 0; color: var(--ink); font-family: var(--display); font-size: clamp(.95rem, 1.35vw, 1.4rem); line-height: 1.1; }
+.mx-card-text { color: #2c3550; font-size: clamp(.72rem, .9vw, .92rem); line-height: 1.35; }
+.mx-card-extra { padding: 2px 10px; border-radius: 99px; background: color-mix(in srgb, var(--btn) 14%, #fff); color: var(--ink); font-size: .72rem; font-weight: 700; }
+.mx-card-button { align-self: center; margin-top: 2px; padding: clamp(6px, 1dvh, 9px) clamp(14px, 1.4vw, 22px); border-radius: 99px; color: #fff; font-weight: 800;
+  font-size: clamp(.74rem, .95vw, .95rem); background: linear-gradient(180deg, var(--btn), var(--btn2)); box-shadow: 0 4px 0 color-mix(in srgb, var(--btn2) 70%, #000), 0 8px 14px color-mix(in srgb, var(--btn) 35%, transparent);
+  white-space: nowrap; transition: transform .2s, box-shadow .2s; }
+a.mx-card:hover .mx-card-button { transform: translateY(-2px); box-shadow: 0 6px 0 color-mix(in srgb, var(--btn2) 70%, #000), 0 10px 18px color-mix(in srgb, var(--btn) 50%, transparent); }
+.mx-card.pending .mx-card-button { background: #c8ccd6; box-shadow: none; }
+
+/* the scenery along the bottom, behind the cards */
+.mx-world .mx-ground { position: fixed; z-index: 0; left: 0; right: 0; bottom: 0; height: clamp(70px, 15dvh, 150px); pointer-events: none; animation: mx-rise 1s .4s both; }
+@media (max-width: 1100px) { .mx-world .mx-ground { display: none; } }
+.user-footer { position: relative; z-index: 3; }
+.user-workspace:has(.mx-world) .user-footer { background: #fffaf2d9; backdrop-filter: blur(4px); }
+.mx-world .mx-ground .dashboard-artwork { width: 100%; height: 100%; mask-image: linear-gradient(to bottom, transparent, #000 35%); }
+.mx-world .mx-cards { margin-bottom: clamp(14px, 4dvh, 40px); }
+
+@keyframes mx-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.035); } }
+@keyframes mx-drift { from { transform: translateX(0); } to { transform: translateX(130vw); } }
+
+/* short windows: tighter words so the cards still fit */
+@media (min-width: 1101px) and (max-height: 700px) {
+  .mx-card-text { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+  .mx-card-extra { display: none; }
+}
+/* narrower windows: the cards in rows, the page scrolls */
+@media (max-width: 1100px) {
+  .learning-dashboard.mx-world { height: auto; }
+  .mx-world .mx-hero { width: 100%; }
+  .mx-world .mx-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); flex: none; }
+  .mx-card { min-height: 300px; }
+}
+@media (max-width: 700px) {
+  .mx-world .mx-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mx-world .mx-hero { aspect-ratio: auto; height: 190px; }
+  .mx-world .mx-hero .dashboard-artwork-world-hero { width: 180%; left: -40%; right: auto; }
+  .mx-card { min-height: 280px; }
+}
+@media (max-width: 440px) { .mx-world .mx-cards { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) {
+  .learning-dashboard.mx-world > *, .mx-world .mx-hero .dashboard-artwork, .mx-world .mx-hero::after, .mx-card,
+  .mx-card-art .dashboard-artwork, .mx-world .mx-ground { animation: none !important; }
+  a.mx-card:hover, a.mx-card:focus-visible { transform: none; }
 }
