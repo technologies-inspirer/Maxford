@@ -2,12 +2,22 @@ import storybook from '../../assets/user-dashboard-storybook.png';
 import maxford from '../../assets/maxford-dashboard.jpg';
 import login from '../../assets/maxford-login.jpg';
 import classes from '../../assets/maxford-classes.jpg';
+import board from '../../assets/maxford-dashboard-2.jpg';
 
-// Decorative crops of two reference pictures. Each shows only artwork; all labels and links stay live HTML.
-// assets/maxford-dashboard.jpg (1541 x 672) is the Maxford dashboard design; the older storybook picture
-// still gives the landscape along the bottom and the Paper Maker notebook.
-const pictures = { maxford: [maxford, 1541, 672], storybook: [storybook, 1672, 941], login: [login, 1551, 672], classes: [classes, 1418, 752] };
+// Decorative crops of reference pictures. Each shows only artwork; all labels and links stay live HTML.
+// assets/maxford-dashboard-2.jpg (1643 x 656) is the dashboard design with the tall welcome card; the first
+// design (maxford-dashboard.jpg) and the older storybook picture still give the other pages' artwork.
+const pictures = { maxford: [maxford, 1541, 672], storybook: [storybook, 1672, 941], login: [login, 1551, 672], classes: [classes, 1418, 752], board: [board, 1643, 656] };
+// a crop's third value, when given, is how it sits in its box (SVG preserveAspectRatio)
 const regions = {
+  // the dashboard (assets/maxford-dashboard-2.jpg)
+  'board-welcome': ['board', '120 206 512 444', 'xMidYMax meet'],
+  'board-library': ['board', '1098 90 356 150'],
+  'dropbox-2': ['board', '858 298 112 148'],
+  'paper-maker-2': ['board', '1186 322 90 126'],
+  'resources-app-2': ['board', '916 484 164 168'],
+  'school-management-2': ['board', '1416 380 142 120'],
+  'board-house': ['board', '1398 506 172 146'],
   welcome: ['maxford', '895 82 528 182'],
   library: ['maxford', '865 284 485 122'],
   dropbox: ['maxford', '328 524 108 108'],
@@ -31,12 +41,12 @@ const regions = {
 };
 
 export function DashboardArtwork({ variant }) {
-  const [picture, box] = regions[variant];
+  const [picture, box, fit] = regions[variant];
   const [href, pictureWidth, pictureHeight] = pictures[picture];
   const [x, y, width, height] = box.split(' ').map(Number);
   // the clip keeps the rest of the picture hidden when the box on screen is a different shape from the crop
   const clip = `dashboard-artwork-clip-${variant}`;
-  return <svg className={`dashboard-artwork dashboard-artwork-${variant}`} viewBox={box} width={width} height={height} preserveAspectRatio={variant === 'landscape' ? 'xMidYMin slice' : 'xMaxYMax meet'} fill="none" aria-hidden="true" focusable="false">
+  return <svg className={`dashboard-artwork dashboard-artwork-${variant}`} viewBox={box} width={width} height={height} preserveAspectRatio={fit || (variant === 'landscape' ? 'xMidYMin slice' : 'xMaxYMax meet')} fill="none" aria-hidden="true" focusable="false">
     <clipPath id={clip}><rect x={x} y={y} width={width} height={height} /></clipPath>
     <image href={href} x="0" y="0" width={pictureWidth} height={pictureHeight} clipPath={`url(#${clip})`} />
   </svg>;

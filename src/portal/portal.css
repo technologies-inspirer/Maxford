@@ -1443,3 +1443,119 @@ a.resource-option-card .resource-option-status { color: var(--portal-accent-text
   .library-class-selection .library-class-card:is(:hover, :focus-visible),
   .library-class-selection .library-class-card:is(:hover, :focus-visible) .library-class-art { transform: none; }
 }
+
+/* ---------- Maxford dashboard board (design: assets/maxford-dashboard-2.jpg) ----------
+   A tall welcome card on the left with the flying storybook; on the right the E-Books banner, then the
+   Activities, Paper Maker and Fun Learning Apps cards, and the School & Parent Portal card down the side with
+   the "View class resources" pill on it. Motion: the cards rise in one by one, the pictures float, stars twinkle,
+   a light sweeps over the banners, and a card lifts when touched; all off for reduced motion. */
+.learning-dashboard .mx-board { display: grid; gap: clamp(12px, 1.3vw, 20px); margin-top: 6px;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, .98fr) minmax(0, .9fr) minmax(0, .86fr);
+  grid-template-rows: auto minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas: "welcome ebooks ebooks ebooks" "welcome act paper school" "welcome apps apps school";
+  /* the board is the window's height (less the header and the footer line), so the page never scrolls */
+  height: max(420px, calc(100dvh - 146px)); }
+.learning-dashboard .mx-board .dashboard-resources, .learning-dashboard .mx-board .resource-option-grid { display: contents; }
+.learning-dashboard .mx-board > * { animation: mx-rise .75s cubic-bezier(.2, .8, .2, 1) both; }
+
+/* the welcome card */
+.learning-dashboard .mx-board .mx-welcome { grid-area: welcome; display: block; margin: 0; min-height: 0;
+  padding: clamp(22px, 2.4vw, 36px) clamp(20px, 2.4vw, 38px); border: 2px solid #ffffffd0; border-radius: 30px;
+  background: linear-gradient(172deg, #9fe2fb 0%, #c3ecfb 30%, #eaf6f3 52%, #fff1cf 76%, #ffe2a6 100%);
+  box-shadow: inset 0 0 0 2px #ffffff66, 0 14px 30px #5a9ec02e; }
+.learning-dashboard .mx-board .mx-welcome > div { max-width: none; }
+.learning-dashboard .mx-board .mx-welcome-line { font-size: clamp(1.3rem, 2.1vw, 2.55rem); white-space: nowrap; filter: drop-shadow(0 3px 0 #ffffffc0) drop-shadow(0 5px 6px #3a6a9a33); }
+.mx-hello { background: linear-gradient(180deg, #ffbb45, #f2701b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.learning-dashboard .mx-board .mx-brand { background: linear-gradient(90deg, #1f8fe0, #4db6ff 30%, #1f6fd8 55%, #1f8fe0 80%, #4db6ff); background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text; }
+.learning-dashboard .mx-board .mx-welcome-sub { font-size: clamp(1.05rem, 1.55vw, 1.8rem); color: #1d2747; }
+.mx-warm { background: linear-gradient(180deg, #ff9a2e, #e8561a); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.learning-dashboard { overflow-x: clip; }
+.learning-dashboard .mx-board .dashboard-artwork-board-welcome { position: absolute; z-index: 1; left: -6%; right: auto; bottom: 0; width: 112%; height: 82%;
+  animation: mx-float 6s ease-in-out infinite;
+  mask-image: linear-gradient(to bottom, transparent, #000 30%), linear-gradient(to right, transparent, #000 6%, #000 94%, transparent); mask-composite: intersect; }
+
+/* the E-Books banner */
+.learning-dashboard .mx-board .mx-ebooks { grid-area: ebooks; margin: 0; min-height: clamp(104px, 20dvh, 165px); padding: clamp(10px, 2dvh, 18px) clamp(20px, 2.4vw, 40px);
+  border: 2px solid #ffffffb0; color: #fff;
+  background: linear-gradient(100deg, #b07ef0 0%, #c28bf2 35%, #db97ea 62%, #f4a5cf 100%); box-shadow: inset 0 0 0 2px #ffffff40, 0 12px 26px #a35fd640; }
+.learning-dashboard .mx-board .mx-ebooks:hover { border-color: #fff; box-shadow: inset 0 0 0 2px #ffffff66, 0 16px 30px #a35fd660; }
+.learning-dashboard .mx-board .mx-ebooks .learning-entry-copy { max-width: 48%; }
+.learning-dashboard .mx-board .mx-ebooks .learning-entry-copy h2 { font-size: clamp(1.4rem, 2.15vw, 2.4rem); text-shadow: 0 2px 0 #7a3fc0; }
+.learning-dashboard .mx-board .mx-ebooks .learning-entry-copy > .portal-muted { color: #2b1d4f; font-size: clamp(.8rem, 1vw, 1rem); }
+.learning-dashboard .mx-board .mx-ebooks .learning-entry-count { align-self: flex-start; padding: 5px 16px; border: 0; border-radius: 99px; background: #ffffffd9; color: #2b1d4f; font-weight: 700; }
+.learning-dashboard .mx-board .mx-ebooks .learning-entry-go { border-color: #3a2470; background: #ffffff55; color: #2b1d4f; }
+.learning-dashboard .mx-board .mx-ebooks .learning-entry-go::before { border-color: #ffffffcc; }
+.learning-dashboard .mx-board .dashboard-artwork-board-library { position: absolute; z-index: 1; bottom: 0; height: 100%; right: clamp(70px, 6.5vw, 104px); width: 44%;
+  animation: mx-float 5s .8s ease-in-out infinite; mask-image: linear-gradient(to right, transparent, #000 12%, #000 92%, transparent); }
+.learning-dashboard .mx-board .mx-ebooks .mx-sparkle { fill: #fff; filter: drop-shadow(0 0 5px #e7b3ff); }
+
+/* the resource cards, in their places */
+.learning-dashboard .mx-board .resource-option-card { position: relative; overflow: hidden; min-height: 0; margin: 0; padding: clamp(14px, 1.3vw, 20px);
+  animation: mx-rise .75s cubic-bezier(.2, .8, .2, 1) both; }
+.learning-dashboard .mx-board .resource-option-card:nth-child(1) { grid-area: act; animation-delay: .2s; }
+.learning-dashboard .mx-board .resource-option-card:nth-child(2) { grid-area: paper; animation-delay: .28s; }
+.learning-dashboard .mx-board .resource-option-card:nth-child(3) { grid-area: apps; animation-delay: .36s; }
+.learning-dashboard .mx-board .resource-option-card:nth-child(4) { grid-area: school; align-self: start; height: 92%; padding-top: 64px; animation-delay: .44s; }
+.learning-dashboard .mx-board .resource-option-icon { width: 40px; height: 40px; margin-bottom: 8px; }
+.learning-dashboard .mx-board .resource-option-card h3 { position: relative; z-index: 1; margin-bottom: 4px; font-size: clamp(1rem, 1.3vw, 1.3rem); }
+.learning-dashboard .mx-board .resource-option-card p { position: relative; z-index: 1; max-width: 60%; margin-bottom: 12px; font-size: clamp(.74rem, .85vw, .86rem); line-height: 1.4; }
+.learning-dashboard .mx-board .resource-option-card:nth-child(3) p { max-width: 54%; }
+.learning-dashboard .mx-board .resource-option-status { position: relative; z-index: 1; margin-top: auto; }
+.learning-dashboard .mx-board .resource-option-card > .dashboard-artwork { position: absolute; right: 4px; bottom: 4px; width: 42%; max-width: 170px; height: auto; max-height: 82%;
+  mix-blend-mode: multiply; mask-image: radial-gradient(ellipse 50% 50% at 52% 52%, #000 58%, transparent 100%); }
+.learning-dashboard .mx-board .resource-option-card:nth-child(3) > .dashboard-artwork { width: 34%; max-width: 190px; right: 3%; bottom: 0; }
+.learning-dashboard .mx-board .resource-option-card:nth-child(4) > .dashboard-artwork { width: 64%; max-width: 190px; }
+
+/* "View class resources" sits on the school card, at its top */
+.mx-class-pill { grid-area: school; align-self: start; justify-self: end; z-index: 2; display: inline-flex; align-items: center; gap: 10px;
+  margin: 12px 12px 0; padding: 8px 18px; border-radius: 99px; background: #ffffffe8; color: #1f2a44; font-weight: 700; font-size: .86rem;
+  text-decoration: none; box-shadow: 0 4px 12px #4a52c826; transition: transform .2s, box-shadow .2s; }
+.mx-class-pill:hover, .mx-class-pill:focus-visible { transform: translateY(-2px); box-shadow: 0 8px 16px #4a52c840; }
+.mx-class-pill span { display: inline-block; transition: transform .2s; }
+.mx-class-pill:hover span { transform: translateX(4px); }
+.learning-dashboard .mx-board > :nth-child(2) { animation-delay: .1s; }
+.learning-dashboard .mx-board .mx-class-pill { animation-delay: .6s; }
+
+/* the header's links, as in the design: Resources green, E-Books pink, Profile in a soft pill */
+.user-portal-header .portal-textlink[href="#/user/resources"] { color: #2f9a4e; }
+.user-portal-header .portal-textlink[href="#/user/library"] { color: #d33a7e; }
+.user-portal-header .portal-textlink[href="#/user/profile"] { padding: 7px 16px; border-radius: 99px; background: #f4e7d6; color: #2a2f45; }
+.user-portal-header .portal-textlink:is([href="#/user/resources"], [href="#/user/library"]):hover { filter: brightness(.85); }
+
+/* short windows (a laptop, or zoomed in): the cards' words and pictures tighten so the board still fits */
+@media (min-width: 1101px) and (max-height: 760px) {
+  .learning-dashboard .mx-board .resource-option-card { padding: 10px 14px; }
+  .learning-dashboard .mx-board .resource-option-icon { width: 32px; height: 32px; margin-bottom: 4px; }
+  .learning-dashboard .mx-board .resource-option-icon img { width: 30px; height: 30px; }
+  .learning-dashboard .mx-board .resource-option-card h3 { font-size: clamp(.92rem, 1.15vw, 1.1rem); margin-bottom: 2px; }
+  .learning-dashboard .mx-board .resource-option-card p { margin-bottom: 6px; font-size: .74rem; line-height: 1.3;
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+  .learning-dashboard .mx-board .resource-option-card:nth-child(4) { padding-top: 52px; }
+  .learning-dashboard .mx-board .resource-option-status { padding-block: 5px; font-size: .72rem; }
+  .mx-class-pill { margin: 8px 8px 0; padding: 6px 14px; font-size: .8rem; }
+  .learning-dashboard .mx-board .mx-ebooks .learning-entry-copy { gap: 4px; }
+}
+@media (min-width: 1101px) and (max-height: 620px) {
+  .learning-dashboard .mx-board .resource-option-card p { display: none; }
+  .learning-dashboard .mx-board .mx-ebooks .learning-entry-copy > .portal-muted { display: none; }
+}
+
+/* narrower windows: the welcome card on top, then the banner, then the cards two by two */
+@media (max-width: 1100px) {
+  .learning-dashboard .mx-board { height: auto; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto;
+    grid-template-areas: "welcome welcome" "ebooks ebooks" "act paper" "apps school"; }
+  .learning-dashboard .mx-board .mx-welcome { min-height: 380px; }
+  .learning-dashboard .mx-board .dashboard-artwork-board-welcome { height: 70%; }
+  .learning-dashboard .mx-board .resource-option-card:nth-child(4) { min-height: 0; }
+}
+@media (max-width: 640px) {
+  .learning-dashboard .mx-board { grid-template-columns: minmax(0, 1fr); grid-template-areas: "welcome" "ebooks" "act" "paper" "apps" "school"; }
+  .learning-dashboard .mx-board .mx-welcome { min-height: 340px; }
+  .learning-dashboard .mx-board .mx-ebooks .learning-entry-copy { max-width: none; }
+  .learning-dashboard .mx-board .resource-option-card { min-height: 170px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .learning-dashboard .mx-board > *, .learning-dashboard .mx-board .resource-option-card, .learning-dashboard .mx-board .dashboard-artwork,
+  .mx-class-pill, .mx-class-pill span { animation: none !important; transition: none !important; }
+}

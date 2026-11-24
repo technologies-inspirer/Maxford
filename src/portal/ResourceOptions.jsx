@@ -17,7 +17,8 @@ function ResourceIcon({ type }) {
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[type]}</svg>;
 }
 
-export function ResourceOptions({ showHeading = true, classFolders = false, illustrated = false }) {
+// art: which set of card pictures ('' the first design, '-2' the dashboard with the tall welcome card)
+export function ResourceOptions({ showHeading = true, classFolders = false, illustrated = false, art = '' }) {
   return (
     <section className="dashboard-resources" aria-label="Learning resources">
       {showHeading && <div className="portal-page-heading"><div><h2>Resources</h2><p className="portal-muted">Useful links for your teaching and learning.</p></div>{classFolders && <a className="portal-secondary" href="#/user/resources">View class resources <span aria-hidden="true">&#8594;</span></a>}</div>}
@@ -30,7 +31,7 @@ export function ResourceOptions({ showHeading = true, classFolders = false, illu
             <h3>{resource.title}</h3>
             <p>{resource.description}</p>
             <span className="resource-option-status">{available ? `${resource.action || 'Open resource'} ${internal ? '→' : '↗'}` : 'Link coming soon'}</span>
-            {illustrated && <DashboardArtwork variant={resource.id} />}
+            {illustrated && <DashboardArtwork variant={resource.id + art} />}
           </>;
           return available
             ? <a className="resource-option-card" key={resource.id} href={internal ? '#/user/resources' : resource.url} target={internal ? undefined : '_blank'} rel={internal ? undefined : 'noopener noreferrer'}>{content}</a>
