@@ -96,7 +96,7 @@ export function LearningLibrary({ segments = [], onBookOpen }) {
           </section>}
           {step === 1 ? (
             subjectOptions.length ? <section className="library-choice-grid library-subject-grid" aria-label="Select your subject">
-              {subjectOptions.map(subject => <a className={`library-choice-card library-subject-card library-class-card subject-${subject.id}`} key={subject.id} href={libraryLink(selectedClass.id, selectedSeries.id, subject.id)}><span className={subjectsWithArt.includes(subject.id) ? 'library-subject-art' : 'library-subject-fallback'} aria-hidden="true">{!subjectsWithArt.includes(subject.id) && <LibraryBookIcon />}</span><h2>{subject.name}</h2><p>{selectedSeries.name}</p></a>)}
+              {subjectOptions.map(subject => <a className={`library-choice-card library-subject-card library-class-card subject-${subject.id}`} key={subject.id} href={libraryLink(selectedClass.id, selectedSeries.id, subject.id)}><span className={subjectsWithArt.includes(subject.id) ? 'library-subject-art' : 'library-subject-fallback'} aria-hidden="true">{!subjectsWithArt.includes(subject.id) && <LibraryBookIcon />}</span><h2>{subject.name}</h2></a>)}
             </section> : <EmptyState title={assignedBooks.length ? 'No books available for this selection' : 'No books assigned'}>{assignedBooks.length ? `There are no assigned ${selectedSeries.name} books for ${selectedClass.name}. Choose another series or class.` : 'Contact your administrator to assign books to your demo library.'}</EmptyState>
           ) : (
             <section className="library-results" aria-label={`${selectedSubject.name} books`}>
