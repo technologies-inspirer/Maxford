@@ -7,6 +7,25 @@
 //   'book-id': { subject: 'English', kind: 'Letter', pages: [5, 7] }  lessons on these pages, one letter each from a,
 //                                                                     with tracing on the next page (as in English 3+)
 const LESSON_BOOKS = {
+  // Play Group (3+): each letter's or number's "Sound" / "Introduction" page; its writing page is the next one
+  'maxford-global-qaida-3-english': {
+    subject: 'English',
+    kind: 'Letter',
+    pages: [11, 15, 19, 23, 31, 35, 39, 43, 49, 53, 57, 61, 69, 73, 77, 81, 87, 91, 95, 99, 107, 111, 115, 119, 125, 129]
+  },
+  'maxford-global-qaida-3-maths': {
+    subject: 'Maths',
+    kind: 'Number',
+    // 0 to 20, as the contents page lists them (printed page - 1: the blank first page of the PDF is left out)
+    pages: [55, 9, 13, 17, 21, 27, 33, 39, 43, 47, 57, 65, 68, 71, 74, 77, 84, 87, 90, 93, 96]
+  },
+  'maxford-global-qaida-3-urdu': {
+    subject: 'Urdu',
+    kind: 'Letter',
+    pages: [11, 15, 20, 24, 27, 30, 33, 40, 43, 46, 49, 56, 59, 62, 65, 68, 71, 74, 81, 84, 87, 90, 97, 100, 103, 106, 113, 116, 119,
+      122, 125, 128, 135, 138, 141, 144, 147],
+    labels: [...'اآبپتٹثجچحخدڈذرڑزژسشصضطظعغفقکگلمنوہء', 'ی، ے']
+  },
   'maxford-global-qaida-4-english': {
     subject: 'English',
     kind: 'Letter',
@@ -55,7 +74,8 @@ export function englishLessons(book) {
       words: (game?.targets || []).map(target => target.name), game,
       lessonVideo: lessonVideo(book, page),
       story: activities.find(activity => activity.type === 'story'),
-      videos: activities.filter(activity => activity.type === 'videos'),
+      // its videos, with those on its writing page (the Formation video sits there in the Play Group books)
+      videos: [...activities, ...(tracePage !== page ? acts(book, tracePage) : [])].filter(activity => activity.type === 'videos'),
       trace: acts(book, tracePage).find(activity => activity.type === 'fill')
     };
   });

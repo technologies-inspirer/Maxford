@@ -250,8 +250,8 @@ export function mountBookActivityApp(app, { intro = false, onPositionChange, lib
   }
 
   function storyButton(book, idx, a, live) {
-    // (a video's own button, one of a group on the page's picture, is smaller and video red: .video-btn)
-    const btn = el('button', { class: 'story-btn' + (a.type === 'videos' ? ' video-btn' : ''), style: `left:${a.button.x}%;top:${a.button.y}%`,
+    // (the publisher's video buttons look like Stemford English 3+'s: the same .story-btn)
+    const btn = el('button', { class: 'story-btn', style: `left:${a.button.x}%;top:${a.button.y}%`,
       'aria-label': a.type === 'videos' ? `Watch: ${a.title || a.label}` : null, html: `<b>${a.icon || '📖'}</b><span>${a.label || 'Story time'}</span>` });
     if (live) btn.addEventListener('click', e => { e.stopPropagation(); if (!editMode) a.type === 'videos' ? openVideos(a.title, a.videos) : openStory(book, idx, a); });
     return btn;
@@ -1838,7 +1838,10 @@ export function mountBookActivityApp(app, { intro = false, onPositionChange, lib
     const action = (title, description, icon, colour, work) => el('button', { class: 'english-activity', onclick: work },
       el('span', { class: 'english-activity-icon', style: `--tile:${colour[0]};--tile-ink:${colour[1]}`, html: icon }),
       el('span', { class: 'english-activity-copy' }, el('b', {}, title), el('small', {}, description)), el('span', { html: I.right }));
-    const videoFor = (lesson, label) => lesson.videos.find(activity => (activity.label || '').toLowerCase() === label);
+    // a lesson's video by what it is, whatever its button is called ("Poem", the Urdu book's کہانی, نظم, الفاظ, لکھائی)
+    const VIDEO_NAMES = { story: ['story', 'کہانی'], vocabulary: ['vocabulary', 'الفاظ', 'words & writing', 'الفاظ اور لکھائی'],
+      formation: ['formation', 'لکھائی'], 'phonic poem': ['phonic poem', 'poem', 'نظم'] };
+    const videoFor = (lesson, label) => lesson.videos.find(activity => (VIDEO_NAMES[label] || [label]).includes((activity.label || '').toLowerCase()));
     function watchLesson(lesson, label = 'story') {
       const video = videoFor(lesson, label);
       if (video?.videos?.length) openVideos(video.title, video.videos);
