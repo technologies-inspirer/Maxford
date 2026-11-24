@@ -26,15 +26,17 @@ test('the 2026-27 Qaida 3+ Urdu has its 159 printed pages, reads right to left, 
   assert.ok(exists(`${book.dir}/cover.jpg`));
   for (let page = 1; page <= 159; page++) assert.ok(exists(`${book.dir}/p${String(page).padStart(3, '0')}.jpg`), `page ${page}`);
   assert.deepEqual(getLearningBooks(PDF_BOOKS, { classId: 'play-group', seriesId: 'maxford', subjectId: 'urdu' }).map(item => item.id), [ID]);
-  // each letter's introduction page from ا to ک has the publisher's videos (its QR code, plus the YouTube list in
+  // each letter's introduction page from ا to ے has the publisher's videos (its QR code, plus the YouTube list in
   // videos-extra.json); ض (page 90) has none yet
-  const withVideos = [11, 15, 20, 24, 27, 30, 33, 40, 43, 46, 49, 56, 59, 62, 65, 68, 71, 74, 81, 84, 87, 97, 100, 103, 106, 113, 116, 119];
+  const withVideos = [11, 15, 20, 24, 27, 30, 33, 40, 43, 46, 49, 56, 59, 62, 65, 68, 71, 74, 81, 84, 87, 97, 100, 103, 106, 113, 116, 119,
+    122, 125, 128, 135, 138, 141, 144, 147];
   assert.deepEqual(Object.keys(book.qr).map(Number), withVideos);
   for (const page of withVideos) {
     const ids = book.qr[page].videos.map(v => v.id);
     assert.ok(ids.length >= 2 && new Set(ids).size === ids.length, `page ${page}: videos, each once`);
   }
   assert.ok(book.qr[59].videos.every(v => /ڈ/.test(v.title)), 'page 59: the ڈ videos');
+  assert.ok(book.qr[138].videos.every(v => /و/.test(v.title)), 'page 138: the و videos (its poem is titled ن on YouTube)');
 });
 
 test('every page with a printed task has its exercises', () => {
