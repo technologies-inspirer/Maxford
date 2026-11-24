@@ -31,6 +31,8 @@ async function startApp() {
   ]);
   // the publisher's video buttons add to the pages the files above fill in, so they load after them
   await import('../books/activities-maxford-videos.js');
+  // the English 3+ word games' pictures measured whole (over books/game-crops.js), loaded after it
+  await import('../books/game-pictures-maxford.js');
   const { App } = await import('./App.jsx');
   await minimumStartup;
   root.render(<App />);
