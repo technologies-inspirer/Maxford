@@ -51,12 +51,7 @@ export function LearningLibrary({ segments = [], onBookOpen }) {
 
   return (
     <div className={`learning-library ${step === 0 ? 'library-class-selection' : step === 1 ? 'library-subject-selection' : 'library-open-selection'}`} style={{ '--class-template': `url("${classSelectionTemplate}")`, '--subject-template': `url("${subjectArtByClass[selectedClass?.id]?.subjects || subjectSelectionTemplate}")`, '--maths-template': `url("${subjectArtByClass[selectedClass?.id]?.maths || mathsSelectionTemplate}")`, '--computer-cover': `url("${subjectArtByClass[selectedClass?.id]?.computer || computerBookCover}")`, '--social-template': `url("${subjectArtByClass[selectedClass?.id]?.social || subjectSelectionTemplate}")`, '--science-template': `url("${subjectArtByClass[selectedClass?.id]?.science || subjectSelectionTemplate}")`, '--islamiat-template': `url("${subjectArtByClass[selectedClass?.id]?.islamiat || subjectSelectionTemplate}")` }}>
-      {step === 0 ? (
-        <div className="library-class-scenery" aria-hidden="true">
-          <DashboardArtwork variant="classes-butterfly-left" />
-          <DashboardArtwork variant="classes-butterfly-right" />
-        </div>
-      ) : <LearningScenery />}
+      {step === 2 && <LearningScenery />}
       <div className="library-navigation"><a className="library-back-link" href={backHref}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m10 5-7 7 7 7M3 12h18" /></svg><span>{step === 0 ? 'Back to dashboard' : step === 1 ? 'Back to classes' : 'Back to subjects'}</span></a></div>
       <header className="library-heading portal-panel">
         <span className="library-heading-icon library-heading-mark">
@@ -96,7 +91,20 @@ export function LearningLibrary({ segments = [], onBookOpen }) {
           </section>}
           {step === 1 ? (
             subjectOptions.length ? <section className="library-choice-grid library-subject-grid" aria-label="Select your subject">
-              {subjectOptions.map(subject => <a className={`library-choice-card library-subject-card library-class-card subject-${subject.id}`} key={subject.id} href={libraryLink(selectedClass.id, selectedSeries.id, subject.id)}><span className={subjectsWithArt.includes(subject.id) ? 'library-subject-art' : 'library-subject-fallback'} aria-hidden="true">{!subjectsWithArt.includes(subject.id) && <LibraryBookIcon />}</span><h2>{subject.name}</h2></a>)}
+              {subjectOptions.map(subject => {
+                const hasArtwork = subjectsWithArt.includes(subject.id);
+                const hasHeldBook = selectedSeries.id === 'maxford' && ['english', 'maths', 'urdu'].includes(subject.id);
+                const cover = hasHeldBook && getLearningBooks(classBooks, { ...selection, subjectId: subject.id })[0]?.cover;
+                return (
+                  <a className={`library-choice-card library-subject-card library-class-card subject-${subject.id}`} key={subject.id} href={libraryLink(selectedClass.id, selectedSeries.id, subject.id)}>
+                    <span className={hasArtwork ? 'library-subject-art' : 'library-subject-fallback'} aria-hidden="true">
+                      {!hasArtwork && <LibraryBookIcon />}
+                      {cover && <img className="library-held-book-cover" src={cover} alt="" />}
+                    </span>
+                    <h2>{subject.name}</h2>
+                  </a>
+                );
+              })}
             </section> : <EmptyState title={assignedBooks.length ? 'No books available for this selection' : 'No books assigned'}>{assignedBooks.length ? `There are no assigned ${selectedSeries.name} books for ${selectedClass.name}. Choose another series or class.` : 'Contact your administrator to assign books to your demo library.'}</EmptyState>
           ) : (
             <section className="library-results" aria-label={`${selectedSubject.name} books`}>
@@ -106,7 +114,7 @@ export function LearningLibrary({ segments = [], onBookOpen }) {
           )}
         </>
       )}
-      <DashboardArtwork variant="classes-ground" />
+      {step === 2 && <DashboardArtwork variant="classes-ground" />}
     </div>
   );
 }

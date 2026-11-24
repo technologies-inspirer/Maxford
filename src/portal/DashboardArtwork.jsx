@@ -50,8 +50,6 @@ const regions = {
   // Explore Books (assets/maxford-classes.jpg)
   'classes-mark': ['classes', '45 56 68 59'],
   'classes-top': ['classes', '890 16 246 118'],
-  'classes-butterfly-left': ['classes', '0 457 53 58'],
-  'classes-butterfly-right': ['classes', '1204 505 59 57'],
   'classes-ground': ['classes', '34 588 1190 118']
 };
 

@@ -60,7 +60,6 @@ export function UserDashboard() {
           <a className="portal-primary" href={`#/book/${encodeURIComponent(continuedBook.id)}/read/${position.page}`}>Continue reading →</a>
         </section>
       )}
-      <div className="mx-ground" aria-hidden="true"><DashboardArtwork variant="world-ground" /></div>
     </div>
   );
 }
