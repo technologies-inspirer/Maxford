@@ -16,3 +16,6 @@ books/**/*.pdf
 # password), so nobody can look at them on GitHub. After changing a page picture, run tools/lock_books.py again.
 books/*/p[0-9][0-9][0-9].jpg
 source-pdfs/
+
+tools/book-key-worker/.wrangler/
+tools/book-key-worker/node_modules/

@@ -45,8 +45,41 @@ export async function startBookLock() {
   return true;
 }
 
+// True when this browser keeps a key that still opens the books (after the pages are locked again with a new
+// password, an old key is dropped, so the new one is fetched)
 export async function isBookUnlocked() {
-  return !!(await get().catch(() => null));
+  const bits = await get().catch(() => null);
+  if (!bits) return false;
+  try {
+    const lock = await (await fetch(`${base}books/lock.json`, { cache: 'no-store' })).json();
+    const key = await crypto.subtle.importKey('raw', bits, 'AES-GCM', false, ['decrypt']);
+    const check = fromB64(lock.check);
+    await crypto.subtle.decrypt({ name: 'AES-GCM', iv: check.slice(0, 12) }, key, check.slice(12));
+    return true;
+  } catch {
+    await lockBooks().catch(() => {});
+    return false;
+  }
+}
+
+// Where the site gets the key by itself: a Cloudflare Worker (tools/book-key-worker) that keeps it as a secret and
+// answers only this site's pages. So the key is never on GitHub, and readers are not asked for a password.
+const KEY_URL = 'https://maxford-book-key.book-key-worker.workers.dev';
+
+// Opens the books with the key from the worker; true when it worked (false: no internet, or the worker is down).
+// (tried a few times: a dropped connection, like an HTTP/3 timeout, usually works on the next try)
+export async function unlockBooksAutomatically() {
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const answer = await fetch(KEY_URL, { cache: 'no-store' });
+      if (!answer.ok) return false;
+      const { key } = await answer.json();
+      return await openWith(fromB64(key).buffer);
+    } catch {
+      await new Promise(resolve => setTimeout(resolve, 600 * (attempt + 1)));
+    }
+  }
+  return false;
 }
 
 // Returns true when the password opens the books, false when it is wrong.
@@ -54,6 +87,12 @@ export async function unlockBooks(password) {
   const lock = await (await fetch(`${base}books/lock.json`, { cache: 'no-store' })).json();
   const material = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
   const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: fromB64(lock.salt), iterations: lock.rounds }, material, 256);
+  return openWith(bits);
+}
+
+// Checks a key against the lock's check text; keeps it in this browser and gives it to the page opener.
+async function openWith(bits) {
+  const lock = await (await fetch(`${base}books/lock.json`, { cache: 'no-store' })).json();
   const key = await crypto.subtle.importKey('raw', bits, 'AES-GCM', false, ['decrypt']);
   const check = fromB64(lock.check);
   try {

@@ -37,7 +37,8 @@ self.addEventListener('fetch', event => {
       if (raw) key = await importKey(raw);
     }
     if (!key) return new Response('This book is locked.', { status: 403 });
-    const locked = await fetch(url.pathname + '.enc', { cache: 'force-cache' });
+    // (checked with the server each time: after the pages are locked again, an old copy would not open)
+    const locked = await fetch(url.pathname + '.enc', { cache: 'no-cache' });
     if (!locked.ok) return new Response('Page not found.', { status: 404 });
     const data = await locked.arrayBuffer();
     try {
