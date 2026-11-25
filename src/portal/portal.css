@@ -1548,6 +1548,11 @@ a.resource-option-card .resource-option-status { color: var(--portal-accent-text
   .mx-class-pill, .mx-class-pill span { animation: none !important; transition: none !important; }
 }
 
+/* the book password, asked once on a device after sign-in (src/portal/BookUnlock.jsx) */
+.book-unlock { display: grid; place-items: center; min-height: calc(100dvh - 120px); padding: 20px 16px; }
+.book-unlock .login-panel { width: min(440px, 100%); }
+.book-unlock .portal-feedback.error { margin: 8px 0; color: #b3261e; font-weight: 700; }
+
 /* ---------- Maxford "learning world" dashboard (design: assets/maxford-dashboard-3.jpg) ----------
    A wide picture banner, one row of five pastel cards (picture, icon, title, words, button) and a scenery of
    books, a globe and a school bag along the bottom. The page is the window's height, so it never scrolls on a

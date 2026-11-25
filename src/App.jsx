@@ -12,6 +12,8 @@ import { UserPortal } from './portal/UserPortal.jsx';
 import { SignOut } from './portal/Shared.jsx';
 import { SiteHeader } from './components/SiteHeader.jsx';
 import { GlobalLoader } from './loading/LoadingScreen.jsx';
+import { BookUnlock } from './portal/BookUnlock.jsx';
+import { isBookUnlocked } from './bookLock.js';
 import './portal/portal.css';
 import './portal/mobile.css';
 
@@ -25,6 +27,9 @@ function AppRoutes() {
   const [introNext, setIntroNext] = useState(false);
   const cameFromReader = useRef(false);
   const lastLibraryRoute = useRef('#/user/library');
+  // the book pages are locked on the site: after sign-in the book password opens them once on this device
+  const [unlocked, setUnlocked] = useState(null);
+  useEffect(() => { isBookUnlocked().then(setUnlocked, () => setUnlocked(false)); }, []);
 
   useEffect(() => {
     const updateRoute = () => setRoute(readRoute());
@@ -56,6 +61,8 @@ function AppRoutes() {
   if (account && (!account.enabled || isExpired(account))) {
     return <div className="portal"><SiteHeader /><main className="user-main"><section className="portal-panel"><h1>Access unavailable</h1><p>This account is disabled or its access has expired. Please contact your administrator.</p><SignOut /></section></main></div>;
   }
+  if (unlocked === null) return null;
+  if (!unlocked) return <BookUnlock onUnlocked={() => setUnlocked(true)} />;
   if (route.type === 'admin' || route.type === 'user') {
     if (account.role !== (route.type === 'admin' ? 'admin' : 'user')) {
       return <div className="portal"><main className="user-main"><section className="portal-panel"><h1>Choose your workspace</h1><p>This page belongs to a different account type.</p><a className="portal-primary" href={`#/${account.role === 'admin' ? 'admin' : 'user'}`}>Open my workspace</a> <SignOut /></section></main></div>;

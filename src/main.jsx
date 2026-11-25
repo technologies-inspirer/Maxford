@@ -13,6 +13,8 @@ root.render(<LoadingScreen />);
 // Each book's activities live in their own file (books/activities-<book>.js, written by tools/make_<book>.py).
 // Add an import for a new book here; docs/adding-a-book.md lists the steps.
 async function startApp() {
+  // the locked book pages open through the service worker (src/bookLock.js); start it first
+  try { await (await import('./bookLock.js')).startBookLock(); } catch (error) { console.warn('Book pages: could not start the page opener.', error); }
   const minimumStartup = new Promise(resolve => setTimeout(resolve, 1000));   // the owl shows briefly, not for long
   await Promise.all([
     import('../books/activities-maxford.js'),

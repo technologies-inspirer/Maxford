@@ -12,4 +12,7 @@ dist/
 tmp/
 # Keep the publisher's original large PDFs locally; generated reader pages are tracked.
 books/**/*.pdf
+# The book pages stay on this PC; the site gets them locked (pNNN.jpg.enc, made by tools/lock_books.py with the book
+# password), so nobody can look at them on GitHub. After changing a page picture, run tools/lock_books.py again.
+books/*/p[0-9][0-9][0-9].jpg
 source-pdfs/
