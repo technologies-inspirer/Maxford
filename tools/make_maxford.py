@@ -127,8 +127,9 @@ def big_letter(im, xa, xb, ya=11, yb=25.8):
     return pct_box(x0 + xs.min(), y0 + ys.min(), x0 + xs.max() + 1, y0 + ys.max() + 1, W, H)
 
 
-def dotted_row(im, ya, yb, n=5, xa=6, xb=95):
-    """The n dotted letters in one writing row, left to right (xa, xb: the part of the page across, in %)."""
+def dotted_row(im, ya, yb, n=5, xa=6, xb=95, dotted=False):
+    """The n dotted letters in one writing row, left to right (xa, xb: the part of the page across, in %).
+    dotted: the letter has a dot over it (i, j), printed a little apart from its stem, which belongs to it."""
     H, W = im.shape[:2]
     y0, y1, x0, x1 = int(H * ya / 100), int(H * yb / 100), int(W * xa / 100), int(W * xb / 100)
     crop = im[y0:y1, x0:x1]
@@ -147,15 +148,37 @@ def dotted_row(im, ya, yb, n=5, xa=6, xb=95):
     for a, b in groups:
         rows = dark[:, a:b + 1].sum(axis=1)
         ys = np.nonzero(rows)[0]
-        # keep the letter itself: the longest stretch of rows with ink, not a stray mark above or below it
+        # keep the letter itself: the longest stretch of rows with ink, not a stray mark above or below it. A tall
+        # letter's parts (the hook of f, the stem of b, d, h, k, l, t, the tail of g, j, p, q, y) are printed as dotted
+        # strokes with wide gaps between them, so only a gap wider than that splits a stretch (it was 2.2%, which cut
+        # off the hook of f and the stems of b and d)
         runs, s, pv = [], ys[0], ys[0]
         for v in ys[1:]:
-            if v - pv > H * .022:
+            if v - pv > H * .045:
                 runs.append((s, pv)); s = v
             pv = v
         runs.append((s, pv))
         top, bot = max(runs, key=lambda r: rows[r[0]:r[1] + 1].sum())
-        out.append(pct_box(x0 + a, y0 + top, x0 + b + 1, y0 + bot + 1, W, H))
+        top, bot = y0 + top, y0 + bot
+        # a tall letter can reach past the row's set band (the hook of f above it, the tail of g below): follow its
+        # dots on out of the band, through gaps no wider than its own dashes, up to 4% of the page
+        whole = (cv2.cvtColor(im, cv2.COLOR_BGR2GRAY) < 170) & ((im.max(axis=2).astype(int) - im.min(axis=2)) < 70)
+        cols = whole[:, x0 + a:x0 + b + 1].any(axis=1)
+        for direction in (-1, 1):
+            edge, gap, y = (top if direction < 0 else bot), 0, (top if direction < 0 else bot) + direction
+            while 0 <= y < H and abs(y - (top if direction < 0 else bot)) < H * .04:
+                if cols[y]:
+                    edge, gap = y, 0
+                else:
+                    gap += 1
+                    if gap > H * (.03 if dotted and direction < 0 else .012):
+                        break
+                y += direction
+            if direction < 0:
+                top = edge
+            else:
+                bot = edge
+        out.append(pct_box(x0 + a, top, x0 + b + 1, bot + 1, W, H))
     return out
 
 
@@ -323,7 +346,7 @@ def trace_page(L, page):
     # the second big letter has guide arrows and start dots on it; it is the same letter, so it is found by
     # matching the first one, and takes the first one's ink
     big2 = find_same(im, big1, 66, 99, 10, 27)
-    rows = [dotted_row(im, a, b) for a, b in ((27.9, 38.2), (38.4, 50.3), (50.6, 61.6))]
+    rows = [dotted_row(im, a, b, dotted=L in 'ij') for a, b in ((27.9, 38.2), (38.4, 50.3), (50.6, 61.6))]
     src1, ib1 = fill_ink(page, big1)
     ib2 = [round(big2[0] - big1[2] * PAD, 2), round(big2[1] - big1[3] * PAD, 2), ib1[2], ib1[3]]
     def marks(bs):
@@ -387,10 +410,10 @@ def write_page(L, page):
     rows of five dotted letters; the last row of start marks is the child's own writing."""
     im = page_img(page)
     big = big_letter(im, 42, 64, 10, 26)
-    small = dotted_row(im, 10, 27.5, n=1, xa=68, xb=95)
+    small = dotted_row(im, 10, 27.5, n=1, xa=68, xb=95, dotted=L in 'ij')
     bands = dotted_bands(im)
     assert len(bands) == 4, (L, page, bands)
-    rows = [dotted_row(im, a, b) for a, b in bands]
+    rows = [dotted_row(im, a, b, dotted=L in 'ij') for a, b in bands]
     src, ib = fill_ink(page, big)
     def marks(bs):
         out = []

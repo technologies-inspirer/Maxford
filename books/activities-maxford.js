@@ -3038,17 +3038,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "b",
       "box": [
        13.38,
-       27.9,
+       26.08,
        3.92,
-       5.28
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p016_134_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p016_134_261.png",
        "box": [
         12.4,
-        26.58,
+        24.3,
         5.88,
-        7.92
+        10.65
        ]
       }
      },
@@ -3056,17 +3056,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "b",
       "box": [
        30.31,
-       27.9,
+       26.14,
        3.92,
-       5.28
+       7.03
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p016_303_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p016_303_261.png",
        "box": [
         29.33,
-        26.58,
+        24.38,
         5.88,
-        7.92
+        10.54
        ]
       }
      },
@@ -3074,17 +3074,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "b",
       "box": [
        47.15,
-       27.9,
+       26.14,
        3.92,
-       5.34
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p016_472_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p016_472_261.png",
        "box": [
         46.17,
-        26.56,
+        24.36,
         5.88,
-        8.01
+        10.65
        ]
       }
      },
@@ -3092,17 +3092,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "b",
       "box": [
        64.0,
-       27.9,
+       26.08,
        3.92,
-       5.28
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p016_640_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p016_640_261.png",
        "box": [
         63.02,
-        26.58,
+        24.3,
         5.88,
-        7.92
+        10.65
        ]
       }
      },
@@ -3110,17 +3110,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "b",
       "box": [
        80.85,
-       27.9,
+       26.14,
        3.92,
-       5.34
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p016_808_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p016_808_261.png",
        "box": [
         79.87,
-        26.56,
+        24.36,
         5.88,
-        8.01
+        10.65
        ]
       }
      }
@@ -3133,17 +3133,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "b",
       "box": [
        13.38,
-       38.51,
+       38.14,
        3.92,
-       6.79
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p016_134_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p016_134_381.png",
        "box": [
         12.4,
-        36.81,
+        36.35,
         5.88,
-        10.18
+        10.74
        ]
       }
      },
@@ -3151,17 +3151,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "b",
       "box": [
        30.31,
-       38.51,
+       38.2,
        3.92,
-       6.79
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p016_303_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p016_303_382.png",
        "box": [
         29.33,
-        36.81,
+        36.43,
         5.88,
-        10.18
+        10.65
        ]
       }
      },
@@ -3169,17 +3169,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "b",
       "box": [
        47.15,
-       38.51,
+       38.14,
        3.92,
-       6.79
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p016_472_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p016_472_381.png",
        "box": [
         46.17,
-        36.81,
+        36.35,
         5.88,
-        10.18
+        10.74
        ]
       }
      },
@@ -3187,17 +3187,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "b",
       "box": [
        64.0,
-       38.51,
+       38.14,
        3.92,
-       6.79
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p016_640_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p016_640_381.png",
        "box": [
         63.02,
-        36.81,
+        36.35,
         5.88,
-        10.18
+        10.74
        ]
       }
      },
@@ -3205,17 +3205,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "b",
       "box": [
        80.85,
-       38.51,
+       38.2,
        3.92,
-       6.79
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p016_808_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p016_808_382.png",
        "box": [
         79.87,
-        36.81,
+        36.43,
         5.88,
-        10.18
+        10.65
        ]
       }
      }
@@ -3228,17 +3228,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "b",
       "box": [
        13.38,
-       50.58,
+       50.21,
        3.92,
-       6.73
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p016_134_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p016_134_502.png",
        "box": [
         12.4,
-        48.9,
+        48.44,
         5.88,
-        10.1
+        10.65
        ]
       }
      },
@@ -3246,17 +3246,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "b",
       "box": [
        30.31,
-       50.58,
+       50.21,
        3.92,
-       6.73
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p016_303_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p016_303_502.png",
        "box": [
         29.33,
-        48.9,
+        48.44,
         5.88,
-        10.1
+        10.65
        ]
       }
      },
@@ -3264,17 +3264,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "b",
       "box": [
        47.15,
-       50.58,
+       50.21,
        3.92,
-       6.73
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p016_472_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p016_472_502.png",
        "box": [
         46.17,
-        48.9,
+        48.44,
         5.88,
-        10.1
+        10.65
        ]
       }
      },
@@ -3282,17 +3282,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "b",
       "box": [
        64.0,
-       50.58,
+       50.21,
        7.31,
-       6.73
+       13.52
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p016_640_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p016_640_502.png",
        "box": [
         62.17,
-        48.9,
+        46.83,
         10.96,
-        10.1
+        20.28
        ]
       }
      },
@@ -3300,17 +3300,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "b",
       "box": [
        80.85,
-       50.58,
+       50.21,
        3.92,
-       6.73
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p016_808_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p016_808_502.png",
        "box": [
         79.87,
-        48.9,
+        48.44,
         5.88,
-        10.1
+        10.65
        ]
       }
      }
@@ -4689,17 +4689,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "d",
       "box": [
        13.23,
-       27.9,
+       26.2,
        3.92,
-       5.34
+       7.03
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p024_132_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p024_132_262.png",
        "box": [
         12.25,
-        26.56,
+        24.44,
         5.88,
-        8.01
+        10.54
        ]
       }
      },
@@ -4707,17 +4707,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "d",
       "box": [
        30.08,
-       27.9,
+       26.14,
        3.92,
-       5.34
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p024_301_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p024_301_261.png",
        "box": [
         29.1,
-        26.56,
+        24.36,
         5.88,
-        8.01
+        10.65
        ]
       }
      },
@@ -4725,17 +4725,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "d",
       "box": [
        46.92,
-       27.9,
+       26.14,
        3.92,
-       5.34
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p024_469_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p024_469_261.png",
        "box": [
         45.94,
-        26.56,
+        24.36,
         5.88,
-        8.01
+        10.65
        ]
       }
      },
@@ -4743,17 +4743,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "d",
       "box": [
        63.77,
-       27.9,
+       26.14,
        3.92,
-       5.34
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p024_638_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p024_638_261.png",
        "box": [
         62.79,
-        26.56,
+        24.36,
         5.88,
-        8.01
+        10.65
        ]
       }
      },
@@ -4761,17 +4761,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "d",
       "box": [
        80.62,
-       27.9,
+       26.14,
        3.92,
-       5.34
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p024_806_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p024_806_261.png",
        "box": [
         79.64,
-        26.56,
+        24.36,
         5.88,
-        8.01
+        10.65
        ]
       }
      }
@@ -4784,17 +4784,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "d",
       "box": [
        13.23,
-       38.51,
+       38.2,
        4.0,
-       6.73
+       7.03
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p024_132_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p024_132_382.png",
        "box": [
         12.23,
-        36.83,
+        36.44,
         6.0,
-        10.1
+        10.54
        ]
       }
      },
@@ -4802,17 +4802,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "d",
       "box": [
        30.08,
-       38.51,
+       38.2,
        3.92,
-       6.79
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p024_301_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p024_301_382.png",
        "box": [
         29.1,
-        36.81,
+        36.43,
         5.88,
-        10.18
+        10.65
        ]
       }
      },
@@ -4820,17 +4820,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "d",
       "box": [
        46.92,
-       38.51,
+       38.2,
        3.92,
-       6.79
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p024_469_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p024_469_382.png",
        "box": [
         45.94,
-        36.81,
+        36.43,
         5.88,
-        10.18
+        10.65
        ]
       }
      },
@@ -4838,17 +4838,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "d",
       "box": [
        63.77,
-       38.51,
+       38.14,
        3.92,
-       6.79
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p024_638_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p024_638_381.png",
        "box": [
         62.79,
-        36.81,
+        36.35,
         5.88,
-        10.18
+        10.74
        ]
       }
      },
@@ -4856,17 +4856,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "d",
       "box": [
        80.62,
-       38.51,
+       38.2,
        3.92,
-       6.73
+       7.03
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p024_806_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p024_806_382.png",
        "box": [
         79.64,
-        36.83,
+        36.44,
         5.88,
-        10.1
+        10.54
        ]
       }
      }
@@ -4879,17 +4879,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "d",
       "box": [
        13.23,
-       50.58,
+       50.15,
        3.92,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p024_132_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p024_132_502.png",
        "box": [
         12.25,
-        48.88,
+        48.34,
         5.88,
-        10.18
+        10.83
        ]
       }
      },
@@ -4897,17 +4897,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "d",
       "box": [
        30.08,
-       50.58,
+       50.15,
        3.92,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p024_301_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p024_301_502.png",
        "box": [
         29.1,
-        48.88,
+        48.34,
         5.88,
-        10.18
+        10.83
        ]
       }
      },
@@ -4915,17 +4915,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "d",
       "box": [
        46.92,
-       50.58,
+       50.15,
        3.92,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p024_469_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p024_469_502.png",
        "box": [
         45.94,
-        48.88,
+        48.34,
         5.88,
-        10.18
+        10.83
        ]
       }
      },
@@ -4933,17 +4933,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "d",
       "box": [
        63.77,
-       50.58,
+       50.15,
        3.92,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p024_638_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p024_638_502.png",
        "box": [
         62.79,
-        48.88,
+        48.34,
         5.88,
-        10.18
+        10.83
        ]
       }
      },
@@ -4951,17 +4951,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "d",
       "box": [
        80.62,
-       50.58,
+       50.15,
        3.92,
-       6.73
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p024_806_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p024_806_502.png",
        "box": [
         79.64,
-        48.9,
+        48.36,
         5.88,
-        10.1
+        10.74
        ]
       }
      }
@@ -6348,17 +6348,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "f",
       "box": [
        10.23,
-       27.9,
+       26.14,
        3.0,
-       5.46
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p036_102_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p036_102_261.png",
        "box": [
         9.48,
-        26.54,
+        24.34,
         4.5,
-        8.19
+        10.83
        ]
       }
      },
@@ -6366,17 +6366,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "f",
       "box": [
        30.23,
-       27.9,
+       26.14,
        3.08,
-       5.46
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p036_302_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p036_302_261.png",
        "box": [
         29.46,
-        26.54,
+        24.34,
         4.62,
-        8.19
+        10.83
        ]
       }
      },
@@ -6384,17 +6384,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "f",
       "box": [
        47.08,
-       27.9,
+       26.14,
        3.08,
-       5.46
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p036_471_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p036_471_261.png",
        "box": [
         46.31,
-        26.54,
+        24.34,
         4.62,
-        8.19
+        10.83
        ]
       }
      },
@@ -6402,17 +6402,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "f",
       "box": [
        64.0,
-       27.9,
+       26.14,
        3.0,
-       5.46
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p036_640_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p036_640_261.png",
        "box": [
         63.25,
-        26.54,
+        24.34,
         4.5,
-        8.19
+        10.83
        ]
       }
      },
@@ -6420,17 +6420,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "f",
       "box": [
        80.77,
-       27.9,
+       26.14,
        3.08,
-       5.46
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p036_808_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p036_808_261.png",
        "box": [
         80.0,
-        26.54,
+        24.34,
         4.62,
-        8.19
+        10.83
        ]
       }
      }
@@ -6443,17 +6443,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "f",
       "box": [
        10.15,
-       38.39,
+       38.33,
        3.85,
-       7.03
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p036_102_384.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p036_102_383.png",
        "box": [
         9.19,
-        36.63,
+        36.56,
         5.78,
-        10.54
+        10.65
        ]
       }
      },
@@ -6461,17 +6461,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "f",
       "box": [
        30.23,
-       38.39,
+       38.33,
        3.85,
-       7.03
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p036_302_384.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p036_302_383.png",
        "box": [
         29.27,
-        36.63,
+        36.56,
         5.78,
-        10.54
+        10.65
        ]
       }
      },
@@ -6479,17 +6479,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "f",
       "box": [
        47.08,
-       38.39,
+       38.33,
        3.85,
-       7.03
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p036_471_384.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p036_471_383.png",
        "box": [
         46.12,
-        36.63,
+        36.56,
         5.78,
-        10.54
+        10.65
        ]
       }
      },
@@ -6497,17 +6497,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "f",
       "box": [
        64.0,
-       38.39,
+       38.33,
        3.69,
-       7.03
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p036_640_384.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p036_640_383.png",
        "box": [
         63.08,
-        36.63,
+        36.56,
         5.54,
-        10.54
+        10.65
        ]
       }
      },
@@ -6515,17 +6515,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "f",
       "box": [
        80.77,
-       38.39,
+       38.33,
        3.77,
-       7.03
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p036_808_384.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p036_808_383.png",
        "box": [
         79.83,
-        36.63,
+        36.56,
         5.66,
-        10.54
+        10.65
        ]
       }
      }
@@ -6538,17 +6538,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "f",
       "box": [
        10.15,
-       50.58,
+       50.33,
        3.85,
-       6.97
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p036_102_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p036_102_503.png",
        "box": [
         9.19,
-        48.84,
+        48.52,
         5.78,
-        10.46
+        10.83
        ]
       }
      },
@@ -6556,17 +6556,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "f",
       "box": [
        30.23,
-       50.58,
+       50.33,
        3.85,
-       6.91
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p036_302_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p036_302_503.png",
        "box": [
         29.27,
-        48.85,
+        48.54,
         5.78,
-        10.36
+        10.74
        ]
       }
      },
@@ -6574,17 +6574,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "f",
       "box": [
        47.08,
-       50.58,
+       50.33,
        3.85,
-       6.91
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p036_471_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p036_471_503.png",
        "box": [
         46.12,
-        48.85,
+        48.54,
         5.78,
-        10.36
+        10.74
        ]
       }
      },
@@ -6592,17 +6592,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "f",
       "box": [
        64.0,
-       50.58,
+       50.33,
        3.77,
-       6.91
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p036_640_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p036_640_503.png",
        "box": [
         63.06,
-        48.85,
+        48.54,
         5.66,
-        10.36
+        10.74
        ]
       }
      },
@@ -6610,17 +6610,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "f",
       "box": [
        80.77,
-       50.58,
+       50.33,
        3.77,
-       6.91
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p036_808_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p036_808_503.png",
        "box": [
         79.83,
-        48.85,
+        48.54,
         5.66,
-        10.36
+        10.74
        ]
       }
      }
@@ -7996,17 +7996,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "h",
       "box": [
        13.46,
-       27.9,
+       26.08,
        3.54,
-       5.34
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p044_135_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p044_135_261.png",
        "box": [
         12.58,
-        26.56,
+        24.29,
         5.31,
-        8.01
+        10.74
        ]
       }
      },
@@ -8014,17 +8014,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "h",
       "box": [
        30.38,
-       27.9,
+       26.08,
        3.54,
-       5.34
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p044_304_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p044_304_261.png",
        "box": [
         29.49,
-        26.56,
+        24.29,
         5.31,
-        8.01
+        10.74
        ]
       }
      },
@@ -8032,17 +8032,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "h",
       "box": [
        47.23,
-       27.9,
+       26.08,
        3.54,
-       5.34
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p044_472_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p044_472_261.png",
        "box": [
         46.34,
-        26.56,
+        24.29,
         5.31,
-        8.01
+        10.74
        ]
       }
      },
@@ -8050,17 +8050,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "h",
       "box": [
        64.15,
-       27.9,
+       26.08,
        3.54,
-       5.34
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p044_642_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p044_642_261.png",
        "box": [
         63.27,
-        26.56,
+        24.29,
         5.31,
-        8.01
+        10.74
        ]
       }
      },
@@ -8068,17 +8068,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "h",
       "box": [
        81.0,
-       27.9,
+       26.08,
        3.54,
-       5.28
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p044_810_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p044_810_261.png",
        "box": [
         80.11,
-        26.58,
+        24.3,
         5.31,
-        7.92
+        10.65
        ]
       }
      }
@@ -8091,17 +8091,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "h",
       "box": [
        13.46,
-       38.51,
+       38.08,
        3.54,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p044_135_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p044_135_381.png",
        "box": [
         12.58,
-        36.81,
+        36.28,
         5.31,
-        10.18
+        10.83
        ]
       }
      },
@@ -8109,17 +8109,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "h",
       "box": [
        30.38,
-       38.51,
+       38.14,
        3.54,
-       6.79
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p044_304_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p044_304_381.png",
        "box": [
         29.49,
-        36.81,
+        36.35,
         5.31,
-        10.18
+        10.74
        ]
       }
      },
@@ -8127,17 +8127,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "h",
       "box": [
        47.23,
-       38.51,
+       38.08,
        3.54,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p044_472_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p044_472_381.png",
        "box": [
         46.34,
-        36.81,
+        36.28,
         5.31,
-        10.18
+        10.83
        ]
       }
      },
@@ -8145,17 +8145,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "h",
       "box": [
        64.15,
-       38.51,
+       38.08,
        3.54,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p044_642_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p044_642_381.png",
        "box": [
         63.27,
-        36.81,
+        36.28,
         5.31,
-        10.18
+        10.83
        ]
       }
      },
@@ -8163,17 +8163,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "h",
       "box": [
        81.0,
-       38.51,
+       38.08,
        3.54,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p044_810_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p044_810_381.png",
        "box": [
         80.11,
-        36.81,
+        36.28,
         5.31,
-        10.18
+        10.83
        ]
       }
      }
@@ -8186,17 +8186,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "h",
       "box": [
        13.46,
-       50.58,
+       50.15,
        3.54,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p044_135_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p044_135_502.png",
        "box": [
         12.58,
-        48.88,
+        48.34,
         5.31,
-        10.18
+        10.83
        ]
       }
      },
@@ -8204,17 +8204,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "h",
       "box": [
        30.38,
-       50.58,
+       50.15,
        3.54,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p044_304_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p044_304_502.png",
        "box": [
         29.49,
-        48.88,
+        48.34,
         5.31,
-        10.18
+        10.83
        ]
       }
      },
@@ -8222,17 +8222,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "h",
       "box": [
        47.23,
-       50.58,
+       50.15,
        3.54,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p044_472_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p044_472_502.png",
        "box": [
         46.34,
-        48.88,
+        48.34,
         5.31,
-        10.18
+        10.83
        ]
       }
      },
@@ -8240,17 +8240,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "h",
       "box": [
        64.08,
-       50.58,
+       50.15,
        3.62,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p044_641_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p044_641_502.png",
        "box": [
         63.18,
-        48.88,
+        48.34,
         5.43,
-        10.18
+        10.83
        ]
       }
      },
@@ -8258,17 +8258,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "h",
       "box": [
        81.0,
-       50.58,
+       50.15,
        3.54,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p044_810_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p044_810_502.png",
        "box": [
         80.11,
-        48.88,
+        48.34,
         5.31,
-        10.18
+        10.83
        ]
       }
      }
@@ -9972,17 +9972,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "j",
       "box": [
        78.15,
-       17.53,
+       14.13,
        4.92,
-       7.58
+       10.98
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p055_782_175.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p055_782_141.png",
        "box": [
         76.92,
-        15.64,
+        11.39,
         7.38,
-        11.37
+        16.47
        ]
       }
      }
@@ -10472,17 +10472,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "k",
       "box": [
        14.31,
-       27.9,
+       26.08,
        2.54,
-       5.28
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p058_143_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p058_143_261.png",
        "box": [
         13.68,
-        26.58,
+        24.3,
         3.81,
-        7.92
+        10.65
        ]
       }
      },
@@ -10490,17 +10490,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "k",
       "box": [
        31.23,
-       27.9,
+       26.08,
        2.46,
-       5.28
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p058_312_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p058_312_261.png",
        "box": [
         30.62,
-        26.58,
+        24.3,
         3.69,
-        7.92
+        10.65
        ]
       }
      },
@@ -10508,17 +10508,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "k",
       "box": [
        48.08,
-       27.9,
+       26.08,
        2.46,
-       5.28
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p058_481_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p058_481_261.png",
        "box": [
         47.46,
-        26.58,
+        24.3,
         3.69,
-        7.92
+        10.65
        ]
       }
      },
@@ -10526,17 +10526,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "k",
       "box": [
        64.85,
-       27.9,
+       26.08,
        2.54,
-       5.28
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p058_648_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p058_648_261.png",
        "box": [
         64.21,
-        26.58,
+        24.3,
         3.81,
-        7.92
+        10.65
        ]
       }
      },
@@ -10544,17 +10544,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "k",
       "box": [
        81.69,
-       27.9,
+       26.08,
        2.54,
-       5.28
+       7.1
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p058_817_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p058_817_261.png",
        "box": [
         81.05,
-        26.58,
+        24.3,
         3.81,
-        7.92
+        10.65
        ]
       }
      }
@@ -10567,17 +10567,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "k",
       "box": [
        14.31,
-       38.57,
+       38.2,
        2.54,
-       6.67
+       7.03
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p058_143_386.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p058_143_382.png",
        "box": [
         13.68,
-        36.9,
+        36.44,
         3.81,
-        10.0
+        10.54
        ]
       }
      },
@@ -10585,17 +10585,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "k",
       "box": [
        31.23,
-       38.57,
+       38.2,
        2.46,
-       6.67
+       7.03
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p058_312_386.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p058_312_382.png",
        "box": [
         30.62,
-        36.9,
+        36.44,
         3.69,
-        10.0
+        10.54
        ]
       }
      },
@@ -10603,17 +10603,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "k",
       "box": [
        48.08,
-       38.57,
+       38.2,
        2.46,
-       6.67
+       7.03
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p058_481_386.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p058_481_382.png",
        "box": [
         47.46,
-        36.9,
+        36.44,
         3.69,
-        10.0
+        10.54
        ]
       }
      },
@@ -10621,17 +10621,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "k",
       "box": [
        64.85,
-       38.57,
+       38.2,
        2.54,
-       6.67
+       7.03
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p058_648_386.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p058_648_382.png",
        "box": [
         64.21,
-        36.9,
+        36.44,
         3.81,
-        10.0
+        10.54
        ]
       }
      },
@@ -10639,17 +10639,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "k",
       "box": [
        81.69,
-       38.57,
+       38.2,
        2.54,
-       6.67
+       7.03
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p058_817_386.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p058_817_382.png",
        "box": [
         81.05,
-        36.9,
+        36.44,
         3.81,
-        10.0
+        10.54
        ]
       }
      }
@@ -10662,17 +10662,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "k",
       "box": [
        14.31,
-       50.64,
+       50.33,
        2.54,
-       6.67
+       6.97
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p058_143_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p058_143_503.png",
        "box": [
         13.68,
-        48.97,
+        48.59,
         3.81,
-        10.0
+        10.46
        ]
       }
      },
@@ -10680,17 +10680,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "k",
       "box": [
        31.23,
-       50.64,
+       50.27,
        2.46,
-       6.67
+       7.03
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p058_312_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p058_312_503.png",
        "box": [
         30.62,
-        48.97,
+        48.51,
         3.69,
-        10.0
+        10.54
        ]
       }
      },
@@ -10698,17 +10698,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "k",
       "box": [
        48.08,
-       50.64,
+       50.27,
        2.46,
-       6.67
+       7.03
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p058_481_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p058_481_503.png",
        "box": [
         47.46,
-        48.97,
+        48.51,
         3.69,
-        10.0
+        10.54
        ]
       }
      },
@@ -10716,17 +10716,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "k",
       "box": [
        64.85,
-       50.64,
+       50.33,
        2.54,
-       6.67
+       6.97
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p058_648_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p058_648_503.png",
        "box": [
         64.21,
-        48.97,
+        48.59,
         3.81,
-        10.0
+        10.46
        ]
       }
      },
@@ -10734,17 +10734,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "k",
       "box": [
        81.69,
-       50.64,
+       50.27,
        2.54,
-       6.67
+       7.03
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p058_817_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p058_817_503.png",
        "box": [
         81.05,
-        48.97,
+        48.51,
         3.81,
-        10.0
+        10.54
        ]
       }
      }
@@ -11302,17 +11302,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "l",
       "box": [
        15.15,
-       27.9,
+       26.08,
        0.15,
-       5.22
+       7.03
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p062_152_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p062_152_261.png",
        "box": [
         15.11,
-        26.6,
+        24.32,
         0.22,
-        7.83
+        10.54
        ]
       }
      },
@@ -11320,17 +11320,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "l",
       "box": [
        32.08,
-       27.9,
+       26.08,
        0.15,
-       5.22
+       7.03
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p062_321_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p062_321_261.png",
        "box": [
         32.04,
-        26.6,
+        24.32,
         0.22,
-        7.83
+        10.54
        ]
       }
      },
@@ -11338,17 +11338,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "l",
       "box": [
        48.92,
-       27.9,
+       26.08,
        0.15,
-       5.22
+       7.03
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p062_489_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p062_489_261.png",
        "box": [
         48.88,
-        26.6,
+        24.32,
         0.22,
-        7.83
+        10.54
        ]
       }
      },
@@ -11356,17 +11356,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "l",
       "box": [
        65.77,
-       27.9,
+       26.14,
        0.15,
-       5.22
+       6.97
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p062_658_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p062_658_261.png",
        "box": [
         65.73,
-        26.6,
+        24.4,
         0.22,
-        7.83
+        10.46
        ]
       }
      },
@@ -11374,17 +11374,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "l",
       "box": [
        82.62,
-       27.9,
+       26.14,
        0.15,
-       5.22
+       6.97
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p062_826_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p062_826_261.png",
        "box": [
         82.58,
-        26.6,
+        24.4,
         0.22,
-        7.83
+        10.46
        ]
       }
      }
@@ -11397,17 +11397,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "l",
       "box": [
        15.15,
-       38.57,
+       38.2,
        0.15,
-       6.61
+       6.97
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p062_152_386.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p062_152_382.png",
        "box": [
         15.11,
-        36.92,
+        36.46,
         0.22,
-        9.92
+        10.46
        ]
       }
      },
@@ -11415,17 +11415,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "l",
       "box": [
        32.08,
-       38.57,
+       38.2,
        0.15,
-       6.61
+       6.97
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p062_321_386.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p062_321_382.png",
        "box": [
         32.04,
-        36.92,
+        36.46,
         0.22,
-        9.92
+        10.46
        ]
       }
      },
@@ -11433,17 +11433,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "l",
       "box": [
        48.92,
-       38.57,
+       38.2,
        0.15,
-       6.61
+       6.97
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p062_489_386.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p062_489_382.png",
        "box": [
         48.88,
-        36.92,
+        36.46,
         0.22,
-        9.92
+        10.46
        ]
       }
      },
@@ -11451,17 +11451,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "l",
       "box": [
        65.77,
-       38.57,
+       38.2,
        0.15,
-       6.61
+       6.97
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p062_658_386.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p062_658_382.png",
        "box": [
         65.73,
-        36.92,
+        36.46,
         0.22,
-        9.92
+        10.46
        ]
       }
      },
@@ -11469,17 +11469,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "l",
       "box": [
        82.62,
-       38.57,
+       38.2,
        0.15,
-       6.61
+       6.97
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p062_826_386.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p062_826_382.png",
        "box": [
         82.58,
-        36.92,
+        36.46,
         0.22,
-        9.92
+        10.46
        ]
       }
      }
@@ -11492,17 +11492,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "l",
       "box": [
        15.15,
-       50.64,
+       50.27,
        0.15,
-       6.61
+       6.97
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p062_152_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p062_152_503.png",
        "box": [
         15.11,
-        48.99,
+        48.53,
         0.22,
-        9.92
+        10.46
        ]
       }
      },
@@ -11510,17 +11510,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "l",
       "box": [
        32.08,
-       50.64,
+       50.27,
        0.15,
-       6.61
+       6.97
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p062_321_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p062_321_503.png",
        "box": [
         32.04,
-        48.99,
+        48.53,
         0.22,
-        9.92
+        10.46
        ]
       }
      },
@@ -11528,17 +11528,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "l",
       "box": [
        48.92,
-       50.64,
+       50.27,
        0.15,
-       6.61
+       6.97
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p062_489_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p062_489_503.png",
        "box": [
         48.88,
-        48.99,
+        48.53,
         0.22,
-        9.92
+        10.46
        ]
       }
      },
@@ -11546,17 +11546,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "l",
       "box": [
        65.77,
-       50.64,
+       50.27,
        0.15,
-       6.61
+       6.97
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p062_658_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p062_658_503.png",
        "box": [
         65.73,
-        48.99,
+        48.53,
         0.22,
-        9.92
+        10.46
        ]
       }
      },
@@ -11564,17 +11564,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "l",
       "box": [
        82.62,
-       50.64,
+       50.27,
        0.15,
-       6.61
+       6.97
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p062_826_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p062_826_503.png",
        "box": [
         82.58,
-        48.99,
+        48.53,
         0.22,
-        9.92
+        10.46
        ]
       }
      }
@@ -15681,15 +15681,15 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
        45.77,
        53.85,
        6.62,
-       7.1
+       11.04
       ],
       "ink": {
        "src": "books/maxford-global-qaida-3-english/ink/p088_458_538.png",
        "box": [
         44.12,
-        52.08,
+        51.09,
         9.93,
-        10.65
+        16.56
        ]
       }
      },
@@ -17943,17 +17943,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "t",
       "box": [
        12.92,
-       27.9,
+       26.02,
        4.92,
-       5.34
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p100_129_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p100_129_260.png",
        "box": [
         11.69,
-        26.56,
+        24.22,
         7.38,
-        8.01
+        10.83
        ]
       }
      },
@@ -17961,17 +17961,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "t",
       "box": [
        29.85,
-       27.9,
+       26.02,
        4.92,
-       5.34
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p100_298_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p100_298_260.png",
        "box": [
         28.62,
-        26.56,
+        24.22,
         7.38,
-        8.01
+        10.83
        ]
       }
      },
@@ -17979,17 +17979,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "t",
       "box": [
        46.69,
-       27.9,
+       26.02,
        4.92,
-       5.34
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p100_467_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p100_467_260.png",
        "box": [
         45.46,
-        26.56,
+        24.22,
         7.38,
-        8.01
+        10.83
        ]
       }
      },
@@ -17997,17 +17997,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "t",
       "box": [
        63.46,
-       27.9,
+       26.02,
        5.0,
-       5.34
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p100_635_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p100_635_260.png",
        "box": [
         62.21,
-        26.56,
+        24.22,
         7.5,
-        8.01
+        10.83
        ]
       }
      },
@@ -18015,17 +18015,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "t",
       "box": [
        80.38,
-       27.9,
+       26.02,
        4.85,
-       5.34
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p100_804_279.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p100_804_260.png",
        "box": [
         79.17,
-        26.56,
+        24.22,
         7.28,
-        8.01
+        10.83
        ]
       }
      }
@@ -18038,17 +18038,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "t",
       "box": [
        12.92,
-       38.51,
+       38.14,
        4.92,
-       6.79
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p100_129_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p100_129_381.png",
        "box": [
         11.69,
-        36.81,
+        36.35,
         7.38,
-        10.18
+        10.74
        ]
       }
      },
@@ -18056,17 +18056,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "t",
       "box": [
        29.85,
-       38.51,
+       38.08,
        4.92,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p100_298_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p100_298_381.png",
        "box": [
         28.62,
-        36.81,
+        36.28,
         7.38,
-        10.18
+        10.83
        ]
       }
      },
@@ -18074,17 +18074,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "t",
       "box": [
        46.69,
-       38.51,
+       38.08,
        4.92,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p100_467_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p100_467_381.png",
        "box": [
         45.46,
-        36.81,
+        36.28,
         7.38,
-        10.18
+        10.83
        ]
       }
      },
@@ -18092,17 +18092,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "t",
       "box": [
        63.46,
-       38.51,
+       38.08,
        5.0,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p100_635_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p100_635_381.png",
        "box": [
         62.21,
-        36.81,
+        36.28,
         7.5,
-        10.18
+        10.83
        ]
       }
      },
@@ -18110,17 +18110,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "t",
       "box": [
        80.31,
-       38.51,
+       38.08,
        4.92,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p100_803_385.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p100_803_381.png",
        "box": [
         79.08,
-        36.81,
+        36.28,
         7.38,
-        10.18
+        10.83
        ]
       }
      }
@@ -18133,17 +18133,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "t",
       "box": [
        12.92,
-       50.58,
+       50.15,
        4.92,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p100_129_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p100_129_502.png",
        "box": [
         11.69,
-        48.88,
+        48.34,
         7.38,
-        10.18
+        10.83
        ]
       }
      },
@@ -18151,17 +18151,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "t",
       "box": [
        29.85,
-       50.58,
+       50.21,
        4.92,
-       6.79
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p100_298_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p100_298_502.png",
        "box": [
         28.62,
-        48.88,
+        48.42,
         7.38,
-        10.18
+        10.74
        ]
       }
      },
@@ -18169,17 +18169,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "t",
       "box": [
        46.77,
-       50.58,
+       50.15,
        4.85,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p100_468_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p100_468_502.png",
        "box": [
         45.56,
-        48.88,
+        48.34,
         7.28,
-        10.18
+        10.83
        ]
       }
      },
@@ -18187,17 +18187,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "t",
       "box": [
        63.54,
-       50.58,
+       50.21,
        4.92,
-       6.79
+       7.16
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p100_635_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p100_635_502.png",
        "box": [
         62.31,
-        48.88,
+        48.42,
         7.38,
-        10.18
+        10.74
        ]
       }
      },
@@ -18205,17 +18205,17 @@ window.BOOK_ACTIVITIES['maxford-global-qaida-3-english'] = {
       "glyph": "t",
       "box": [
        80.38,
-       50.58,
+       50.15,
        4.85,
-       6.79
+       7.22
       ],
       "ink": {
-       "src": "books/maxford-global-qaida-3-english/ink/p100_804_506.png",
+       "src": "books/maxford-global-qaida-3-english/ink/p100_804_502.png",
        "box": [
         79.17,
-        48.88,
+        48.34,
         7.28,
-        10.18
+        10.83
        ]
       }
      }
