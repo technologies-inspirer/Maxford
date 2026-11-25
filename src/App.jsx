@@ -13,8 +13,7 @@ import { SignOut } from './portal/Shared.jsx';
 import { SiteHeader } from './components/SiteHeader.jsx';
 import { GlobalLoader } from './loading/LoadingScreen.jsx';
 import { BookUnlock } from './portal/BookUnlock.jsx';
-import { isBookUnlocked, unlockBooks } from './bookLock.js';
-import { BOOK_KEY } from './data/bookKey.js';
+import { isBookUnlocked } from './bookLock.js';
 import './portal/portal.css';
 import './portal/mobile.css';
 
@@ -30,12 +29,7 @@ function AppRoutes() {
   const lastLibraryRoute = useRef('#/user/library');
   // the book pages are locked on the site: after sign-in the book password opens them once on this device
   const [unlocked, setUnlocked] = useState(null);
-  // (with a built-in key, src/data/bookKey.js, the site opens them by itself and never asks)
-  useEffect(() => {
-    isBookUnlocked()
-      .then(open => open || !BOOK_KEY ? open : unlockBooks(BOOK_KEY))
-      .then(setUnlocked, () => setUnlocked(false));
-  }, []);
+  useEffect(() => { isBookUnlocked().then(setUnlocked, () => setUnlocked(false)); }, []);
 
   useEffect(() => {
     const updateRoute = () => setRoute(readRoute());
