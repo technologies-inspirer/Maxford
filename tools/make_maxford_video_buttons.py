@@ -44,6 +44,10 @@ COLUMN = {
 }
 # books whose writing page has a Write/Colour activity: the Formation video goes there as "How to write ..."
 FILL_FORMATION = {'maxford-global-qaida-3-english'}
+# books whose QR pages have no picture to hold a column (a number chart, a table): one "Videos" button at (x, y),
+# between the page's title and its QR code, opening all the page's videos as tabs, in the publisher's order
+# (videos-extra.json), each tab named as the publisher's list names it ('label')
+GROUP = {'maxford-global-qaida-5-maths': (63, 5.5)}
 
 
 def library():
@@ -70,6 +74,21 @@ ENGLISH_PAGES = [11, 15, 19, 23, 31, 35, 39, 43, 49, 53, 57, 61, 69, 73, 77, 81,
 def main(show):
     books = {b['id']: b for b in library()}
     out, fills, notes = {}, {}, []
+    for book, (x, y) in GROUP.items():
+        extra_path = os.path.join(ROOT, 'books', book, 'videos-extra.json')
+        order = json.load(open(extra_path, encoding='utf-8')) if os.path.exists(extra_path) else {}
+        for page, item in sorted(books[book].get('qr', {}).items(), key=lambda kv: int(kv[0])):
+            vids = item.get('videos', [])
+            if not vids:
+                continue
+            rank = {v['id']: k for k, v in enumerate(order.get(page, []))}
+            vids = sorted(vids, key=lambda v: rank.get(v['id'], len(rank)))
+            label = 'Videos'
+            out.setdefault(book, {})[page] = [{
+                'type': 'videos', 'label': label, 'icon': '▶️', 'title': books[book]['title'] + ' videos',
+                'button': {'x': x, 'y': y}, '_w': width(label),
+                'videos': [{'title': v.get('label') or v['title'], 'src': 'https://youtu.be/' + v['id']} for v in vids]}]
+            notes.append(f'{book} p{page}: 1 Videos button, {len(vids)} videos')
     for book, columns in COLUMN.items():
         b = books[book]
         urdu = bool(b.get('rtl'))

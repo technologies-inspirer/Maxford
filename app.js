@@ -434,7 +434,8 @@ export function mountBookActivityApp(app, { intro = false, onPositionChange, lib
           if (mx - mn > 80 || mx < 110) on[y * bw + x] = 1;   // the letter's strong colour, not the pale paper behind it
         }
         // close it: grow, then shrink back as far, so the white dashes and arrows inside the letter are filled while
-        // its outer edge stays where it is printed; then one pixel more, so the colour meets the edge cleanly
+        // its outer edge stays where it is printed; then two pixels more, so the colour covers the printed edge too
+        // (with one, a thin line of the letter's own colour showed round a coloured-in letter)
         const step = (src, grow) => {
           const out = src.slice();
           for (let k = 0; k < src.length; k++) {
@@ -448,7 +449,25 @@ export function mountBookActivityApp(app, { intro = false, onPositionChange, lib
         const D = Math.max(4, Math.round(W / 150));
         for (let pass = 0; pass < D; pass++) on = step(on, true);
         for (let pass = 0; pass < D; pass++) on = step(on, false);
-        on = step(on, true);
+        on = step(step(on, true), true);
+        // only the letter: a separate patch lying mostly outside the letter's own box (the edge of the picture
+        // beside it, caught by the margin) is left out, so filling the letter in never colours the picture
+        const bx0 = (r0.x - c.x) / c.w * W - X0, bx1 = (r0.x + r0.w - c.x) / c.w * W - X0;
+        const by0 = (r0.y - c.y) / c.h * H - Y0, by1 = (r0.y + r0.h - c.y) / c.h * H - Y0;
+        const seen = new Uint8Array(on.length);
+        for (let s = 0; s < on.length; s++) {
+          if (!on[s] || seen[s]) continue;
+          const patch = [s], stack = [s];
+          seen[s] = 1;
+          while (stack.length) {
+            const k = stack.pop(), x = k % bw;
+            for (const j of [x > 0 ? k - 1 : -1, x < bw - 1 ? k + 1 : -1, k >= bw ? k - bw : -1, k < bw * (bh - 1) ? k + bw : -1]) {
+              if (j >= 0 && on[j] && !seen[j]) { seen[j] = 1; stack.push(j); patch.push(j); }
+            }
+          }
+          const inBox = patch.filter(k => { const x = k % bw, y = (k - x) / bw; return x >= bx0 && x <= bx1 && y >= by0 && y <= by1; }).length;
+          if (inBox < patch.length / 2) patch.forEach(k => { on[k] = 0; });
+        }
         const img = lx.createImageData(bw, bh);
         let area = 0;
         for (let k = 0; k < on.length; k++) if (on[k]) { img.data[k * 4 + 3] = 255; area++; }
@@ -606,7 +625,8 @@ export function mountBookActivityApp(app, { intro = false, onPositionChange, lib
       };
       const names = list => list.map(colour => colourName(colour)[ur ? 'ur' : 'en']).join(T.or);
       // Tracing: going off the letter is not scolded (only the part on the letter shows anyway); a letter coloured in
-      // nearly all over is praised, and all of them together is the end of the exercise.
+      // about half way is filled in all over, in the colour the child used most on it, and praised; all of them
+      // together is the end of the exercise.
       const checkTraced = () => {
         if (!traced.length) return;
         const cx2 = canvas.getContext('2d');
@@ -615,10 +635,27 @@ export function mountBookActivityApp(app, { intro = false, onPositionChange, lib
           if (t.done || !t.area) continue;
           const d = cx2.getImageData(t.X0, t.Y0, t.bw, t.bh).data;
           let inked = 0;
-          for (let k = 0; k < t.on.length; k++) if (t.on[k] && d[k * 4 + 3] > 0) inked++;
-          if (inked / t.area >= 0.75) { t.done = true; fresh = true; }
+          const used = new Map();
+          for (let k = 0; k < t.on.length; k++) {
+            if (!t.on[k] || d[k * 4 + 3] === 0) continue;
+            inked++;
+            if (d[k * 4 + 3] === 255) { const rgb = (d[k * 4] << 16) | (d[k * 4 + 1] << 8) | d[k * 4 + 2]; used.set(rgb, (used.get(rgb) || 0) + 1); }
+          }
+          if (inked / t.area < 0.5) continue;
+          t.done = true; fresh = true;
+          const most = [...used].sort((a, b) => b[1] - a[1])[0]?.[0];
+          const colour = most == null ? brush.color : '#' + most.toString(16).padStart(6, '0');
+          const fill = document.createElement('canvas');
+          fill.width = t.bw; fill.height = t.bh;
+          const fx = fill.getContext('2d'), img = fx.createImageData(t.bw, t.bh);
+          const [r, g, b] = [1, 3, 5].map(i => parseInt(colour.slice(i, i + 2), 16));
+          for (let k = 0; k < t.on.length; k++) if (t.on[k]) { img.data[k * 4] = r; img.data[k * 4 + 1] = g; img.data[k * 4 + 2] = b; img.data[k * 4 + 3] = 255; }
+          fx.putImageData(img, 0, 0);
+          cx2.globalCompositeOperation = 'source-over';
+          cx2.drawImage(fill, t.X0, t.Y0);
         }
         if (!fresh) return;
+        drawings[key] = canvas.toDataURL();
         if (traced.every(t => t.done || !t.area)) { chime('done'); feedback(ur ? ALL_DONE.ur : ALL_DONE.en); }
         else { chime('good'); feedback(praise()); }
       };

@@ -2,12 +2,11 @@
 // The site (src/bookLock.js) asks for it when it starts and opens the pages with it, so readers see their books
 // without a password. It answers only the site's own pages (their Origin), and is set as a secret:
 //   npx wrangler secret put BOOK_KEY      (the base64 AES key, from tools/lock_books.py's password)
-const SITES = ['https://technologies-inspirer.github.io', 'http://127.0.0.1:5175', 'http://localhost:5175', 'http://localhost:5173', 'http://127.0.0.1:5173'];
-
+// The sites it answers are SITES in wrangler.toml. tools/book-key.ps1 adds or removes them and changes the key.
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('Origin') || '';
-    const allowed = SITES.includes(origin);
+    const allowed = String(env.SITES || '').split(',').map(site => site.trim()).filter(Boolean).includes(origin);
     const headers = { 'Cache-Control': 'no-store', 'Vary': 'Origin', ...(allowed ? { 'Access-Control-Allow-Origin': origin } : {}) };
     if (request.method === 'OPTIONS') return new Response(null, { status: allowed ? 204 : 403, headers: { ...headers, 'Access-Control-Allow-Methods': 'GET' } });
     if (!allowed || request.method !== 'GET' || !env.BOOK_KEY) return new Response('Not here.', { status: 403, headers });

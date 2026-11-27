@@ -73,6 +73,11 @@ def main():
             changed += 1
         done += 1
     print(f'{done} pages locked ({changed} written).')
+    # (for tools/book-key.ps1: where to write the key, base64, to put it on Cloudflare; never inside the project)
+    key_out = os.environ.get('BOOK_KEY_OUT')
+    if key_out:
+        with open(key_out, 'w', encoding='ascii', newline='') as f:
+            f.write(base64.b64encode(key).decode())
 
 
 if __name__ == '__main__':

@@ -1,5 +1,10 @@
 # The book key worker (see src/index.js). Deploy from this folder: npx wrangler deploy
+# Easier: tools/book-key.ps1 (adds/removes sites, changes or removes the key, and deploys).
 name = "maxford-book-key"
 main = "src/index.js"
 compatibility_date = "2026-11-01"
 workers_dev = true
+
+[vars]
+# The websites that may get the key (comma separated, exactly as the browser writes them: https://name.com, no path)
+SITES = "https://technologies-inspirer.github.io,http://127.0.0.1:5175,http://localhost:5175,http://localhost:5173,http://127.0.0.1:5173"

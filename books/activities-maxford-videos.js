@@ -11,6 +11,80 @@
     if (fill) fill.video = video;
   }
 })({
+ "maxford-global-qaida-5-maths": {
+  "3": [
+   {
+    "type": "videos",
+    "label": "Videos",
+    "icon": "▶️",
+    "title": "Simply Maths Step C videos",
+    "button": {
+     "x": 63,
+     "y": 5.5
+    },
+    "videos": [
+     {
+      "title": "Counting 1-100",
+      "src": "https://youtu.be/90bkr77iZwM"
+     },
+     {
+      "title": "Count & Write",
+      "src": "https://youtu.be/Czm8SlEYshY"
+     },
+     {
+      "title": "Teachers",
+      "src": "https://youtu.be/TPJnyNUwMQI"
+     },
+     {
+      "title": "Parents",
+      "src": "https://youtu.be/RLw2DTsfVpY"
+     }
+    ]
+   }
+  ],
+  "5": [
+   {
+    "type": "videos",
+    "label": "Videos",
+    "icon": "▶️",
+    "title": "Simply Maths Step C videos",
+    "button": {
+     "x": 63,
+     "y": 5.5
+    },
+    "videos": [
+     {
+      "title": "Count & Write 0-9",
+      "src": "https://youtu.be/lEPl8QslDNk"
+     },
+     {
+      "title": "Backward 9-0",
+      "src": "https://youtu.be/8Lz3tBpHY60"
+     },
+     {
+      "title": "Number Words 0-9",
+      "src": "https://youtu.be/gdd_W1PyGRA"
+     },
+     {
+      "title": "Reinforcement 0-9",
+      "src": "https://youtu.be/KOtc7TWlQOo"
+     },
+     {
+      "title": "Tens & Ones",
+      "src": "https://youtu.be/KbLuScMuwPM"
+     },
+     {
+      "title": "Teachers 0-9",
+      "src": "https://youtu.be/WgioarzFVMU"
+     },
+     {
+      "title": "Parents 0-9",
+      "src": "https://youtu.be/MIB3nGeM13Y"
+     }
+    ]
+   }
+  ]
+ },
  "maxford-global-qaida-3-english": {
   "11": [
    {

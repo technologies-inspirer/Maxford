@@ -1407,7 +1407,87 @@ window.PDF_BOOKS = [
   "c2": "#012c6a",
   "frontCover": true,
   "author": "Maxford Global Learning",
-  "qr": {}
+  "qr": {
+   "3": {
+    "url": "https://o2o.to/i/ARGPB8IWTYEJ",
+    "box": [
+     84.3,
+     6.2,
+     5.8,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "90bkr77iZwM",
+      "title": "Learn Numbers 1 to 100 | Counting for Kids | Maths 5 Plus",
+      "label": "Counting 1-100"
+     },
+     {
+      "id": "Czm8SlEYshY",
+      "title": "Count and Write Numbers | Maths 5 Plus | Kids Learning",
+      "label": "Count & Write"
+     },
+     {
+      "id": "TPJnyNUwMQI",
+      "title": "Count and Write | Teacher's Guide | Maths 5 Plus",
+      "label": "Teachers"
+     },
+     {
+      "id": "RLw2DTsfVpY",
+      "title": "Count and Write | Parent's Guide | Maths 5 Plus",
+      "label": "Parents"
+     }
+    ],
+    "title": "1"
+   },
+   "5": {
+    "url": "https://o2o.to/i/7D5VZ83PGWMF",
+    "box": [
+     84.3,
+     6.2,
+     5.8,
+     4.5
+    ],
+    "videos": [
+     {
+      "id": "lEPl8QslDNk",
+      "title": "Count and Write Numbers 0 to 9 | Maths 5 Plus for Kids",
+      "label": "Count & Write 0-9"
+     },
+     {
+      "id": "8Lz3tBpHY60",
+      "title": "Backward Counting 9 to 0 | Learn Numbers | Maths 5 Plus",
+      "label": "Backward 9-0"
+     },
+     {
+      "id": "gdd_W1PyGRA",
+      "title": "Number Words 0 to 9 | Learn Number Names | Maths 5 Plus",
+      "label": "Number Words 0-9"
+     },
+     {
+      "id": "KbLuScMuwPM",
+      "title": "Tens and Ones | Place Value for Kids | Maths 5 Plus",
+      "label": "Tens & Ones"
+     },
+     {
+      "id": "WgioarzFVMU",
+      "title": "Number Words 0 to 9 | Teacher's Guide | Maths 5 Plus",
+      "label": "Teachers 0-9"
+     },
+     {
+      "id": "MIB3nGeM13Y",
+      "title": "Teach Place Value at Home | Tens and Ones for Kids",
+      "label": "Parents 0-9"
+     },
+     {
+      "id": "KOtc7TWlQOo",
+      "title": "Reinforcement 0 to 9 | Maths 5 Plus",
+      "label": "Reinforcement 0-9"
+     }
+    ],
+    "title": "2"
+   }
+  }
  },
  {
   "id": "maxford-global-qaida-5-urdu",
